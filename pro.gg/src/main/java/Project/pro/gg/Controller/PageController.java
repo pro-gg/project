@@ -12,8 +12,18 @@ public class PageController {
         return "main";
     }
 
+    @GetMapping("/article.do")
+    public String article(){
+        return "article";
+    }
+
     @GetMapping("/move/login.do")
     public String login(){
         return "login";
+    }
+
+    @GetMapping("/move/register.do")
+    public String register(){
+        return "register";
     }
 }

@@ -9,19 +9,41 @@
     <title></title>
     <script src="/webjars/jquery/3.6.0/jquery.min.js"></script>
     <script>
+        function registerForm(){
+            $(function(){
+            $("article").empty();
+
+            $.ajax({
+                type: 'get',
+                url: '${pageContext.request.contextPath}/move/register.do',
+                data: '',
+                dataType:'',
+                success:function(data){
+                    $("article").html(data)
+                }
+            })
+        })
+        }
     </script>
     <style>
         input[type="submit"]{
-            width: 170px;
+            width: 300px;
+        }
+        #id, #passwd{
+            width: 300px;
         }
     </style>
 
 </head>
 <body>
-    <form action="${pageContext.request.contextPath}/trylogin.do">
-        <input type="text" name="id" id="id" placeholder="아이디"> <br>
-        <input type="password" name="passwd", id="passwd" placeholder="비밀번호"> <br>
-        <input type="submit" value="로그인">
-    </form>
+    <article>
+        <form action="${pageContext.request.contextPath}/trylogin.do" method="GET">
+            <input type="text" name="id" id="id" placeholder="아이디"> <br>
+            <input type="password" name="passwd", id="passwd" placeholder="비밀번호"> <br>
+            <input type="submit" value="로그인"> <br>
+        </form>
+        <p>처음이세요? <a href="#" onclick="registerForm()">회원가입하기</a></p>
+    </article>
+    
 </body>
 </html>

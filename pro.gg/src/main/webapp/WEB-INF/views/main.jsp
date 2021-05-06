@@ -6,34 +6,55 @@
 <title>Pro.gg</title>
 <script src="/webjars/jquery/3.6.0/jquery.min.js"></script>
 <script>
-    function moveLoginPage(){
-        $(function(){
-            $("article").empty();
 
-            $.ajax({
-                type: 'get',
-                url: '${pageContext.request.contextPath}/move/login.do',
-                data: '',
-                dataType:'',
-                success:function(data){
-                    $("article").html(data)
-                }
+    $(function(){
+        $.ajax({
+            type:'get',
+            url:'${pageContext.request.contextPath}/article.do',
+            data:'',
+            dataType:'',
+            success:function(data){
+                $("article").html(data)
+            }
+        });
+    });
+    
+    function moveLoginPage(){
+            $(function(){
+                $("article").empty();
+
+                $.ajax({
+                    type: 'get',
+                    url: '${pageContext.request.contextPath}/move/login.do',
+                    data: '',
+                    dataType:'',
+                    success:function(data){
+                        $("article").html(data)
+                    }
+                })
             })
-        })
-    }
+        }
 </script>
 <style>
     aside{
+        height: 920px;
+        width: 300px;
         float: left;
         line-height: 30px;
+        background-color: aqua;
     }
     article{
-        text-align: center;
+        position:absolute;
+        width: 920px; height: 50px;
+        left: 0; right: 0;
+        margin-left: 300px; margin-right:auto;
+        top: 0; bottom: 0;
+        margin-top: auto; margin-bottom: auto;
     }
 </style>
 </head>
 <body>
-    <header><h1>분리 실험</h1></header>
+    <header><h1>Pro.gg</h1></header>
     <aside>
         <ul>
             <li>
@@ -45,11 +66,6 @@
             <li></li>
         </ul>
     </aside>
-    <article>
-        <h3>main article</h3>
-        <h3>main article</h3>
-        <h3>main article</h3>
-        <h3>main article</h3>
-    </article>
+    <article></article>
 </body>
 </html>
