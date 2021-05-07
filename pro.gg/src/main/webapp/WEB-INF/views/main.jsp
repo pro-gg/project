@@ -5,36 +5,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Pro.gg</title>
 <script src="/webjars/jquery/3.6.0/jquery.min.js"></script>
-<script>
-
-    $(function(){
-        $.ajax({
-            type:'get',
-            url:'${pageContext.request.contextPath}/article.do',
-            data:'',
-            dataType:'',
-            success:function(data){
-                $("article").html(data)
-            }
-        });
-    });
-    
-    function moveLoginPage(){
-            $(function(){
-                $("article").empty();
-
-                $.ajax({
-                    type: 'get',
-                    url: '${pageContext.request.contextPath}/move/login.do',
-                    data: '',
-                    dataType:'',
-                    success:function(data){
-                        $("article").html(data)
-                    }
-                })
-            })
-        }
-</script>
+<script src="/js/semantic_aside.js" charset="utf-8"></script>
+<script src="/js/semantic_article.js" charset="utf-8"></script>
 <style>
     aside{
         height: 920px;
@@ -55,17 +27,7 @@
 </head>
 <body>
     <header><h1>Pro.gg</h1></header>
-    <aside>
-        <ul>
-            <li>
-                <h3>INFO</h3>
-                <input type="button" value="LOGIN" name="login" id="login" onclick="moveLoginPage();">
-            </li>
-            <li></li>
-            <li></li>
-            <li></li>
-        </ul>
-    </aside>
+    <aside></aside>
     <article></article>
 </body>
 </html>

@@ -22,7 +22,14 @@ public class MemberServiceImpl implements MemberService{
         MemberDTO memberDTO = memberRepository.selectOne(id);
 
         if (memberDTO == null) result = "NotExistId";
+        else if (!memberDTO.getPasswd().equals(passwd)) result = "failPasswd";
 
         return result;
+    }
+
+    @Override
+    public MemberDTO selectMemberOne(String id) {
+        MemberDTO memberDTO = memberRepository.selectOne(id);
+        return memberDTO;
     }
 }

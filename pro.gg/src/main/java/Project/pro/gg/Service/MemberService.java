@@ -11,4 +11,5 @@ public interface MemberService  {
 
     public void insert(MemberDTO memberDTO);
     public String selectOne(String id, String passwd);
+    public MemberDTO selectMemberOne(String id);
 }

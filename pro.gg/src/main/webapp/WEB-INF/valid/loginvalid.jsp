@@ -9,25 +9,64 @@
     <title></title>
     <script src="/webjars/jquery/3.6.0/jquery.min.js"></script>
     <script>
-        $(function(){
-            var result = "${result}";
+        function loginSession(){
+            $(function(){
+                var result = "${result}";
 
-            if(result === "NotExistId") {
-                alert("존재하지 않는 아이디 입니다.");
-                $.ajax({
-                    type:'get',
-                    url:'${pageContext.request.contextPath}/move/login.do',
-                    data:'',
-                    dataType:'',
-                    success:function(data){
-                        $("article").html(data);
-                    }
-                })
-            }
-        })
+                if(result === "Success"){
+                    $.ajax({
+                        type:'get',
+                        url:'${pageContext.request.contextPath}/',
+                        data:'${member}',
+                        dataType:'',
+                        success:function(data){
+                            $("body").html(data);
+                        }
+                    })
+                }
+            })
+        }
+
+        function loginfailSession(){
+            $(function(){
+                var result = "${result}";
+
+                if(result === "NotExistId") {
+                    $.ajax({
+                        type:'get',
+                        url:'${pageContext.request.contextPath}/move/login.do',
+                        data:'',
+                        dataType:'',
+                        success:function(data){
+                            alert("존재하지 않는 아이디 입니다.");
+                            $("body").html(data);
+                        }
+                    })
+                }
+                else if(result === "failPasswd"){
+                    $.ajax({
+                        type:'get',
+                        url:'${pageContext.request.contextPath}/move/login.do',
+                        data:'',
+                        dataType:'',
+                        success:function(data){
+                            alert("비밀번호가 잘못 되었습니다.");
+                            $("body").html(data);
+                        }
+                    })
+
+                } 
+            })
+        }
+        
     </script>
 </head>
 <body>
-    <article></article>
+    <c:if test = "${member != null}">
+        <script>loginSession();</script>
+    </c:if>
+    <c:if test = "${member == null}">
+        <script>loginfailSession()</script>
+    </c:if>
 </body>
 </html>

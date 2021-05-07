@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title></title>
     <script src="/webjars/jquery/3.6.0/jquery.min.js"></script>
+    <script src="/js/semantic_aside.js" charset="utf-8"></script>
     <script>
         function check_pw(){
 
@@ -33,6 +34,21 @@
 
     </script>
     <style>
+        aside{
+            height: 920px;
+            width: 300px;
+            float: left;
+            line-height: 30px;
+            background-color: aqua;
+        }
+        article,form{
+            position:absolute;
+            width: 920px; height: 50px;
+            left: 0; right: 0;
+            margin-left: 300px; margin-right:auto;
+            top: 0; bottom: 0;
+            margin-top: 100px; margin-bottom: auto;
+        }
         input[type="text"], input[type="password"]{
             width: 300px;
         }
@@ -43,9 +59,11 @@
     </style>
 </head>
 <body>
+    <header><h1>Pro.gg</h1></header>
+    <aside></aside>
     <article>
-        <h2>회원가입</h2>
         <form action="${pageContext.request.contextPath}/tryregister.do" method="get">
+            <h2>회원가입</h2>
             <input type="text" placeholder="이름" name="name" id="name"> <br><br>
             <input type="text" placeholder="닉네임" name="nickname" id="nickname"> <br><br>
             <input type="text" placeholder="아이디" name="id" id="id"> <br><br>

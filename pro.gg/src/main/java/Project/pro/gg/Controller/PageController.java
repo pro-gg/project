@@ -17,6 +17,11 @@ public class PageController {
         return "article";
     }
 
+    @GetMapping("/aside.do")
+    public String aside(){
+        return "aside";
+    }
+
     @GetMapping("/move/login.do")
     public String login(){
         return "login";
