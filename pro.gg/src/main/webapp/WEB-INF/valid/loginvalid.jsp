@@ -63,7 +63,7 @@
 </head>
 <body>
     <c:if test = "${member != null}">
-        <script>loginSession();</script>
+        <script>loginSession()</script>
     </c:if>
     <c:if test = "${member == null}">
         <script>loginfailSession()</script>

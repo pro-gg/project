@@ -8,6 +8,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title></title>
     <script src="/webjars/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        function myPage(){
+            $(function(){
+                var member = "${member}";
+
+                $.ajax({
+                    type:'get',
+                    url: '${pageContext.request.contextPath}/mypage.do',
+                    data: member,
+                    dataType:'',
+                    success:function(data){
+                        $("body").html(data);
+                    }
+                })
+            })
+        }
+    </script>
 </head>
 <body>
     <aside>
@@ -20,6 +37,8 @@
                 </c:if>
                 <c:if test = "${member != null}">
                     <p>${member.nickname}</p>
+                    <a href="#" onclick="myPage()">마이페이지</a>
+                    <a href="${pageContext.request.contextPath}/logout.do">로그아웃</a>
                 </c:if>
             </li>
             <li></li>
