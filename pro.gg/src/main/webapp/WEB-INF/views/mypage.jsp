@@ -12,8 +12,20 @@
     <script>
         function summonerRegister(){
             $(function(){
-                var summonerName = document.getElementById('summonerName').value;
-                console.log(summonerName);
+                var summonerName = {
+                    'summonerName' : document.getElementById('summonerName').value
+                };
+                    
+                $.ajax({
+                    type:'get',
+                    url:'${pageContext.request.contextPath}/SearchSummonerData.do?summonerName='+encodeURI(JSON.stringify(summonerName)),
+                    data:'', 
+                    dataType:'json',
+                    success:function(data){
+                        $("body").html(data);
+                    }
+                    
+                })
             })
             
         }

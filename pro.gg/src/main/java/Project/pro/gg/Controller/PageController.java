@@ -31,4 +31,9 @@ public class PageController {
     public String register(){
         return "register";
     }
+
+    @GetMapping("/mypage.do")
+    public String myPage(){
+        return "mypage";
+    }
 }

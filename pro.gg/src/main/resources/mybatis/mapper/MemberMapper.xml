@@ -11,4 +11,10 @@
         select * from member
             where id = #{id}
     </select>
+    <select id="summonerName">
+        update member
+        set summoner_name = #{summonerName}
+        where id = #{userid}
+    </select>
+    
 </mapper>

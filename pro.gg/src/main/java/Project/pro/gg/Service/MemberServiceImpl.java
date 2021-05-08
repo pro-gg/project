@@ -1,9 +1,12 @@
 package Project.pro.gg.Service;
 
 import Project.pro.gg.Model.MemberDTO;
+import Project.pro.gg.Model.SummonerDTO;
 import Project.pro.gg.Repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.servlet.http.HttpSession;
 
 @Service
 public class MemberServiceImpl implements MemberService{
@@ -31,5 +34,10 @@ public class MemberServiceImpl implements MemberService{
     public MemberDTO selectMemberOne(String id) {
         MemberDTO memberDTO = memberRepository.selectOne(id);
         return memberDTO;
+    }
+
+    @Override
+    public void insertSummonerData(SummonerDTO summonerDTO, MemberDTO memberDTO) {
+        memberRepository.insertSummonerData(summonerDTO, memberDTO);
     }
 }
