@@ -1,0 +1,11 @@
+$(function(){
+    $.ajax({
+        type:'get',
+        url:'/article.do',
+        data:'',
+        dataType:'',
+        success:function(data){
+            $("article").html(data)
+        }
+    });
+});

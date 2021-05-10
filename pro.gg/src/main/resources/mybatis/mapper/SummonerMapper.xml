@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="summoner">
+    <select id="searchSummonerData" resultType="Project.pro.gg.Model.SummonerDTO">
+        select * from summoner
+        where summoner_name = #{summoner_name}
+    </select>
+
+    <select id="insertSummonerData">
+        insert into summoner(summoner_name, id, accountid, puuid, profileiconid, summonerlevel, revisiondate, userid)
+            values(#{summoner_name}, #{id}, #{accountId}, #{puuid}, #{profileiconId}, #{summonerLevel}, #{revisionDate}, #{userid})
+    </select>
+
+    <select id="deleteSummonerData" parameterType="String">
+        delete from summoner where summoner_name = #{summoner_name}
+    </select>
+</mapper>
