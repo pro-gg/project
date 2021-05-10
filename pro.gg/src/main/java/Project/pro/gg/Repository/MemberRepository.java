@@ -3,7 +3,6 @@ package Project.pro.gg.Repository;
 import Project.pro.gg.DAO.MemberDAO;
 import Project.pro.gg.Model.MemberDTO;
 import Project.pro.gg.Model.SummonerDTO;
-import Project.pro.gg.TableMapping.MemberSummoner;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -29,8 +28,18 @@ public class MemberRepository implements MemberDAO {
 
     @Override
     public void insertSummonerData(SummonerDTO summonerDTO, MemberDTO memberDTO) {
-        MemberSummoner memberSummoner= new MemberSummoner(memberDTO.getId(), summonerDTO.getSummonerName());
         sqlSession.insert("summoner.insertSummonerData", summonerDTO);
-        sqlSession.update("member.summonerName", memberSummoner);
+        sqlSession.update("member.summonerName", memberDTO);
+    }
+
+    @Override
+    public void deleteSummonerName(MemberDTO memberDTO) {
+        sqlSession.delete("summoner.deleteSummonerData", memberDTO);
+        sqlSession.update("member.deleteSummonerName", memberDTO);
+    }
+
+    @Override
+    public SummonerDTO selectSummonerData(SummonerDTO summonerDTO) {
+        return sqlSession.selectOne("summoner.searchSummonerData", summonerDTO);
     }
 }

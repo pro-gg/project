@@ -27,26 +27,7 @@
                 })
             })
         }
-
-        function summonerNameUpdate(){
-            $(function(){
-                if(confirm("소환사 명을 변경하시겠습니까? 기존에 있던 데이터는 삭제됩니다.") == true){
-                    $.ajax({
-                        type:'get',
-                        url:'${pageContext.request.contextPath}/updateSummonerName.do',
-                        data:'',
-                        dataType:'',
-                        success:function(data){
-                            $("body").html(data);
-                        }
-                    })
-                } else {
-                    return false;
-                }
-
-            })
-        }
-    </script>
+    </script> 
     <style>
         aside{
             height: 920px;
@@ -55,33 +36,26 @@
             line-height: 30px;
             background-color: aqua;
         }
-        article, form{
+        article,form{
             position:absolute;
             width: 920px; height: 50px;
             left: 0; right: 0;
             margin-left: 300px; margin-right:auto;
             top: 0; bottom: 0;
-            margin-top: 50px; margin-bottom: auto;
+            margin-top: auto; margin-bottom: auto;
         }
     </style>
 </head>
 <body>
-    <header><h1>Pro.gg</h1></header>
     <aside></aside>
     <article>
         <form action="">
-            <h1>MyPage</h1>
-            <p>닉네임 : ${member.nickname}</p>
-            <c:if test = "${member.summoner_name == null}">
-                <p>소환사 명 등록하기 : <input type="text" name="summonerName" id="summonerName" placeholder="소환사 명"></p>
-                <input type="button" name="registerSummoner" id="registerSummoner" value="등록하기" onclick="summonerRegister()">
-            </c:if>
-            <c:if test = "${member.summoner_name != null}">
-                소환사 명 : ${member.summoner_name} <input type="button" value="변경하기" name="updateSummonerName" id="updateSummonerName"
-                    onclick="summonerNameUpdate()">
-            </c:if>
-
+            <h1>소환사 명 변경</h1>
+            <p>소환사 명 변경하기 : <input type="text" name="summonerName" id="summonerName" placeholder="소환사 명"></p>
+            <input type="button" name="registerSummoner" id="registerSummoner" value="변경하기" onclick="summonerRegister()">
+          
         </form>
+        
     </article>
 </body>
 </html>

@@ -12,12 +12,14 @@ import java.util.Date;
 @AllArgsConstructor
 public class SummonerDTO {
 
-    private String summonerName;
+    private String summoner_name;
     private String id;
     private String accountId;
     private String puuid;
     private int profileiconId;
     private long summonerLevel;
     private long revisionDate;
+
+    private String userid;
 
 }

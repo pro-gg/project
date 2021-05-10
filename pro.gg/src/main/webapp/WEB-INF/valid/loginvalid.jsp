@@ -62,6 +62,8 @@
     </script>
 </head>
 <body>
+    <aside></aside>
+    <article></article>
     <c:if test = "${member != null}">
         <script>loginSession()</script>
     </c:if>

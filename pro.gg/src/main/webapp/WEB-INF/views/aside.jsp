@@ -37,6 +37,7 @@
                 </c:if>
                 <c:if test = "${member != null}">
                     <p>${member.nickname}</p>
+                    <p>소환사 명 : ${member.summoner_name}</p>
                     <a href="#" onclick="myPage()">마이페이지</a>
                     <a href="${pageContext.request.contextPath}/logout.do">로그아웃</a>
                 </c:if>

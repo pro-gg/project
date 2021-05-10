@@ -14,4 +14,6 @@ public interface MemberService  {
     public String selectOne(String id, String passwd);
     public MemberDTO selectMemberOne(String id);
     public void insertSummonerData(SummonerDTO summonerDTO, MemberDTO memberDTO);
+    public void deleteSummonerName(MemberDTO memberDTO);
+    public SummonerDTO selectSummonerData(SummonerDTO summonerDTO);
 }

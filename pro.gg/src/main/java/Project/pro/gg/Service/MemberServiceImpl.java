@@ -6,8 +6,6 @@ import Project.pro.gg.Repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpSession;
-
 @Service
 public class MemberServiceImpl implements MemberService{
 
@@ -20,9 +18,9 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public String selectOne(String id, String passwd) {
+    public String selectOne(String userid, String passwd) {
         String result = "Success";
-        MemberDTO memberDTO = memberRepository.selectOne(id);
+        MemberDTO memberDTO = memberRepository.selectOne(userid);
 
         if (memberDTO == null) result = "NotExistId";
         else if (!memberDTO.getPasswd().equals(passwd)) result = "failPasswd";
@@ -31,13 +29,24 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public MemberDTO selectMemberOne(String id) {
-        MemberDTO memberDTO = memberRepository.selectOne(id);
+    public MemberDTO selectMemberOne(String userid) {
+        MemberDTO memberDTO = memberRepository.selectOne(userid);
         return memberDTO;
     }
 
     @Override
     public void insertSummonerData(SummonerDTO summonerDTO, MemberDTO memberDTO) {
         memberRepository.insertSummonerData(summonerDTO, memberDTO);
+    }
+
+    @Override
+    public void deleteSummonerName(MemberDTO memberDTO) {
+        memberRepository.deleteSummonerName(memberDTO);
+    }
+
+    @Override
+    public SummonerDTO selectSummonerData(SummonerDTO summonerDTO) {
+
+        return memberRepository.selectSummonerData(summonerDTO);
     }
 }
