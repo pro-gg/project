@@ -15,7 +15,7 @@
 
                 $.ajax({
                     type:'get',
-                    url: '${pageContext.request.contextPath}/mypage.do',
+                    url: '${pageContext.request.contextPath}/move/mypage.do',
                     data: member,
                     dataType:'',
                     success:function(data){

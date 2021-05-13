@@ -9,6 +9,7 @@
     <title></title>
     <script src="/webjars/jquery/3.6.0/jquery.min.js"></script>
     <script src="/js/semantic_aside.js" charset="utf-8"></script>
+    <script src="/js/semantic_header.js" charset="utf-8"></script>
     <script>
         function check_pw(){
 
@@ -59,10 +60,10 @@
     </style>
 </head>
 <body>
-    <header><h1>Pro.gg</h1></header>
+    <header></header>
     <aside></aside>
     <article>
-        <form action="${pageContext.request.contextPath}/tryregister.do" method="get">
+        <form action="${pageContext.request.contextPath}/tryregister.do" method="POST">
             <h2>회원가입</h2>
             <input type="text" placeholder="이름" name="name" id="name"> <br><br>
             <input type="text" placeholder="닉네임" name="nickname" id="nickname"> <br><br>

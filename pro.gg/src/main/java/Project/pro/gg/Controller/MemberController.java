@@ -8,6 +8,7 @@ import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,13 +27,13 @@ public class MemberController {
 
     HttpSession session;
 
-    String developKey = "RGAPI-4bb0445e-35ae-47ae-a69d-87c21038a00e";
+    String developKey = "RGAPI-b55c47ea-063a-4b68-a2a3-80b791144986";
     String apiURL = "";
     URL riotURL = null;
     HttpURLConnection urlConnection = null;
     BufferedReader br = null;
 
-    @GetMapping("/tryregister.do")
+    @PostMapping("/tryregister.do")
     public String tryRegister(@RequestParam(value = "id") String userid,
                               @RequestParam(value = "passwd") String passwd,
                               @RequestParam(value = "email") String email,
@@ -51,7 +52,8 @@ public class MemberController {
         return "main";
     }
 
-    @GetMapping("/trylogin.do")
+    // 보안 상 민감한 정보를 url 상에서 가리기 위해 post mapping
+    @PostMapping("/trylogin.do")
     public String tryLogin(@RequestParam("id") String userid, @RequestParam("passwd") String passwd,
                            Model model, HttpServletRequest request){
 

@@ -9,6 +9,7 @@
     <title></title>
     <script src="/webjars/jquery/3.6.0/jquery.min.js"></script>
     <script src="/js/semantic_aside.js" charset="utf-8"></script>
+    <script src="/js/semantic_header.js" charset="utf-8"></script>
     <script>
         function summonerRegister(){
             $(function(){
@@ -66,7 +67,7 @@
     </style>
 </head>
 <body>
-    <header><h1>Pro.gg</h1></header>
+    <header></header>
     <aside></aside>
     <article>
         <form action="">
