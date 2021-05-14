@@ -9,8 +9,7 @@
     <title></title>
     <script src="/webjars/jquery/3.6.0/jquery.min.js"></script>
     <script src="/js/semantic_aside.js" charset="utf-8"></script>
-    <script>
-    </script>
+    <script src="/js/semantic_header.js" charset="utf-8"></script>
 
     <style>
         aside{
@@ -40,10 +39,10 @@
 
 </head>
 <body>
-    <header><h1>Pro.gg</h1></header>
+    <header></header>
     <aside></aside>
     <article>
-        <form action="${pageContext.request.contextPath}/trylogin.do" method="get">
+        <form action="${pageContext.request.contextPath}/trylogin.do" method="POST">
             <input type="text" name="id" id="id" placeholder="아이디"> <br>
             <input type="password" name="passwd", id="passwd" placeholder="비밀번호"><br>
             <input type="submit" value="로그인">

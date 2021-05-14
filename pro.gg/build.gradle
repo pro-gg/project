@@ -23,6 +23,10 @@ dependencies {
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.4'
 	implementation group: 'org.webjars', name: 'jquery', version: '3.6.0'
 	implementation group: 'org.springframework.boot', name: 'spring-boot-configuration-processor', version: '2.4.5'
+	implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.12.3'
+	implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.12.3'
+	implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.12.3'
+	implementation 'org.springframework.boot:spring-boot-starter-aop'
 	compile('org.apache.tomcat.embed:tomcat-embed-jasper')
 	compile('javax.servlet:jstl:1.2')
 	compileOnly 'org.projectlombok:lombok'

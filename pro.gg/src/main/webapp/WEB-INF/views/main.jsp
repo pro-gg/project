@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -7,6 +8,7 @@
 <script src="/webjars/jquery/3.6.0/jquery.min.js"></script>
 <script src="/js/semantic_aside.js" charset="utf-8"></script>
 <script src="/js/semantic_article.js" charset="utf-8"></script>
+<script src="/js/semantic_header.js" charset="utf-8"></script>
 <style>
     aside{
         height: 920px;
@@ -26,7 +28,7 @@
 </style>
 </head>
 <body>
-    <header><h1>Pro.gg</h1></header>
+    <header></header>
     <aside></aside>
     <article></article>
 </body>

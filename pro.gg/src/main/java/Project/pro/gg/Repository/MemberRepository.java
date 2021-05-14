@@ -19,9 +19,9 @@ public class MemberRepository implements MemberDAO {
     }
 
     @Override
-    public MemberDTO selectOne(String id) {
+    public MemberDTO selectOne(String userid) {
         MemberDTO memberDTO = null;
-        memberDTO = sqlSession.selectOne("member.selectOne", id);
+        memberDTO = sqlSession.selectOne("member.selectOne", userid);
 
         return memberDTO;
     }
