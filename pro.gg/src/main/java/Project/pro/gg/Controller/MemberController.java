@@ -27,7 +27,7 @@ public class MemberController {
 
     HttpSession session;
 
-    String developKey = "RGAPI-b55c47ea-063a-4b68-a2a3-80b791144986";
+    String developKey = "RGAPI-f547a1bc-18ff-4634-872d-3de8716886f1";
     String apiURL = "";
     URL riotURL = null;
     HttpURLConnection urlConnection = null;
@@ -78,11 +78,11 @@ public class MemberController {
             MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
             memberDTO = null;
             session.setAttribute("member", memberDTO);
-            model.addAttribute("member", (MemberDTO)session.getAttribute("member"));
         }catch (Exception e){
             e.printStackTrace();
         }
 
+        model.addAttribute("member", (MemberDTO)session.getAttribute("member"));
         return "main";
     }
 
