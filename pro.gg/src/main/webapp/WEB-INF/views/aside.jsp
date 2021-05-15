@@ -34,6 +34,8 @@
                 <c:if test = "${member == null}">
                     <input type="button" value="LOGIN" name="login" id="login" 
                     onclick="location.href='${pageContext.request.contextPath}/move/login.do'">
+                    <a href="#">아이디 찾기</a> 
+                    <a href="#">비밀번호 찾기</a>
                 </c:if>
                 <c:if test = "${member != null}">
                     <p>${member.nickname}</p>
