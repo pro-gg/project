@@ -42,4 +42,19 @@ public class MemberRepository implements MemberDAO {
     public SummonerDTO selectSummonerData(SummonerDTO summonerDTO) {
         return sqlSession.selectOne("summoner.searchSummonerData", summonerDTO);
     }
+
+    @Override
+    public MemberDTO findId(MemberDTO memberDTO) {
+        return sqlSession.selectOne("member.findId", memberDTO);
+    }
+
+    @Override
+    public MemberDTO findPasswd(MemberDTO memberDTO) {
+        return sqlSession.selectOne("member.findPasswd", memberDTO);
+    }
+
+    @Override
+    public void updatePasswd(MemberDTO memberDTO) {
+        sqlSession.update("member.updatePasswd", memberDTO);
+    }
 }

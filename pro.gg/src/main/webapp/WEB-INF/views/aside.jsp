@@ -11,7 +11,7 @@
     <script>
         function myPage(){
             $(function(){
-                var member = "${member}";
+                var member = "${sessionScope.member}";
 
                 $.ajax({
                     type:'get',
@@ -24,6 +24,13 @@
                 })
             })
         }
+
+        function findId(){
+            window.open("${pageContext.request.contextPath}/move/findId.do", "findId", "width=550, height=450, left=100, top=50");
+        }
+        function findPasswd(){
+            window.open("${pageContext.request.contextPath}/move/findPasswd.do", "findId", "width=550, height=450, left=100, top=50");
+        }
     </script>
 </head>
 <body>
@@ -31,15 +38,15 @@
         <ul>
             <li>
                 <h3>INFO</h3>
-                <c:if test = "${member == null}">
+                <c:if test = "${sessionScope.member == null}">
                     <input type="button" value="LOGIN" name="login" id="login" 
-                    onclick="location.href='${pageContext.request.contextPath}/move/login.do'">
-                    <a href="#">아이디 찾기</a> 
-                    <a href="#">비밀번호 찾기</a>
+                    onclick="location.href='${pageContext.request.contextPath}/move/login.do'"> <br>
+                    <a href="#" onclick="findId()">아이디 찾기</a> 
+                    <a href="#" onclick="findPasswd()">비밀번호 찾기</a>
                 </c:if>
-                <c:if test = "${member != null}">
-                    <p>${member.nickname}</p>
-                    <p>소환사 명 : ${member.summoner_name}</p>
+                <c:if test = "${sessionScope.member != null}">
+                    <p>${sessionScope.member.nickname}</p>
+                    <p>소환사 명 : ${sessionScope.member.summoner_name}</p>
                     <a href="#" onclick="myPage()">마이페이지</a>
                     <a href="${pageContext.request.contextPath}/logout.do">로그아웃</a>
                 </c:if>

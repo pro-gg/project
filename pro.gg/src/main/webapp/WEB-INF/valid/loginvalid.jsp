@@ -17,7 +17,7 @@
                     $.ajax({
                         type:'get',
                         url:'${pageContext.request.contextPath}/',
-                        data:'${member}',
+                        data:'${sessionScope.member}',
                         dataType:'',
                         success:function(data){
                             $("body").html(data);
@@ -64,10 +64,10 @@
 <body>
     <aside></aside>
     <article></article>
-    <c:if test = "${member != null}">
+    <c:if test = "${sessionScope.member != null}">
         <script>loginSession()</script>
     </c:if>
-    <c:if test = "${member == null}">
+    <c:if test = "${sessionScope.member == null}">
         <script>loginfailSession()</script>
     </c:if>
 </body>
