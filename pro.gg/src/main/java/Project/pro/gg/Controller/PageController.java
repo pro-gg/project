@@ -43,4 +43,14 @@ public class PageController {
     public String myPage(){
         return "mypage";
     }
+
+    @GetMapping("/move/findId.do")
+    public String findId(){
+        return "../popup/findId_popup";
+    }
+
+    @GetMapping("/move/findPasswd.do")
+    public String findPasswd(){
+        return "../popup/findPasswd_popup";
+    }
 }

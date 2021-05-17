@@ -70,7 +70,7 @@
             <input type="text" placeholder="아이디" name="id" id="id"> <br><br>
             <input type="password" placeholder="비밀번호" name="passwd" id="passwd" onchange="check_pw()"><span id="input_passwd"></span><br><br>
             <input type="password" placeholder="비밀번호 확인" name="passwdcheck" id="passwdcheck" onchange="check_pw()"><span id="check"></span><br><br>
-            <input type="text" placeholder="이메일" name="email" id="email"> <br><br>
+            <input type="email" placeholder="이메일" name="email" id="email"> <br><br>
             <input type="button" value="취소" id="btn" onclick="location.href='${pageContext.request.contextPath}'">
             <input type="submit" value="가입하기" id="btn">
         </form>

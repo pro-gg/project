@@ -11,4 +11,10 @@ public interface MemberDAO {
     public void deleteSummonerName(MemberDTO memberDTO);
 
     public SummonerDTO selectSummonerData(SummonerDTO summonerDTO);
+
+    public MemberDTO findId(MemberDTO memberDTO);
+
+    public MemberDTO findPasswd(MemberDTO memberDTO);
+
+    public void updatePasswd(MemberDTO memberDTO);
 }
