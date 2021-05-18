@@ -49,4 +49,19 @@ public class MemberServiceImpl implements MemberService{
 
         return memberRepository.selectSummonerData(summonerDTO);
     }
+
+    @Override
+    public MemberDTO findId(MemberDTO memberDTO) {
+        return memberRepository.findId(memberDTO);
+    }
+
+    @Override
+    public MemberDTO findPasswd(MemberDTO memberDTO) {
+        return memberRepository.findPasswd(memberDTO);
+    }
+
+    @Override
+    public void updatePasswd(MemberDTO memberDTO) {
+        memberRepository.updatePasswd(memberDTO);
+    }
 }

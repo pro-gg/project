@@ -1,5 +1,6 @@
 package Project.pro.gg.Controller;
 
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,13 +33,8 @@ public class PageController {
     public String login(){
         return "login";
     }
-    
-    @GetMapping("/move/terms.do")
-    public String terms() {
-    	return "registerTerms";
-    }
 
-    @PostMapping("/move/register.do")
+    @GetMapping("/move/register.do")
     public String register(){
         return "register";
     }
@@ -46,5 +42,15 @@ public class PageController {
     @GetMapping("/move/mypage.do")
     public String myPage(){
         return "mypage";
+    }
+
+    @GetMapping("/move/findId.do")
+    public String findId(){
+        return "../popup/findId_popup";
+    }
+
+    @GetMapping("/move/findPasswd.do")
+    public String findPasswd(){
+        return "../popup/findPasswd_popup";
     }
 }

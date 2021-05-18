@@ -22,5 +22,21 @@
         set summoner_name = NULL
         where userid = #{userid}
     </select>
+
+    <select id="findId" resultType="Project.pro.gg.Model.MemberDTO">
+        select * from member
+        where name = #{name} and email = #{email}
+    </select>
+
+    <select id="findPasswd" resultType="Project.pro.gg.Model.MemberDTO">
+        select * from member
+        where userid = #{userid} and name = #{name} and email = #{email}
+    </select>
+
+    <select id="updatePasswd">
+        update member
+        set passwd = #{passwd}
+        where userid = #{userid}
+    </select>
     
 </mapper>
