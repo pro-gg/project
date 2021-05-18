@@ -33,8 +33,13 @@ public class PageController {
     public String login(){
         return "login";
     }
+    
+    @GetMapping("/move/terms.do")
+    public String terms() {
+    	return "registerTerms";
+    }
 
-    @GetMapping("/move/register.do")
+    @PostMapping("/move/register.do")
     public String register(){
         return "register";
     }
