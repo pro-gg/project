@@ -1,8 +1,16 @@
 package Project.pro.gg.Controller;
 
-import Project.pro.gg.Model.MemberDTO;
-import Project.pro.gg.Model.SummonerDTO;
-import Project.pro.gg.Service.MemberServiceImpl;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.stereotype.Controller;
@@ -11,13 +19,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
+import Project.pro.gg.Model.MemberDTO;
+import Project.pro.gg.Model.SummonerDTO;
+import Project.pro.gg.Service.MemberServiceImpl;
 
 @Controller
 public class MemberController {
@@ -33,6 +37,25 @@ public class MemberController {
     HttpURLConnection urlConnection = null;
     BufferedReader br = null;
 
+    @PostMapping("/check_id.do")
+    public void check_id(HttpServletRequest request, HttpServletResponse response) {
+    	String userid = request.getParameter("id");
+    	MemberDTO memberDTO = memberService.selectMemberOne(userid);
+    	if(memberDTO == null) {
+    		try {
+				response.getWriter().write("OK");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+    	}else {
+    		try {
+				response.getWriter().write("Fail");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+    	}
+    }
+    
     @PostMapping("/tryregister.do")
     public String tryRegister(@RequestParam(value = "id") String userid,
                               @RequestParam(value = "passwd") String passwd,

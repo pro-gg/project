@@ -9,6 +9,6 @@ public interface MemberDAO {
     public MemberDTO selectOne(String id);
     public void insertSummonerData(SummonerDTO summonerDTO, MemberDTO memberDTO);
     public void deleteSummonerName(MemberDTO memberDTO);
-
+    
     public SummonerDTO selectSummonerData(SummonerDTO summonerDTO);
 }

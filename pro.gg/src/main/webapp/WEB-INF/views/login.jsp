@@ -36,7 +36,15 @@
             width: 300px;
         }
     </style>
-
+	<script type="text/javascript">
+		function popup(){
+			window.name="parent";
+			var url="${pageContext.request.contextPath}/move/terms.do";
+			var name="약관 동의";
+			var option="width=500, height=500, top=100, left=200, location=no";
+			window.open(url,name,option);
+		}
+</script>
 </head>
 <body>
     <header></header>
@@ -46,7 +54,7 @@
             <input type="text" name="id" id="id" placeholder="아이디"> <br>
             <input type="password" name="passwd", id="passwd" placeholder="비밀번호"><br>
             <input type="submit" value="로그인">
-            <p>처음이세요? <a href="${pageContext.request.contextPath}/move/register.do">회원가입하기</a></p>
+            <p>처음이세요? <a href="javascript:popup()">회원가입하기</a></p>
         </form>
     </article>
     
