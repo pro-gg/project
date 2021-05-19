@@ -31,7 +31,7 @@ public class MemberController {
 
     HttpSession session;
 
-    String developKey = "RGAPI-f547a1bc-18ff-4634-872d-3de8716886f1";
+    String developKey = "RGAPI-aac7ed1a-abc9-4391-a134-044691dcb83e";
     String apiURL = "";
     URL riotURL = null;
     HttpURLConnection urlConnection = null;

@@ -89,7 +89,8 @@
             </c:if>
             <c:if test = "${sessionScope.member.summoner_name != null}">
                 소환사 명 : ${sessionScope.member.summoner_name} <input type="button" value="변경하기" name="updateSummonerName" id="updateSummonerName"
-                    onclick="summonerNameUpdate()">
+                    onclick="summonerNameUpdate()"> <br>
+                <input type="button" value="최근 전적" name="matchHistory" id="matchHistory">
             </c:if>
 
         </form>
