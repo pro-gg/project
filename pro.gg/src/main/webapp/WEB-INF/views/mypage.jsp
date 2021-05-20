@@ -28,7 +28,6 @@
                 })
             })
         }
-
         function summonerNameUpdate(){
             $(function(){
                 if(confirm("소환사 명을 변경하시겠습니까? 기존에 있던 데이터는 삭제됩니다.") == true){
@@ -44,7 +43,19 @@
                 } else {
                     return false;
                 }
-
+            })
+        }
+        function callMatchHistory(){
+            $(function(){
+                $.ajax({
+                    type:'get',
+                    url:'${pageContext.request.contextPath}/matchHistory.do?summoner_name=${sessionScope.member.summoner_name}',
+                    data:'',
+                    dataType:'',
+                    success:function(data){
+                        $("#printMatchHistory").html(data);
+                    }
+                })
             })
         }
     </script>
@@ -82,14 +93,17 @@
             <p>이름 : ${sessionScope.member.name}</p>
             <p>닉네임 : ${sessionScope.member.nickname}</p>
             <p>이메일 : ${sessionScope.member.email}</p>
-            <p>비밀번호 : <input type="password" id="passwd_input"value="${sessionScope.member.passwd}" disabled></p> 
+            <p>비밀번호 : <input type="password" id="passwd_input"value="${sessionScope.member.passwd}" disabled></p>
             <c:if test = "${sessionScope.member.summoner_name == null}">
                 <p>소환사 명 등록하기 : <input type="text" name="summonerName" id="summonerName" placeholder="소환사 명"></p>
                 <input type="button" name="registerSummoner" id="registerSummoner" value="등록하기" onclick="summonerRegister()">
             </c:if>
             <c:if test = "${sessionScope.member.summoner_name != null}">
-                소환사 명 : ${sessionScope.member.summoner_name} <input type="button" value="변경하기" name="updateSummonerName" id="updateSummonerName"
-                    onclick="summonerNameUpdate()">
+                <p>소환사 명 : ${sessionScope.member.summoner_name} <input type="button" value="변경하기" name="updateSummonerName" id="updateSummonerName"
+                    onclick="summonerNameUpdate()"> </p>
+                <p><input type="button" value="최근 전적" name="matchHistory" id="matchHistory" onclick="callMatchHistory()"></p>
+                <hr>
+                <div id="printMatchHistory"></div>
             </c:if>
 
         </form>
