@@ -15,4 +15,12 @@
     <select id="deleteSummonerData" parameterType="String">
         delete from summoner where summoner_name = #{summoner_name}
     </select>
+
+    <select id="createTable" parameterType="String">
+        ${sql}
+    </select>
+
+    <select id="dropTable" parameterType="String">
+        ${sql}
+    </select>
 </mapper>

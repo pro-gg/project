@@ -10,6 +10,7 @@ import java.util.Date;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class SummonerDTO {
 
     private String summoner_name;
