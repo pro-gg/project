@@ -29,13 +29,7 @@ public class MemberController {
     @Autowired
     MemberServiceImpl memberService;
 
-    HttpSession session;
-
-    String developKey = "RGAPI-aac7ed1a-abc9-4391-a134-044691dcb83e";
-    String apiURL = "";
-    URL riotURL = null;
-    HttpURLConnection urlConnection = null;
-    BufferedReader br = null;
+    public static HttpSession session;
 
     @PostMapping("/check_id.do")
     public void check_id(HttpServletRequest request, HttpServletResponse response) {
@@ -192,68 +186,6 @@ public class MemberController {
         }
 
         return "../popup/updateMemberPasswd_popup";
-    }
-
-    @GetMapping("/SearchSummonerData.do")
-    public String searchSummonerData(@RequestParam("summonerName") String summonerName, Model model){
-        MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
-        SummonerDTO summonerDTO = null;
-        try {
-            JSONObject jsonObject = new JSONObject(summonerName);
-            summonerName = URLEncoder.encode((String) jsonObject.get("summonerName"), "UTF-8");
-
-            apiURL = "https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/"+summonerName+"?api_key="+developKey;
-            riotURL = new URL(apiURL);
-            urlConnection = (HttpURLConnection)riotURL.openConnection();
-            urlConnection.setRequestMethod("GET");
-
-            br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));
-            String result="";
-            String line="";
-            while((line=br.readLine()) != null) {
-                result += line;
-            }
-
-            JSONObject summonerObject = new JSONObject(result);
-
-            summonerDTO = new SummonerDTO(
-                    summonerObject.getString("name"),
-                    summonerObject.getString("id"),
-                    summonerObject.getString("accountId"),
-                    summonerObject.getString("puuid"),
-                    summonerObject.getInt("profileIconId"),
-                    summonerObject.getLong("summonerLevel"),
-                    summonerObject.getLong("revisionDate"),
-                    memberDTO.getUserid());
-            String profileIconURL = "http://ddragon.leagueoflegends.com/cdn/10.11.1/img/profileicon/"+summonerDTO.getProfileiconId()+".png";
-
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            model.addAttribute("summoner_name", summonerName);
-            return "../valid/notexistSummonerValid";
-        }
-
-        if(memberService.selectSummonerData(summonerDTO) != null){
-            memberDTO.setSummoner_name(null);
-            model.addAttribute("summoner_name_exist", summonerName);
-            return "../valid/notexistSummonerValid";
-        } else{
-            memberDTO.setSummoner_name(summonerDTO.getSummoner_name());
-            memberService.insertSummonerData(summonerDTO, memberDTO);
-            session.setAttribute("member", memberDTO);
-            model.addAttribute("member", (MemberDTO)session.getAttribute("member"));
-        }
-
-        return "../valid/summonerNameValid";
-    }
-
-    @GetMapping("/updateSummonerName.do")
-    public String updateSummonerData(Model model){
-        MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
-
-        memberService.deleteSummonerName(memberDTO);
-        model.addAttribute("member", memberDTO);
-        return "updateSummonerName";
     }
 
 }

@@ -23,7 +23,7 @@
         left: 0; right: 0;
         margin-left: 300px; margin-right:auto;
         top: 0; bottom: 0;
-        margin-top: auto; margin-bottom: auto;
+        margin-top: 100px; margin-bottom: auto;
     }
 </style>
 </head>

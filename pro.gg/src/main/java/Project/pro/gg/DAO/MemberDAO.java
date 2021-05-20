@@ -7,10 +7,7 @@ public interface MemberDAO {
 
     public void insert(MemberDTO memberDTO);
     public MemberDTO selectOne(String id);
-    public void insertSummonerData(SummonerDTO summonerDTO, MemberDTO memberDTO);
     public void deleteSummonerName(MemberDTO memberDTO);
-
-    public SummonerDTO selectSummonerData(SummonerDTO summonerDTO);
 
     public MemberDTO findId(MemberDTO memberDTO);
 

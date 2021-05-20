@@ -35,19 +35,8 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public void insertSummonerData(SummonerDTO summonerDTO, MemberDTO memberDTO) {
-        memberRepository.insertSummonerData(summonerDTO, memberDTO);
-    }
-
-    @Override
     public void deleteSummonerName(MemberDTO memberDTO) {
         memberRepository.deleteSummonerName(memberDTO);
-    }
-
-    @Override
-    public SummonerDTO selectSummonerData(SummonerDTO summonerDTO) {
-
-        return memberRepository.selectSummonerData(summonerDTO);
     }
 
     @Override
