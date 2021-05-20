@@ -42,6 +42,7 @@ public class SummonerController {
     HttpURLConnection urlConnection = null;
     BufferedReader br = null;
 
+    // 소환사 데이터 검색 및 저장 
     @GetMapping("/SearchSummonerData.do")
     public String searchSummonerData(@RequestParam("summonerName") String summonerName, Model model){
 
