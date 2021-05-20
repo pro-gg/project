@@ -27,20 +27,11 @@ public class MemberRepository implements MemberDAO {
     }
 
     @Override
-    public void insertSummonerData(SummonerDTO summonerDTO, MemberDTO memberDTO) {
-        sqlSession.insert("summoner.insertSummonerData", summonerDTO);
-        sqlSession.update("member.summonerName", memberDTO);
-    }
-
-    @Override
     public void deleteSummonerName(MemberDTO memberDTO) {
+        String sql = "drop table if exists " + memberDTO.getUserid();
+        sqlSession.delete("summoner.dropTable", sql);
         sqlSession.delete("summoner.deleteSummonerData", memberDTO);
         sqlSession.update("member.deleteSummonerName", memberDTO);
-    }
-
-    @Override
-    public SummonerDTO selectSummonerData(SummonerDTO summonerDTO) {
-        return sqlSession.selectOne("summoner.searchSummonerData", summonerDTO);
     }
 
     @Override
