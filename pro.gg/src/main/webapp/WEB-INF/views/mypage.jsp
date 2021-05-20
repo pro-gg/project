@@ -61,6 +61,10 @@
                 })
             })
         }
+
+        function updateSummonerData(){
+            
+        }
     </script>
     <style>
         aside{
@@ -104,7 +108,10 @@
             <c:if test = "${sessionScope.member.summoner_name != null}">
                 <p>소환사 명 : ${sessionScope.member.summoner_name} <input type="button" value="변경하기" name="updateSummonerName" id="updateSummonerName"
                     onclick="summonerNameUpdate()"> </p>
-                <p><input type="button" value="최근 전적" name="matchHistory" id="matchHistory" onclick="callMatchHistory()"></p>
+                <p>
+                    <input type="button" value="최근 전적" name="matchHistory" id="matchHistory" onclick="callMatchHistory()">
+                    <input type="button" value="소환사 정보 갱신" name="summonerData" id="summonerData" onclick="updateSummonerData()">
+                </p>
                 <hr>
                 <div id="printMatchHistory"></div>
             </c:if>
