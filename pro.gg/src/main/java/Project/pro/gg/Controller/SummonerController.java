@@ -1,8 +1,6 @@
 package Project.pro.gg.Controller;
 
-import Project.pro.gg.Model.MatchDataDTO;
-import Project.pro.gg.Model.MemberDTO;
-import Project.pro.gg.Model.SummonerDTO;
+import Project.pro.gg.Model.*;
 import Project.pro.gg.Service.MatchDataServiceImpl;
 import Project.pro.gg.Service.MemberServiceImpl;
 import Project.pro.gg.Service.SummonerServiceImpl;
@@ -230,6 +228,7 @@ public class SummonerController {
         }
 
         List<MatchDataDTO> matchDataDTOList = matchDataService.selectMatchDataAll(memberDTO);
+        Collections.reverse(matchDataDTOList);
         model.addAttribute("matchDataList", matchDataDTOList);
         return "matchDataList";
     }

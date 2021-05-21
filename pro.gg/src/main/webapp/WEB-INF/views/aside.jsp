@@ -25,6 +25,20 @@
             })
         }
 
+        function callSummonerData(){
+            $(function(){
+                $.ajax({
+                    type:'get',
+                    url:'${pageContext.request.contextPath}/printSummonerData_aside.do',
+                    data:'',
+                    dataType:'',
+                    success:function(data){
+                        $("#printSummonerData_aside").html(data);
+                    }
+                })
+            })
+        }
+
         function findId(){
             window.open("${pageContext.request.contextPath}/move/findId.do", "findId", "width=550, height=450, left=100, top=50");
         }
@@ -47,6 +61,8 @@
                 <c:if test = "${sessionScope.member != null}">
                     <p>${sessionScope.member.nickname}</p>
                     <p>소환사 명 : ${sessionScope.member.summoner_name}</p>
+                    <script>callSummonerData()</script>
+                    <div id="printSummonerData_aside"></div>
                     <a href="#" onclick="myPage()">마이페이지</a>
                     <a href="${pageContext.request.contextPath}/logout.do">로그아웃</a>
                 </c:if>
