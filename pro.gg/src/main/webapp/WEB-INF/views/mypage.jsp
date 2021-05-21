@@ -140,7 +140,6 @@
                 <hr>
                 <div id="printMatchHistory"></div>
             </c:if>
-
         </form>
     </article>
 </body>

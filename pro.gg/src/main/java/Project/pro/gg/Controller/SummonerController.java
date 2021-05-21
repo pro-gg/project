@@ -19,8 +19,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Controller
 public class SummonerController {
@@ -34,7 +33,7 @@ public class SummonerController {
     @Autowired
     MatchDataServiceImpl matchDataService;
 
-    String developKey = "RGAPI-10288975-bbd3-41f8-b111-e927fd7c5926";
+    String developKey = "RGAPI-f250173a-6511-4c84-80cc-ea9a34a0e1c5";
     String apiURL = "";
     URL riotURL = null;
     HttpURLConnection urlConnection = null;
@@ -84,18 +83,19 @@ public class SummonerController {
             return "../valid/notexistSummonerValid";
         }
 
-        if(summonerService.selectSummonerData(summonerDTO) != null){
+        if(summonerService.selectSummonerData(summonerDTO) != null) {
             memberDTO.setSummoner_name(null);
             model.addAttribute("summoner_name_exist", summonerName);
             return "../valid/notexistSummonerValid";
-        } else{
-            memberDTO.setSummoner_name(summonerDTO.getSummoner_name());
-            summonerService.insertSummonerData(summonerDTO, memberDTO);
-            session.setAttribute("member", memberDTO);
-            model.addAttribute("member", (MemberDTO)session.getAttribute("member"));
         }
 
-        return "../valid/summonerNameValid";
+        memberDTO.setSummoner_name(summonerDTO.getSummoner_name());
+        session.setAttribute("member", memberDTO);
+        session.setAttribute("summoner", summonerDTO);
+
+        String summoner_register = "summoner_name_register";
+
+        return "redirect:/updateSummonerData.do?target="+summoner_register;
     }
 
     @GetMapping("/updateSummonerName.do")
@@ -108,6 +108,205 @@ public class SummonerController {
         memberService.deleteSummonerName(memberDTO);
         model.addAttribute("member", memberDTO);
         return "updateSummonerName";
+    }
+
+    @GetMapping("/updateSummonerData.do")
+    public String updateSummonerData(@RequestParam("target") String target, Model model){
+
+        // MemberController 에서 로그인 을 통해 생성된 세션 값을 가져온다.
+        HttpSession session = MemberController.session;
+        MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
+        SummonerDTO summonerDTO = null;
+
+        RankedSoloDTO rankedSoloDTO = new RankedSoloDTO();
+        RankedFlexDTO rankedFlexDTO = new RankedFlexDTO();
+
+        String id = null;
+        String result = "";
+        String line = "";
+
+        JSONArray jsonArray = null;
+        JSONObject json_RankedSolo = null;
+        JSONObject json_RankedFlex = null;
+
+        int total = 0;
+        double rate = 0.0;
+
+        if(target.equals("summoner_name_register")){
+            summonerDTO = (SummonerDTO) session.getAttribute("summoner");
+            id = summonerDTO.getId();
+        } else if (target.equals("updateSummonerData")){
+            summonerDTO = new SummonerDTO();
+            summonerDTO.setSummoner_name(memberDTO.getSummoner_name());
+            summonerDTO = summonerService.selectSummonerData(summonerDTO);
+
+            id = summonerDTO.getId();
+        }
+
+        // api 를 통해 데이터를 가져온다.(공통)
+        try{
+            apiURL = "https://kr.api.riotgames.com/lol/league/v4/entries/by-summoner/"+id+"?api_key="+developKey;
+            riotURL = new URL(apiURL);
+            urlConnection = (HttpURLConnection)riotURL.openConnection();
+            urlConnection.setRequestMethod("GET");
+
+            br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));
+            while((line=br.readLine()) != null) {
+                result += line;
+            }
+
+            jsonArray = new JSONArray(result);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        // 소환사 명 등록으로 인해 넘어오는 경우
+        if (target.equals("summoner_name_register")){
+            summonerService.insertSummonerData(summonerDTO, memberDTO);
+
+            // 소환사 큐 타입별 티어, 승패 횟수 등의 데이터 수집
+            try{
+                for(int i = 0; i < jsonArray.length(); i++){
+                    JSONObject jsonObject = (JSONObject) jsonArray.get(i);
+                    String queueType = jsonObject.getString("queueType");
+
+                    if (queueType.equals("RANKED_SOLO_5x5")){
+                        json_RankedSolo = jsonObject;
+
+                        rankedSoloDTO.setId(json_RankedSolo.getString("summonerId"));
+                        rankedSoloDTO.setQueueType(json_RankedSolo.getString("queueType"));
+                        rankedSoloDTO.setTier(json_RankedSolo.getString("tier"));
+                        rankedSoloDTO.setTier_rank(json_RankedSolo.getString("rank"));
+                        rankedSoloDTO.setLeaguePoints(json_RankedSolo.getInt("leaguePoints"));
+                        rankedSoloDTO.setWins(json_RankedSolo.getInt("wins"));
+                        rankedSoloDTO.setLosses(json_RankedSolo.getInt("losses"));
+
+                        total = rankedSoloDTO.getWins() + rankedSoloDTO.getLosses();
+                        rate = (double)Math.round((double) rankedSoloDTO.getWins()/(double) total*1000)/10;
+                        rankedSoloDTO.setRate(rate);
+
+                        summonerService.insertRankedSoloData(rankedSoloDTO);
+                    }else if (queueType.equals("RANKED_FLEX_SR")){
+                        json_RankedFlex = jsonObject;
+
+                        rankedFlexDTO.setId(json_RankedSolo.getString("summonerId"));
+                        rankedFlexDTO.setQueueType(json_RankedSolo.getString("queueType"));
+                        rankedFlexDTO.setTier(json_RankedSolo.getString("tier"));
+                        rankedFlexDTO.setTier_rank(json_RankedSolo.getString("rank"));
+                        rankedFlexDTO.setLeaguePoints(json_RankedSolo.getInt("leaguePoints"));
+                        rankedFlexDTO.setWins(json_RankedSolo.getInt("wins"));
+                        rankedFlexDTO.setLosses(json_RankedSolo.getInt("losses"));
+
+                        total = rankedFlexDTO.getWins() + rankedFlexDTO.getLosses();
+                        rate = (double)Math.round((double) rankedFlexDTO.getWins()/(double) total*1000)/10;
+                        rankedFlexDTO.setRate(rate);
+
+                        summonerService.insertRankedFlexData(rankedFlexDTO);
+                    }
+                }
+            }catch (Exception e){
+                System.out.println(e.getMessage());
+            }
+            model.addAttribute("member", memberDTO);
+            session.removeAttribute("summoner");
+
+            return "../valid/summonerNameValid";
+        }
+        // 마이페이지 정보 갱신을 통해 넘어오는 경우
+        else if (target.equals("updateSummonerData")){
+            // 소환사 큐 타입별 티어, 승패 횟수 등의 데이터 수집
+            try{
+                for(int i = 0; i < jsonArray.length(); i++){
+                    JSONObject jsonObject = (JSONObject) jsonArray.get(i);
+                    String queueType = jsonObject.getString("queueType");
+
+                    if (queueType.equals("RANKED_SOLO_5x5")){
+                        json_RankedSolo = jsonObject;
+
+                        rankedSoloDTO.setId(json_RankedSolo.getString("summonerId"));
+                        rankedSoloDTO.setQueueType(json_RankedSolo.getString("queueType"));
+                        rankedSoloDTO.setTier(json_RankedSolo.getString("tier"));
+                        rankedSoloDTO.setTier_rank(json_RankedSolo.getString("rank"));
+                        rankedSoloDTO.setLeaguePoints(json_RankedSolo.getInt("leaguePoints"));
+                        rankedSoloDTO.setWins(json_RankedSolo.getInt("wins"));
+                        rankedSoloDTO.setLosses(json_RankedSolo.getInt("losses"));
+
+                        total = rankedSoloDTO.getWins() + rankedSoloDTO.getLosses();
+                        rate = (double)Math.round((double) rankedSoloDTO.getWins()/(double) total*1000)/10;
+                        rankedSoloDTO.setRate(rate);
+
+                        summonerService.insertRankedSoloData(rankedSoloDTO);
+                    }else if (queueType.equals("RANKED_FLEX_SR")){
+                        json_RankedFlex = jsonObject;
+
+                        rankedFlexDTO.setId(json_RankedSolo.getString("summonerId"));
+                        rankedFlexDTO.setQueueType(json_RankedSolo.getString("queueType"));
+                        rankedFlexDTO.setTier(json_RankedSolo.getString("tier"));
+                        rankedFlexDTO.setTier_rank(json_RankedSolo.getString("rank"));
+                        rankedFlexDTO.setLeaguePoints(json_RankedSolo.getInt("leaguePoints"));
+                        rankedFlexDTO.setWins(json_RankedSolo.getInt("wins"));
+                        rankedFlexDTO.setLosses(json_RankedSolo.getInt("losses"));
+
+                        total = rankedFlexDTO.getWins() + rankedFlexDTO.getLosses();
+                        rate = (double)Math.round((double) rankedFlexDTO.getWins()/(double) total*1000)/10;
+                        rankedFlexDTO.setRate(rate);
+
+                        summonerService.insertRankedFlexData(rankedFlexDTO);
+                    }
+                }
+            }catch (Exception e){
+                System.out.println(e.getMessage());
+            }
+        }
+
+        return "redirect:/move/mypage.do";
+    }
+
+    @GetMapping("/printSummonerData_aside.do")
+    public String pringSummonerData_aside(Model model){
+        HttpSession session = MemberController.session;
+        MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
+
+        SummonerDTO summonerDTO = new SummonerDTO();
+        summonerDTO.setSummoner_name(memberDTO.getSummoner_name());
+        summonerDTO = summonerService.selectSummonerData(summonerDTO);
+
+        RankedSoloDTO rankedSoloDTO = new RankedSoloDTO();
+        RankedFlexDTO rankedFlexDTO = new RankedFlexDTO();
+
+        if(summonerService.selectRankedSoloData(summonerDTO.getId()) != null){
+            rankedSoloDTO = summonerService.selectRankedSoloData(summonerDTO.getId());
+            model.addAttribute("ranked_solo", rankedSoloDTO);
+        }
+//        if(summonerService.selectRankedFlexData(summonerDTO.getId()) != null){
+//            rankedFlexDTO = summonerService.selectRankedFlexData(summonerDTO.getId());
+//        }
+
+        return "aside_ranked";
+    }
+
+    @GetMapping("/printSummonerData_mypage.do")
+    public String pringSummonerData_mypage(Model model){
+
+        HttpSession session = MemberController.session;
+        MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
+
+        SummonerDTO summonerDTO = new SummonerDTO();
+        summonerDTO.setSummoner_name(memberDTO.getSummoner_name());
+        summonerDTO = summonerService.selectSummonerData(summonerDTO);
+
+        RankedSoloDTO rankedSoloDTO = new RankedSoloDTO();
+        RankedFlexDTO rankedFlexDTO = new RankedFlexDTO();
+
+        if(summonerService.selectRankedSoloData(summonerDTO.getId()) != null){
+            rankedSoloDTO = summonerService.selectRankedSoloData(summonerDTO.getId());
+            model.addAttribute("ranked_solo", rankedSoloDTO);
+        }
+//        if(summonerService.selectRankedFlexData(summonerDTO.getId()) != null){
+//            rankedFlexDTO = summonerService.selectRankedFlexData(summonerDTO.getId());
+//        }
+
+        return "mypage_ranked";
     }
 
     @GetMapping("/matchHistory.do")
