@@ -58,6 +58,35 @@
                 })
             })
         }
+
+        function updateSummonerData(){
+            $(function(){
+                var updateSummoner = "updateSummonerData";
+                $.ajax({
+                    type:'get',
+                    url:'${pageContext.request.contextPath}/updateSummonerData.do?target='+updateSummoner,
+                    data:'',
+                    dataType:'',
+                    success:function(data){
+                        $("body").html(data);
+                    }
+                })
+            })
+        }
+        function callSummonerData(){
+            $(function(){
+                $.ajax({
+                    type:'get',
+                    url:'${pageContext.request.contextPath}/printSummonerData_mypage.do',
+                    data:'',
+                    dataType:'',
+                    success:function(data){
+                        $("#printSummonerData_mypage").html(data);
+                    }
+                })
+            })
+        }
+        
     </script>
     <style>
         aside{
@@ -99,13 +128,18 @@
                 <input type="button" name="registerSummoner" id="registerSummoner" value="등록하기" onclick="summonerRegister()">
             </c:if>
             <c:if test = "${sessionScope.member.summoner_name != null}">
+                <hr>
                 <p>소환사 명 : ${sessionScope.member.summoner_name} <input type="button" value="변경하기" name="updateSummonerName" id="updateSummonerName"
-                    onclick="summonerNameUpdate()"> </p>
-                <p><input type="button" value="최근 전적" name="matchHistory" id="matchHistory" onclick="callMatchHistory()"></p>
+                    onclick="summonerNameUpdate()"></p>
+                    <script>callSummonerData()</script>
+                    <div id="printSummonerData_mypage"></div>
+                <p> <input type="button" value="최근 전적" name="matchHistory" id="matchHistory" onclick="callMatchHistory()">
+                    <input type="button" value="정보 갱신" name="summonerData" id="summonerData" onclick="updateSummonerData()">
+                </p>
+                
                 <hr>
                 <div id="printMatchHistory"></div>
             </c:if>
-
         </form>
     </article>
 </body>

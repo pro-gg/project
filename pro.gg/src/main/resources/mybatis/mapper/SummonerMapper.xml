@@ -23,4 +23,41 @@
     <select id="dropTable" parameterType="String">
         ${sql}
     </select>
+
+    <select id="insertRankedSoloData">
+        insert into ranked_solo(id, queueType, tier, tier_rank, leaguePoints, wins, losses, rate)
+            values(#{id}, #{queueType}, #{tier}, #{tier_rank}, #{leaguePoints}, #{wins}, #{losses}, #{rate})
+    </select>
+
+    <select id="insertRankedFlexData">
+        insert into ranked_flex(id, queueType, tier, tier_rank, leaguePoints, wins, losses, rate)
+            values(#{id}, #{queueType}, #{tier}, #{tier_rank}, #{leaguePoints}, #{wins}, #{losses}, #{rate})
+    </select>
+
+    <select id="updateRankedSoloData">
+        update ranked_solo
+        set tier = #{tier},
+            tier_rank = #{tier_rank},
+            leaguePoints = #{leaguePoints},
+            wins = #{wins},
+            losses = #{losses},
+            rate = #{rate}
+        where id = #{id}
+    </select>
+
+    <select id="updateRankedFlexData">
+        update ranked_flex
+        set tier = #{tier},
+        tier_rank = #{tier_rank},
+        leaguePoints = #{leaguePoints},
+        wins = #{wins},
+        losses = #{losses},
+        rate = #{rate}
+        where id = #{id}
+    </select>
+
+    <select id="selectRankedSoloData" resultType="Project.pro.gg.Model.RankedSoloDTO">
+        select * from ranked_solo
+        where id = #{id}
+    </select>
 </mapper>

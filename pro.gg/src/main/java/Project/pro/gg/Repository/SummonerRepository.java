@@ -2,6 +2,8 @@ package Project.pro.gg.Repository;
 
 import Project.pro.gg.DAO.SummonerDAO;
 import Project.pro.gg.Model.MemberDTO;
+import Project.pro.gg.Model.RankedFlexDTO;
+import Project.pro.gg.Model.RankedSoloDTO;
 import Project.pro.gg.Model.SummonerDTO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,5 +39,30 @@ public class SummonerRepository implements SummonerDAO {
                 "            spellList JSON not null\n" +
                 "        )";
         sqlSession.update("summoner.createTable", sql);
+    }
+
+    @Override
+    public void insertRankedSoloData(RankedSoloDTO rankedSoloDTO) {
+        sqlSession.insert("summoner.insertRankedSoloData", rankedSoloDTO);
+    }
+
+    @Override
+    public void insertRankedFlexData(RankedFlexDTO rankedFlexDTO) {
+        sqlSession.insert("summoner.insertRankedFlexData", rankedFlexDTO);
+    }
+
+    @Override
+    public void updateRankedSoloData(RankedSoloDTO rankedSoloDTO) {
+        sqlSession.update("summoner.updateRankedSoloData", rankedSoloDTO);
+    }
+
+    @Override
+    public void updateRankedFlexData(RankedFlexDTO rankedFlexDTO) {
+        sqlSession.update("summoner.updateRankedFlexData", rankedFlexDTO);
+    }
+
+    @Override
+    public RankedSoloDTO selectRankedSoloData(String id) {
+        return sqlSession.selectOne("summoner.selectRankedSoloData", id);
     }
 }
