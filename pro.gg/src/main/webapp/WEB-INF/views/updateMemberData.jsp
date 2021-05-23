@@ -24,14 +24,7 @@
 
     </script>
     <style>
-        aside{
-            height: 920px;
-            width: 300px;
-            float: left;
-            line-height: 30px;
-            background-color: aqua;
-        }
-        article, form{
+        form{
             position:absolute;
             width: 920px; height: 50px;
             left: 0; right: 0;

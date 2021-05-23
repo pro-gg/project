@@ -50,6 +50,11 @@ public class PageController {
     public String myPage(){
         return "mypage";
     }
+    
+    @GetMapping("/move/teammatch.do")
+    public String teammatch() {
+    	return "teammatch";
+    }
 
     @GetMapping("/move/findId.do")
     public String findId(){

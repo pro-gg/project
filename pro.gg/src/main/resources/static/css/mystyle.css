@@ -1,0 +1,246 @@
+@charset "UTF-8";
+
+*a{
+	cursor: pointer;
+	transition: all 0.3s 0s;
+}
+
+h3{
+	color: #fed159;
+}
+
+.text-center{
+	text-align: center;
+}
+
+.text-right{
+	text-align: right;
+}
+
+.wrapper:before {
+	content: " ";
+	display: table;
+}
+
+.wrapper:after {
+	content: " ";
+	clear: both;
+}
+
+.main-header-top {
+	position: fixed;
+	width: 100%;
+	top: 0;
+	right: 0;
+	left: 0;
+	max-height: 50px;
+	z-index: 1030;
+	background-color: #323232;
+}
+
+.main-header-top > .navbar {
+	margin-bottom: 0;
+	margin-left: 230px;
+	border: none;
+	max-height: 50px;
+	border-radius: 0;
+	padding: 0;
+	background-color: #323232;
+}
+
+.navbar {
+	position: relative;
+}
+
+.main-sidebar {
+	position: fixed;
+	top: 0;
+	left: 0;
+	background: #323232;
+
+	padding-top: 50px;
+	min-height: 100vh;
+	width: 230px;
+	z-index: 810;
+	box-shadow: 1px 3px 7px rgb(0 0 0 / 30%);
+	transition: transform 0.3s ease-in-out, width 0.3s ease-in-out;
+}
+
+.main-header-top .logo {
+	display: block;
+	width: 230px;
+	height: 50px;
+	font-size: 15px;
+	font-weight: 400;
+	line-height: 50px;
+	text-align: center;
+	padding: 0 15px;
+	float: left;
+	overflow: hidden;
+	color: #323232;
+	border-bottom: 0 solid transparent;
+}
+
+.main-header-top .top-nav {
+	list-style: none;
+	padding-left: 0;
+	display: inline-block;
+	float: right;
+	margin: 0 10px 0 0;
+}
+
+#imgPerson{
+	margin-top: 10px;
+	padding-top: 2px;
+	padding-left: 2px;
+	padding-right: 2px;
+	background-color:#505050;
+	border-radius:90px;
+	width:30px;
+	height:30px;
+}
+
+.fixed .content-wrapper {
+	margin-top: 50px;
+}
+
+.content-wrapper {
+	height: 100%;
+	margin-top: 50px;
+	background-color: #6e6e6e;
+	margin-left: 230px;
+	z-index: 820;
+	transition: all 0.3s ease-in-out;
+}
+
+
+
+.card-header {
+	padding: 20px;
+	background-color: transparent;
+	color: #757575;
+	border-bottom: none;
+}
+
+.container-fluid {
+	margin-left: auto;
+	margin-right: auto;
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+.login {
+	width:100%;
+	display: flex;
+	align-items: center;
+	text-align: left;
+}
+
+.login h3 {
+	color: #000000;
+	font-size: 20px;
+	margin-left: 25px;
+	margin-right: 25px;
+	margin-bottom: 10px;
+}
+
+.login img {
+	padding-left: 65px;
+}
+
+.login-card {
+	padding: 30px 20px;
+	width: 500px;
+	position: relative;
+	display: block;
+	background-color: #fff;
+	box-shadow: 0 6px 10px 0 rgb(0 0 0 / 14%),
+	0 1px 18px 0 rgb(0 0 0 / 12%),
+	0 3px 5px -1px rgb(0 0 0 / 30%);
+}
+
+.login-card img {
+	padding-left: 65px;
+}
+
+.login-card .md-input-wrapper{
+	margin-bottom: 20px;
+}
+
+.login-card .id-pw-find{
+	margin-left: 250px;
+	margin-bottom: 10px;
+}
+
+.md-input-wrapper{
+	position: relative;
+	padding-top: 4px;
+	width: 100%;
+	display: block;
+	margin-bottom: 20px;
+}
+
+.md-input-wrapper .md-line {
+	display: block;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+}
+
+.md-input-wrapper select, .md-input-wrapper textarea, input[type=text].md-form-control, input[type=password].md-form-control{
+	border-radius: 0;
+	border-width: 0 0 1px;
+	border-style: solid;
+	border-color: rgba(0, 0, 0, 0.12);
+	-webket-box-shadow: inset 0 -1px 0 transparent;
+	box-shadow: inset 0 -1px 0 transparent;
+	box-sizing: border-box;
+	padding: 12px 4px;
+	background: 0 0;
+	width: 100%;
+	display: block;
+	max-height: 100px;
+}
+
+.md-input-wrapper > label {
+	text-transform: initial;
+	color: #727272;
+	position: absolute;
+	top: 16px;
+	left: 4px;
+	right: 0;
+	pointer-events: none;
+	-webkit-transition: all 150ms ease-out;
+	transition: all 150ms ease-out;
+}
+
+.md-input-wrapper .md-line {
+	display: block;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+}
+
+.md-form-control:focus ~ .md-line:before, .md-input-wrapper .md-line:after, .md-input-wrapper .md-line:before{
+	content: '';
+	display: block;
+	position: absolute;
+	bottom: 0;
+	width: 0;
+	height: 2px;
+	background: #1976d2;
+	-webkit-transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+	transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-block {
+	padding: 15px;
+}
+
+.card-block::after {
+	content: "";
+	display: table;
+	clear: both;
+}
