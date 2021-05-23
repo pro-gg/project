@@ -7,6 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title></title>
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/mystyle.css"/>
     <script src="/webjars/jquery/3.6.0/jquery.min.js"></script>
     <script>
         function moveAdmin(){
@@ -36,9 +38,23 @@
     </style>
 </head>
 <body>
-    <header>
-        <h1>Pro.gg</h1>
-        <a href="#" id="admin" onclick="moveAdmin()">관리자 페이지 이동</a>
+    <header class="main-header-top hidden-print">
+        <a href="${pageContext.request.contextPath}/" class="logo">
+        	<img class="img-fluid able-logo" src="/images/progg.png" alt="logo"/>
+        </a>
+        <nav class="navbar navbar-static-top">
+        	<a href="#!" data-toggle="offcanvas" class="sidebar-toggle">
+        	</a>
+        	<div class="navbar-custom-menu">
+        		<ul class="top-nav">
+        			<li>
+        				<a href="#" id="admin" onclick="moveAdmin()">
+       						<img src="/images/person.png" id="imgPerson" alt="관리자 페이지 이동">
+       					</a>
+        			</li>
+        		</ul>
+        	</div>
+        </nav>
     </header>
 </body>
 </html>

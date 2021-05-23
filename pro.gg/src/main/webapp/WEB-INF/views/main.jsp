@@ -9,23 +9,6 @@
 <script src="/js/semantic_aside.js" charset="utf-8"></script>
 <script src="/js/semantic_article.js" charset="utf-8"></script>
 <script src="/js/semantic_header.js" charset="utf-8"></script>
-<style>
-    aside{
-        height: 920px;
-        width: 300px;
-        float: left;
-        line-height: 30px;
-        background-color: aqua;
-    }
-    article{
-        position:absolute;
-        width: 920px; height: 50px;
-        left: 0; right: 0;
-        margin-left: 300px; margin-right:auto;
-        top: 0; bottom: 0;
-        margin-top: 100px; margin-bottom: auto;
-    }
-</style>
 </head>
 <body>
     <header></header>

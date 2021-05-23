@@ -7,6 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title></title>
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/mystyle.css"/>
     <script src="/webjars/jquery/3.6.0/jquery.min.js"></script>
     <script>
         function myPage(){
@@ -48,29 +50,35 @@
     </script>
 </head>
 <body>
-    <aside>
-        <ul>
-            <li>
-                <h3>INFO</h3>
-                <c:if test = "${sessionScope.member == null}">
-                    <input type="button" value="LOGIN" name="login" id="login" 
-                    onclick="location.href='${pageContext.request.contextPath}/move/login.do'"> <br>
-                    <a href="#" onclick="findId()">아이디 찾기</a> 
-                    <a href="#" onclick="findPasswd()">비밀번호 찾기</a>
-                </c:if>
-                <c:if test = "${sessionScope.member != null}">
-                    <p>${sessionScope.member.nickname}</p>
-                    <p>소환사 명 : ${sessionScope.member.summoner_name}</p>
-                    <script>callSummonerData()</script>
-                    <div id="printSummonerData_aside"></div>
-                    <a href="#" onclick="myPage()">마이페이지</a>
-                    <a href="${pageContext.request.contextPath}/logout.do">로그아웃</a>
-                </c:if>
-            </li>
-            <li></li>
-            <li></li>
-            <li></li>
-        </ul>
+    <aside class="main-sidebar hidden-print" style="height:3252px;">
+    	<div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto;">
+    		<section class="sidebar" id="sidebar-scroll" style="height: 699px; overflow: inherit; width: 100%;">
+    			<ul class="sidebar-menu" style="overflow: inherit;">
+		            <li>
+		                <h3>INFO</h3>
+		                <c:if test = "${sessionScope.member == null}">
+		                    <input type="button" value="LOGIN" name="login" id="login" 
+		                    onclick="location.href='${pageContext.request.contextPath}/move/login.do'"> <br>
+		                    <a href="#" onclick="findId()">아이디 찾기</a> 
+		                    <a href="#" onclick="findPasswd()">비밀번호 찾기</a>
+		                </c:if>
+		                <c:if test = "${sessionScope.member != null}">
+		                    <p>${sessionScope.member.nickname}</p>
+		                    <p>소환사 명 : ${sessionScope.member.summoner_name}</p>
+		                    <script>callSummonerData()</script>
+		                    <div id="printSummonerData_aside"></div>
+		                    <a href="#" onclick="myPage()">마이페이지</a>
+		                    <a href="${pageContext.request.contextPath}/logout.do">로그아웃</a>
+		                </c:if>
+		            </li>
+		            <li>
+		            	<h3><a href="${pageContext.request.contextPath }/move/teammatch.do">팀 매칭</a></h3>
+		            </li>
+		            <li></li>
+		            <li></li>
+		        </ul>
+    		</section>
+    	</div>
     </aside>
 </body>
 </html>

@@ -187,5 +187,11 @@ public class MemberController {
 
         return "../popup/updateMemberPasswd_popup";
     }
+    
+    //팀 정보 불러오기
+    @GetMapping("/teamdetail.do")
+    public String teamDetail() {
+    	return "teamDetail";
+    }
 
 }
