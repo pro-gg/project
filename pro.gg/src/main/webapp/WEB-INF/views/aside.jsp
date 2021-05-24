@@ -48,6 +48,12 @@
             window.open("${pageContext.request.contextPath}/move/findPasswd.do", "findId", "width=550, height=450, left=100, top=50");
         }
     </script>
+
+    <style>
+        #nickname_aside, #summoner_name, #printSummonerData_aside{
+            color: white;
+        }
+    </style>
 </head>
 <body>
     <aside class="main-sidebar hidden-print" style="height:3252px;">
@@ -63,8 +69,8 @@
 		                    <a href="#" onclick="findPasswd()">비밀번호 찾기</a>
 		                </c:if>
 		                <c:if test = "${sessionScope.member != null}">
-		                    <p>${sessionScope.member.nickname}</p>
-		                    <p>소환사 명 : ${sessionScope.member.summoner_name}</p>
+		                    <p id="nickname_aside">닉네임 : ${sessionScope.member.nickname}</p>
+		                    <p id="summoner_name">소환사 명 : ${sessionScope.member.summoner_name}</p>
 		                    <script>callSummonerData()</script>
 		                    <div id="printSummonerData_aside"></div>
 		                    <a href="#" onclick="myPage()">마이페이지</a>

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -192,6 +193,23 @@ public class MemberController {
     @GetMapping("/teamdetail.do")
     public String teamDetail() {
     	return "teamDetail";
+    }
+
+    @PostMapping("/updateMemberData.do")
+    public String updateMemberData(@RequestParam("updateMember") String updateMember){
+        try {
+            JSONObject jsonObject = new JSONObject(updateMember);
+            MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
+
+            memberDTO.setName((String) jsonObject.getString("name"));
+            memberDTO.setNickname((String) jsonObject.getString("nickname"));
+            memberDTO.setEmail((String) jsonObject.getString("email"));
+
+            memberService.updateMemberData(memberDTO);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "mypage";
     }
 
 }

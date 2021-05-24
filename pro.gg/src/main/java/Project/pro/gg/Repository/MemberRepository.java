@@ -48,4 +48,9 @@ public class MemberRepository implements MemberDAO {
     public void updatePasswd(MemberDTO memberDTO) {
         sqlSession.update("member.updatePasswd", memberDTO);
     }
+
+    @Override
+    public void updateMemberData(MemberDTO memberDTO) {
+        sqlSession.update("member.updateMemberData", memberDTO);
+    }
 }

@@ -60,4 +60,9 @@
         select * from ranked_solo
         where id = #{id}
     </select>
+
+    <select id="selectRankedFlexData" resultType="Project.pro.gg.Model.RankedFlexDTO">
+        select * from ranked_flex
+        where id = #{id}
+    </select>
 </mapper>

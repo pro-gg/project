@@ -12,19 +12,54 @@
     <script src="/js/semantic_header.js" charset="utf-8"></script>
     <script>
         $(function(){
-            if(document.getElementById('nickname').value !== '' && document.getElementById("name").value !== '' && document.getElementById("email").value !== ''){
+            if(document.getElementById('nickname_update').value !== '' && document.getElementById("nam_update").value !== '' && document.getElementById("email_update").value !== ''){
                 var btn = document.getElementById('btn');
                 btn.disabled=false;
             }
         })
 
+        function check_email(){
+        	var emailPattern = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+        	var email = document.getElementById('email_update').value;
+        	
+        	if(email==''){
+        		$('#input_email').text("이메일을 입력해주세요");
+				$('#input_email').css("color","red");
+				$('#btn').attr('disabled',true);
+        	}else{
+        		if(emailPattern.test(email)==true){
+        			$('#input_email').text("");
+        			$('#btn').attr('disabled',false);
+        		}else{
+        			$('#input_email').text("잘못된 형식입니다.");
+        			$('#input_email').css("color","red");
+        			$('#btn').attr('disabled',true);
+        		}
+        	}
+        }
+
         function updateMemberData(){
-            
+            var updateMember = {
+                'nickname':document.getElementById('nickname_update').value,
+                'name':document.getElementById('name_update').value,
+                'email':document.getElementById('email_update').value
+            }
+
+            $.ajax({
+                type:'post',
+                url:'${pageContext.request.contextPath}/updateMemberData.do?updateMember='+encodeURI(JSON.stringify(updateMember)),
+                data:'',
+                dataType:'',
+                success:function(data){
+                    $("body").html(data)
+                }
+
+            })
         }
 
     </script>
     <style>
-        form{
+        article,form{
             position:absolute;
             width: 920px; height: 50px;
             left: 0; right: 0;
@@ -39,9 +74,10 @@
     <aside></aside>
     <article>
         <form action="">
-            <p>닉네임 : <input type="text" name="nickname" id="nickname"></p>
-            <p>이름 : <input type="text" name="name" id="name"></p>
-            <p>이메일 : <input type="email" name="email" id="email"></p>
+            <h3>회원 정보 수정</h3>
+            <p>닉네임 : <input type="text" name="nickname" id="nickname_update"></p>
+            <p>이름 : <input type="text" name="name" id="name_update"></p>
+            <p>이메일 : <input type="email" name="email" id="email_update" onchange="check_email()"></p>
             <p><input type="button" id="btn" value="수정하기" onclick="updateMemberData()" disabled="disabled"></p>
         </form>
     </article>

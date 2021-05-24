@@ -49,4 +49,9 @@ public class SummonerServiceImpl implements SummonerService{
     public RankedSoloDTO selectRankedSoloData(String id) {
         return summonerRepository.selectRankedSoloData(id);
     }
+
+    @Override
+    public RankedFlexDTO selectRankedFlexData(String id) {
+        return summonerRepository.selectRankedFlexData(id);
+    }
 }

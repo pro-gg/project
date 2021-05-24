@@ -33,7 +33,7 @@ public class SummonerController {
     @Autowired
     MatchDataServiceImpl matchDataService;
 
-    String developKey = "RGAPI-f250173a-6511-4c84-80cc-ea9a34a0e1c5";
+    String developKey = "RGAPI-fedd19e4-412b-445d-bd54-b9cc5ca7d3a3";
     String apiURL = "";
     URL riotURL = null;
     HttpURLConnection urlConnection = null;
@@ -186,16 +186,17 @@ public class SummonerController {
                         rankedSoloDTO.setRate(rate);
 
                         summonerService.insertRankedSoloData(rankedSoloDTO);
-                    }else if (queueType.equals("RANKED_FLEX_SR")){
+                    }
+                    if (queueType.equals("RANKED_FLEX_SR")){
                         json_RankedFlex = jsonObject;
 
-                        rankedFlexDTO.setId(json_RankedSolo.getString("summonerId"));
-                        rankedFlexDTO.setQueueType(json_RankedSolo.getString("queueType"));
-                        rankedFlexDTO.setTier(json_RankedSolo.getString("tier"));
-                        rankedFlexDTO.setTier_rank(json_RankedSolo.getString("rank"));
-                        rankedFlexDTO.setLeaguePoints(json_RankedSolo.getInt("leaguePoints"));
-                        rankedFlexDTO.setWins(json_RankedSolo.getInt("wins"));
-                        rankedFlexDTO.setLosses(json_RankedSolo.getInt("losses"));
+                        rankedFlexDTO.setId(json_RankedFlex.getString("summonerId"));
+                        rankedFlexDTO.setQueueType(json_RankedFlex.getString("queueType"));
+                        rankedFlexDTO.setTier(json_RankedFlex.getString("tier"));
+                        rankedFlexDTO.setTier_rank(json_RankedFlex.getString("rank"));
+                        rankedFlexDTO.setLeaguePoints(json_RankedFlex.getInt("leaguePoints"));
+                        rankedFlexDTO.setWins(json_RankedFlex.getInt("wins"));
+                        rankedFlexDTO.setLosses(json_RankedFlex.getInt("losses"));
 
                         total = rankedFlexDTO.getWins() + rankedFlexDTO.getLosses();
                         rate = (double)Math.round((double) rankedFlexDTO.getWins()/(double) total*1000)/10;
@@ -235,23 +236,24 @@ public class SummonerController {
                         rate = (double)Math.round((double) rankedSoloDTO.getWins()/(double) total*1000)/10;
                         rankedSoloDTO.setRate(rate);
 
-                        summonerService.insertRankedSoloData(rankedSoloDTO);
-                    }else if (queueType.equals("RANKED_FLEX_SR")){
+                        summonerService.updateRankedSoloData(rankedSoloDTO);
+                    }
+                    if (queueType.equals("RANKED_FLEX_SR")){
                         json_RankedFlex = jsonObject;
 
-                        rankedFlexDTO.setId(json_RankedSolo.getString("summonerId"));
-                        rankedFlexDTO.setQueueType(json_RankedSolo.getString("queueType"));
-                        rankedFlexDTO.setTier(json_RankedSolo.getString("tier"));
-                        rankedFlexDTO.setTier_rank(json_RankedSolo.getString("rank"));
-                        rankedFlexDTO.setLeaguePoints(json_RankedSolo.getInt("leaguePoints"));
-                        rankedFlexDTO.setWins(json_RankedSolo.getInt("wins"));
-                        rankedFlexDTO.setLosses(json_RankedSolo.getInt("losses"));
+                        rankedFlexDTO.setId(json_RankedFlex.getString("summonerId"));
+                        rankedFlexDTO.setQueueType(json_RankedFlex.getString("queueType"));
+                        rankedFlexDTO.setTier(json_RankedFlex.getString("tier"));
+                        rankedFlexDTO.setTier_rank(json_RankedFlex.getString("rank"));
+                        rankedFlexDTO.setLeaguePoints(json_RankedFlex.getInt("leaguePoints"));
+                        rankedFlexDTO.setWins(json_RankedFlex.getInt("wins"));
+                        rankedFlexDTO.setLosses(json_RankedFlex.getInt("losses"));
 
                         total = rankedFlexDTO.getWins() + rankedFlexDTO.getLosses();
                         rate = (double)Math.round((double) rankedFlexDTO.getWins()/(double) total*1000)/10;
                         rankedFlexDTO.setRate(rate);
 
-                        summonerService.insertRankedFlexData(rankedFlexDTO);
+                        summonerService.updateRankedFlexData(rankedFlexDTO);
                     }
                 }
             }catch (Exception e){
@@ -274,13 +276,14 @@ public class SummonerController {
         RankedSoloDTO rankedSoloDTO = new RankedSoloDTO();
         RankedFlexDTO rankedFlexDTO = new RankedFlexDTO();
 
-        if(summonerService.selectRankedSoloData(summonerDTO.getId()) != null){
-            rankedSoloDTO = summonerService.selectRankedSoloData(summonerDTO.getId());
+        rankedSoloDTO = summonerService.selectRankedSoloData(summonerDTO.getId());
+        if(rankedSoloDTO != null){
             model.addAttribute("ranked_solo", rankedSoloDTO);
         }
-//        if(summonerService.selectRankedFlexData(summonerDTO.getId()) != null){
-//            rankedFlexDTO = summonerService.selectRankedFlexData(summonerDTO.getId());
-//        }
+        rankedFlexDTO = summonerService.selectRankedFlexData(summonerDTO.getId());
+        if(rankedFlexDTO != null){
+            model.addAttribute("ranked_flex", rankedFlexDTO);
+        }
 
         return "aside_ranked";
     }
@@ -298,13 +301,14 @@ public class SummonerController {
         RankedSoloDTO rankedSoloDTO = new RankedSoloDTO();
         RankedFlexDTO rankedFlexDTO = new RankedFlexDTO();
 
-        if(summonerService.selectRankedSoloData(summonerDTO.getId()) != null){
-            rankedSoloDTO = summonerService.selectRankedSoloData(summonerDTO.getId());
+        rankedSoloDTO = summonerService.selectRankedSoloData(summonerDTO.getId());
+        if(rankedSoloDTO != null){
             model.addAttribute("ranked_solo", rankedSoloDTO);
         }
-//        if(summonerService.selectRankedFlexData(summonerDTO.getId()) != null){
-//            rankedFlexDTO = summonerService.selectRankedFlexData(summonerDTO.getId());
-//        }
+        rankedFlexDTO = summonerService.selectRankedFlexData(summonerDTO.getId());
+        if(rankedFlexDTO != null){
+            model.addAttribute("ranked_flex", rankedFlexDTO);
+        }
 
         return "mypage_ranked";
     }

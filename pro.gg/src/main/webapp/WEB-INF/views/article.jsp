@@ -7,10 +7,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title></title>
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/mystyle.css"/>
     <script src="/webjars/jquery/3.6.0/jquery.min.js"></script>
-    <script>
-        
-    </script>
+    <style>
+        article{
+            position:absolute;
+            width: 920px; height: 50px;
+            left: 0; right: 0;
+            margin-left: 300px; margin-right:auto;
+            top: 0; bottom: 0;
+            margin-top: 50px; margin-bottom: auto;
+        }
+    </style>
 </head>
 <body>
     

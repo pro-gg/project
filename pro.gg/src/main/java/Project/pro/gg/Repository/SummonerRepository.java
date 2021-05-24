@@ -65,4 +65,9 @@ public class SummonerRepository implements SummonerDAO {
     public RankedSoloDTO selectRankedSoloData(String id) {
         return sqlSession.selectOne("summoner.selectRankedSoloData", id);
     }
+
+    @Override
+    public RankedFlexDTO selectRankedFlexData(String id) {
+        return sqlSession.selectOne("summoner.selectRankedFlexData", id);
+    }
 }

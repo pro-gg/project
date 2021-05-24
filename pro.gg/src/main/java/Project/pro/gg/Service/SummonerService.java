@@ -21,4 +21,6 @@ public interface SummonerService {
     public void updateRankedFlexData(RankedFlexDTO rankedFlexDTO);
 
     public RankedSoloDTO selectRankedSoloData(String id);
+
+    public RankedFlexDTO selectRankedFlexData(String id);
 }

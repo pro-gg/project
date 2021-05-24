@@ -65,4 +65,9 @@ public class PageController {
     public String findPasswd(){
         return "../popup/findPasswd_popup";
     }
+
+    @GetMapping("/move/updateMember.do")
+    public String updateMember(){
+        return "updateMemberData";
+    }
 }

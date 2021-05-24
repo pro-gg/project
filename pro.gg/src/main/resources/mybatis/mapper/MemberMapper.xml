@@ -38,5 +38,13 @@
         set passwd = #{passwd}
         where userid = #{userid}
     </select>
+
+    <select id="updateMemberData">
+        update member
+        set name = #{name},
+        nickname = #{nickname},
+        email = #{email}
+        where userid = #{userid}
+    </select>
     
 </mapper>

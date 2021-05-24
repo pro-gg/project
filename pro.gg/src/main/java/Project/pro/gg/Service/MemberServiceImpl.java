@@ -53,4 +53,9 @@ public class MemberServiceImpl implements MemberService{
     public void updatePasswd(MemberDTO memberDTO) {
         memberRepository.updatePasswd(memberDTO);
     }
+
+    @Override
+    public void updateMemberData(MemberDTO memberDTO) {
+        memberRepository.updateMemberData(memberDTO);
+    }
 }

@@ -17,4 +17,6 @@ public interface MemberService  {
     public MemberDTO findPasswd(MemberDTO memberDTO);
 
     public void updatePasswd(MemberDTO memberDTO);
+
+    public void updateMemberData(MemberDTO memberDTO);
 }
