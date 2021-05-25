@@ -33,7 +33,7 @@
     
 </script>
 <style>
-    form{
+    article, form{
         position:absolute;
         width: 920px; height: 50px;
         left: 0; right: 0;

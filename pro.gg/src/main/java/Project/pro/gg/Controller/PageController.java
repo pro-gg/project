@@ -70,4 +70,9 @@ public class PageController {
     public String updateMember(){
         return "updateMemberData";
     }
+
+    @GetMapping("/move/teamCreate.do")
+    public String teamCreate(){
+        return "teamcreate";
+    }
 }
