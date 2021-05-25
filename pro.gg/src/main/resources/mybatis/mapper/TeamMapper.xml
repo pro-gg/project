@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="team">
+
+    <select id="selectTeamName" resultType="Project.pro.gg.Model.TeamDTO">
+        select *
+        from team
+        where teamName = #{teamName}
+    </select>
+
+    <select id="selectTeamList" resultType="Map">
+        select * from team
+    </select>
+
+    <select id="insertTeamData">
+        insert into team(teamName, week_input, startTime, endTime, tier_limit, team_description, captinName)
+        values(#{teamName}, #{week_input}, #{startTime}, #{endTime}, #{tier_limit}, #{team_description}, #{captinName})
+    </select>
+</mapper>

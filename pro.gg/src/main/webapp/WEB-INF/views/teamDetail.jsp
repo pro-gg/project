@@ -20,8 +20,8 @@
 		    	<div class="col-sm-12">
 			    	<div class="card">
 			    		<div class="card-header">
-			    			<h5 class="card-header-text">progg</h5>
-			    			<p>progg팀입니다.</p>
+			    			<h5 class="card-header-text">${team.teamName}</h5>
+			    			<p>${team.team_description}</p>
 			    		</div>
 			    		<div class="card-block">
 			    			<div class="row">
