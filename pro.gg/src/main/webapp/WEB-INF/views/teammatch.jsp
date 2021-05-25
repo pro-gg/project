@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,6 +12,20 @@
 <script src="/js/semantic_aside.js" charset="utf-8"></script>
 <script src="/js/semantic_header.js" charset="utf-8"></script>
 <script>
+	function callTeamList(){
+		$(function(){
+			$.ajax({
+				type:'get',
+				url:'${pageContext.request.contextPath}/teamList.do',
+				data:'',
+				dataType:'',
+				success:function(data){
+					$("#printTeamList").html(data);
+				}
+			})
+		})
+	}
+	
 	function TeamCreate(){
 		var member = "${sessionScope.member}";
 		if(member.length === 0){
@@ -29,7 +44,6 @@
 				})
 			})
 		}
-		
 	}
 </script>
 <style>
@@ -61,13 +75,10 @@
 			    								<th>팀장</th>
 			    							</tr>
 			    						</thead>
-			    						<tbody>
-			    							<tr>
-			    								<td>1</td>
-			    								<td><a href="${pageContext.request.contextPath}/teamdetail.do">progg</a></td>
-			    								<td>승진</td>
-			    							</tr>
-			    						</tbody>
+										<c:if test="${sessionScope.member != null || sessionScope.member == null}">
+											<script>callTeamList()</script>
+										</c:if>
+										<tbody id="printTeamList"></tbody>
 			    					</table>
 			    				</div>
 			    			</div>

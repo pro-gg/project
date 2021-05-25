@@ -33,7 +33,7 @@ public class SummonerController {
     @Autowired
     MatchDataServiceImpl matchDataService;
 
-    String developKey = "RGAPI-7e8623dd-fe75-4e47-9bec-90e22dc97c5f";
+    String developKey = "RGAPI-6ab44284-9907-4d55-b65d-55fc4861eb58";
     String apiURL = "";
     URL riotURL = null;
     HttpURLConnection urlConnection = null;

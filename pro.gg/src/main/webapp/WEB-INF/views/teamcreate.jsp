@@ -12,7 +12,32 @@
     <script src="/js/semantic_header.js" charset="utf-8"></script>
     <script>
         function team_create(){
-            
+            var week_input = document.getElementById('week_input');
+            var tier_limit = document.getElementById('tier_limit');
+            var captinName = "${sessionScope.member.nickname}";
+
+            var teamData = {
+                'teamName':document.getElementById('teamName').value,
+                'week_input':week_input.options[week_input.selectedIndex].text,
+                'startTime':document.getElementById('startTime').value,
+                'endTime':document.getElementById('endTime').value,
+                'tier_limit':tier_limit.options[tier_limit.selectedIndex].text,
+                'team_description' : document.getElementById('team_description').value,
+
+                'captinName' : captinName
+            }
+
+            $(function(){
+                $.ajax({
+                    type:'get',
+                    url:'${pageContext.request.contextPath}/createTeam.do?teamData='+encodeURI(JSON.stringify(teamData)),
+                    data:'',
+                    dataType:'',
+                    success:function(data){
+                        $("body").html(data);
+                    }
+                })
+            })
         }
     </script>
     <style>
@@ -33,11 +58,11 @@
         <h3>팀 생성</h3>
         <form action="">
             <label for="teamName">팀 이름</label>
-            <p><input type="text" id="teamName" name="teamName"></p>
+            <p><input type="text" id="teamName" name="teamName" maxlength="12"></p>
         
             <label for="playtime">플레이 가능 시간</label>
             <p>
-                <select>
+                <select name="week_input" id="week_input">
                     <option value="weekend">주말</option>
                     <option value="weekday">평일</option>
                 </select>
@@ -46,7 +71,7 @@
 
             <label for="tier_limit"> 티어 제한</label>
             <p>
-                <select>
+                <select name="tier_limit" id="tier_limit">
                     <option value="iron">IRON</option>
                     <option value="bronze">BRONZE</option>
                     <option value="silver">SILVER</option>
