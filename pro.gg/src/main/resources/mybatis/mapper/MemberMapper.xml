@@ -11,6 +11,11 @@
         select * from member
             where userid = #{userid}
     </select>
+    <select id="summonerName">
+        update member
+        set summoner_name = #{summoner_name}
+        where userid = #{userid}
+    </select>
 
     <select id="deleteSummonerName">
         update member
@@ -44,17 +49,5 @@
 
     <select id="deleteMember">
         delete from member where userid = #{userid}
-    </select>
-
-    <select id="updateTeamName">
-        update member
-        set teamName = #{teamName}
-        where userid = #{userid}
-    </select>
-
-    <select id="selectInnerJoinsummoner_name"  parameterType="String" resultType="String">
-        select summoner.summoner_name from summoner
-        inner join member on summoner.userid = member.userid
-        where summoner.userid = #{userid}
     </select>
 </mapper>

@@ -62,9 +62,4 @@ public class MemberServiceImpl implements MemberService{
     public void deleteMember(MemberDTO memberDTO) {
         memberRepository.deleteMember(memberDTO);
     }
-
-    @Override
-    public String selectInnerJoinsummoner_name(String userid) {
-        return memberRepository.selectInnerJoinsummoner_name(userid);
-    }
 }

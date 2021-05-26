@@ -18,7 +18,7 @@
                         'userid' : '${sessionScope.member.userid}'
                     }
 
-                    if("${change}" === "change"){     
+                    if("${change}" != null){     
                         $.ajax({
                             type:'post',
                             url:'${pageContext.request.contextPath}/findPasswdSuccess.do?userid='+encodeURI(JSON.stringify(userid)),
@@ -28,7 +28,7 @@
                                 $("body").html(data);
                             }
                         })
-                    } else if("${secession}" === "secession"){
+                    } else if("${secession}" != null){
                         $.ajax({
                             type:'post',
                             url:'${pageContext.request.contextPath}/memberSecession.do',
@@ -36,8 +36,8 @@
                             dataType:'',
                             success:function(data){
                                 alert("정상적으로 탈퇴 되었습니다.");
-                                opener.location.href='${pageContext.request.contextPath}/';
                                 window.close();
+                                location.href='${pageContext.request.contextPath}/';
                             }
                         })
                     }

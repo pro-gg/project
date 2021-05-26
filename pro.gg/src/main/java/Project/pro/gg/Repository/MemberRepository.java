@@ -56,15 +56,5 @@ public class MemberRepository implements MemberDAO {
     @Override
     public void deleteMember(MemberDTO memberDTO) {
         sqlSession.delete("member.deleteMember", memberDTO);
-
-        String sql = "drop table if exists " + memberDTO.getUserid();
-        sqlSession.delete("summoner.dropTable", sql);
-
-    }
-
-    @Override
-    public String selectInnerJoinsummoner_name(String userid) {
-        return sqlSession.selectOne("member.selectInnerJoinsummoner_name", userid);
-
     }
 }
