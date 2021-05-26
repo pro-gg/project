@@ -80,8 +80,12 @@ public class PageController {
 
     @GetMapping("/move/currentPasswd_popup.do")
     public String confirmCurrentPasswd(@RequestParam("target") String target, Model model){
-        if (target.equals("secession")) model.addAttribute("secession", target);
-        else if(target.equals("change")) model.addAttribute("change", target);
+        if (target.equals("secession")) {
+            model.addAttribute("secession", target);
+        }
+        else if(target.equals("change")) {
+            model.addAttribute("change", target);
+        }
         return "../popup/currentPasswd_popup";
     }
 }
