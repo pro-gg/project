@@ -142,25 +142,25 @@ public class MemberController {
 
             memberDTO = memberService.findPasswd(memberDTO);
             if (memberDTO != null){
-                model.addAttribute("memberPasswd", memberDTO);
+                model.addAttribute("memberDTO", memberDTO);
             }
         }catch (Exception e){
-            model.addAttribute("memberPasswd", null);
+            model.addAttribute("memberDTO", null);
         }
 
         return "../valid/findPasswdValid";
     }
 
     @PostMapping("/findPasswdSuccess.do")
-    public String findPasswdSuccess(@RequestParam("memberPasswd") String memberPasswd, Model model){
+    public String findPasswdSuccess(@RequestParam("userid") String userid, Model model){
         MemberDTO memberDTO = new MemberDTO();
         try {
-            JSONObject jsonObject = new JSONObject(memberPasswd);
+            JSONObject jsonObject = new JSONObject(userid);
             memberDTO.setUserid((String) jsonObject.get("memberPasswd"));
         }catch (Exception e){
             e.printStackTrace();
         }
-        model.addAttribute("memberPasswd", memberDTO.getUserid());
+        model.addAttribute("member_userid", memberDTO.getUserid());
         return "../popup/updateMemberPasswd_popup";
     }
 
@@ -197,5 +197,13 @@ public class MemberController {
             e.printStackTrace();
         }
         return "mypage";
+    }
+
+    @PostMapping("/memberSecession.do")
+    public String memberSecession(){
+
+        MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
+        memberService.deleteMember(memberDTO);
+        return "../popup/currentPasswd_popup";
     }
 }

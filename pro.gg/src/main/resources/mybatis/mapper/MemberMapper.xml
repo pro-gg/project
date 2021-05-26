@@ -46,5 +46,8 @@
         email = #{email}
         where userid = #{userid}
     </select>
-    
+
+    <select id="deleteMember">
+        delete from member where userid = #{userid}
+    </select>
 </mapper>
