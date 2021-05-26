@@ -1,7 +1,6 @@
 package Project.pro.gg.Service;
 
 import Project.pro.gg.Model.MemberDTO;
-import Project.pro.gg.Model.SummonerDTO;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,4 +18,6 @@ public interface MemberService  {
     public void updatePasswd(MemberDTO memberDTO);
 
     public void updateMemberData(MemberDTO memberDTO);
+
+    public void deleteMember(MemberDTO memberDTO);
 }

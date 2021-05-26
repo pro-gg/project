@@ -102,6 +102,18 @@
                 }
             })
         }
+
+        function updatePasswd(){
+            if(confirm("비밀번호를 변경 하시겠습니까?") == true){
+                window.open("${pageContext.request.contextPath}/move/currentPasswd_popup.do?target=change", "findId", "width=550, height=450, left=100, top=50");
+            }
+        }
+
+        function secessionMember(){
+            if(confirm("회원 탈퇴 하시겠습니까? 탈퇴시 모든 데이터는 삭제됩니다.") == true){
+                window.open("${pageContext.request.contextPath}/move/currentPasswd_popup.do?target=secession", "findId", "width=550, height=450, left=100, top=50");
+            }
+        }
     </script>
     <style>
         form{
@@ -119,7 +131,7 @@
             border-left: 0px;
             border-right: 0px;
         }
-        #memberUpdate{
+        #memberUpdate, #memberSecession{
             float: right;
         }
     </style>
@@ -130,10 +142,10 @@
     <article>
         <form action="">
             <h1>MyPage</h1>
-            <p>이름 : ${sessionScope.member.name}<a href="#" id="memberUpdate" onclick="updateMember()">회원 정보 수정하기</a></p>
-            <p>닉네임 : ${sessionScope.member.nickname}</p>
+            <p>이름 : ${sessionScope.member.name}<a href="#" id="memberUpdate" onclick="updateMember()">회원 정보 수정하기</a></p> 
+            <p>닉네임 : ${sessionScope.member.nickname}<a href="#" id="memberSecession" onclick="secessionMember()"> 회원 탈퇴</a></p>
             <p>이메일 : ${sessionScope.member.email}</p>
-            <p>비밀번호 : <input type="password" id="passwd_input"value="${sessionScope.member.passwd}" disabled></p>
+            <p>비밀번호 : <input type="password" id="passwd_input"value="${sessionScope.member.passwd}" disabled>&nbsp;<a href="#" id="memberSecession" onclick="secessionMember()"> 회원 탈퇴</a></p>
             <c:if test = "${sessionScope.member.summoner_name == null}">
                 <hr>
                 <p>소환사 명 등록하기 : <input type="text" name="summonerName" id="summonerName" placeholder="소환사 명"></p>

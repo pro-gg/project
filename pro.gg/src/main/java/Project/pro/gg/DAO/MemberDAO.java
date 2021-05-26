@@ -1,7 +1,6 @@
 package Project.pro.gg.DAO;
 
 import Project.pro.gg.Model.MemberDTO;
-import Project.pro.gg.Model.SummonerDTO;
 
 public interface MemberDAO {
 
@@ -16,4 +15,6 @@ public interface MemberDAO {
     public void updatePasswd(MemberDTO memberDTO);
 
     public void updateMemberData(MemberDTO memberDTO);
+
+    public void deleteMember(MemberDTO memberDTO);
 }
