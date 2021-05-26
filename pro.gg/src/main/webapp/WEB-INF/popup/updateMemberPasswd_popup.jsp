@@ -37,7 +37,7 @@
         function updatePasswd(){
             var updatePasswd = {
                 'updatePasswd' : document.getElementById('newPasswd').value,
-                'userid' : '${memberPasswd}'
+                'userid' : '${member_userid}'
             }
             $(function(){
                 $.ajax({
@@ -57,7 +57,7 @@
 <body>
     <article>
         <div>
-            <c:if test="${memberPasswd != null}">
+            <c:if test="${member_userid != null}">
                 <h3>비밀번호 변경</h3>
                 새 비밀번호 입력 : <input type="password" name="newPasswd" id="newPasswd" onchange="check_pw()"> <span id="input_passwd"></span><br>
                 새 비밀번호 입력 확인 : <input type="password" name="newPasswdCheck" id="newPasswdCheck" onchange="check_pw()"> <span id="check"></span><br>

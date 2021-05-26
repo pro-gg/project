@@ -12,13 +12,12 @@
         function findPasswdSuccess(){
             $(function(){
 
-                var memberPasswd = {
-                    'memberPasswd' : '${memberPasswd.userid}'
-
+                var userid = {
+                    'userid' : '${memberDTO.userid}'
                 }
                 $.ajax({
                     type:'post',
-                    url:'${pageContext.request.contextPath}/findPasswdSuccess.do?memberPasswd='+encodeURI(JSON.stringify(memberPasswd)),
+                    url:'${pageContext.request.contextPath}/findPasswdSuccess.do?userid='+encodeURI(JSON.stringify(userid)),
                     data:'',
                     dataType:'',
                     success:function(data){
@@ -46,10 +45,10 @@
     </script>
 </head>
 <body>
-    <c:if test="${memberPasswd != null}">
+    <c:if test="${memberDTO != null}">
         <script>findPasswdSuccess()</script>
     </c:if>
-    <c:if test="${memberPasswd == null}">
+    <c:if test="${memberDTO == null}">
         <script>findPasswdFail()</script>
     </c:if>
 </body>

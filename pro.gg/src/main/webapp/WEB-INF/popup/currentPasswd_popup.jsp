@@ -14,21 +14,34 @@
                 var currentPasswd = document.getElementById("currentPasswd").value;
 
                 if(currentPasswd === "${sessionScope.member.passwd}"){
-
-                    var memberPasswd = {
-                        'memberPasswd' : '${sessionScope.member.userid}'
+                    var userid = {
+                        'userid' : '${sessionScope.member.userid}'
                     }
 
-                    $.ajax({
-                        type:'post',
-                        url:'${pageContext.request.contextPath}/findPasswdSuccess.do?memberPasswd='+encodeURI(JSON.stringify(memberPasswd)),
-                        data:'',
-                        dataType:'',
-                        success:function(data){
-                            $("body").html(data);
-                        }
-                    })
-                }
+                    if("${change}" != null){     
+                        $.ajax({
+                            type:'post',
+                            url:'${pageContext.request.contextPath}/findPasswdSuccess.do?userid='+encodeURI(JSON.stringify(userid)),
+                            data:'',
+                            dataType:'',
+                            success:function(data){
+                                $("body").html(data);
+                            }
+                        })
+                    } else if("${secession}" != null){
+                        $.ajax({
+                            type:'post',
+                            url:'${pageContext.request.contextPath}/memberSecession.do',
+                            data:'',
+                            dataType:'',
+                            success:function(data){
+                                alert("정상적으로 탈퇴 되었습니다.");
+                                window.close();
+                                location.href='${pageContext.request.contextPath}/';
+                            }
+                        })
+                    }
+                }  
                 else{
                     alert("현재 비밀번호가 일치하지 않습니다.")
                 }
@@ -50,6 +63,7 @@
         <div>
             <p>현재 비밀번호 입력 : <input type="password" name="currentPasswd" id="currentPasswd"></p>
             <input type="button" value="확인" onclick="updatePasswd()">
+            
         </div>
     </article>
 </body>

@@ -29,16 +29,20 @@
 			    					<table class="table">
 			    						<thead>
 			    							<tr>
+												<th>포지션</th>
 			    								<th>닉네임</th>
 			    								<th>티어</th>
 			    								<th>승률</th>
+												<th>비고</th>
 			    							</tr>
 			    						</thead>
 			    						<tbody>
 			    							<tr>
-			    								<td>hide on bush</td>
+												<th>탑</th>
+			    								<td></td>
 			    								<td>Diamond I</td>
 			    								<td>56.6%</td>
+												<td></td>
 			    							</tr>
 			    						</tbody>
 			    					</table>

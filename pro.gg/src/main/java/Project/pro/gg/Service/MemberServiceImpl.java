@@ -1,7 +1,6 @@
 package Project.pro.gg.Service;
 
 import Project.pro.gg.Model.MemberDTO;
-import Project.pro.gg.Model.SummonerDTO;
 import Project.pro.gg.Repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -57,5 +56,10 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public void updateMemberData(MemberDTO memberDTO) {
         memberRepository.updateMemberData(memberDTO);
+    }
+
+    @Override
+    public void deleteMember(MemberDTO memberDTO) {
+        memberRepository.deleteMember(memberDTO);
     }
 }

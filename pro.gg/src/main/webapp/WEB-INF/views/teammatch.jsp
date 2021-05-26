@@ -66,20 +66,10 @@
 			    		</div>
 			    		<div class="card-block">
 			    			<div class="row">
-			    				<div class="col-sm-12 table-responsive">
-			    					<table class="table">
-			    						<thead>
-			    							<tr>
-			    								<th>No</th>
-			    								<th>팀이름</th>
-			    								<th>팀장</th>
-			    							</tr>
-			    						</thead>
-										<c:if test="${sessionScope.member != null || sessionScope.member == null}">
-											<script>callTeamList()</script>
-										</c:if>
-										<tbody id="printTeamList"></tbody>
-			    					</table>
+								<c:if test="${sessionScope.member != null || sessionScope.member == null}">
+									<script>callTeamList()</script>
+								</c:if>
+			    				<div class="col-sm-12 table-responsive" id="printTeamList">
 			    				</div>
 			    			</div>
 			    		</div>
@@ -88,7 +78,5 @@
 		    </div>
 	    </div>
     </article>
-    
-    
 </body>
 </html>

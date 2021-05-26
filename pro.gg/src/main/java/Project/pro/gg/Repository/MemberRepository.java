@@ -2,7 +2,6 @@ package Project.pro.gg.Repository;
 
 import Project.pro.gg.DAO.MemberDAO;
 import Project.pro.gg.Model.MemberDTO;
-import Project.pro.gg.Model.SummonerDTO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -52,5 +51,10 @@ public class MemberRepository implements MemberDAO {
     @Override
     public void updateMemberData(MemberDTO memberDTO) {
         sqlSession.update("member.updateMemberData", memberDTO);
+    }
+
+    @Override
+    public void deleteMember(MemberDTO memberDTO) {
+        sqlSession.delete("member.deleteMember", memberDTO);
     }
 }

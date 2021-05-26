@@ -7,13 +7,20 @@ pageEncoding="UTF-8"%>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <script src="/webjars/jquery/3.6.0/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="/css/mystyle.css"/>
-    <script src="/webjars/jquery/3.6.0/jquery.min.js"></script>
-    <title></title>
 </head>
 <body>
     <table class="table">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>팀이름</th>
+                <th>팀장</th>
+            </tr>
+        </thead>
         <tbody>
             <c:forEach var="teamList" items="${teamList}" varStatus="status">
                 <tr>
@@ -23,12 +30,13 @@ pageEncoding="UTF-8"%>
                             ${teamList.teamName}
                         </a>
                     </td>
-                    <td>
-                        ${teamList.captinName}
-                    </td>
-                </tr>
+                    <td>${teamList.captinName}</td> 
+                </tr>                  
             </c:forEach>
         </tbody>
     </table>
 </body>
 </html>
+
+
+
