@@ -145,7 +145,7 @@
             <p>이름 : ${sessionScope.member.name}<a href="#" id="memberUpdate" onclick="updateMember()">회원 정보 수정하기</a></p> 
             <p>닉네임 : ${sessionScope.member.nickname}<a href="#" id="memberSecession" onclick="secessionMember()"> 회원 탈퇴</a></p>
             <p>이메일 : ${sessionScope.member.email}</p>
-            <p>비밀번호 : <input type="password" id="passwd_input"value="${sessionScope.member.passwd}" disabled>&nbsp;<a href="#" id="memberSecession" onclick="secessionMember()"> 회원 탈퇴</a></p>
+            <p>비밀번호 : <input type="password" id="passwd_input"value="${sessionScope.member.passwd}" disabled>&nbsp;<a href="#" id="memberSecession" onclick="updatePasswd()"> 비밀번호 변경</a></p>
             <c:if test = "${sessionScope.member.summoner_name == null}">
                 <hr>
                 <p>소환사 명 등록하기 : <input type="text" name="summonerName" id="summonerName" placeholder="소환사 명"></p>

@@ -178,7 +178,7 @@ public class MemberController {
         MemberDTO memberDTO = new MemberDTO();
         try {
             JSONObject jsonObject = new JSONObject(userid);
-            memberDTO.setUserid((String) jsonObject.get("memberPasswd"));
+            memberDTO.setUserid((String) jsonObject.get("userid"));
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -201,6 +201,7 @@ public class MemberController {
             e.printStackTrace();
         }
 
+        if ((MemberDTO)session.getAttribute("member") != null) session.removeAttribute("member");
         return "../popup/updateMemberPasswd_popup";
     }
 
@@ -226,6 +227,7 @@ public class MemberController {
 
         MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
         memberService.deleteMember(memberDTO);
+        session.removeAttribute("member");
         return "../popup/currentPasswd_popup";
     }
 }

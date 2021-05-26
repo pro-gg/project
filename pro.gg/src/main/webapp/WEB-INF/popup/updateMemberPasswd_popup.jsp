@@ -46,7 +46,8 @@
                     data:'',
                     dataType:'',
                     success:function(data){
-                        alert("비밀번호가 변경되었습니다.");
+                        alert("비밀번호가 변경되었습니다, 다시 한번 로그인 해주세요");
+                        opener.location.href='${pageContext.request.contextPath}/';
                         window.close();
                     }
                 })
