@@ -61,4 +61,10 @@ public class MemberRepository implements MemberDAO {
         sqlSession.delete("summoner.dropTable", sql);
 
     }
+
+    @Override
+    public String selectInnerJoinsummoner_name(String userid) {
+        return sqlSession.selectOne("member.selectInnerJoinsummoner_name", userid);
+
+    }
 }

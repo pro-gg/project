@@ -38,9 +38,17 @@
 			    						</thead>
 			    						<tbody>
 			    							<tr>
-												<th>탑</th>
+												<th>
+													<select name="position" id="position">
+														<option value="top">탑</option>
+														<option value="middle">미드</option>
+														<option value="jungle">정글</option>
+														<option value="bottom">바텀</option>
+														<option value="support">서포터</option>
+													</select>
+												</th>
+			    								<td>${team.captinName}</td>
 			    								<td></td>
-			    								<td>Diamond I</td>
 			    								<td>56.6%</td>
 												<td></td>
 			    							</tr>

@@ -73,6 +73,7 @@ public class MemberController {
         String result = memberService.selectOne(userid, passwd);
         if(result == "Success"){
             MemberDTO memberDTO = memberService.selectMemberOne(userid);
+            memberDTO.setSummoner_name(memberService.selectInnerJoinsummoner_name(memberDTO.getUserid()));
             session.setAttribute("member", memberDTO);
         } else{
             session.setAttribute("member", null);
