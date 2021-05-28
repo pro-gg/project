@@ -1,5 +1,6 @@
 package Project.pro.gg.Service;
 
+import Project.pro.gg.Model.MemberDTO;
 import Project.pro.gg.Model.TeamDTO;
 import Project.pro.gg.Repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +20,8 @@ public class TeamServiceImpl implements TeamService{
     }
 
     @Override
-    public void insertTeamData(TeamDTO teamDTO) {
-        teamRepository.insertTeamData(teamDTO);
+    public void insertTeamData(TeamDTO teamDTO, MemberDTO memberDTO) {
+        teamRepository.insertTeamData(teamDTO, memberDTO);
     }
 
     @Override

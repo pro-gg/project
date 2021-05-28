@@ -16,4 +16,5 @@ public class MemberDTO {
     private String nickname;
 
     private String summoner_name;
+    private String teamName;
 }
