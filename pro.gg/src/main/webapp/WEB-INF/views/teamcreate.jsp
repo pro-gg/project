@@ -15,6 +15,7 @@
             var week_input = document.getElementById('week_input');
             var tier_limit = document.getElementById('tier_limit');
             var captinName = "${sessionScope.member.nickname}";
+            var userid = "{sessionScope.member.userid}";
 
             var teamData = {
                 'teamName':document.getElementById('teamName').value,
@@ -24,7 +25,8 @@
                 'tier_limit':tier_limit.options[tier_limit.selectedIndex].text,
                 'team_description' : document.getElementById('team_description').value,
 
-                'captinName' : captinName
+                'captinName' : captinName,
+                'userid' : userid
             }
 
             $(function(){

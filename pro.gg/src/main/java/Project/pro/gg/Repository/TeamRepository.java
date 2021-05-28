@@ -1,6 +1,7 @@
 package Project.pro.gg.Repository;
 
 import Project.pro.gg.DAO.TeamDAO;
+import Project.pro.gg.Model.MemberDTO;
 import Project.pro.gg.Model.TeamDTO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +21,9 @@ public class TeamRepository implements TeamDAO {
     }
 
     @Override
-    public void insertTeamData(TeamDTO teamDTO) {
+    public void insertTeamData(TeamDTO teamDTO, MemberDTO memberDTO) {
         sqlSession.insert("team.insertTeamData", teamDTO);
+        sqlSession.update("member.updateTeamName", memberDTO);
     }
 
     @Override

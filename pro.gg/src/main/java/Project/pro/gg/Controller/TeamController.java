@@ -1,5 +1,6 @@
 package Project.pro.gg.Controller;
 
+import Project.pro.gg.Model.MemberDTO;
 import Project.pro.gg.Model.TeamDTO;
 import Project.pro.gg.Service.TeamServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ public class TeamController {
     public String createTeam(@RequestParam("teamData") String teamData, Model model){
 
         TeamDTO teamDTO = new TeamDTO();
+        MemberDTO memberDTO = new MemberDTO();
         try{
             JSONObject jsonObject = new JSONObject(teamData);
 
@@ -32,6 +34,8 @@ public class TeamController {
             teamDTO.setTeam_description((String) jsonObject.getString("team_description"));
 
             teamDTO.setCaptinName((String) jsonObject.getString("captinName"));
+            memberDTO.setUserid((String) jsonObject.getString("userid"));
+            memberDTO.setTeamName(teamDTO.getTeamName());
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -42,7 +46,7 @@ public class TeamController {
             model.addAttribute("teamname_exist", teamDTO_exist);
             return "../valid/teamNameValid";
         } else {
-            teamService.insertTeamData(teamDTO);
+            teamService.insertTeamData(teamDTO, memberDTO);
             return "redirect:/move/teammatch.do";
         }
     }

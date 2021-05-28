@@ -23,7 +23,6 @@ public class SummonerRepository implements SummonerDAO {
     @Override
     public void insertSummonerData(SummonerDTO summonerDTO, MemberDTO memberDTO) {
         sqlSession.insert("summoner.insertSummonerData", summonerDTO);
-        sqlSession.update("member.summonerName", memberDTO);
 
         String sql = "create table "+ memberDTO.getUserid() + "(\n" +
                 "            matchId varchar(30) not null primary key,\n" +
