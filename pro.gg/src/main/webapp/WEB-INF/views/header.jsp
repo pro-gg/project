@@ -38,7 +38,7 @@
     </style>
 </head>
 <body>
-    <header class="main-header-top hidden-print">
+    <header class="main-header-top">
         <a href="${pageContext.request.contextPath}/" class="logo">
         	<img class="img-fluid able-logo" src="/images/progg.png" alt="logo"/>
         </a>
@@ -46,13 +46,26 @@
         	<a href="#!" data-toggle="offcanvas" class="sidebar-toggle">
         	</a>
         	<div class="navbar-custom-menu">
-        		<ul class="top-nav">
+        		<ul class="top-nav lft-nav">
         			<li>
-        				<a href="#" id="admin" onclick="moveAdmin()">
+        				<a href ="#">챔피언 정보</a>
+        				<!-- <a href="#" id="admin" onclick="moveAdmin()">
        						<img src="/images/person.png" id="imgPerson" alt="관리자 페이지 이동">
-       					</a>
+       					</a> -->
+        			</li>
+        			<li>
+        				<a href="${pageContext.request.contextPath }/move/teammatch.do">팀 매칭</a>
         			</li>
         		</ul>
+        		<div class="navbar-custom-menu f-right">
+        			<ul class="top-nav">
+        				<c:if test = "${sessionScope.member == null && sessionScope.admin == null}">
+	       					<a href="#" id="login" name="login" onclick="location.href='${pageContext.request.contextPath}/move/login.do'">
+	   							<img src="/images/person.png" id="imgPerson" alt="로그인">
+	   						</a>
+	                	</c:if>
+        			</ul>
+        		</div>
         	</div>
         </nav>
     </header>

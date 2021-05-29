@@ -7,6 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title></title>
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/mystyle.css"/>
     <script src="/webjars/jquery/3.6.0/jquery.min.js"></script>
     <script>
         function findPasswd(){
@@ -28,23 +30,14 @@
             })
         }
     </script>
-    <style>
-        article, div{
-            position:absolute;
-            left: 0; right: 0;
-            margin-left: 60px; margin-right:0;
-            top: 50px; bottom: auto;
-            margin-top: auto; margin-bottom: auto;
-        }
-    </style>
 </head>
 <body>
     <article>
         <div>
             <h3>비밀번호 찾기</h3>
-            아이디 : <input type="text" name="userid" id="userid"> <br>
-            이름 : <input type="text" name="name" id="name"> <br>
-            이메일 : <input type="email" name="email" id="email"> <br>
+            아이디 : <input type="text" name="userid" id="userid" required="required"> <br>
+            이름 : <input type="text" name="name" id="name" required="required"> <br>
+            이메일 : <input type="email" name="email" id="email" required="required"> <br>
             <input type="button" value="찾기" onclick="findPasswd()">
         </div>
     </article>

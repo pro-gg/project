@@ -7,6 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title></title>
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/mystyle.css"/>
     <script src="/webjars/jquery/3.6.0/jquery.min.js"></script>
     <script>
         function findId(){
@@ -27,23 +29,26 @@
             })
         }
     </script>
-    <style>
-        article, div{
-            position:absolute;
-            left: 0; right: 0;
-            margin-left: 60px; margin-right:0;
-            top: 50px; bottom: auto;
-            margin-top: auto; margin-bottom: auto;
-        }
-    </style>
 </head>
 <body>
-    <article>
-        <div>
+    <article class="find">
+        <div class="find_form">
             <h3>아이디 찾기</h3>
-            이름 : <input type="text" name="name" id="name"> <br>
-            이메일 : <input type="email" name="email" id="email"> <br>
-            <input type="button" value="찾기" onclick="findId()">
+            <div class="col-md-12">
+	            <div class="md-input-wrapper">
+	            	<input type="text" name="name" id="name" class="md-form-control" required="required">
+	            	<label>이름</label>
+	            </div>
+            </div>
+            <div class="col-md-12">
+	            <div class="md-input-wrapper">
+	            	<input type="email" name="email" id="email" class="md-form-control" required="required">
+	            	<label>이메일</label>
+	            </div>
+	        </div>
+	        <div class="col-xs-10 offset-xs-1">
+            	<input type="button" class="btn btn-color btn-md btn-block waves-effect text-center m-b-20" value="찾기" onclick="findId()"/>
+            </div>
         </div>
     </article>
     

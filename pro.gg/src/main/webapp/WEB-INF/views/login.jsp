@@ -9,20 +9,25 @@
     <title></title>
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="/css/mystyle.css"/>
-    <link rel="stylesheet" type="text/css" href="/css/waves.min.css"/>
     <script src="/webjars/jquery/3.6.0/jquery.min.js"></script>
     <script src="/js/semantic_aside.js" charset="utf-8"></script>
     <script src="/js/semantic_header.js" charset="utf-8"></script>
     <script src="/js/elements.js" charset="utf-8"></script>
-    <script src="/js/waves.min.js" charset="utf-8"></script>
 	<script type="text/javascript">
 		function popup(){
 			window.name="parent";
 			var url="${pageContext.request.contextPath}/move/terms.do";
 			var name="약관 동의";
-			var option="width=500, height=500, top=100, left=200, location=no";
+			var option="width=600, height=700, top=100, left=200, location=no";
 			window.open(url,name,option);
 		}
+		
+		function findId(){
+            window.open("${pageContext.request.contextPath}/move/findId.do", "findId", "width=550, height=450, left=100, top=50");
+        }
+        function findPasswd(){
+            window.open("${pageContext.request.contextPath}/move/findPasswd.do", "findId", "width=550, height=450, left=100, top=50");
+        }
 	</script>
 </head>
 <body>
@@ -37,9 +42,6 @@
 		    				<div class="text-center">
 		    					<img src="/images/progg.png" alt="logo"/>
 		    				</div>
-		    				<h3 class="text-center">
-		    					로그인
-		    				</h3>
 		    				<div class="row">
 		    					<div class="col-md-12">
 		    						<div class="md-input-wrapper">
@@ -60,7 +62,7 @@
 		    				</div>
 		    				<div class="row">
 		    					<div class="col-xs-10 offset-xs-1">
-		    						<input type="submit" class="btn btn-primary btn-md btn-block waves-effect text-center m-b-20" value="로그인"></input>
+		    						<input type="submit" class="btn btn-color btn-md btn-block waves-effect text-center m-b-20" value="로그인"></input>
 		    					</div>
 		    				</div>
 		    				<div class="col-sm-12 col-xs-12 text-center">
