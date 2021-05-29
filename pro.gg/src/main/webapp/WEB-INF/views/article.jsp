@@ -10,30 +10,21 @@
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="/css/mystyle.css"/>
     <script src="/webjars/jquery/3.6.0/jquery.min.js"></script>
-    <style>
-        article{
-            position:absolute;
-            width: 920px; height: 50px;
-            left: 0; right: 0;
-            margin-left: 300px; margin-right:auto;
-            top: 0; bottom: 0;
-            margin-top: 50px; margin-bottom: auto;
-        }
-    </style>
 </head>
 <body>
-    
-    <article>
-        <p>회원 닉네임 검색 : <input type="text" name="searchNickName" id="searchNickname" placeholder="닉네임 검색"> 
-            <input type="button" value="검색">
-        </p>
+	<div class="content-wrapper">
+		<div class="back-img text-center">
+			<img src="/images/progg2.png" id="main-img" alt="로고">
+			<div class="searchbar">
+				<input type="text" autocomplete="off" name="searchNickName" id="searchNickname" placeholder="검색어를 입력하세요">
+				<button type="submit" value="검색">
+					<img src="/images/icon_search.png">
+				</button>
+			</div>
         <!-- 닉네임을 검색하면, 해당 회원에게 등록되어 있는 소환사 정보와 최근 전적을 조회해 볼 수 있다.(삽입이 아닌 조회)-->
         <!-- 마이페이지 에서 자신의 최근 전적 갱신 버튼을 누르면 최근 전적 데이터를 긁어와서 데이터베이스에 삽입-->
         <!-- 다른 사용자의 전적을 보려고 할 경우 데이터베이스 삽입이 아닌, 데이터베이스 조회를 하는 방식으로 기능을 구현한다.-->
-        <h3>main article</h3>
-        <h3>main article</h3>
-        <h3>main article</h3>
-        <h3>main article</h3>
-    </article>
+		</div>        
+    </div>
 </body>
 </html>

@@ -27,7 +27,7 @@
             })
         }
 
-        function loginfailSession(){
+        /* function loginfailSession(){
             $(function(){
                 var result = "${result}";
 
@@ -40,7 +40,7 @@
                     location.reload(); // 새로고침
                 }
             })
-        }
+        } */
 
     </script>
 </head>
