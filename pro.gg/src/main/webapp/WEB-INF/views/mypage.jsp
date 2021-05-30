@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title></title>
     <script src="/webjars/jquery/3.6.0/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js" charset="utf-8"></script>
     <script src="/js/semantic_aside.js" charset="utf-8"></script>
     <script src="/js/semantic_header.js" charset="utf-8"></script>
     <script>

@@ -60,10 +60,6 @@
 		                    <p id="summoner_name">소환사 명 : ${sessionScope.member.summoner_name}</p>
 		                    <script>callSummonerData()</script>
 		                    <div id="printSummonerData_aside"></div>
-		                    <a href="#" onclick="myPage()">마이페이지</a>
-		                </c:if>
-		                <c:if test="${sessionScope.member != null || sessionScope.admin != null }">
-		                	<a href="${pageContext.request.contextPath}/logout.do">로그아웃</a>
 		                </c:if>
 		            </li>
 		        </ul>
