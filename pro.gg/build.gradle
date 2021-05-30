@@ -2,11 +2,19 @@ plugins {
 	id 'org.springframework.boot' version '2.3.10.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
+	id 'war'
 }
 
+apply plugin : 'war'
 group = 'Project'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
+
+bootWar{
+	archiveBaseName = "pro.gg"
+	archiveFileName = "pro.gg.war"
+	archiveVersion = "0.0.0"
+}
 
 configurations {
 	compileOnly {

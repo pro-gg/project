@@ -4,5 +4,9 @@
 <configuration>
     <mappers>
         <mapper resource="MemberMapper.xml"/>
+        <mapper resource="SummonerMapper.xml"/>
+        <mapper resource="MatchDataMapper.xml"/>
+        <mapper resource="TeamMapper.xml"/>
+        <mapper resource="AdminMapper.xml"/>
     </mappers>
 </configuration>
