@@ -159,8 +159,70 @@ article {
 	transition: all 0.5s;
 }
 
+.main-header-top .navbar .top-nav > li > a {
+	opacity: 0.9;
+	color: #fff;
+}
+
+.open > .dropdown-menu {
+	-webkit-animation: scaleDrop 0.3s both;
+	animation: scaleDrop 0.3s both;
+	-webkit-transform-origin: 100% 0;
+	transform-origin: 100% 0;
+}
+
+header .dropdown-menu {
+	right: 0;
+	left: auto;
+	margin-top: 0;
+	border-radius: 0;
+	-webkit-box-shadow: 0 6px 12px rgb(0 0 0 / 18%);
+	box-shadow: 0 6px 12px rgb(0 0 0 / 18%);
+	border: 0;
+	padding: 0;
+	min-width: 100px;
+}
+
+.dropdown-toggle::after {
+	display:inline-block;
+	width: 0;
+	height: 0;
+	margin-left: .3em;
+	vertical-align: middle;
+	content: "";
+	border-top: .3em solid;
+	border-right: .3em solid transparent;
+	border-left: .3em solid transparent;
+}
+
+.dropdown-menu li a {
+	position: relative;
+	padding: 8px 0px;
+}
+
+.profile > li:hover {
+	background-color: transparent !important;
+}
+
+
+.main-header-top .top-nav .settings-menu li a {
+	font-size: 20px;
+	font-weight: 700;
+	color: #fff;
+	-webkit-transition: all ease-in 0.3s;
+	transition: all ease-in 0.3s;
+}
+
+.dropdown-menu {
+	background-color: #000000;
+}
+
+.dropdown-menu a {
+	margin-right: 10px;
+	margin-left: 10px;
+}
+
 #imgPerson{
-	margin-top: 10px;
 	padding-top: 2px;
 	padding-left: 2px;
 	padding-right: 2px;

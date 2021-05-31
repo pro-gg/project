@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="/css/mystyle.css"/>
     <script src="/webjars/jquery/3.6.0/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js" charset="utf-8"></script>
     <script>
         function moveAdmin(){
             $(function(){
@@ -23,6 +24,22 @@
                     type:'post',
                     url:'${pageContext.request.contextPath}/confirmAdmin.do?admin='+encodeURI(JSON.stringify(admin)),
                     data:'',
+                    dataType:'',
+                    success:function(data){
+                        $("body").html(data);
+                    }
+                })
+            })
+        }
+        
+        function myPage(){
+            $(function(){
+                var member = "${sessionScope.member}";
+
+                $.ajax({
+                    type:'get',
+                    url: '${pageContext.request.contextPath}/move/mypage.do',
+                    data: member,
                     dataType:'',
                     success:function(data){
                         $("body").html(data);
@@ -58,12 +75,38 @@
         			</li>
         		</ul>
         		<div class="navbar-custom-menu f-right">
-        			<ul class="top-nav">
-        				<c:if test = "${sessionScope.member == null && sessionScope.admin == null}">
-	       					<a href="#" id="login" name="login" onclick="location.href='${pageContext.request.contextPath}/move/login.do'">
-	   							<img src="/images/person.png" id="imgPerson" alt="로그인">
-	   						</a>
-	                	</c:if>
+        			<ul class="top-nav profile">
+        				<li class="dropdown">
+	        				<c:if test = "${sessionScope.member == null && sessionScope.admin == null}">
+		       					<a href="#" id="login" name="login" onclick="location.href='${pageContext.request.contextPath}/move/login.do'">
+		   							<img src="/images/person.png" id="imgPerson" alt="로그인">
+		   							<span>로그인</span>
+		   						</a>
+		                	</c:if>
+		                	<c:if test="${sessionScope.member != null || sessionScope.admin != null}">
+			                	<a href="#" data-toggle="dropdown" class="dropdown-toggle drop icon-circle drop-image">
+	        						<span>
+	        							<img class="img-circle" src="/images/person.png" id="imgPerson" style="width:40px;">
+	        						</span>
+	        						<span>
+	        							${sessionScope.member.name }
+	        							<i class="icofont icofont-simple"></i>
+	        						</span>
+	        					</a>
+	        					<ul class="dropdown-menu settings-menu">
+	        						<li>
+	        							<a href="#" onclick="myPage()">
+	        								마이페이지
+	        							</a>
+	        						</li>
+	        						<li>
+	        							<a href="${pageContext.request.contextPath}/logout.do">
+	        								로그아웃
+	        							</a>
+	        						</li>
+	        					</ul>
+	        				</c:if>
+	                	</li>
         			</ul>
         		</div>
         	</div>
