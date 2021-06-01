@@ -31,18 +31,18 @@
     </script>
 </head>
 <body>
-    <article class="find">
+    <article class="find_id">
         <div class="find_form">
             <h3>아이디 찾기</h3>
             <div class="col-md-12">
 	            <div class="md-input-wrapper">
-	            	<input type="text" name="name" id="name" class="md-form-control" required="required">
+	            	<input type="text" name="name" id="name" class="md-form-control" required="required" autocomplete='off'>
 	            	<label>이름</label>
 	            </div>
             </div>
             <div class="col-md-12">
 	            <div class="md-input-wrapper">
-	            	<input type="email" name="email" id="email" class="md-form-control" required="required">
+	            	<input type="email" name="email" id="email" class="md-form-control" required="required" autocomplete='off'>
 	            	<label>이메일</label>
 	            </div>
 	        </div>

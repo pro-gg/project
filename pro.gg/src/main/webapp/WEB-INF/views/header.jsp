@@ -65,7 +65,7 @@
         	<div class="navbar-custom-menu">
         		<ul class="top-nav lft-nav">
         			<li>
-        				<a href ="#">챔피언 정보</a>
+        				<a href ="${pageContext.request.contextPath }/champion.do">챔피언 정보</a>
         				<!-- <a href="#" id="admin" onclick="moveAdmin()">
        						<img src="/images/person.png" id="imgPerson" alt="관리자 페이지 이동">
        					</a> -->

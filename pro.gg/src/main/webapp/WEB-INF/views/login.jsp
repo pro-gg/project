@@ -62,7 +62,7 @@
 		    				</div>
 		    				<div class="row">
 		    					<div class="col-xs-10 offset-xs-1">
-		    						<input type="submit" class="btn btn-color btn-md btn-block waves-effect text-center m-b-20" value="로그인"></input>
+		    						<input type="submit" class="btn btn-color btn-md btn-block text-center m-b-20" value="로그인"></input>
 		    					</div>
 		    				</div>
 		    				<div class="col-sm-12 col-xs-12 text-center">
