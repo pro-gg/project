@@ -104,39 +104,73 @@
         }
 
     </script>
-    <style>
-        form{
-            position:absolute;
-            width: 920px; height: 50px;
-            left: 0; right: 0;
-            margin-left: 300px; margin-right:auto;
-            top: 0; bottom: 0;
-            margin-top: 100px; margin-bottom: auto;
-        }
-        input[type="text"], input[type="password"]{
-            width: 300px;
-        }
-
-        #btn{
-            width: 150px;
-        }
-    </style>
 </head>
 <body>
     <header></header>
     <aside></aside>
     <article>
-         <form name="formReg" action="${pageContext.request.contextPath}/tryregister.do" method="POST">
-            <h2>회원가입</h2>
-            <input type="text" placeholder="이름" name="name" id="name"> <br><br>
-            <input type="text" placeholder="닉네임" name="nickname" id="nickname"> <br><br>
-            <input type="text" placeholder="아이디" name="id" id="id"><span id="input_id"></span> <br><br>
-            <input type="password" placeholder="비밀번호" name="passwd" id="passwd" onchange="check_pw()"><span id="input_passwd"></span><br><br>
-            <input type="password" placeholder="비밀번호 확인" name="passwdcheck" id="passwdcheck" onchange="check_pw()"><span id="check"></span><br><br>
-            <input type="text" placeholder="이메일" name="email" id="email" onchange="check_email()"><span id="input_email"></span> <br><br>
-            <input type="button" value="취소" class="btn" onclick="location.href='${pageContext.request.contextPath}/'">
-            <input type="submit" value="가입하기" class="btn" id="btnRegister">
-        </form>
+    	<div class="content-wrapper">
+		    <div class="container-fluid">
+		    	<div class="reg-card card-block">
+			         <form class="md-float-material" name="formReg" action="${pageContext.request.contextPath}/tryregister.do" method="POST">
+			         	<div class="text-center">
+			         		<h3>회원가입</h3>
+			         	</div>
+			            <div class="row">
+			            	<div class="col-md-12">
+		    						<div class="md-input-wrapper">
+		    						<input type="text" name="name" id="name" class="md-form-control" required="required" autocomplete='off'>
+		    						<label>이름</label>
+	    						</div>
+	    					</div>
+	    					<div class="col-md-12">
+		    						<div class="md-input-wrapper">
+		    						<input type="text" name="nickname" id="nickname" class="md-form-control" required="required"  autocomplete='off'>
+		    						<label>닉네임</label>
+	    						</div>
+	    					</div>	
+	    					<div class="col-md-12">
+		    						<div class="md-input-wrapper">
+		    						<input type="text" name="id" id="id" class="md-form-control" required="required" autocomplete='off'>
+		    						<label>아이디</label>
+		    						<span id="input_id"></span>
+	    						</div>
+	    					</div>	
+	    					<div class="col-md-12">
+		    						<div class="md-input-wrapper">
+		    						<input type="password" name="passwd" id="passwd" class="md-form-control" required="required" autocomplete='off' onchange="check_pw()">
+		    						<label>비밀번호</label>
+		    						<span id="input_passwd"></span>
+	    						</div>
+	    					</div>	
+	    					<div class="col-md-12">
+		    						<div class="md-input-wrapper">
+		    						<input type="password" name="passwdcheck" id="passwdcheck" class="md-form-control" required="required" autocomplete='off' onchange="check_pw()">
+		    						<label>비밀번호 확인</label>
+		    						<span id="check"></span>
+	    						</div>
+	    					</div>	
+	    					<div class="col-md-12">
+		    						<div class="md-input-wrapper">
+		    						<input type="text" name="email" id="email" class="md-form-control" required="required" autocomplete='off' onchange="check_email()">
+		    						<label>이메일</label>
+		    						<span id="input_email"></span>
+	    						</div>
+	    					</div>			
+			            </div>
+			            <br>
+			            <div class="row">
+	    					<div class="reg-btn-row">
+	    						<div class="text-center">
+			            			<input type="submit" value="가입하기" class="btn btn-color btn-md text-center m-b-20" id="btnRegister">
+			            			<input type="button" value="취소" class="btn btn-color btn-md text-center m-b-20" onclick="location.href='${pageContext.request.contextPath}/'">
+		            			</div>
+		            		</div>
+			            </div>
+			        </form>
+		        </div>
+		   	</div>
+	   	</div>
     </article>
     
 </body>

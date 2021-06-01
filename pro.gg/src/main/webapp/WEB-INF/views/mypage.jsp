@@ -116,56 +116,38 @@
             }
         }
     </script>
-    <style>
-        form{
-            position:absolute;
-            width: 920px; height: 50px;
-            left: 0; right: 0;
-            margin-left: 300px; margin-right:auto;
-            top: 0; bottom: 0;
-            margin-top: 50px; margin-bottom: auto;
-        }
-        #passwd_input{
-            border: none;
-            border-top: 0px;
-            border-bottom: 0px;
-            border-left: 0px;
-            border-right: 0px;
-        }
-        #memberUpdate, #memberSecession{
-            float: right;
-        }
-    </style>
 </head>
 <body>
     <header></header>
     <aside></aside>
     <article>
-        <form action="">
-            <h1>MyPage</h1>
-            <p>이름 : ${sessionScope.member.name}<a href="#" id="memberUpdate" onclick="updateMember()">회원 정보 수정하기</a></p> 
-            <p>닉네임 : ${sessionScope.member.nickname}<a href="#" id="memberSecession" onclick="secessionMember()"> 회원 탈퇴</a></p>
-            <p>이메일 : ${sessionScope.member.email}</p>
-            <p>비밀번호 : <input type="password" id="passwd_input"value="${sessionScope.member.passwd}" disabled>&nbsp;<a href="#" id="memberSecession" onclick="updatePasswd()"> 비밀번호 변경</a></p>
-            <c:if test = "${sessionScope.member.summoner_name == null}">
-                <hr>
-                <p>소환사 명 등록하기 : <input type="text" name="summonerName" id="summonerName" placeholder="소환사 명"></p>
-                <input type="button" name="registerSummoner" id="registerSummoner" value="등록하기" onclick="summonerRegister()">
-            </c:if>
-            <c:if test = "${sessionScope.member.summoner_name != null}">
-                <hr>
-                <p>소환사 명 : ${sessionScope.member.summoner_name} <input type="button" value="변경하기" name="updateSummonerName" id="updateSummonerName"
-                    onclick="summonerNameUpdate()"></p>
-                    <script>callSummonerData()</script>
-                    <div id="printSummonerData_mypage"></div>
-                <p> <input type="button" value="최근 전적" name="matchHistory" id="matchHistory" onclick="callMatchHistory()">
-                    <input type="button" value="정보 갱신" name="summonerData" id="summonerData" onclick="updateSummonerData()">
-                </p>
-                
-                <hr>
-                <div id="printMatchHistory"></div>
-            </c:if>
-        </form>
+    	<div class="mypage-wrapper">
+	        <form class="mypage">
+	            <h1>MyPage</h1>
+	            <p>이름 : ${sessionScope.member.name}<a href="#" id="memberUpdate" onclick="updateMember()">회원 정보 수정하기</a></p> 
+	            <p>닉네임 : ${sessionScope.member.nickname}<a href="#" id="memberSecession" onclick="secessionMember()"> 회원 탈퇴</a></p>
+	            <p>이메일 : ${sessionScope.member.email}</p>
+	            <p>비밀번호 : <input type="password" id="passwd_input"value="${sessionScope.member.passwd}" disabled>&nbsp;<a href="#" id="memberSecession" onclick="updatePasswd()"> 비밀번호 변경</a></p>
+	            <c:if test = "${sessionScope.member.summoner_name == null}">
+	                <hr>
+	                <p>소환사 명 등록하기 : <input type="text" name="summonerName" id="summonerName" placeholder="소환사 명"></p>
+	                <input type="button" name="registerSummoner" id="registerSummoner" value="등록하기" onclick="summonerRegister()">
+	            </c:if>
+	            <c:if test = "${sessionScope.member.summoner_name != null}">
+	                <hr>
+	                <p>소환사 명 : ${sessionScope.member.summoner_name} <input type="button" value="변경하기" name="updateSummonerName" id="updateSummonerName"
+	                    onclick="summonerNameUpdate()"></p>
+	                    <script>callSummonerData()</script>
+	                    <div id="printSummonerData_mypage"></div>
+	                <p> <input type="button" value="최근 전적" name="matchHistory" id="matchHistory" onclick="callMatchHistory()">
+	                    <input type="button" value="정보 갱신" name="summonerData" id="summonerData" onclick="updateSummonerData()">
+	                </p>
+	                
+	                <hr>
+	                <div id="printMatchHistory"></div>
+	            </c:if>
+	        </form>
+        </div>
     </article>
 </body>
 </html>
