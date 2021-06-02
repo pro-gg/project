@@ -32,13 +32,30 @@
     </script>
 </head>
 <body>
-    <article>
-        <div>
+    <article class="find_pw">
+        <div class="find_form">
             <h3>비밀번호 찾기</h3>
-            아이디 : <input type="text" name="userid" id="userid" required="required"> <br>
-            이름 : <input type="text" name="name" id="name" required="required"> <br>
-            이메일 : <input type="email" name="email" id="email" required="required"> <br>
-            <input type="button" value="찾기" onclick="findPasswd()">
+            <div class="col-md-12">
+	            <div class="md-input-wrapper">
+	            	<input type="text" name="userid" id="userid" class="md-form-control" required="required" autocomplete='off'>
+	            	<label>아이디</label>
+	            </div>
+            </div>
+            <div class="col-md-12">
+	            <div class="md-input-wrapper">
+	            	<input type="text" name="name" id="name" class="md-form-control" required="required" autocomplete='off'>
+	            	<label>이름</label>
+	            </div>
+            </div>
+            <div class="col-md-12">
+	            <div class="md-input-wrapper">
+	            	<input type="email" name="email" id="email" class="md-form-control" required="required" autocomplete='off'>
+	            	<label>이메일</label>
+	            </div>
+            </div>
+            <div class="col-xs-10 offset-xs-1">
+            	<input type="button" class="btn btn-color btn-md btn-block waves-effect text-center m-b-20" value="찾기" onclick="findPasswd()"/>
+            </div>
         </div>
     </article>
 </body>

@@ -45,6 +45,10 @@ article {
 	float: right !important;
 }
 
+.white-font {
+	color: #fff;
+}
+
 .wrapper:before {
 	content: " ";
 	display: table;
@@ -301,6 +305,32 @@ header .dropdown-menu {
 	margin-bottom: 10px;
 }
 
+.reg-card {
+	padding: 30px 20px;
+	width: 500px;
+	position: relative;
+	display: inline-block;
+	background-color: #fff;
+	box-shadow: 0 6px 10px 0 rgb(0 0 0 / 14%),
+	0 1px 18px 0 rgb(0 0 0 / 12%),
+	0 3px 5px -1px rgb(0 0 0 / 30%);
+	border-radius: 20px;
+}
+
+.reg-card h3 {
+	color: #000000;
+	font-weight:550;
+}
+
+.reg-btn-row {
+	padding-left: 30px;
+	padding-right: 30px;
+}
+
+.reg-btn-row .btn{
+	width: 40%;
+}
+
 .md-input-wrapper{
 	position: relative;
 	padding-top: 4px;
@@ -394,10 +424,22 @@ input[type=email].md-form-control{
 	margin-bottom: 10px;
 }
 
-.find {
+.find_id {
 	position: absolute;
     width:300px;
     height:300px;
+    padding: 30px, 20px;
+    background-color:#ffffff;
+    text-align: center;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
+}
+
+.find_pw {
+	position: absolute;
+    width:300px;
+    height:350px;
     padding: 30px, 20px;
     background-color:#ffffff;
     text-align: center;
@@ -531,4 +573,38 @@ input[type=email].md-form-control{
 	padding-right: 10px;
 	background: transparent;
 	transition: all ease .4s;
+}
+
+.champList {
+	padding: 30px;
+}
+
+.champ-header {
+	font-weight: 600;
+}
+
+.mypage-wrapper{
+	background-color:#fff;
+	position:relative;
+	height: 100%;
+	margin-top: 50px;
+	margin-left: 230px;
+	margin-right: 230px;
+	z-index: 820;
+	transition: all 0.3s ease-in-out;
+}
+
+.mypage {
+	padding-top: 30px;
+	padding-left: 30px;
+	left:0;
+}
+
+#memberUpdate, #memberSecession{
+	position:absolute;
+	right: 10%;
+}
+
+.back-gray{
+	background-color: #6e6e6e;
 }
