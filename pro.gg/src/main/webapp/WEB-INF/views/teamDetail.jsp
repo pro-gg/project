@@ -39,19 +39,84 @@
 			    						<tbody>
 			    							<tr>
 												<th>
-													<select name="position" id="position">
+													<!-- <select name="position" id="position">
 														<option value="top">탑</option>
 														<option value="middle">미드</option>
 														<option value="jungle">정글</option>
 														<option value="bottom">바텀</option>
 														<option value="support">서포터</option>
-													</select>
+													</select> -->
+													탑
 												</th>
-			    								<td>${team.captinName}</td>
+			    								<td>${team.top}</td>
 			    								<td></td>
 			    								<td>56.6%</td>
 												<td></td>
 			    							</tr>
+											<tr>
+												<th>
+													<!-- <select name="position" id="position">
+														<option value="top">탑</option>
+														<option value="middle">미드</option>
+														<option value="jungle">정글</option>
+														<option value="bottom">바텀</option>
+														<option value="support">서포터</option>
+													</select> -->
+													미드
+												</th>
+			    								<td>${team.middle}</td>
+			    								<td></td>
+			    								<td>56.6%</td>
+												<td></td>
+											</tr>
+											<tr>
+												<th>
+													<!-- <select name="position" id="position">
+														<option value="top">탑</option>
+														<option value="middle">미드</option>
+														<option value="jungle">정글</option>
+														<option value="bottom">바텀</option>
+														<option value="support">서포터</option>
+													</select> -->
+													정글
+												</th>
+			    								<td>${team.jungle}</td>
+			    								<td></td>
+			    								<td>56.6%</td>
+												<td></td>
+											</tr>
+											<tr>
+												<th>
+													<!-- <select name="position" id="position">
+														<option value="top">탑</option>
+														<option value="middle">미드</option>
+														<option value="jungle">정글</option>
+														<option value="bottom">바텀</option>
+														<option value="support">서포터</option>
+													</select> -->
+													바텀
+												</th>
+			    								<td>${team.bottom}</td>
+			    								<td></td>
+			    								<td>56.6%</td>
+												<td></td>
+											</tr>
+											<tr>
+												<th>
+													<!-- <select name="position" id="position">
+														<option value="top">탑</option>
+														<option value="middle">미드</option>
+														<option value="jungle">정글</option>
+														<option value="bottom">바텀</option>
+														<option value="support">서포터</option>
+													</select> -->
+													서포터
+												</th>
+			    								<td>${team.suppoter}</td>
+			    								<td></td>
+			    								<td>56.6%</td>
+												<td></td>
+											</tr>
 			    						</tbody>
 			    					</table>
 			    				</div>
@@ -59,6 +124,9 @@
 			    		</div>
 			    		<button>신청</button> &nbsp;&nbsp;
 			    		<button>이전</button>
+						<c:if test="${sessionScope.member.nickname == team.captinName}">
+							<button>수정</button>
+						</c:if>
 			    	</div>
 			    </div>
 		    </div>

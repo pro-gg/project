@@ -11,5 +11,5 @@ public interface MatchDataService {
 
     public String selectMatchData(MatchDataDTO matchDataDTO, MemberDTO memberDTO);
     public void insertMatchData(MatchDataDTO matchDataDTO, MemberDTO memberDTO);
-    List<MatchDataDTO> selectMatchDataAll(MemberDTO memberDTO);
+    public List<MatchDataDTO> selectMatchDataAll(MemberDTO memberDTO);
 }
