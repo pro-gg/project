@@ -49,6 +49,11 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
+    public MemberDTO findByNickname(String nickname) {
+        return memberRepository.findByNickname(nickname);
+    }
+
+    @Override
     public void updatePasswd(MemberDTO memberDTO) {
         memberRepository.updatePasswd(memberDTO);
     }
@@ -67,4 +72,6 @@ public class MemberServiceImpl implements MemberService{
     public String selectInnerJoinsummoner_name(String userid) {
         return memberRepository.selectInnerJoinsummoner_name(userid);
     }
+
+
 }

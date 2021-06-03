@@ -30,7 +30,6 @@ public class MemberRepository implements MemberDAO {
         String sql = "drop table if exists " + memberDTO.getUserid();
         sqlSession.delete("summoner.dropTable", sql);
         sqlSession.delete("summoner.deleteSummonerData", memberDTO);
-        sqlSession.update("member.deleteSummonerName", memberDTO);
     }
 
     @Override
@@ -41,6 +40,11 @@ public class MemberRepository implements MemberDAO {
     @Override
     public MemberDTO findPasswd(MemberDTO memberDTO) {
         return sqlSession.selectOne("member.findPasswd", memberDTO);
+    }
+
+    @Override
+    public MemberDTO findByNickname(String nickname) {
+        return sqlSession.selectOne("member.findByNickname", nickname);
     }
 
     @Override
@@ -67,4 +71,6 @@ public class MemberRepository implements MemberDAO {
         return sqlSession.selectOne("member.selectInnerJoinsummoner_name", userid);
 
     }
+
+
 }

@@ -19,4 +19,6 @@ public interface MemberDAO {
     public void deleteMember(MemberDTO memberDTO);
 
     public String selectInnerJoinsummoner_name(String userid);
+
+    public MemberDTO findByNickname(String nickname);
 }
