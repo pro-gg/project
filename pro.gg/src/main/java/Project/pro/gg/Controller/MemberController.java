@@ -44,7 +44,27 @@ public class MemberController {
 			}
     	}
     }
-    
+
+    @PostMapping("/check_nickname.do")
+    public void check_nickname(@RequestParam("nickname") String nickname, HttpServletResponse response){
+
+        MemberDTO memberDTO = memberService.findByNickname(nickname);
+
+        if (memberDTO == null){
+            try {
+                response.getWriter().write("OK");
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                response.getWriter().write("Fail");
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+
     @PostMapping("/tryregister.do")
     public String tryRegister(@RequestParam(value = "id") String userid,
                               @RequestParam(value = "passwd") String passwd,

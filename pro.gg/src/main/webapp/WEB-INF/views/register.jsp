@@ -52,6 +52,30 @@
 				}
 			})
 		}
+
+		function check_nickname(){
+			var nickname = document.getElementById('nickname').value;
+			$.ajax({
+				type:"post",
+				url:"${pageContext.request.contextPath}/check_nickname.do?nickname="+nickname,
+				data:'',
+				dataType:'',
+				success:function(data){
+					if(data == 'OK'){
+						$('#input_nickname').text("사용 가능한 닉네임 입니다.");
+						$('#input_nickname').css("color","blue");
+						$('#btnRegister').attr('disabled',false);
+					} else if(data == 'Fail'){
+						$('#input_nickname').text("중복된 닉네임 입니다.");
+						$('#input_nickname').css("color","red");
+						$('#btnRegister').attr('disabled',true);
+					}
+				},
+				error:function(){
+					console.log('에러');
+				}
+			})
+		}
 	    function check_pw(){
         	//숫자, 특문 각 1회 이상, 영문은 2개 이상 사용하여 8자리 이상 입력
         	var pwPattern = /(?=.*\d{1,50})(?=.*[~`!@#$%\^&*()-+=]{1,50})(?=.*[a-zA-Z]{2,50}).{8,50}$/;
@@ -125,8 +149,9 @@
 	    					</div>
 	    					<div class="col-md-12">
 		    						<div class="md-input-wrapper">
-		    						<input type="text" name="nickname" id="nickname" class="md-form-control" required="required"  autocomplete='off'>
+		    						<input type="text" name="nickname" id="nickname" class="md-form-control" required="required"  autocomplete='off' onchange="check_nickname()">
 		    						<label>닉네임</label>
+									<span id="input_nickname"></span>
 	    						</div>
 	    					</div>	
 	    					<div class="col-md-12">

@@ -15,7 +15,7 @@
             var week_input = document.getElementById('week_input');
             var tier_limit = document.getElementById('tier_limit');
             var captinName = "${sessionScope.member.nickname}";
-            var userid = "{sessionScope.member.userid}";
+            var userid = "${sessionScope.member.userid}";
 
             var teamData = {
                 'teamName':document.getElementById('teamName').value,
