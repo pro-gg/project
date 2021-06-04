@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,6 +11,60 @@
 <script src="/webjars/jquery/3.6.0/jquery.min.js"></script>
 <script src="/js/semantic_aside.js" charset="utf-8"></script>
 <script src="/js/semantic_header.js" charset="utf-8"></script>
+<script>
+
+	$(function(){
+		if("${team.captinName}" === "${team.top}"){
+			$("#top").css("color", "blue");
+			$("#top_captin").text("파티장").css("color", "blue");
+		}
+		else if("${team.captinName}" === "${team.middle}"){
+			$("#middle").css("color", "blue");
+			$("#middle_captin").text("파티장").css("color", "blue");
+		}
+		else if("${team.captinName}" === "${team.jungle}"){
+			$("#jungle").css("color", "blue");
+			$("#jungle_captin").text("파티장").css("color", "blue");
+		}
+		else if("${team.captinName}" === "${team.bottom}"){
+			$("#bottom").css("color", "blue");
+			$("#bottom_captin").text("파티장").css("color", "blue");
+		}
+		else if("${team.captinName}" === "${team.suppoter}"){
+			$("#suppoter").css("color", "blue");
+			$("#suppoter_captin").text("파티장").css("color", "blue");
+		}
+	})
+	function teamApply(){
+		$(function(){
+			if(confirm("신청 하시겠습니까?") === true){
+
+			}
+		})
+	}
+
+	function teamUpdate(){
+		$(function(){
+			if(confirm("수정 하시겠습니까?") === true){
+				$.ajax({
+					type:'get',
+					url:'${pageContext.request.contextPath}/teamUpdate.do',
+					data:'',
+					dataType:'',
+					success:function(data){
+						$("body").html(data)
+					}
+				})
+			}
+		})
+	}
+
+	function teamSecession(){
+		if(confirm("탈퇴 하시겠습니까?") === true){
+			
+		}
+	}
+</script>
 </head>
 <body>
 	 <header></header>
@@ -47,11 +102,11 @@
 														<option value="support">서포터</option>
 													</select> -->
 													탑
-												</th>
-			    								<td>${team.top}</td>
+												</th> 
+			    								<td id="top">${team.top}</td>
 			    								<td></td>
 			    								<td>56.6%</td>
-												<td></td>
+												<td id="top_captin"></td>
 			    							</tr>
 											<tr>
 												<th>
@@ -64,10 +119,10 @@
 													</select> -->
 													미드
 												</th>
-			    								<td>${team.middle}</td>
+			    								<td id="middle">${team.middle}</td>
 			    								<td></td>
 			    								<td>56.6%</td>
-												<td></td>
+												<td id="middle_captin"></td>
 											</tr>
 											<tr>
 												<th>
@@ -80,10 +135,10 @@
 													</select> -->
 													정글
 												</th>
-			    								<td>${team.jungle}</td>
+			    								<td id="jungle">${team.jungle}</td>
 			    								<td></td>
 			    								<td>56.6%</td>
-												<td></td>
+												<td id="jungle_captin"></td>
 											</tr>
 											<tr>
 												<th>
@@ -96,10 +151,10 @@
 													</select> -->
 													바텀
 												</th>
-			    								<td>${team.bottom}</td>
+			    								<td id="bottom">${team.bottom}</td>
 			    								<td></td>
 			    								<td>56.6%</td>
-												<td></td>
+												<td id="bottom_captin"></td>
 											</tr>
 											<tr>
 												<th>
@@ -112,20 +167,27 @@
 													</select> -->
 													서포터
 												</th>
-			    								<td>${team.suppoter}</td>
+			    								<td id="suppoter">${team.suppoter}</td>
 			    								<td></td>
 			    								<td>56.6%</td>
-												<td></td>
+												<td id="suppoter_captin"></td>
 											</tr>
 			    						</tbody>
 			    					</table>
 			    				</div>
 			    			</div>
 			    		</div>
-			    		<button>신청</button> &nbsp;&nbsp;
-			    		<button>이전</button>
+			    		<button onclick="teamApply()">신청</button> &nbsp;&nbsp;
+			    		<button>이전</button> &nbsp;&nbsp;
 						<c:if test="${sessionScope.member.nickname == team.captinName}">
-							<button>수정</button>
+							<button onclick="teamUpdate()">수정</button> &nbsp;&nbsp;
+						</c:if>
+						<c:if test="${sessionScope.member.nickname == team.top ||
+										sessionScope.member.nickname == team.middle ||
+										sessionScope.member.nickname == team.jungle ||
+										sessionScope.member.nickname == team.bottom ||
+										sessionScope.member.nickname == team.suppoter}">
+							<button onclick="teamSecession()">탈퇴</button>
 						</c:if>
 			    	</div>
 			    </div>
