@@ -15,7 +15,7 @@
     </select>
 
     <select id="insertTeamData">
-        insert into team(teamName, week_input, startTime, endTime, tier_limit, team_description, captinName)
-        values(#{teamName}, #{week_input}, #{startTime}, #{endTime}, #{tier_limit}, #{team_description}, #{captinName})
+        insert into team(teamName, week_input, startTime, endTime, tier_limit, team_description, captinName, top)
+        values(#{teamName}, #{week_input}, #{startTime}, #{endTime}, #{tier_limit}, #{team_description}, #{captinName}, #{top})
     </select>
 </mapper>
