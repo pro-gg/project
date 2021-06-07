@@ -74,15 +74,33 @@
             <label for="tier_limit"> 티어 제한</label>
             <p>
                 <select name="tier_limit" id="tier_limit">
-                    <option value="iron">IRON</option>
-                    <option value="bronze">BRONZE</option>
-                    <option value="silver">SILVER</option>
-                    <option value="gold">GOLD</option>
-                    <option value="PLATINUM">PLATINUM</option>
-                    <option value="diamond">DIAMOND</option>
-                    <option value="master">MASTER</option>
-                    <option value="grand_master">GRANDMASTER</option>
-                    <option value="challenger">CHALLENGER</option>
+                    <option value="ironIV">IRON IV</option>
+                    <option value="ironIII">IRON III</option>
+                    <option value="ironII">IRON II</option>
+                    <option value="ironI">IRON I</option>
+                    <option value="bronzeIV">BRONZE IV</option>
+                    <option value="bronzeIII">BRONZE III</option>
+                    <option value="bronzeII">BRONZE II</option>
+                    <option value="bronzeI">BRONZE I</option>
+                    <option value="silverIV">SILVER IV</option>
+                    <option value="silverIII">SILVER III</option>
+                    <option value="silverII">SILVER II</option>
+                    <option value="silverI">SILVER I</option>
+                    <option value="goldIV">GOLD IV</option>
+                    <option value="goldIII">GOLD III</option>
+                    <option value="goldII">GOLD II</option>
+                    <option value="goldI">GOLD I</option>
+                    <option value="PLATINUMIV">PLATINUM IV</option>
+                    <option value="PLATINUMIII">PLATINUM III</option>
+                    <option value="PLATINUMII">PLATINUM II</option>
+                    <option value="PLATINUMI">PLATINUM I</option>
+                    <option value="diamondIV">DIAMOND IV</option>
+                    <option value="diamondIII">DIAMOND III</option>
+                    <option value="diamondII">DIAMOND II</option>
+                    <option value="diamondI">DIAMOND I</option>
+                    <option value="masterI">MASTER I</option>
+                    <option value="grand_masterI">GRANDMASTER I</option>
+                    <option value="challengerI">CHALLENGER I</option>
                 </select>
             </p>
             

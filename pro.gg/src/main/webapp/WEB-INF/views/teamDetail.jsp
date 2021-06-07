@@ -16,30 +16,49 @@
 	$(function(){
 		if("${team.captinName}" === "${team.top}"){
 			$("#top").css("color", "blue");
-			$("#top_captin").text("파티장").css("color", "blue");
+			$("#top_captin").text("팀장").css("color", "blue");
 		}
 		else if("${team.captinName}" === "${team.middle}"){
 			$("#middle").css("color", "blue");
-			$("#middle_captin").text("파티장").css("color", "blue");
+			$("#middle_captin").text("팀장").css("color", "blue");
 		}
 		else if("${team.captinName}" === "${team.jungle}"){
 			$("#jungle").css("color", "blue");
-			$("#jungle_captin").text("파티장").css("color", "blue");
+			$("#jungle_captin").text("팀장").css("color", "blue");
 		}
 		else if("${team.captinName}" === "${team.bottom}"){
 			$("#bottom").css("color", "blue");
-			$("#bottom_captin").text("파티장").css("color", "blue");
+			$("#bottom_captin").text("팀장").css("color", "blue");
 		}
 		else if("${team.captinName}" === "${team.suppoter}"){
 			$("#suppoter").css("color", "blue");
-			$("#suppoter_captin").text("파티장").css("color", "blue");
+			$("#suppoter_captin").text("팀장").css("color", "blue");
 		}
 	})
 	function teamApply(){
 		$(function(){
-			if(confirm("신청 하시겠습니까?") === true){
+			var teamName = "${team.teamName}";
+			var tier_limit = "${team.tier_limit}";
+			var belongTeamName = "${sessionScope.member.teamName}";
 
-			}
+			if(belongTeamName.length !== 0){
+				alert("이미 소속되어 있는 팀이 있습니다.")
+			} else{
+				var team = {
+					teamName:teamName,
+					tier_limit:tier_limit
+				};
+
+				$.ajax({
+					type:'get',
+					url:'${pageContext.request.contextPath}/move/teamapplyForm.do?team='+encodeURI(JSON.stringify(team)),
+					data:'',
+					dataType:'',
+					success:function(data){
+						$("#choose_line").html(data);
+					}
+				})
+			}			
 		})
 	}
 
@@ -63,6 +82,20 @@
 		if(confirm("탈퇴 하시겠습니까?") === true){
 			
 		}
+	}
+
+	function applyStatusView(){
+		var teamName = "${team.teamName}";
+
+		$.ajax({
+			type:'get',
+			url:'${pageContext.request.contextPath}/applyStatusView.do?teamName='+teamName,
+			data:'',
+			dataType:'',
+			success:function(data){
+				$("#applyInMember").html(data);
+			}
+		})
 	}
 </script>
 </head>
@@ -177,18 +210,31 @@
 			    				</div>
 			    			</div>
 			    		</div>
-			    		<button onclick="teamApply()">신청</button> &nbsp;&nbsp;
+						<c:if test="${sessionScope.member.nickname != team.top &&
+							sessionScope.member.nickname != team.middle &&
+							sessionScope.member.nickname != team.jungle &&
+							sessionScope.member.nickname != team.bottom &&
+							sessionScope.member.nickname != team.suppoter}">
+							<button onclick="teamApply()">신청</button> &nbsp;&nbsp;
+						</c:if>
 			    		<button>이전</button> &nbsp;&nbsp;
 						<c:if test="${sessionScope.member.nickname == team.captinName}">
 							<button onclick="teamUpdate()">수정</button> &nbsp;&nbsp;
 						</c:if>
-						<c:if test="${sessionScope.member.nickname == team.top ||
-										sessionScope.member.nickname == team.middle ||
-										sessionScope.member.nickname == team.jungle ||
-										sessionScope.member.nickname == team.bottom ||
-										sessionScope.member.nickname == team.suppoter}">
-							<button onclick="teamSecession()">탈퇴</button>
+						<c:if test="${sessionScope.member != null}">
+							<c:if test="${sessionScope.member.nickname == team.top ||
+								sessionScope.member.nickname == team.middle ||
+								sessionScope.member.nickname == team.jungle ||
+								sessionScope.member.nickname == team.bottom ||
+								sessionScope.member.nickname == team.suppoter}">
+								<button onclick="teamSecession()">탈퇴</button>&nbsp;&nbsp;
+							</c:if>
 						</c:if>
+						<c:if test="${sessionScope.member.nickname == team.captinName}">
+							<a href="#" onclick="applyStatusView()">신청 현황</a>&nbsp;&nbsp;
+						</c:if>
+						<div id="choose_line"></div>
+						<div id="applyInMember"></div>
 			    	</div>
 			    </div>
 		    </div>
