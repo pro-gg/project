@@ -12,53 +12,20 @@
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="/css/mystyle.css"/>
     <script>
-        function approve(applyLine, nickname){
-            if(confirm("수락 하시겠습니까?") === true){
-                // 수락하고자 하는 회원의 지원 라인에 현재 지정되어 있는 팀원이 있는지 검증
-                if(applyLine === 'top' && "${team.top}".length !== 0){
-                    alert("이미 지정된 회원이 있어 수락할 수 없습니다.");
-                }
-                else if(applyLine === 'middle' && "${team.middle}".length !== 0){
-                    console.log("${team.middle}");
-                    alert("이미 지정된 회원이 있어 수락할 수 없습니다.");
-                }
-                else if(applyLine === 'jungle' && "${team.jungle}".length !== 0){
-                    alert("이미 지정된 회원이 있어 수락할 수 없습니다.");
-                }
-                else if(applyLine === 'bottom' && "${team.bottom}".length !== 0){
-                    alert("이미 지정된 회원이 있어 수락할 수 없습니다.");
-                }
-                else if(applyLine === 'suppoter' && "${team.suppoter}".length !== 0){
-                    alert("이미 지정된 회원이 있어 수락할 수 없습니다.");
-                }
-                else{
-                    $.ajax({
-                        type:'get',
-                        url:'${pageContext.request.contextPath}/teamapprove.do?nickname='+nickname,
-                        data:'',
-                        dataType:'',
-                        success:function(data){
-                            $("body").html(data);
-                            applyStatusView();
-                        }
-                    })
-                }
-            }
+        function approve(){
+
         }
 
         function reject(nickname, teamName){
-            if(confirm("신청을 거절 하시겠습니까?") === true){
-                $.ajax({
-                    type:'get',
-                    url:'${pageContext.request.contextPath}/rejectapply.do?nickname='+nickname+"&teamName="+teamName,
-                    data:'',
-                    dataType:'',
-                    success:function(data){
-                        $("body").html(data);
-                        applyStatusView();
-                    }
-                })
-            }
+            $.ajax({
+                type:'get',
+                url:'${pageContext.request.contextPath}/rejectapply.do?nickname='+nickname+"&teamName="+teamName,
+                data:'',
+                dataType:'',
+                success:function(data){
+                    $("body").html(data);
+                }
+            })
         }
     </script>
 </head>
@@ -103,8 +70,7 @@
                     <td>${applyMemberList.tier} ${applyMemberList.tier_rank}</td>
                     <td>${applyMemberList.rate}%</td>
                     <td>
-                        <button onclick="approve('${applyMemberList.line}', '${applyMemberList.nickname}')">수락</button>&nbsp;&nbsp;
-                        <button onclick="reject('${applyMemberList.nickname}', '${applyMemberList.teamName}')">거절</button>
+                        <button onclick="approve()">수락</button>&nbsp;&nbsp;<button onclick="reject('${applyMemberList.nickname}', '${applyMemberList.teamName}')">거절</button>
                     </td>
                 </tr>                  
             </c:forEach>
