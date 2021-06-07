@@ -19,6 +19,7 @@ pageEncoding="UTF-8"%>
                 <th>No</th>
                 <th>팀이름</th>
                 <th>팀장</th>
+                <th>티어 제한</th>
             </tr>
         </thead>
         <tbody>
@@ -31,6 +32,7 @@ pageEncoding="UTF-8"%>
                         </a>
                     </td>
                     <td>${teamList.captinName}</td> 
+                    <td>${teamList.tier_limit}</td>
                 </tr>                  
             </c:forEach>
         </tbody>

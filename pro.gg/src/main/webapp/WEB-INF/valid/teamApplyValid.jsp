@@ -10,12 +10,11 @@
     <title></title>
     <script src="/webjars/jquery/3.6.0/jquery.min.js"></script>
     <script>
-
-        function alreadyBelongInTeam(){
-            alert("이미 다른팀에 소속되어 있습니다.");
+        function existLiner(){
+            alert("해당 라인은 이미 지정된 소환사가 있습니다.");
             $.ajax({
                 type:'get',
-                url:'${pageContext.request.contextPath}//move/teammatch.do',
+                url:'${pageContext.request.contextPath}/teamdetail.do?teamName=${teamName}',
                 data:'',
                 dataType:'',
                 success:function(data){
@@ -24,11 +23,14 @@
             })
         }
 
-        function existTeamName(){
-            alert("이미 존재하는 팀 이름 입니다.");
+        function blockToTierLimit(){
+            var tierLimit = "${tierLimit}";
+
+            console.log("디버그");
+            alert(tierLimit + " 이하는 신청 할 수 없습니다.");
             $.ajax({
                 type:'get',
-                url:'${pageContext.request.contextPath}/move/teamCreate.do',
+                url:'${pageContext.request.contextPath}/teamdetail.do?teamName=${teamName}',
                 data:'',
                 dataType:'',
                 success:function(data){
@@ -37,11 +39,11 @@
             })
         }
 
-        function memberTierLimit(){
-            alert("신청 제한 티어가 본인의 티어보다 높습니다.");
+        function teamApplySuccess(){
+            alert("신청이 완료 되었습니다.");
             $.ajax({
                 type:'get',
-                url:'${pageContext.request.contextPath}/move/teamCreate.do',
+                url:'${pageContext.request.contextPath}/teamdetail.do?teamName=${teamName}',
                 data:'',
                 dataType:'',
                 success:function(data){
@@ -52,17 +54,16 @@
     </script>
 </head>
 <body>
-
-    <c:if test="${alreadyBelongTeam != null}">
-        <script>alreadyBelongInTeam()</script>
+    <c:if test="${exist_liner != null && teamName != null}">
+        <script>existLiner()</script>
     </c:if>
 
-    <c:if test="${teamname_exist != null}">
-        <script>existTeamName()</script>
+    <c:if test="${tierLimit != null && teamName != null}">
+        <script>blockToTierLimit()</script>
     </c:if>
 
-    <c:if test="${memberTier != null}">
-        <script>memberTierLimit()</script>
+    <c:if test="${applySuccess != null && teamName != null}">
+        <script>teamApplySuccess()</script>
     </c:if>
 </body>
 </html>

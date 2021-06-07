@@ -1,5 +1,7 @@
 package Project.pro.gg.Controller;
 
+import Project.pro.gg.Model.TeamDTO;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -87,5 +89,23 @@ public class PageController {
             model.addAttribute("change", target);
         }
         return "../popup/currentPasswd_popup";
+    }
+
+    @GetMapping("/move/teamapplyForm.do")
+    public String teamApplyForm(@RequestParam("team") String team, Model model){
+
+        TeamDTO teamDTO = new TeamDTO();
+
+        try{
+            JSONObject jsonObject = new JSONObject(team);
+
+            teamDTO.setTeamName((String) jsonObject.getString("teamName"));
+            teamDTO.setTier_limit((String) jsonObject.getString("tier_limit"));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        model.addAttribute("team", teamDTO);
+        return "teamApplyForm";
     }
 }
