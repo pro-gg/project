@@ -8,6 +8,11 @@
         where summoner_name = #{summoner_name}
     </select>
 
+    <select id="findByUserid" parameterType="String" resultType="Project.pro.gg.Model.SummonerDTO">
+        select * from summoner
+        where userid = #{userid}
+    </select>
+
     <select id="insertSummonerData">
         insert into summoner(summoner_name, id, accountid, puuid, profileiconid, summonerlevel, revisiondate, userid)
             values(#{summoner_name}, #{id}, #{accountId}, #{puuid}, #{profileiconId}, #{summonerLevel}, #{revisionDate}, #{userid})

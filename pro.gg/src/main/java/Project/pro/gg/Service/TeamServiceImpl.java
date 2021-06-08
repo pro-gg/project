@@ -66,4 +66,18 @@ public class TeamServiceImpl implements TeamService{
     public void deleteApplyMember(TeamApplyDTO teamApplyDTO) {
         teamRepository.deleteApplyMember(teamApplyDTO);
     }
+
+    @Override
+    public void deleteTeam(TeamDTO teamDTO) {
+        teamRepository.deleteTeam(teamDTO);
+    }
+
+    @Override
+    public boolean selectOtherApply(String nickname) {
+        boolean check_otherApply = false;
+
+        TeamApplyDTO teamApplyDTO = teamRepository.selectApplyStatus(nickname);
+        if (teamApplyDTO != null) check_otherApply = true;
+        return check_otherApply;
+    }
 }

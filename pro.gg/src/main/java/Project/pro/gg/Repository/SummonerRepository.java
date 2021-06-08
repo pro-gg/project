@@ -69,4 +69,9 @@ public class SummonerRepository implements SummonerDAO {
     public RankedFlexDTO selectRankedFlexData(String id) {
         return sqlSession.selectOne("summoner.selectRankedFlexData", id);
     }
+
+    @Override
+    public SummonerDTO findByUserid(String userid) {
+        return sqlSession.selectOne("summoner.findByUserid", userid);
+    }
 }
