@@ -17,15 +17,18 @@
         }
 
         function reject(nickname, teamName){
-            $.ajax({
-                type:'get',
-                url:'${pageContext.request.contextPath}/rejectapply.do?nickname='+nickname+"&teamName="+teamName,
-                data:'',
-                dataType:'',
-                success:function(data){
-                    $("body").html(data);
-                }
-            })
+            if(confirm("신청을 거절 하시겠습니까?") === true){
+                $.ajax({
+                    type:'get',
+                    url:'${pageContext.request.contextPath}/rejectapply.do?nickname='+nickname+"&teamName="+teamName,
+                    data:'',
+                    dataType:'',
+                    success:function(data){
+                        $("body").html(data);
+                        window.location.reload();
+                    }
+                })
+            }
         }
     </script>
 </head>

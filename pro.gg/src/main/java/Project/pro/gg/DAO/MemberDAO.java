@@ -21,4 +21,6 @@ public interface MemberDAO {
     public String selectInnerJoinsummoner_name(String userid);
 
     public MemberDTO findByNickname(String nickname);
+
+    public void relationReleaseOfTeam(MemberDTO memberDTO);
 }

@@ -51,6 +51,32 @@
                 }
             })
         }
+
+        function otherTeamApplyExist(){
+            alert("이미 다른 팀에 지원 하셨습니다. 팀 신청은 한 팀 에게만 가능합니다.");
+            $.ajax({
+                type:'get',
+                url:'${pageContext.request.contextPath}/teamdetail.do?teamName=${teamName}',
+                data:'',
+                dataType:'',
+                success:function(data){
+                    $("body").html(data);
+                }
+            })
+        }
+
+        function notExistSoloRankData(){
+            alert("솔로 랭크 데이터가 없으면 지원하실 수 없습니다.");
+            $.ajax({
+                type:'get',
+                url:'${pageContext.request.contextPath}/teamdetail.do?teamName=${teamName}',
+                data:'',
+                dataType:'',
+                success:function(data){
+                    $("body").html(data);
+                }
+            })
+        }
     </script>
 </head>
 <body>
@@ -64,6 +90,14 @@
 
     <c:if test="${applySuccess != null && teamName != null}">
         <script>teamApplySuccess()</script>
+    </c:if>
+
+    <c:if test="${otherTeamApply != null && teamName != null}">
+        <script>otherTeamApplyExist()</script>
+    </c:if>
+
+    <c:if test="${notExistSoloRank != null && teamName != null}">
+        <script>notExistSoloRankData()</script>
     </c:if>
 </body>
 </html>

@@ -26,4 +26,8 @@ public interface TeamService {
     public List<TeamApplyDTO> selectApplyMemberList(String teamName);
 
     public void deleteApplyMember(TeamApplyDTO teamApplyDTO);
+
+    public void deleteTeam(TeamDTO teamDTO);
+
+    public boolean selectOtherApply(String nickname);
 }
