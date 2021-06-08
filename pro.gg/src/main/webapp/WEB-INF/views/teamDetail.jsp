@@ -79,8 +79,37 @@
 	}
 
 	function teamSecession(){
-		if(confirm("탈퇴 하시겠습니까?") === true){
-			
+		var member = "${sessionScope.member.nickname}";
+		var captinName = "${team.captinName}";
+		var teamName = "${team.teamName}";
+
+		if(confirm("팀에서 탈퇴 하시겠습니까?") === true){
+			if(member === captinName && confirm("팀장이 탈퇴하면 팀이 완전히 해체됩니다. 그래도 탈퇴 하시겠습니까?") === true){
+				// 팀장이 탈퇴하는 경우 소속되어 있는 팀장을 포함한 모든 팀원들이 탈퇴된 후 팀이 삭제되는 방식으로 로직이 수행된다.
+				// 원활한 팀 삭제 작업을 위해 연관관계로 매핑되어 있는 데이터들을 null 값으로 세팅하여 연관관계를 제거해준다.
+				// 팀 삭제 로직은 팀장의 탈퇴 요청시 수행되는 것으로 구현한다.
+				$.ajax({
+					type:'get',
+					url:'${pageContext.request.contextPath}/captinsecession.do?teamName='+teamName,
+					data:'',
+					dataType:'',
+					success:function(data){
+						$("body").html(data);
+					}
+				})
+			}
+			else{
+				// 일반 팀원이 탈퇴하는 경우 팀의 해제 없이 해당 팀원만 연관관계 매핑 해제 후 탈퇴 되는 것으로 구현한다.
+				$.ajax({
+					type:'get',
+					url:'${pageContext.request.contextPath}/crewsecession.do?nickname='+nickname+"&teamName="+teamName,
+					data:'',
+					dataType:'',
+					success:function(data){
+						$("body").html(data);
+					}
+				})
+			}
 		}
 	}
 
@@ -119,6 +148,7 @@
 			    							<tr>
 												<th>포지션</th>
 			    								<th>닉네임</th>
+												<th>소환사 명</th>
 			    								<th>티어</th>
 			    								<th>승률</th>
 												<th>비고</th>
@@ -137,8 +167,15 @@
 													탑
 												</th> 
 			    								<td id="top">${team.top}</td>
-			    								<td></td>
-			    								<td>56.6%</td>
+												<td>
+													<c:if test="${team_top != null}">${team_top}</c:if>
+												</td>
+			    								<td>
+													<c:if test="${topSoloData_top != null}">${topSoloData_top.tier} ${topSoloData_top.tier_rank}</c:if>
+												</td>
+			    								<td>
+													<c:if test="${topSoloData_top != null}">${topSoloData_top.rate}%</c:if>
+												</td>
 												<td id="top_captin"></td>
 			    							</tr>
 											<tr>
@@ -153,8 +190,15 @@
 													미드
 												</th>
 			    								<td id="middle">${team.middle}</td>
-			    								<td></td>
-			    								<td>56.6%</td>
+												<td>
+													<c:if test="${team_middle != null}">${team_middle}</c:if>
+												</td>
+			    								<td>
+													<c:if test="${topSoloData_middle != null}">${topSoloData_middle.tier} ${topSoloData_middle.tier_rank}</c:if>
+												</td>
+			    								<td>
+													<c:if test="${topSoloData_middle != null}">${topSoloData_middle.rate}%</c:if>
+												</td>
 												<td id="middle_captin"></td>
 											</tr>
 											<tr>
@@ -169,8 +213,15 @@
 													정글
 												</th>
 			    								<td id="jungle">${team.jungle}</td>
-			    								<td></td>
-			    								<td>56.6%</td>
+												<td>
+													<c:if test="${team_jungle != null}">${team_jungle}</c:if>
+												</td>
+			    								<td>
+													<c:if test="${topSoloData_jungle != null}">${topSoloData_jungle.tier} ${topSoloData_jungle.tier_rank}</c:if>
+												</td>
+			    								<td>
+													<c:if test="${topSoloData_jungle != null}">${topSoloData_jungle.rate}%</c:if>
+												</td>
 												<td id="jungle_captin"></td>
 											</tr>
 											<tr>
@@ -185,8 +236,15 @@
 													바텀
 												</th>
 			    								<td id="bottom">${team.bottom}</td>
-			    								<td></td>
-			    								<td>56.6%</td>
+												<td>
+													<c:if test="${team_bottom != null}">${team_bottom}</c:if>
+												</td>
+			    								<td>
+													<c:if test="${topSoloData_bottom != null}">${topSoloData_bottom.tier} ${topSoloData_bottom.tier_rank}</c:if>
+												</td>
+			    								<td>
+													<c:if test="${topSoloData_bottom != null}">${topSoloData_bottom.rate}%</c:if>
+												</td>
 												<td id="bottom_captin"></td>
 											</tr>
 											<tr>
@@ -201,8 +259,15 @@
 													서포터
 												</th>
 			    								<td id="suppoter">${team.suppoter}</td>
-			    								<td></td>
-			    								<td>56.6%</td>
+												<td>
+													<c:if test="${team_suppoter != null}">${team_suppoter}</c:if>
+												</td>
+			    								<td>
+													<c:if test="${topSoloData_suppoter != null}">${topSoloData_suppoter.tier} ${topSoloData_suppoter.tier_rank}</c:if>
+												</td>
+			    								<td>
+													<c:if test="${topSoloData_suppoter != null}">${topSoloData_suppoter.rate}%</c:if>
+												</td>
 												<td id="suppoter_captin"></td>
 											</tr>
 			    						</tbody>

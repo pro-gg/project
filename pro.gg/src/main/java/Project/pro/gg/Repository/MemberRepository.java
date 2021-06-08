@@ -48,6 +48,11 @@ public class MemberRepository implements MemberDAO {
     }
 
     @Override
+    public void relationReleaseOfTeam(MemberDTO memberDTO) {
+        sqlSession.update("member.updateTeamName", memberDTO);
+    }
+
+    @Override
     public void updatePasswd(MemberDTO memberDTO) {
         sqlSession.update("member.updatePasswd", memberDTO);
     }
@@ -69,7 +74,6 @@ public class MemberRepository implements MemberDAO {
     @Override
     public String selectInnerJoinsummoner_name(String userid) {
         return sqlSession.selectOne("member.selectInnerJoinsummoner_name", userid);
-
     }
 
 

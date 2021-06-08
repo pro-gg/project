@@ -62,4 +62,14 @@ public class TeamRepository implements TeamDAO {
     public void deleteApplyMember(TeamApplyDTO teamApplyDTO) {
         sqlSession.delete("team.deleteApplyMember", teamApplyDTO);
     }
+
+    @Override
+    public void deleteTeam(TeamDTO teamDTO) {
+        sqlSession.delete("team.deleteTeam", teamDTO);
+    }
+
+    @Override
+    public TeamApplyDTO selectApplyStatus(String nickname) {
+        return sqlSession.selectOne("team.selectApplyStatus", nickname);
+    }
 }
