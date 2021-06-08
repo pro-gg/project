@@ -15,7 +15,7 @@
             alert("이미 다른팀에 소속되어 있습니다.");
             $.ajax({
                 type:'get',
-                url:'${pageContext.request.contextPath}//move/teammatch.do',
+                url:'${pageContext.request.contextPath}/move/teammatch.do',
                 data:'',
                 dataType:'',
                 success:function(data){
@@ -49,6 +49,19 @@
                 }
             })
         }
+
+        function notExistSoloRankData(){
+            alert("솔로 랭크 데이터가 없으면 팀을 생성하실 수 없습니다.");
+            $.ajax({
+                type:'get',
+                url:'${pageContext.request.contextPath}/move/teammatch.do',
+                data:'',
+                dataType:'',
+                success:function(data){
+                    $("body").html(data);
+                }
+            })
+        }
     </script>
 </head>
 <body>
@@ -63,6 +76,10 @@
 
     <c:if test="${memberTier != null}">
         <script>memberTierLimit()</script>
+    </c:if>
+
+    <c:if test="${notExistSoloRank != null}">
+        <script>notExistSoloRankData()</script>
     </c:if>
 </body>
 </html>

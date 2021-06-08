@@ -1,9 +1,8 @@
 package Project.pro.gg.Controller;
 
-import Project.pro.gg.Model.MemberDTO;
-import Project.pro.gg.Model.TeamApplyDTO;
-import Project.pro.gg.Model.TeamDTO;
+import Project.pro.gg.Model.*;
 import Project.pro.gg.Service.MemberServiceImpl;
+import Project.pro.gg.Service.SummonerServiceImpl;
 import Project.pro.gg.Service.TeamServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
@@ -14,6 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
+import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -21,6 +22,9 @@ public class TeamController {
 
     @Autowired
     MemberServiceImpl memberService;
+
+    @Autowired
+    SummonerServiceImpl summonerService;
 
     @Autowired
     TeamServiceImpl teamService;
@@ -52,6 +56,13 @@ public class TeamController {
 
             String[] tierArray = teamDTO.getTier_limit().split(" ");
             teamApplyDTO = teamService.selectTeamApply_Join(memberDTO.getNickname());
+
+            if(teamApplyDTO == null){
+                // 솔랭 기록이 없는 회원의 경우 처리하는 로직
+                model.addAttribute("notExistSoloRank", "notExistSoloRank");
+                return "../valid/teamNameValid";
+            }
+
             check_result = teamService.tierCheck(teamApplyDTO.getTier(), teamApplyDTO.getTier_rank(), tierArray);
         }catch (Exception e){
             e.printStackTrace();
@@ -92,6 +103,53 @@ public class TeamController {
         teamDTO.setTeamName(teamName);
         teamDTO = teamService.selectTeam(teamDTO);
 
+        MemberDTO memberDTO_top = null;
+        MemberDTO memberDTO_middle = null;
+        MemberDTO memberDTO_jungle = null;
+        MemberDTO memberDTO_bottom = null;
+        MemberDTO memberDTO_suppoter = null;
+
+        // 팀 디테일 티어, 승률 정보 보내기
+        if (teamDTO.getTop() != null){
+            memberDTO_top = memberService.findByNickname(teamDTO.getTop());
+            SummonerDTO summonerDTO_top = summonerService.findByUserid(memberDTO_top.getUserid());
+            RankedSoloDTO rankedSoloDTO_top = summonerService.selectRankedSoloData(summonerDTO_top.getId());
+
+            model.addAttribute("team_top", summonerDTO_top.getSummoner_name());
+            model.addAttribute("topSoloData_top", rankedSoloDTO_top);
+        }
+        if (teamDTO.getMiddle() != null){
+            memberDTO_middle = memberService.findByNickname(teamDTO.getMiddle());
+            SummonerDTO summonerDTO_middle = summonerService.findByUserid(memberDTO_middle.getUserid());
+            RankedSoloDTO rankedSoloDTO_middle = summonerService.selectRankedSoloData(summonerDTO_middle.getId());
+
+            model.addAttribute("team_middle", summonerDTO_middle.getSummoner_name());
+            model.addAttribute("topSoloData_middle", rankedSoloDTO_middle);
+        }
+        if (teamDTO.getJungle() != null){
+            memberDTO_jungle = memberService.findByNickname(teamDTO.getJungle());
+            SummonerDTO summonerDTO_jungle = summonerService.findByUserid(memberDTO_jungle.getUserid());
+            RankedSoloDTO rankedSoloDTO_jungle = summonerService.selectRankedSoloData(summonerDTO_jungle.getId());
+
+            model.addAttribute("team_jungle", summonerDTO_jungle.getSummoner_name());
+            model.addAttribute("topSoloData_jungle", rankedSoloDTO_jungle);
+        }
+        if (teamDTO.getBottom() != null){
+            memberDTO_bottom = memberService.findByNickname(teamDTO.getBottom());
+            SummonerDTO summonerDTO_bottom = summonerService.findByUserid(memberDTO_bottom.getUserid());
+            RankedSoloDTO rankedSoloDTO_bottom = summonerService.selectRankedSoloData(summonerDTO_bottom.getId());
+
+            model.addAttribute("team_bottom", summonerDTO_bottom.getSummoner_name());
+            model.addAttribute("topSoloData_bottom", rankedSoloDTO_bottom);
+        }
+        if (teamDTO.getSuppoter() != null){
+            memberDTO_suppoter = memberService.findByNickname(teamDTO.getSuppoter());
+            SummonerDTO summonerDTO_suppoter = summonerService.findByUserid(memberDTO_suppoter.getUserid());
+            RankedSoloDTO rankedSoloDTO_suppoter = summonerService.selectRankedSoloData(summonerDTO_suppoter.getId());
+
+            model.addAttribute("team_suppoter", summonerDTO_suppoter.getSummoner_name());
+            model.addAttribute("topSoloData_suppoter", rankedSoloDTO_suppoter);
+        }
         model.addAttribute("team", teamDTO);
         return "teamDetail";
     }
@@ -112,15 +170,31 @@ public class TeamController {
 
             // 조인문 으로 가져올 데이터 : 회원의 소환사 명, 솔랭 티어, 승률
             teamApplyDTO = teamService.selectTeamApply_Join(memberDTO.getNickname());
-            teamApplyDTO.setTeamName((String) jsonObject.getString("teamName"));
+            
+            if(teamApplyDTO == null){
+                // 솔랭 기록이 없는 회원의 경우 처리하는 로직
+                model.addAttribute("notExistSoloRank", "notExistSoloRank");
+                model.addAttribute("teamName", (String) jsonObject.getString("teamName"));
+                return "../valid/teamApplyValid";
+            }
+            
+            // 다른 팀에 지원한 사실이 있는지 확인하기 위해 닉네임 우선 세팅
             teamApplyDTO.setNickname(memberDTO.getNickname());
-            teamApplyDTO.setLine((String) jsonObject.getString("line"));
+            
+            if(teamService.selectOtherApply(teamApplyDTO.getNickname())){ // 다른 팀에 지원한 사실이 있는 경우
+                model.addAttribute("otherTeamApply", "otherTeamApply");
+                model.addAttribute("teamName", (String) jsonObject.getString("teamName"));
+                return "../valid/teamApplyValid";
+            }
+            else{ // 다른 팀에 지원한 사실이 없는 경우
+                teamApplyDTO.setTeamName((String) jsonObject.getString("teamName"));
+                teamApplyDTO.setLine((String) jsonObject.getString("line"));
 
-            tier_limit = (String) jsonObject.getString("tier_limit");
-            String[] tierArray = tier_limit.split(" ");
-            // 신청 티어 제한 검사
-            check_result = teamService.tierCheck(teamApplyDTO.getTier(), teamApplyDTO.getTier_rank(), tierArray);
-
+                tier_limit = (String) jsonObject.getString("tier_limit");
+                String[] tierArray = tier_limit.split(" ");
+                // 신청 티어 제한 검사
+                check_result = teamService.tierCheck(teamApplyDTO.getTier(), teamApplyDTO.getTier_rank(), tierArray);
+            }
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -162,7 +236,49 @@ public class TeamController {
         TeamApplyDTO teamApplyDTO = new TeamApplyDTO();
         teamApplyDTO.setNickname(nickname);
         teamApplyDTO.setTeamName(teamName);
+
         teamService.deleteApplyMember(teamApplyDTO);
-        return "redirect:/teamdetail.do?teamName="+teamName;
+
+        String returnTeamName = null;
+        try{
+            // URL 상 한글 인코딩 깨짐현상 방지를 위한 퍼센트 인코딩
+            returnTeamName = URLEncoder.encode(teamName, "UTF-8");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return "redirect:/teamdetail.do?teamName="+returnTeamName;
+    }
+
+    @GetMapping("/captinsecession.do")
+    public String captinSecession(@RequestParam("teamName") String teamName){
+        HttpSession session = MemberController.session;
+        MemberDTO memberDTO_captin = (MemberDTO) session.getAttribute("member");
+
+        TeamDTO teamDTO = new TeamDTO();
+        teamDTO.setTeamName(teamName);
+        teamDTO = teamService.selectTeam(teamDTO);
+
+        List<String> lineList = new ArrayList<>();
+        lineList.add(teamDTO.getTop());
+        lineList.add(teamDTO.getMiddle());
+        lineList.add(teamDTO.getJungle());
+        lineList.add(teamDTO.getBottom());
+        lineList.add(teamDTO.getSuppoter());
+        // 연관관계 매핑 해제 - 회원 닉네임을 통해 회원 데이터 검색 후 해당 데이터의 teamName 필드값을 null 로 업데이트
+        for (int i = 0; i < lineList.size(); i++){
+            MemberDTO memberDTO = memberService.findByNickname(lineList.get(i));
+
+            if (memberDTO != null) {
+                memberDTO.setTeamName(null);
+                memberService.relationReleaseOfTeam(memberDTO);
+            }
+        }
+
+        // 회원 측 연관관계 해제 이후 팀 삭제기능 동작
+        teamService.deleteTeam(teamDTO);
+        // 세션에서 또한 teamName 필드 데이터 삭제
+        memberDTO_captin.setTeamName(null);
+        session.setAttribute("member", memberDTO_captin);
+        return "redirect:/move/teammatch.do";
     }
 }

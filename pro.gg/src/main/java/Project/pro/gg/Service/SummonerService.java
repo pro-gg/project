@@ -23,4 +23,6 @@ public interface SummonerService {
     public RankedSoloDTO selectRankedSoloData(String id);
 
     public RankedFlexDTO selectRankedFlexData(String id);
+
+    public SummonerDTO findByUserid(String userid);
 }

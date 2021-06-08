@@ -54,6 +54,11 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
+    public void relationReleaseOfTeam(MemberDTO memberDTO) {
+        memberRepository.relationReleaseOfTeam(memberDTO);
+    }
+
+    @Override
     public void updatePasswd(MemberDTO memberDTO) {
         memberRepository.updatePasswd(memberDTO);
     }
