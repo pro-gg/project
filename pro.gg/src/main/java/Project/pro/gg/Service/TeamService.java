@@ -30,4 +30,8 @@ public interface TeamService {
     public void deleteTeam(TeamDTO teamDTO);
 
     public boolean selectOtherApply(String nickname);
+
+    public TeamApplyDTO selectApplyStatus(String nickname);
+
+    public void updateTeamLine(TeamApplyDTO teamApplyDTO);
 }

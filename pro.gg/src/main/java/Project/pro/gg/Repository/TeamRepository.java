@@ -72,4 +72,9 @@ public class TeamRepository implements TeamDAO {
     public TeamApplyDTO selectApplyStatus(String nickname) {
         return sqlSession.selectOne("team.selectApplyStatus", nickname);
     }
+
+    @Override
+    public void updateTeamLine(TeamApplyDTO teamApplyDTO) {
+        sqlSession.update("team.updateTeamLine", teamApplyDTO);
+    }
 }

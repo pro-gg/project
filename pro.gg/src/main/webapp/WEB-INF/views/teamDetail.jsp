@@ -102,7 +102,7 @@
 				// 일반 팀원이 탈퇴하는 경우 팀의 해제 없이 해당 팀원만 연관관계 매핑 해제 후 탈퇴 되는 것으로 구현한다.
 				$.ajax({
 					type:'get',
-					url:'${pageContext.request.contextPath}/crewsecession.do?nickname='+nickname+"&teamName="+teamName,
+					url:'${pageContext.request.contextPath}/crewsecession.do?teamName='+teamName,
 					data:'',
 					dataType:'',
 					success:function(data){
