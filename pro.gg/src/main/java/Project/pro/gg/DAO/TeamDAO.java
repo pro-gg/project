@@ -28,4 +28,6 @@ public interface TeamDAO {
     public void deleteTeam(TeamDTO teamDTO);
 
     public TeamApplyDTO selectApplyStatus(String nickname);
+
+    public void updateTeamLine(TeamApplyDTO teamApplyDTO);
 }
