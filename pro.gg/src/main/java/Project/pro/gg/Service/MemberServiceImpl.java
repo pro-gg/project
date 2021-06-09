@@ -54,8 +54,8 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public void relationReleaseOfTeam(MemberDTO memberDTO) {
-        memberRepository.relationReleaseOfTeam(memberDTO);
+    public void updateTeamName(MemberDTO memberDTO) {
+        memberRepository.updateTeamName(memberDTO);
     }
 
     @Override
