@@ -59,4 +59,10 @@
     <select id="deleteTeam" parameterType="Project.pro.gg.Model.TeamDTO">
         delete from team where teamName = #{teamName}
     </select>
+
+    <select id="updateTeamLine" parameterType="Project.pro.gg.Model.TeamApplyDTO">
+        update team
+        set ${line} = #{nickname}
+        where teamName = #{teamName}
+    </select>
 </mapper>

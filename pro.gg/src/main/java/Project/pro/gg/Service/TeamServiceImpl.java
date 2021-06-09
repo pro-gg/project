@@ -80,4 +80,14 @@ public class TeamServiceImpl implements TeamService{
         if (teamApplyDTO != null) check_otherApply = true;
         return check_otherApply;
     }
+
+    @Override
+    public TeamApplyDTO selectApplyStatus(String nickname) {
+        return teamRepository.selectApplyStatus(nickname);
+    }
+
+    @Override
+    public void updateTeamLine(TeamApplyDTO teamApplyDTO) {
+        teamRepository.updateTeamLine(teamApplyDTO);
+    }
 }

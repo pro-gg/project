@@ -25,5 +25,5 @@ public interface MemberService  {
 
     public MemberDTO findByNickname(String nickname);
 
-    public void relationReleaseOfTeam(MemberDTO memberDTO);
+    public void updateTeamName(MemberDTO memberDTO);
 }

@@ -48,7 +48,7 @@ public class MemberRepository implements MemberDAO {
     }
 
     @Override
-    public void relationReleaseOfTeam(MemberDTO memberDTO) {
+    public void updateTeamName(MemberDTO memberDTO) {
         sqlSession.update("member.updateTeamName", memberDTO);
     }
 

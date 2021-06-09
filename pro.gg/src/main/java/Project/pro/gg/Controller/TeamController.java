@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpSession;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Controller
@@ -226,8 +227,39 @@ public class TeamController {
     public String applyStatusView(@RequestParam("teamName") String teamName, Model model){
 
         List<TeamApplyDTO> applyMemberList = teamService.selectApplyMemberList(teamName);
+
+        TeamDTO teamDTO = new TeamDTO();
+        teamDTO.setTeamName(teamName);
+        TeamDTO team = teamService.selectTeam(teamDTO);
+
         model.addAttribute("applyMemberList", applyMemberList);
+        model.addAttribute("team", team);
         return "applyMemberList";
+    }
+
+    @GetMapping("/teamapprove.do")
+    public String teamApprove(@RequestParam("nickname") String nickname, Model model){
+        // 신청 상태정보 검색을 통해 신청을 수락받은 회원이 신청한 팀 이름을 추출하고, 이를 통해 연관관계를 매핑해준다.
+        TeamApplyDTO teamApplyDTO = teamService.selectApplyStatus(nickname);
+
+        // 팀 라인 정보 업데이트
+        teamService.updateTeamLine(teamApplyDTO);
+
+        // 회원 teamName 필드 업데이트(연관관계 매핑)
+        MemberDTO memberDTO = memberService.findByNickname(nickname);
+        memberDTO.setTeamName(teamApplyDTO.getTeamName());
+        memberService.updateTeamName(memberDTO);
+        
+        // apply 테이블에서 지원 내역 삭제
+        teamService.deleteApplyMember(teamApplyDTO);
+        String returnTeamName = null;
+        try{
+            // URL 상 한글 인코딩 깨짐현상 방지를 위한 퍼센트 인코딩
+            returnTeamName = URLEncoder.encode(teamApplyDTO.getTeamName(), "UTF-8");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return "redirect:/teamdetail.do?teamName="+returnTeamName;
     }
 
     @GetMapping("/rejectapply.do")
@@ -270,7 +302,7 @@ public class TeamController {
 
             if (memberDTO != null) {
                 memberDTO.setTeamName(null);
-                memberService.relationReleaseOfTeam(memberDTO);
+                memberService.updateTeamName(memberDTO);
             }
         }
 
@@ -279,6 +311,49 @@ public class TeamController {
         // 세션에서 또한 teamName 필드 데이터 삭제
         memberDTO_captin.setTeamName(null);
         session.setAttribute("member", memberDTO_captin);
+        return "redirect:/move/teammatch.do";
+    }
+
+    @GetMapping("/crewsecession.do")
+    public String crewSecession(@RequestParam("teamName") String teamName){
+        // 팀에서 탈퇴하는 팀원 라인 null 값 처리
+        // 팀원 개인 member 데이터에서 teamName 필드 null 값 처리
+        HttpSession session = MemberController.session;
+        MemberDTO memberDTO_crew = (MemberDTO) session.getAttribute("member");
+
+        TeamDTO teamDTO = new TeamDTO();
+        teamDTO.setTeamName(teamName);
+        teamDTO = teamService.selectTeam(teamDTO);
+
+        // 단 하나의 메소드로 5가지 라인 각각에 지정되어 있는 팀원의 닉네임 값을 삭제해주기 위한 TeamApplyDTO 객체 사용
+        TeamApplyDTO teamApplyDTO = new TeamApplyDTO();
+        teamApplyDTO.setTeamName(teamName);
+        teamApplyDTO.setNickname(null);
+
+        System.out.println("탈퇴자 닉네임 : " + memberDTO_crew.getNickname());
+        System.out.println("탈퇴자 라인 : " + teamDTO.getMiddle());
+
+        // 어떤 라인의 회원이 탈퇴하는지 확인하기 위한 조건문
+        if (memberDTO_crew.getNickname().equals(teamDTO.getTop())){
+          teamApplyDTO.setLine("top");
+        } else if (memberDTO_crew.getNickname().equals(teamDTO.getMiddle())){
+            System.out.println("조건문 수행 확인");
+            teamApplyDTO.setLine("middle");
+        } else if (memberDTO_crew.getNickname().equals(teamDTO.getJungle())){
+            teamApplyDTO.setLine("jungle");
+        } else if (memberDTO_crew.getNickname().equals(teamDTO.getBottom())){
+            teamApplyDTO.setLine("bottom");
+        } else if (memberDTO_crew.getNickname().equals(teamDTO.getSuppoter())){
+            teamApplyDTO.setLine("suppoter");
+        }
+
+        // 어떤 라인의 회원이 탈퇴하는지 판별 완료 후 해당 라인 필드 값 null 로 업데이트
+        teamService.updateTeamLine(teamApplyDTO);
+
+        // 회원 측 teamName 필드 null 로 업데이트
+        memberDTO_crew.setTeamName(null);
+        memberService.updateTeamName(memberDTO_crew);
+        session.setAttribute("member", memberDTO_crew);
         return "redirect:/move/teammatch.do";
     }
 }
