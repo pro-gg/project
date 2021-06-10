@@ -117,7 +117,7 @@ public class TeamController {
             RankedSoloDTO rankedSoloDTO_top = summonerService.selectRankedSoloData(summonerDTO_top.getId());
 
             model.addAttribute("team_top", summonerDTO_top.getSummoner_name());
-            model.addAttribute("topSoloData_top", rankedSoloDTO_top);
+            model.addAttribute("soloData_top", rankedSoloDTO_top);
         }
         if (teamDTO.getMiddle() != null){
             memberDTO_middle = memberService.findByNickname(teamDTO.getMiddle());
@@ -125,7 +125,7 @@ public class TeamController {
             RankedSoloDTO rankedSoloDTO_middle = summonerService.selectRankedSoloData(summonerDTO_middle.getId());
 
             model.addAttribute("team_middle", summonerDTO_middle.getSummoner_name());
-            model.addAttribute("topSoloData_middle", rankedSoloDTO_middle);
+            model.addAttribute("soloData_middle", rankedSoloDTO_middle);
         }
         if (teamDTO.getJungle() != null){
             memberDTO_jungle = memberService.findByNickname(teamDTO.getJungle());
@@ -133,7 +133,7 @@ public class TeamController {
             RankedSoloDTO rankedSoloDTO_jungle = summonerService.selectRankedSoloData(summonerDTO_jungle.getId());
 
             model.addAttribute("team_jungle", summonerDTO_jungle.getSummoner_name());
-            model.addAttribute("topSoloData_jungle", rankedSoloDTO_jungle);
+            model.addAttribute("soloData_jungle", rankedSoloDTO_jungle);
         }
         if (teamDTO.getBottom() != null){
             memberDTO_bottom = memberService.findByNickname(teamDTO.getBottom());
@@ -141,7 +141,7 @@ public class TeamController {
             RankedSoloDTO rankedSoloDTO_bottom = summonerService.selectRankedSoloData(summonerDTO_bottom.getId());
 
             model.addAttribute("team_bottom", summonerDTO_bottom.getSummoner_name());
-            model.addAttribute("topSoloData_bottom", rankedSoloDTO_bottom);
+            model.addAttribute("soloData_bottom", rankedSoloDTO_bottom);
         }
         if (teamDTO.getSuppoter() != null){
             memberDTO_suppoter = memberService.findByNickname(teamDTO.getSuppoter());
@@ -149,7 +149,7 @@ public class TeamController {
             RankedSoloDTO rankedSoloDTO_suppoter = summonerService.selectRankedSoloData(summonerDTO_suppoter.getId());
 
             model.addAttribute("team_suppoter", summonerDTO_suppoter.getSummoner_name());
-            model.addAttribute("topSoloData_suppoter", rankedSoloDTO_suppoter);
+            model.addAttribute("soloData_suppoter", rankedSoloDTO_suppoter);
         }
         model.addAttribute("team", teamDTO);
         return "teamDetail";
@@ -355,5 +355,11 @@ public class TeamController {
         memberService.updateTeamName(memberDTO_crew);
         session.setAttribute("member", memberDTO_crew);
         return "redirect:/move/teammatch.do";
+    }
+
+    @GetMapping("/teamUpdate.do")
+    public String teamUpdate(){
+        // 수정하기의 경우
+        return null;
     }
 }
