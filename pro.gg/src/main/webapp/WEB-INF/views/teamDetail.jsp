@@ -65,9 +65,56 @@
 	function teamUpdate(){
 		$(function(){
 			if(confirm("수정 하시겠습니까?") === true){
+
+				var teamObject = {
+					team:{
+						teamName:'${team.teamName}',
+						teamDescription:'${team.team_description}',
+						teamCaptin:'${team.captinName}',
+
+						top_nickname:'${team.top}',
+						middle_nickname:'${team.middle}',
+						jungle_nickname:'${team.jungle}',
+						bottom_nickname:'${team.bottom}',
+						suppoter_nickname:'${team.suppoter}'
+					},
+
+					team_top:'${team_top}',
+					team_middle:'${team_middle}',
+					team_jungle:'${team_jungle}',
+					team_bottom:'${team_bottom}',
+					team_suppoter:'${team_suppoter}',
+
+					soloData_top:{
+						soloData_top_tier:'${soloData_top.tier}',
+						soloData_top_tierRank:'${soloData_top.tier_rank}',
+						soloData_top_rate:'${soloData_top.rate}'
+					},
+					soloData_middle:{
+						soloData_middle_tier:'${soloData_middle.tier}',
+						soloData_middle_tierRank:'${soloData_middle.tier_rank}',
+						soloData_middle_rate:'${soloData_middle.rate}'
+					},
+					soloData_jungle:{
+						soloData_jungle_tier:'${soloData_jungle.tier}',
+						soloData_jungle_tierRank:'${soloData_jungle.tier_rank}',
+						soloData_jungle_rate:'${soloData_jungle.rate}'
+					},
+					soloData_bottom:{
+						soloData_bottom_tier:'${soloData_bottom.tier}',
+						soloData_bottom_tierRank:'${soloData_bottom.tier_rank}',
+						soloData_bottom_rate:'${soloData_bottom.rate}'
+					},
+					soloData_suppoter:{
+						soloData_suppoter_tier:'${soloData_suppoter.tier}',
+						soloData_suppoter_tierRank:'${soloData_suppoter.tier_rank}',
+						soloData_suppoter_rate:'${soloData_suppoter.rate}'
+					}
+				};
+
 				$.ajax({
 					type:'get',
-					url:'${pageContext.request.contextPath}/teamUpdate.do',
+					url:'${pageContext.request.contextPath}/move/teamUpdateForm.do?teamObject='+encodeURI(JSON.stringify(teamObject)),
 					data:'',
 					dataType:'',
 					success:function(data){
@@ -171,10 +218,10 @@
 													<c:if test="${team_top != null}">${team_top}</c:if>
 												</td>
 			    								<td>
-													<c:if test="${topSoloData_top != null}">${topSoloData_top.tier} ${topSoloData_top.tier_rank}</c:if>
+													<c:if test="${soloData_top != null}">${soloData_top.tier} ${soloData_top.tier_rank}</c:if>
 												</td>
 			    								<td>
-													<c:if test="${topSoloData_top != null}">${topSoloData_top.rate}%</c:if>
+													<c:if test="${soloData_top != null}">${soloData_top.rate}%</c:if>
 												</td>
 												<td id="top_captin"></td>
 			    							</tr>
@@ -194,10 +241,10 @@
 													<c:if test="${team_middle != null}">${team_middle}</c:if>
 												</td>
 			    								<td>
-													<c:if test="${topSoloData_middle != null}">${topSoloData_middle.tier} ${topSoloData_middle.tier_rank}</c:if>
+													<c:if test="${soloData_middle != null}">${soloData_middle.tier} ${soloData_middle.tier_rank}</c:if>
 												</td>
 			    								<td>
-													<c:if test="${topSoloData_middle != null}">${topSoloData_middle.rate}%</c:if>
+													<c:if test="${soloData_middle != null}">${soloData_middle.rate}%</c:if>
 												</td>
 												<td id="middle_captin"></td>
 											</tr>
@@ -217,10 +264,10 @@
 													<c:if test="${team_jungle != null}">${team_jungle}</c:if>
 												</td>
 			    								<td>
-													<c:if test="${topSoloData_jungle != null}">${topSoloData_jungle.tier} ${topSoloData_jungle.tier_rank}</c:if>
+													<c:if test="${soloData_jungle != null}">${soloData_jungle.tier} ${soloData_jungle.tier_rank}</c:if>
 												</td>
 			    								<td>
-													<c:if test="${topSoloData_jungle != null}">${topSoloData_jungle.rate}%</c:if>
+													<c:if test="${soloData_jungle != null}">${soloData_jungle.rate}%</c:if>
 												</td>
 												<td id="jungle_captin"></td>
 											</tr>
@@ -240,10 +287,10 @@
 													<c:if test="${team_bottom != null}">${team_bottom}</c:if>
 												</td>
 			    								<td>
-													<c:if test="${topSoloData_bottom != null}">${topSoloData_bottom.tier} ${topSoloData_bottom.tier_rank}</c:if>
+													<c:if test="${soloData_bottom != null}">${soloData_bottom.tier} ${soloData_bottom.tier_rank}</c:if>
 												</td>
 			    								<td>
-													<c:if test="${topSoloData_bottom != null}">${topSoloData_bottom.rate}%</c:if>
+													<c:if test="${soloData_bottom != null}">${soloData_bottom.rate}%</c:if>
 												</td>
 												<td id="bottom_captin"></td>
 											</tr>
@@ -263,10 +310,10 @@
 													<c:if test="${team_suppoter != null}">${team_suppoter}</c:if>
 												</td>
 			    								<td>
-													<c:if test="${topSoloData_suppoter != null}">${topSoloData_suppoter.tier} ${topSoloData_suppoter.tier_rank}</c:if>
+													<c:if test="${soloData_suppoter != null}">${soloData_suppoter.tier} ${soloData_suppoter.tier_rank}</c:if>
 												</td>
 			    								<td>
-													<c:if test="${topSoloData_suppoter != null}">${topSoloData_suppoter.rate}%</c:if>
+													<c:if test="${soloData_suppoter != null}">${soloData_suppoter.rate}%</c:if>
 												</td>
 												<td id="suppoter_captin"></td>
 											</tr>
