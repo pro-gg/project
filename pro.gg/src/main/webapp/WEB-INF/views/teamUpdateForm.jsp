@@ -83,21 +83,37 @@ pageEncoding="UTF-8"%>
 			var positionSuppoter = document.getElementById("positionSuppoter");
 
 			var positionArray = [];
+			
 			if("${team.top}".length !== 0){
 				positionArray.push(positionTop.options[positionTop.selectedIndex].value);
+			}else{
+				positionArray.push("");
 			}
+
 			if("${team.middle}".length !== 0){
 				positionArray.push(positionMiddle.options[positionMiddle.selectedIndex].value);
+			}else{
+				positionArray.push("");
 			}
+
 			if("${team.jungle}".length !== 0){
 				positionArray.push(positionJungle.options[positionJungle.selectedIndex].value);
+			}else{
+				positionArray.push("");
 			}
+
 			if("${team.bottom}".length !== 0){
 				positionArray.push(positionBottom.options[positionBottom.selectedIndex].value);
+			}else{
+				positionArray.push("");
 			}
+
 			if("${team.suppoter}".length !== 0){
 				positionArray.push(positionSuppoter.options[positionSuppoter.selectedIndex].value);
+			}else{
+				positionArray.push("");
 			}
+
 			encodeURI()
 			$.ajax({
 				type:'get',
