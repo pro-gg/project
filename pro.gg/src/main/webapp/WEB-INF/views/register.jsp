@@ -105,7 +105,7 @@
 
     </script>
 </head>
-<body>
+<body class="back-gray">
     <header></header>
     <aside></aside>
     <article>

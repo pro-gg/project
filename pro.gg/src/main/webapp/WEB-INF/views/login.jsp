@@ -30,7 +30,7 @@
         }
 	</script>
 </head>
-<body>
+<body class="back-gray">
     <header></header>
     <aside></aside>
     <article>
@@ -45,13 +45,13 @@
 		    				<div class="row">
 		    					<div class="col-md-12">
 		    						<div class="md-input-wrapper">
-		    							<input type="text" name="id" id="id" class="md-form-control" required="required">
+		    							<input type="text" name="id" id="id" class="md-form-control" required="required" autocomplete='off'>
 		    							<label>아이디</label>
 		    						</div>
 		    					</div>
 		    					<div class="col-md-12">
 		    						<div class="md-input-wrapper">
-		    							<input type="password" name="passwd" id="passwd" class="md-form-control" required="required">
+		    							<input type="password" name="passwd" id="passwd" class="md-form-control" required="required" autocomplete='off'>
 		    							<label>비밀번호</label>
 		    						</div>
 		    					</div>

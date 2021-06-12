@@ -58,28 +58,20 @@
         }
 
     </script>
-    <style>
-        article,form{
-            position:absolute;
-            width: 920px; height: 50px;
-            left: 0; right: 0;
-            margin-left: 300px; margin-right:auto;
-            top: 0; bottom: 0;
-            margin-top: 50px; margin-bottom: auto;
-        }
-    </style>
 </head>
 <body>
     <header></header>
     <aside></aside>
     <article>
-        <form action="">
-            <h3>회원 정보 수정</h3>
-            <p>닉네임 : <input type="text" name="nickname" id="nickname_update"></p>
-            <p>이름 : <input type="text" name="name" id="name_update"></p>
-            <p>이메일 : <input type="email" name="email" id="email_update" onchange="check_email()"></p>
-            <p><input type="button" id="btn" value="수정하기" onclick="updateMemberData()" disabled="disabled"></p>
-        </form>
+    	<div class="mypage-wrapper">
+	    	<form class="mypage">
+	            <h3>회원 정보 수정</h3>
+	            <p>닉네임 : <input type="text" name="nickname" id="nickname_update"></p>
+	            <p>이름 : <input type="text" name="name" id="name_update"></p>
+	            <p>이메일 : <input type="email" name="email" id="email_update" onchange="check_email()"></p>
+	            <p><input type="button" id="btn" value="수정하기" onclick="updateMemberData()" disabled="disabled"></p>
+	        </form>
+    	</div>
     </article>
 </body>
 </html>
