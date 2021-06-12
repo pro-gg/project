@@ -16,8 +16,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import Project.pro.gg.Model.champSpellsDTO;
-
 @Controller
 public class championController {
 	
@@ -75,39 +73,23 @@ public class championController {
 			JSONObject data = (JSONObject) k.get("data");
 			JSONObject champJson = (JSONObject) data.get(champion);
 			JSONObject passiveJson = (JSONObject) champJson.get("passive");
-			String passive_name = (String)passiveJson.get("name");
-			String passive_des = (String)passiveJson.get("description");
 			passiveJson = (JSONObject)passiveJson.get("image");
 			String passive = (String)passiveJson.get("full");
-			String name = (String)champJson.get("name");
-			String title = (String)champJson.get("title");
 			JSONArray spells = (JSONArray) champJson.get("spells");
-			JSONObject stats = (JSONObject) champJson.get("stats");
-			JSONArray allytips = (JSONArray) champJson.get("allytips");
-			JSONArray enemytips = (JSONArray) champJson.get("enemytips");
 			
-			List<champSpellsDTO> champSpells = new ArrayList<champSpellsDTO>();
+			List<String> spellList = new ArrayList<String>();
 			for(int i = 0; i<spells.size(); i++) {
 				JSONObject tmp = (JSONObject) spells.get(i);
-				champSpells.add(new champSpellsDTO((String)tmp.get("id"),
-						(String)tmp.get("name"), 
-						(String)tmp.get("description"),
-						(String)tmp.get("tooltip")));
+				
+				spellList.add((String)tmp.get("id"));
 			}
-			
-			model.addAttribute("passive_name", passive_name);
-			model.addAttribute("passive_des", passive_des);
 			model.addAttribute("champion", champion);
 			model.addAttribute("passive", passive);
-			model.addAttribute("name", name);
-			model.addAttribute("title", title);
-			model.addAttribute("champSpells", champSpells);
-			model.addAttribute("stats", stats);
-			model.addAttribute("allytips", allytips);
-			model.addAttribute("enemytips", enemytips);
+			model.addAttribute("spells", spellList);
 		}catch(Exception e) {
 			
 		}
 		return "champInfo";
 	}
+	
 }
