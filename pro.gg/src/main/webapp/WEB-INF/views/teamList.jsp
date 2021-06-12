@@ -19,6 +19,8 @@ pageEncoding="UTF-8"%>
                 <th>No</th>
                 <th>팀이름</th>
                 <th>팀장</th>
+                <th>티어 제한</th>
+                <th>플레이 가능 시간</th>
             </tr>
         </thead>
         <tbody>
@@ -26,11 +28,13 @@ pageEncoding="UTF-8"%>
                 <tr>
                     <td>${status.count}</td>
                     <td>
-                        <a href="${pageContext.request.contextPath}/teamdetail.do?teamName=${teamList.teamName}">
+                        <a href="${pageContext.request.contextPath}/teamdetail.do?teamName=${teamList.teamName}&target=detail">
                             ${teamList.teamName}
                         </a>
                     </td>
                     <td>${teamList.captinName}</td> 
+                    <td>${teamList.tier_limit}</td>
+                    <td>${teamList.week_input} ${teamList.startTime} ~ ${teamList.endTime}</td>
                 </tr>                  
             </c:forEach>
         </tbody>

@@ -28,8 +28,13 @@
 	
 	function TeamCreate(){
 		var member = "${sessionScope.member}";
+		var teamName = "${sessionScope.member.teamName}";
+
 		if(member.length === 0){
 			alert("로그인이 필요한 서비스 입니다.");
+		}
+		else if(teamName.length !== 0){
+			alert("이미 다른 팀에 소속되어 있습니다.");
 		}
 		else{
 			$(function(){

@@ -12,12 +12,6 @@
             where userid = #{userid}
     </select>
 
-    <select id="deleteSummonerName">
-        update member
-        set summoner_name = NULL
-        where userid = #{userid}
-    </select>
-
     <select id="findId" resultType="Project.pro.gg.Model.MemberDTO">
         select * from member
         where name = #{name} and email = #{email}
@@ -26,6 +20,11 @@
     <select id="findPasswd" resultType="Project.pro.gg.Model.MemberDTO">
         select * from member
         where userid = #{userid} and name = #{name} and email = #{email}
+    </select>
+
+    <select id="findByNickname" parameterType="String" resultType="Project.pro.gg.Model.MemberDTO">
+        select * from member
+        where nickname = #{nickname}
     </select>
 
     <select id="updatePasswd">

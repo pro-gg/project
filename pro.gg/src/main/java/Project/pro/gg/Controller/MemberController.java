@@ -44,7 +44,27 @@ public class MemberController {
 			}
     	}
     }
-    
+
+    @PostMapping("/check_nickname.do")
+    public void check_nickname(@RequestParam("nickname") String nickname, HttpServletResponse response){
+
+        MemberDTO memberDTO = memberService.findByNickname(nickname);
+
+        if (memberDTO == null){
+            try {
+                response.getWriter().write("OK");
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                response.getWriter().write("Fail");
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+
     @PostMapping("/tryregister.do")
     public String tryRegister(@RequestParam(value = "id") String userid,
                               @RequestParam(value = "passwd") String passwd,
@@ -106,8 +126,13 @@ public class MemberController {
 
     @GetMapping("/logout.do")
     public String logout(Model model){
-        session.removeAttribute("member");
-        session.removeAttribute("admin");
+        try{
+            session.removeAttribute("member");
+            session.removeAttribute("admin");
+        }catch (NullPointerException e){
+            // 세션이 만료된 상태일 때 로그아웃 기능이 동작한 경우 수행
+        }
+        
         return "main";
     }
 

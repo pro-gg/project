@@ -15,7 +15,54 @@
     </select>
 
     <select id="insertTeamData">
-        insert into team(teamName, week_input, startTime, endTime, tier_limit, team_description, captinName)
-        values(#{teamName}, #{week_input}, #{startTime}, #{endTime}, #{tier_limit}, #{team_description}, #{captinName})
+        insert into team(teamName, week_input, startTime, endTime, tier_limit, team_description, captinName, top)
+        values(#{teamName}, #{week_input}, #{startTime}, #{endTime}, #{tier_limit}, #{team_description}, #{captinName}, #{top})
+    </select>
+
+    <select id="selectTeamApply_Join" parameterType="String" resultType="Project.pro.gg.Model.TeamApplyDTO">
+        select summoner.summoner_name, ranked_solo.tier, ranked_solo.tier_rank, ranked_solo.rate
+        from member inner join summoner
+        on member.userid = summoner.userid inner join ranked_solo
+        on summoner.id = ranked_solo.id
+        where nickname = #{nickname};
+    </select>
+
+    <select id="selectTierValue" resultType="int">
+        ${sql}
+    </select>
+
+    <select id="insertApply" parameterType="Project.pro.gg.Model.TeamApplyDTO">
+        insert into teamapply(nickname, summoner_name, line, tier, tier_rank, rate, teamName)
+        values(#{nickname}, #{summoner_name}, #{line}, #{tier}, #{tier_rank}, #{rate}, #{teamName})
+    </select>
+
+    <select id="selectLine" resultType="String">
+        select ${line} from team
+        where teamName = #{teamName}
+    </select>
+
+    <select id="selectApplyMember" parameterType="String" resultType="Map">
+        select * from teamapply
+        where teamName = #{teamName}
+    </select>
+
+    <select id="selectApplyStatus" parameterType="String" resultType="Project.pro.gg.Model.TeamApplyDTO">
+        select * from teamapply
+        where nickname = #{nickname}
+    </select>
+
+    <select id="deleteApplyMember">
+        delete from teamapply
+        where nickname=#{nickname} and teamName=#{teamName}
+    </select>
+
+    <select id="deleteTeam" parameterType="Project.pro.gg.Model.TeamDTO">
+        delete from team where teamName = #{teamName}
+    </select>
+
+    <select id="updateTeamLine" parameterType="Project.pro.gg.Model.TeamApplyDTO">
+        update team
+        set ${line} = #{nickname}
+        where teamName = #{teamName}
     </select>
 </mapper>
