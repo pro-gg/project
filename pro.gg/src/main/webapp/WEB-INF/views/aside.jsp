@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="/css/mystyle.css"/>
     <script src="/webjars/jquery/3.6.0/jquery.min.js"></script>
+    <!-- <script src="/js/bootstrap.min.js" charset="utf-8"></script> -->
     <script>
         function myPage(){
             $(function(){
