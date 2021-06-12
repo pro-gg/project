@@ -15,24 +15,42 @@
 
 	$(function(){
 		if("${team.captinName}" === "${team.top}"){
-			$("#top").css("color", "blue");
-			$("#top_captin").text("팀장").css("color", "blue");
-		}
-		else if("${team.captinName}" === "${team.middle}"){
-			$("#middle").css("color", "blue");
-			$("#middle_captin").text("팀장").css("color", "blue");
-		}
-		else if("${team.captinName}" === "${team.jungle}"){
-			$("#jungle").css("color", "blue");
-			$("#jungle_captin").text("팀장").css("color", "blue");
-		}
-		else if("${team.captinName}" === "${team.bottom}"){
-			$("#bottom").css("color", "blue");
-			$("#bottom_captin").text("팀장").css("color", "blue");
-		}
-		else if("${team.captinName}" === "${team.suppoter}"){
-			$("#suppoter").css("color", "blue");
-			$("#suppoter_captin").text("팀장").css("color", "blue");
+            $("#top").css("color", "blue");
+            $("#top_captin").text("팀장").css("color", "blue");
+        }else if("${team.top}".length !== 0){
+            $("#top_captin").text("팀원");
+        }
+
+        if("${team.captinName}" === "${team.middle}"){
+            $("#middle").css("color", "blue");
+            $("#middle_captin").text("팀장").css("color", "blue");
+        }else if("${team.middle}".length !== 0){
+            $("#middle_captin").text("팀원");
+        }
+
+        if("${team.captinName}" === "${team.jungle}"){
+            $("#jungle").css("color", "blue");
+            $("#jungle_captin").text("팀장").css("color", "blue");
+        }else if("${team.jungle}".length !== 0){
+            $("#jungle_captin").text("팀원");
+        }
+
+        if("${team.captinName}" === "${team.bottom}"){
+            $("#bottom").css("color", "blue");
+            $("#bottom_captin").text("팀장").css("color", "blue");
+        }else if("${team.bottom}".length !== 0){
+            $("#bottom_captin").text("팀원");
+        }
+
+        if("${team.captinName}" === "${team.suppoter}"){
+            $("#suppoter").css("color", "blue");
+            $("#suppoter_captin").text("팀장").css("color", "blue");
+        }else if("${team.suppoter}".length !== 0){
+            $("#suppoter_captin").text("팀원");
+        }
+
+		if("${overlap}" !== ""){
+			alert("라인이 중복 지정 되었습니다. 다시 수정 해주세요");
 		}
 	})
 	function teamApply(){
@@ -65,60 +83,15 @@
 	function teamUpdate(){
 		$(function(){
 			if(confirm("수정 하시겠습니까?") === true){
-
-				var teamObject = {
-					team:{
-						teamName:'${team.teamName}',
-						teamDescription:'${team.team_description}',
-						teamCaptin:'${team.captinName}',
-
-						top_nickname:'${team.top}',
-						middle_nickname:'${team.middle}',
-						jungle_nickname:'${team.jungle}',
-						bottom_nickname:'${team.bottom}',
-						suppoter_nickname:'${team.suppoter}'
-					},
-
-					team_top:'${team_top}',
-					team_middle:'${team_middle}',
-					team_jungle:'${team_jungle}',
-					team_bottom:'${team_bottom}',
-					team_suppoter:'${team_suppoter}',
-
-					soloData_top:{
-						soloData_top_tier:'${soloData_top.tier}',
-						soloData_top_tierRank:'${soloData_top.tier_rank}',
-						soloData_top_rate:'${soloData_top.rate}'
-					},
-					soloData_middle:{
-						soloData_middle_tier:'${soloData_middle.tier}',
-						soloData_middle_tierRank:'${soloData_middle.tier_rank}',
-						soloData_middle_rate:'${soloData_middle.rate}'
-					},
-					soloData_jungle:{
-						soloData_jungle_tier:'${soloData_jungle.tier}',
-						soloData_jungle_tierRank:'${soloData_jungle.tier_rank}',
-						soloData_jungle_rate:'${soloData_jungle.rate}'
-					},
-					soloData_bottom:{
-						soloData_bottom_tier:'${soloData_bottom.tier}',
-						soloData_bottom_tierRank:'${soloData_bottom.tier_rank}',
-						soloData_bottom_rate:'${soloData_bottom.rate}'
-					},
-					soloData_suppoter:{
-						soloData_suppoter_tier:'${soloData_suppoter.tier}',
-						soloData_suppoter_tierRank:'${soloData_suppoter.tier_rank}',
-						soloData_suppoter_rate:'${soloData_suppoter.rate}'
-					}
-				};
+				var teamName = "${team.teamName}";
 
 				$.ajax({
 					type:'get',
-					url:'${pageContext.request.contextPath}/move/teamUpdateForm.do?teamObject='+encodeURI(JSON.stringify(teamObject)),
+					url:'${pageContext.request.contextPath}/teamdetail.do?teamName='+teamName+'&target=update',
 					data:'',
 					dataType:'',
 					success:function(data){
-						$("body").html(data)
+						$("body").html(data);
 					}
 				})
 			}

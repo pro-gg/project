@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -98,7 +100,7 @@ public class TeamController {
 
     //팀 정보 불러오기
     @GetMapping("/teamdetail.do")
-    public String teamDetail(@RequestParam("teamName") String teamName, Model model) {
+    public String teamDetail(@RequestParam("teamName") String teamName, @RequestParam("target") String target, Model model) {
 
         TeamDTO teamDTO = new TeamDTO();
         teamDTO.setTeamName(teamName);
@@ -152,6 +154,15 @@ public class TeamController {
             model.addAttribute("soloData_suppoter", rankedSoloDTO_suppoter);
         }
         model.addAttribute("team", teamDTO);
+
+        if (target.equals("update")){
+            return "teamUpdateForm";
+        }
+        if (target.equals("overlap")){
+            model.addAttribute("overlap", "overlap");
+        }else{
+            model.addAttribute("overlap", null);
+        }
         return "teamDetail";
     }
 
@@ -259,7 +270,7 @@ public class TeamController {
         }catch (Exception e){
             e.printStackTrace();
         }
-        return "redirect:/teamdetail.do?teamName="+returnTeamName;
+        return "redirect:/teamdetail.do?teamName="+returnTeamName+"&target=detail";
     }
 
     @GetMapping("/rejectapply.do")
@@ -278,7 +289,7 @@ public class TeamController {
         }catch (Exception e){
             e.printStackTrace();
         }
-        return "redirect:/teamdetail.do?teamName="+returnTeamName;
+        return "redirect:/teamdetail.do?teamName="+returnTeamName+"&target=detail";
     }
 
     @GetMapping("/captinsecession.do")
@@ -330,14 +341,10 @@ public class TeamController {
         teamApplyDTO.setTeamName(teamName);
         teamApplyDTO.setNickname(null);
 
-        System.out.println("탈퇴자 닉네임 : " + memberDTO_crew.getNickname());
-        System.out.println("탈퇴자 라인 : " + teamDTO.getMiddle());
-
         // 어떤 라인의 회원이 탈퇴하는지 확인하기 위한 조건문
         if (memberDTO_crew.getNickname().equals(teamDTO.getTop())){
           teamApplyDTO.setLine("top");
         } else if (memberDTO_crew.getNickname().equals(teamDTO.getMiddle())){
-            System.out.println("조건문 수행 확인");
             teamApplyDTO.setLine("middle");
         } else if (memberDTO_crew.getNickname().equals(teamDTO.getJungle())){
             teamApplyDTO.setLine("jungle");
@@ -357,9 +364,120 @@ public class TeamController {
         return "redirect:/move/teammatch.do";
     }
 
-    @GetMapping("/teamUpdate.do")
-    public String teamUpdate(){
-        // 수정하기의 경우
-        return null;
+    @GetMapping("/crewexile.do")
+    public String crewExile(@RequestParam("exile") String exile){
+
+        TeamDTO teamDTO = new TeamDTO();
+        TeamApplyDTO teamApplyDTO = new TeamApplyDTO();
+
+        String nickname = null;
+
+        try{
+            JSONObject jsonObject = new JSONObject(exile);
+            teamDTO.setTeamName((String) jsonObject.getString("teamName"));
+            teamDTO = teamService.selectTeam(teamDTO);
+
+            nickname = (String) jsonObject.getString("nickname");
+
+            teamApplyDTO.setTeamName(teamDTO.getTeamName());
+            teamApplyDTO.setNickname(null);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        if(nickname.equals(teamDTO.getTop())){
+            teamApplyDTO.setLine("top");
+        } else if (nickname.equals(teamDTO.getMiddle())){
+            teamApplyDTO.setLine("middle");
+        } else if (nickname.equals(teamDTO.getJungle())){
+            teamApplyDTO.setLine("jungle");
+        } else if (nickname.equals(teamDTO.getBottom())){
+            teamApplyDTO.setLine("bottom");
+        } else if (nickname.equals(teamDTO.getSuppoter())){
+            teamApplyDTO.setLine("suppoter");
+        }
+
+        teamService.updateTeamLine(teamApplyDTO);
+
+        MemberDTO memberDTO = memberService.findByNickname(nickname);
+        memberDTO.setTeamName(null);
+        memberService.updateTeamName(memberDTO);
+        return "reload";
+    }
+
+    @GetMapping("/teamLineUpdate.do")
+    public String teamUpdate(@RequestParam("positionArray") String[]positionArray, @RequestParam("teamName") String teamName) throws UnsupportedEncodingException {
+
+        if (Arrays.stream(positionArray).distinct().count() != positionArray.length)
+            return "redirect:/teamdetail.do?teamName="+URLEncoder.encode(teamName, "UTF-8")+"&target=overlap";
+
+        TeamDTO teamDTO = new TeamDTO();
+        teamDTO.setTeamName(teamName);
+        teamDTO = teamService.selectTeam(teamDTO);
+
+        TeamApplyDTO teamApplyDTO = new TeamApplyDTO();
+
+        if (teamDTO.getTop() != null){
+            if (positionArray[0] != "top"){
+                teamApplyDTO.setNickname(teamDTO.getTop());
+                teamApplyDTO.setLine(positionArray[0]);
+                teamApplyDTO.setTeamName(teamName);
+                teamService.updateTeamLine(teamApplyDTO);
+
+                teamApplyDTO.setNickname(null);
+                teamApplyDTO.setLine("top");
+                teamService.updateTeamLine(teamApplyDTO);
+            }
+        }
+        if (teamDTO.getMiddle() != null){
+            if (positionArray[1] != "middle"){
+                teamApplyDTO.setNickname(teamDTO.getMiddle());
+                teamApplyDTO.setLine(positionArray[1]);
+                teamApplyDTO.setTeamName(teamName);
+                teamService.updateTeamLine(teamApplyDTO);
+
+                teamApplyDTO.setNickname(null);
+                teamApplyDTO.setLine("top");
+                teamService.updateTeamLine(teamApplyDTO);
+            }
+        }
+        if (teamDTO.getJungle() != null){
+            if (positionArray[2] != "jungle"){
+                teamApplyDTO.setNickname(teamDTO.getJungle());
+                teamApplyDTO.setLine(positionArray[2]);
+                teamApplyDTO.setTeamName(teamName);
+                teamService.updateTeamLine(teamApplyDTO);
+
+                teamApplyDTO.setNickname(null);
+                teamApplyDTO.setLine("top");
+                teamService.updateTeamLine(teamApplyDTO);
+            }
+        }
+        if (teamDTO.getBottom() != null){
+            if (positionArray[3] != "bottom"){
+                teamApplyDTO.setNickname(teamDTO.getBottom());
+                teamApplyDTO.setLine(positionArray[3]);
+                teamApplyDTO.setTeamName(teamName);
+                teamService.updateTeamLine(teamApplyDTO);
+
+                teamApplyDTO.setNickname(null);
+                teamApplyDTO.setLine("top");
+                teamService.updateTeamLine(teamApplyDTO);
+            }
+        }
+        if (teamDTO.getSuppoter() != null){
+            if (positionArray[4] != "suppoter"){
+                teamApplyDTO.setNickname(teamDTO.getSuppoter());
+                teamApplyDTO.setLine(positionArray[4]);
+                teamApplyDTO.setTeamName(teamName);
+                teamService.updateTeamLine(teamApplyDTO);
+
+                teamApplyDTO.setNickname(null);
+                teamApplyDTO.setLine("top");
+                teamService.updateTeamLine(teamApplyDTO);
+            }
+        }
+
+        return "redirect:/teamdetail.do?teamName="+URLEncoder.encode(teamName, "UTF-8")+"&target=detail";
     }
 }
