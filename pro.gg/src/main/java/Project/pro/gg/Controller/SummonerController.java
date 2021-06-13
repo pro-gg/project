@@ -4,6 +4,7 @@ import Project.pro.gg.Model.*;
 import Project.pro.gg.Service.MatchDataServiceImpl;
 import Project.pro.gg.Service.MemberServiceImpl;
 import Project.pro.gg.Service.SummonerServiceImpl;
+import Project.pro.gg.Service.TeamServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONArray;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpSession;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -33,7 +35,10 @@ public class SummonerController {
     @Autowired
     MatchDataServiceImpl matchDataService;
 
-    String developKey = "RGAPI-f9c25bdc-ee01-4591-aa09-a31092edb536";
+    @Autowired
+    TeamServiceImpl teamService;
+
+    String developKey = "RGAPI-1d70aeb4-f23a-4403-ac32-dacacafb11ca";
     String apiURL = "";
     URL riotURL = null;
     HttpURLConnection urlConnection = null;
@@ -99,7 +104,7 @@ public class SummonerController {
     }
 
     @GetMapping("/updateSummonerName.do")
-    public String updateSummonerData(Model model){
+    public String updateSummonerData(Model model) throws UnsupportedEncodingException {
         // MemberController 에서 로그인 을 통해 생성된 세션 값을 가져온다.
         HttpSession session = MemberController.session;
 
@@ -107,6 +112,17 @@ public class SummonerController {
 
         memberService.deleteSummonerName(memberDTO);
         model.addAttribute("member", memberDTO);
+
+        TeamApplyDTO teamApplyDTO = teamService.selectApplyStatus(memberDTO.getNickname());
+
+        // 소속된 팀에서 추방시키는 로직과 특정팀에 대한 지원 내역이 있을 시 그 또한 취소되는 로직을 작성한다.
+        // 팀에 소속되어 있을 경우 추방시키는 로직
+        if (memberDTO.getTeamName() != null){
+            return "redirect:/crewsecession.do?teamName="+URLEncoder.encode(memberDTO.getTeamName(), "UTF-8")+"&target=updateSummonerName";
+        }else if (teamApplyDTO != null){
+            return "redirect:/rejectapply.do?nickname="+URLEncoder.encode(memberDTO.getNickname(), "UTF-8")+
+                    "&teamName="+URLEncoder.encode(teamApplyDTO.getTeamName(), "UTF-8")+"&target=updateSummonerName";
+        }
         return "updateSummonerName";
     }
 
