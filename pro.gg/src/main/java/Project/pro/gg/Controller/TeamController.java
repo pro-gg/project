@@ -15,10 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 public class TeamController {
@@ -312,11 +310,22 @@ public class TeamController {
         teamDTO = teamService.selectTeam(teamDTO);
 
         List<String> lineList = new ArrayList<>();
-        lineList.add(teamDTO.getTop());
-        lineList.add(teamDTO.getMiddle());
-        lineList.add(teamDTO.getJungle());
-        lineList.add(teamDTO.getBottom());
-        lineList.add(teamDTO.getSuppoter());
+        if (teamDTO.getTop() != null){
+            lineList.add(teamDTO.getTop());
+        }
+        if (teamDTO.getMiddle() != null){
+            lineList.add(teamDTO.getMiddle());
+        }
+        if (teamDTO.getJungle() != null){
+            lineList.add(teamDTO.getJungle());
+        }
+        if (teamDTO.getBottom() != null){
+            lineList.add(teamDTO.getBottom());
+        }
+        if (teamDTO.getSuppoter() != null){
+            lineList.add(teamDTO.getSuppoter());
+        }
+
         // 연관관계 매핑 해제 - 회원 닉네임을 통해 회원 데이터 검색 후 해당 데이터의 teamName 필드값을 null 로 업데이트
         for (int i = 0; i < lineList.size(); i++){
             MemberDTO memberDTO = memberService.findByNickname(lineList.get(i));
@@ -420,7 +429,7 @@ public class TeamController {
     }
 
     @GetMapping("/teamLineUpdate.do")
-    public String teamUpdate(@RequestParam("positionArray") String[]positionArray, @RequestParam("teamName") String teamName) throws UnsupportedEncodingException {
+    public String teamUpdate(@RequestParam("positionArray") String [] positionArray, @RequestParam("teamName") String teamName) throws UnsupportedEncodingException {
 
         if (Arrays.stream(positionArray).distinct().count() != positionArray.length)
             return "redirect:/teamdetail.do?teamName="+URLEncoder.encode(teamName, "UTF-8")+"&target=overlap";
@@ -430,66 +439,111 @@ public class TeamController {
         teamDTO = teamService.selectTeam(teamDTO);
 
         TeamApplyDTO teamApplyDTO = new TeamApplyDTO();
+        Queue<String> positionQueue = new LinkedList<>(); // 포지션 현황 큐
+        List<String> nullCheckList = new ArrayList<>(); // 비어있는 포지션 리스트
+
+        if (teamDTO.getTop() == null) nullCheckList.add("top");
+        if (teamDTO.getMiddle() == null) nullCheckList.add("middle");
+        if (teamDTO.getJungle() == null) nullCheckList.add("jungle");
+        if (teamDTO.getBottom() == null) nullCheckList.add("bottom");
+        if (teamDTO.getSuppoter() == null) nullCheckList.add("suppoter");
+
+        for (int i = 0; i < positionArray.length; i++)
+            positionQueue.add(positionArray[i]);
 
         if (teamDTO.getTop() != null){
-            if (positionArray[0] != "top"){
+            if (!positionQueue.peek().equals("top")){
                 teamApplyDTO.setNickname(teamDTO.getTop());
-                teamApplyDTO.setLine(positionArray[0]);
+                teamApplyDTO.setLine(positionQueue.poll());
                 teamApplyDTO.setTeamName(teamName);
                 teamService.updateTeamLine(teamApplyDTO);
 
-                teamApplyDTO.setNickname(null);
-                teamApplyDTO.setLine("top");
-                teamService.updateTeamLine(teamApplyDTO);
+                if (nullCheckList.contains(teamApplyDTO.getLine())){
+                    teamApplyDTO.setNickname(null);
+                    teamApplyDTO.setLine("top");
+                    teamService.updateTeamLine(teamApplyDTO);
+                }
+            }else {
+                positionQueue.poll();
             }
+        }else {
+            positionQueue.poll();
         }
+
         if (teamDTO.getMiddle() != null){
-            if (positionArray[1] != "middle"){
+            if (!positionQueue.peek().equals("middle")){
                 teamApplyDTO.setNickname(teamDTO.getMiddle());
-                teamApplyDTO.setLine(positionArray[1]);
+                teamApplyDTO.setLine(positionQueue.poll());
                 teamApplyDTO.setTeamName(teamName);
                 teamService.updateTeamLine(teamApplyDTO);
 
-                teamApplyDTO.setNickname(null);
-                teamApplyDTO.setLine("top");
-                teamService.updateTeamLine(teamApplyDTO);
+                if (nullCheckList.contains(teamApplyDTO.getLine())){
+                    teamApplyDTO.setNickname(null);
+                    teamApplyDTO.setLine("middle");
+                    teamService.updateTeamLine(teamApplyDTO);
+                }
+            }else {
+                positionQueue.poll();
             }
+        }else {
+            positionQueue.poll();
         }
+
         if (teamDTO.getJungle() != null){
-            if (positionArray[2] != "jungle"){
+            if (!positionQueue.peek().equals("jungle")){
                 teamApplyDTO.setNickname(teamDTO.getJungle());
-                teamApplyDTO.setLine(positionArray[2]);
+                teamApplyDTO.setLine(positionQueue.poll());
                 teamApplyDTO.setTeamName(teamName);
                 teamService.updateTeamLine(teamApplyDTO);
 
-                teamApplyDTO.setNickname(null);
-                teamApplyDTO.setLine("top");
-                teamService.updateTeamLine(teamApplyDTO);
+                if (nullCheckList.contains(teamApplyDTO.getLine())){
+                    teamApplyDTO.setNickname(null);
+                    teamApplyDTO.setLine("jungle");
+                    teamService.updateTeamLine(teamApplyDTO);
+                }
+            }else {
+                positionQueue.poll();
             }
+        }else {
+            positionQueue.poll();
         }
+
         if (teamDTO.getBottom() != null){
-            if (positionArray[3] != "bottom"){
+            if (!positionQueue.peek().equals("bottom")){
                 teamApplyDTO.setNickname(teamDTO.getBottom());
-                teamApplyDTO.setLine(positionArray[3]);
+                teamApplyDTO.setLine(positionQueue.poll());
                 teamApplyDTO.setTeamName(teamName);
                 teamService.updateTeamLine(teamApplyDTO);
 
-                teamApplyDTO.setNickname(null);
-                teamApplyDTO.setLine("top");
-                teamService.updateTeamLine(teamApplyDTO);
+                if (nullCheckList.contains(teamApplyDTO.getLine())){
+                    teamApplyDTO.setNickname(null);
+                    teamApplyDTO.setLine("bottom");
+                    teamService.updateTeamLine(teamApplyDTO);
+                }
+            }else {
+                positionQueue.poll();
             }
+        }else {
+            positionQueue.poll();
         }
+
         if (teamDTO.getSuppoter() != null){
-            if (positionArray[4] != "suppoter"){
+            if (!positionQueue.peek().equals("suppoter")){
                 teamApplyDTO.setNickname(teamDTO.getSuppoter());
-                teamApplyDTO.setLine(positionArray[4]);
+                teamApplyDTO.setLine(positionQueue.poll());
                 teamApplyDTO.setTeamName(teamName);
                 teamService.updateTeamLine(teamApplyDTO);
 
-                teamApplyDTO.setNickname(null);
-                teamApplyDTO.setLine("top");
-                teamService.updateTeamLine(teamApplyDTO);
+                if (nullCheckList.contains(teamApplyDTO.getLine())){
+                    teamApplyDTO.setNickname(null);
+                    teamApplyDTO.setLine("suppoter");
+                    teamService.updateTeamLine(teamApplyDTO);
+                }
+            }else {
+                positionQueue.poll();
             }
+        }else {
+            positionQueue.poll();
         }
 
         return "redirect:/teamdetail.do?teamName="+URLEncoder.encode(teamName, "UTF-8")+"&target=detail";
