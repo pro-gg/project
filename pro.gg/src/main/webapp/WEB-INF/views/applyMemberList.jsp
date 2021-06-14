@@ -50,7 +50,7 @@
             if(confirm("신청을 거절 하시겠습니까?") === true){
                 $.ajax({
                     type:'get',
-                    url:'${pageContext.request.contextPath}/rejectapply.do?nickname='+nickname+"&teamName="+teamName,
+                    url:'${pageContext.request.contextPath}/rejectapply.do?nickname='+nickname+"&teamName="+teamName+"&target=reject",
                     data:'',
                     dataType:'',
                     success:function(data){

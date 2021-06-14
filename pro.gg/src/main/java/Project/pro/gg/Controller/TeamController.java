@@ -272,13 +272,23 @@ public class TeamController {
     }
 
     @GetMapping("/rejectapply.do")
-    public String rejectapply(@RequestParam("nickname") String nickname, @RequestParam("teamName") String teamName, Model model){
+    public String rejectapply(@RequestParam("nickname") String nickname, @RequestParam("teamName") String teamName,
+                              @RequestParam("target") String target, Model model){
+
+        HttpSession session = MemberController.session;
+        MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
 
         TeamApplyDTO teamApplyDTO = new TeamApplyDTO();
         teamApplyDTO.setNickname(nickname);
         teamApplyDTO.setTeamName(teamName);
 
         teamService.deleteApplyMember(teamApplyDTO);
+
+        if (target.equals("updateSummonerName")){
+            model.addAttribute("member", memberDTO);
+            System.out.println("신청 거부");
+            return "updateSummonerName";
+        }
 
         String returnTeamName = null;
         try{
@@ -335,7 +345,7 @@ public class TeamController {
     }
 
     @GetMapping("/crewsecession.do")
-    public String crewSecession(@RequestParam("teamName") String teamName){
+    public String crewSecession(@RequestParam("teamName") String teamName, @RequestParam("target") String target, Model model){
         // 팀에서 탈퇴하는 팀원 라인 null 값 처리
         // 팀원 개인 member 데이터에서 teamName 필드 null 값 처리
         HttpSession session = MemberController.session;
@@ -370,6 +380,10 @@ public class TeamController {
         memberDTO_crew.setTeamName(null);
         memberService.updateTeamName(memberDTO_crew);
         session.setAttribute("member", memberDTO_crew);
+        if (target.equals("updateSummonerName")){
+            model.addAttribute("member", memberDTO_crew);
+            return "updateSummonerName";
+        }
         return "redirect:/move/teammatch.do";
     }
 
