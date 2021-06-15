@@ -6,6 +6,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import Project.pro.gg.Model.*;
+import Project.pro.gg.Service.SummonerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.stereotype.Controller;
@@ -14,8 +16,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import Project.pro.gg.Model.AdminDTO;
-import Project.pro.gg.Model.MemberDTO;
 import Project.pro.gg.Service.MemberServiceImpl;
 
 @Controller
@@ -23,6 +23,9 @@ public class MemberController {
 
     @Autowired
     MemberServiceImpl memberService;
+
+    @Autowired
+    SummonerServiceImpl summonerService;
 
     public static HttpSession session;
 
@@ -255,5 +258,27 @@ public class MemberController {
         memberService.deleteMember(memberDTO);
         session.removeAttribute("member");
         return "../popup/currentPasswd_popup";
+    }
+
+    @GetMapping("/findmemberdata.do")
+    public String findMemberData(@RequestParam("nickname") String nickname, Model model){
+
+        // 회원 닉네임 검색에서 출력 시켜줄 정보
+        // 1. 회원 닉네임, 소환사 명, 솔랭 및 자랭 정보, 최근 전적
+        MemberDTO memberDTO = memberService.findByNickname(nickname);
+        SummonerDTO summonerDTO = summonerService.findByUserid(memberDTO.getUserid());
+        RankedSoloDTO rankedSoloDTO = summonerService.selectRankedSoloData(summonerDTO.getId());
+        RankedFlexDTO rankedFlexDTO = summonerService.selectRankedFlexData(summonerDTO.getId());
+
+        // 최근전적의 경우 url 에 target 변수를 추가하여 어디서 온 매핑 요청인지를 명확히 시켜준 후
+        // SummonerController 클래스의 matchHistory 메소드를 실행시킨다.
+        // 이후 matchHistory 메소드에서 target 값을 통해 어떤 작업을 수행해야 하는지 알아낸 후 해당되는 작업을 수행한다.
+        // 마이페이지에서 최근 전적 기능을 호출한 경우 -> api 를 통해 데이터를 호출하여 데이터베이스에 삽입 한 후, 해당 데이터들을 출력시키는 기능 수행
+        // 닉네임 검색을 통해 최근 전적 기능을 호출한 경우 -> 테이블이 비어있다면 위와 동일한 기능 수행, 그렇지 않다면 단순 검색 후 출력
+        model.addAttribute("searchNickName", memberDTO);
+        model.addAttribute("summoner", summonerDTO);
+        model.addAttribute("ranked_solo", rankedSoloDTO);
+        model.addAttribute("ranked_flex", rankedFlexDTO);
+        return "searchNickNameResult";
     }
 }
