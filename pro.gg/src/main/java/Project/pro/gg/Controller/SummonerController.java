@@ -7,6 +7,7 @@ import Project.pro.gg.Service.SummonerServiceImpl;
 import Project.pro.gg.Service.TeamServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONArray;
+import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,7 +39,7 @@ public class SummonerController {
     @Autowired
     TeamServiceImpl teamService;
 
-    String developKey = "RGAPI-6eb47944-eb38-4a4b-bcf6-1f34e4c02d67";
+    String developKey = "RGAPI-effda734-55d7-4600-88f5-6393931372f5";
     String apiURL = "";
     URL riotURL = null;
     HttpURLConnection urlConnection = null;
@@ -331,12 +332,21 @@ public class SummonerController {
     }
 
     @GetMapping("/matchHistory.do")
-    public String matchHistory(@RequestParam("summoner_name") String summoner_name, Model model){
+    public String matchHistory(@RequestParam("summoner_name") String summoner_name, @RequestParam("target") String target,
+                               Model model){
 
         // MemberController 에서 로그인 을 통해 생성된 세션 값을 가져온다.
         HttpSession session = MemberController.session;
+        MemberDTO memberDTO = null;
 
-        MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
+        // 마이페이지, 닉네임 검색 중 어느 경로로 요청이 온 것인지 판별한다.
+        if (target.equals("callMyPage")){
+            memberDTO = (MemberDTO) session.getAttribute("member");
+        }else {
+            memberDTO = memberService.findByNickname(target);
+            System.out.println(memberDTO.getNickname());
+        }
+
         MatchDataDTO matchData = new MatchDataDTO();
 
         SummonerDTO summonerDTO = new SummonerDTO();
@@ -450,6 +460,59 @@ public class SummonerController {
         List<MatchDataDTO> matchDataDTOList = matchDataService.selectMatchDataAll(memberDTO);
         Collections.reverse(matchDataDTOList);
         model.addAttribute("matchDataList", matchDataDTOList);
+        return "matchDataList";
+    }
+
+    @GetMapping("/searchMatchList.do")
+    public String searchMatchList(@RequestParam("nickname") String nickname, @RequestParam("summoner_name") String summoner_name,
+                                  Model model) throws UnsupportedEncodingException, JSONException {
+
+        MemberDTO memberDTO = memberService.findByNickname(nickname);
+        List<MatchDataDTO> matchDataDTOList = matchDataService.selectMatchDataAll(memberDTO);
+        if (matchDataDTOList.size() == 0) {
+            return "redirect:/matchHistory.do?summoner_name="+URLEncoder.encode(summoner_name, "UTF-8")+
+                    "&target="+URLEncoder.encode(nickname, "UTF-8");
+        }
+        Collections.reverse(matchDataDTOList);
+        model.addAttribute("matchDataList", matchDataDTOList);
+
+        JSONObject jsonObject_itemList = null;
+//        List<List<String>> itemImagelist_List = new ArrayList<>();
+
+        for (int i = 0; i < matchDataDTOList.size(); i++){
+            List<String> itemImageList = new ArrayList<>();
+            JSONObject jsonObject = new JSONObject((Map) matchDataDTOList.get(i));
+            jsonObject_itemList = new JSONObject(jsonObject.getString("itemList"));
+
+            String item0 = "http://ddragon.leagueoflegends.com/cdn/11.12.1/img/item/"+(Integer) jsonObject_itemList.getInt("item0")+".png";
+            String item1 = "http://ddragon.leagueoflegends.com/cdn/11.12.1/img/item/"+(Integer) jsonObject_itemList.getInt("item1")+".png";
+            String item2 = "http://ddragon.leagueoflegends.com/cdn/11.12.1/img/item/"+(Integer) jsonObject_itemList.getInt("item2")+".png";
+            String item3 = "http://ddragon.leagueoflegends.com/cdn/11.12.1/img/item/"+(Integer) jsonObject_itemList.getInt("item3")+".png";
+            String item4 = "http://ddragon.leagueoflegends.com/cdn/11.12.1/img/item/"+(Integer) jsonObject_itemList.getInt("item4")+".png";
+            String item5 = "http://ddragon.leagueoflegends.com/cdn/11.12.1/img/item/"+(Integer) jsonObject_itemList.getInt("item5")+".png";
+            String item6 = "http://ddragon.leagueoflegends.com/cdn/11.12.1/img/item/"+(Integer) jsonObject_itemList.getInt("item6")+".png";
+
+            itemImageList.add(item0);
+            itemImageList.add(item1);
+            itemImageList.add(item2);
+            itemImageList.add(item3);
+            itemImageList.add(item4);
+            itemImageList.add(item5);
+            itemImageList.add(item6);
+
+//            for (int j = 0; j < itemImageList.size(); j++ ){
+//                System.out.println(itemImageList.get(j));
+//            }
+
+            String sendModel = "itemlist_List"+i;
+//            System.out.println(sendModel);
+            model.addAttribute(sendModel, itemImageList);
+        }
+        for (int i = 0; i < matchDataDTOList.size(); i++){
+            List<String> itemImageList = new ArrayList<>();
+            JSONObject jsonObject = new JSONObject((Map) matchDataDTOList.get(i));
+            jsonObject_itemList = new JSONObject(jsonObject.getString("spellList"));
+        }
         return "matchDataList";
     }
 }

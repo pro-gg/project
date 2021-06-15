@@ -55,7 +55,7 @@
             $(function(){
                 $.ajax({
                     type:'get',
-                    url:'${pageContext.request.contextPath}/matchHistory.do?summoner_name=${sessionScope.member.summoner_name}',
+                    url:'${pageContext.request.contextPath}/matchHistory.do?summoner_name=${sessionScope.member.summoner_name}&target=callMyPage',
                     data:'',
                     dataType:'',
                     success:function(data){

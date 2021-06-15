@@ -10,6 +10,21 @@
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="/css/mystyle.css"/>
     <script src="/webjars/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        function findMemberData(){
+            var nickname = document.getElementById("searchNickname").value;
+
+            $.ajax({
+                type:'get',
+                url:'${pageContext.request.contextPath}/findmemberdata.do?nickname='+nickname,
+                data:'',
+                dataType:'',
+                success:function(data){
+                    $("body").html(data);
+                }
+            })
+        }
+    </script>
 </head>
 <body>
 	<div class="content-wrapper">
@@ -17,7 +32,7 @@
 			<img src="/images/progg2.png" id="main-img" alt="로고">
 			<div class="searchbar">
 				<input type="text" autocomplete="off" name="searchNickName" id="searchNickname" placeholder="검색어를 입력하세요">
-				<button type="submit" value="검색">
+				<button type="submit" value="검색" onclick="findMemberData()">
 					<img src="/images/icon_search.png">
 				</button>
 			</div>
