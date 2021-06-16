@@ -109,13 +109,19 @@ public class TeamController {
         MemberDTO memberDTO_jungle = null;
         MemberDTO memberDTO_bottom = null;
         MemberDTO memberDTO_suppoter = null;
-
+        
+        int cnt = 0;
+        int tiertotal = 0;
+        
         // 팀 디테일 티어, 승률 정보 보내기
         if (teamDTO.getTop() != null){
             memberDTO_top = memberService.findByNickname(teamDTO.getTop());
             SummonerDTO summonerDTO_top = summonerService.findByUserid(memberDTO_top.getUserid());
             RankedSoloDTO rankedSoloDTO_top = summonerService.selectRankedSoloData(summonerDTO_top.getId());
-
+            
+            cnt++;
+            tiertotal += teamService.tierCalculate(rankedSoloDTO_top.getTier(), rankedSoloDTO_top.getTier_rank());
+            
             model.addAttribute("team_top", summonerDTO_top.getSummoner_name());
             model.addAttribute("soloData_top", rankedSoloDTO_top);
         }
@@ -123,6 +129,9 @@ public class TeamController {
             memberDTO_middle = memberService.findByNickname(teamDTO.getMiddle());
             SummonerDTO summonerDTO_middle = summonerService.findByUserid(memberDTO_middle.getUserid());
             RankedSoloDTO rankedSoloDTO_middle = summonerService.selectRankedSoloData(summonerDTO_middle.getId());
+            
+            cnt++;
+            tiertotal += teamService.tierCalculate(rankedSoloDTO_middle.getTier(), rankedSoloDTO_middle.getTier_rank());
 
             model.addAttribute("team_middle", summonerDTO_middle.getSummoner_name());
             model.addAttribute("soloData_middle", rankedSoloDTO_middle);
@@ -131,6 +140,9 @@ public class TeamController {
             memberDTO_jungle = memberService.findByNickname(teamDTO.getJungle());
             SummonerDTO summonerDTO_jungle = summonerService.findByUserid(memberDTO_jungle.getUserid());
             RankedSoloDTO rankedSoloDTO_jungle = summonerService.selectRankedSoloData(summonerDTO_jungle.getId());
+            
+            cnt++;
+            tiertotal += teamService.tierCalculate(rankedSoloDTO_jungle.getTier(), rankedSoloDTO_jungle.getTier_rank());
 
             model.addAttribute("team_jungle", summonerDTO_jungle.getSummoner_name());
             model.addAttribute("soloData_jungle", rankedSoloDTO_jungle);
@@ -139,7 +151,10 @@ public class TeamController {
             memberDTO_bottom = memberService.findByNickname(teamDTO.getBottom());
             SummonerDTO summonerDTO_bottom = summonerService.findByUserid(memberDTO_bottom.getUserid());
             RankedSoloDTO rankedSoloDTO_bottom = summonerService.selectRankedSoloData(summonerDTO_bottom.getId());
-
+            
+            cnt++;
+            tiertotal += teamService.tierCalculate(rankedSoloDTO_bottom.getTier(), rankedSoloDTO_bottom.getTier_rank());
+            
             model.addAttribute("team_bottom", summonerDTO_bottom.getSummoner_name());
             model.addAttribute("soloData_bottom", rankedSoloDTO_bottom);
         }
@@ -147,12 +162,19 @@ public class TeamController {
             memberDTO_suppoter = memberService.findByNickname(teamDTO.getSuppoter());
             SummonerDTO summonerDTO_suppoter = summonerService.findByUserid(memberDTO_suppoter.getUserid());
             RankedSoloDTO rankedSoloDTO_suppoter = summonerService.selectRankedSoloData(summonerDTO_suppoter.getId());
+            
+            cnt++;
+            tiertotal += teamService.tierCalculate(rankedSoloDTO_suppoter.getTier(), rankedSoloDTO_suppoter.getTier_rank());
 
             model.addAttribute("team_suppoter", summonerDTO_suppoter.getSummoner_name());
             model.addAttribute("soloData_suppoter", rankedSoloDTO_suppoter);
         }
+        teamDTO.setTier_average(teamService.getTier(Math.round(tiertotal/cnt)));
+        teamService.updateTierAvg(teamDTO);
         model.addAttribute("team", teamDTO);
-
+        
+       
+        
         if (target.equals("update")){
             return "teamUpdateForm";
         }

@@ -18,6 +18,10 @@ public interface TeamService {
     public TeamApplyDTO selectTeamApply_Join(String nickname);
 
     public boolean tierCheck(String tier, String tier_rank, String[] tierArray);
+    
+    public int tierCalculate(String tier, String tier_rank);
+    
+    public String getTier(int tier_value);
 
     public void insertApply(TeamApplyDTO teamApplyDTO);
 
@@ -34,4 +38,6 @@ public interface TeamService {
     public TeamApplyDTO selectApplyStatus(String nickname);
 
     public void updateTeamLine(TeamApplyDTO teamApplyDTO);
+    
+    public void updateTierAvg(TeamDTO teamDTO);
 }

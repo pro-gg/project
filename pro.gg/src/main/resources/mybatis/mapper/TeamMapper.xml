@@ -30,6 +30,10 @@
     <select id="selectTierValue" resultType="int">
         ${sql}
     </select>
+    
+    <select id="selectTier" resultType="String">
+    	${sql}
+    </select>
 
     <select id="insertApply" parameterType="Project.pro.gg.Model.TeamApplyDTO">
         insert into teamapply(nickname, summoner_name, line, tier, tier_rank, rate, teamName)
@@ -64,5 +68,11 @@
         update team
         set ${line} = #{nickname}
         where teamName = #{teamName}
+    </select>
+    
+    <select id="updateTierAvg" parameterType="Project.pro.gg.Model.TeamDTO">
+    	UPDATE team
+		SET tier_average = #{tier_average}
+		WHERE teamName = #{teamName}
     </select>
 </mapper>

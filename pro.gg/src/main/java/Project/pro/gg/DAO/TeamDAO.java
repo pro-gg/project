@@ -16,6 +16,8 @@ public interface TeamDAO {
     public TeamApplyDTO selectTeamApply_Join(String nickname);
 
     public int selectTierValue(String tier, String tier_rank);
+    
+    public String selectTier(int tier_value);
 
     public void insertApply(TeamApplyDTO teamApplyDTO);
 
@@ -30,4 +32,6 @@ public interface TeamDAO {
     public TeamApplyDTO selectApplyStatus(String nickname);
 
     public void updateTeamLine(TeamApplyDTO teamApplyDTO);
+    
+    public void updateTierAvg(TeamDTO teamDTO);
 }

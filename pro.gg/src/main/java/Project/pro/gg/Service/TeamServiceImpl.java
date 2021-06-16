@@ -48,6 +48,16 @@ public class TeamServiceImpl implements TeamService{
     }
 
     @Override
+	public int tierCalculate(String tier, String tier_rank) {
+		return teamRepository.selectTierValue(tier, tier_rank);
+	}
+    
+	@Override
+	public String getTier(int tier_value) {
+		return teamRepository.selectTier(tier_value);
+	}
+
+	@Override
     public void insertApply(TeamApplyDTO teamApplyDTO) {
         teamRepository.insertApply(teamApplyDTO);
     }
@@ -90,4 +100,9 @@ public class TeamServiceImpl implements TeamService{
     public void updateTeamLine(TeamApplyDTO teamApplyDTO) {
         teamRepository.updateTeamLine(teamApplyDTO);
     }
+
+	@Override
+	public void updateTierAvg(TeamDTO teamDTO) {
+		teamRepository.updateTierAvg(teamDTO);
+	}
 }
