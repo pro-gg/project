@@ -121,6 +121,11 @@
             }
         }
     </script>
+    <style>
+        #printMatchHistory{
+            width: 600px;
+        }
+    </style>
 </head>
 <body>
     <header></header>
