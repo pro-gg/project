@@ -71,4 +71,14 @@
         select * from ranked_flex
         where id = #{id}
     </select>
+
+    <select id="insertSpell" parameterType="Project.pro.gg.Model.SpellDTO">
+        insert into spell(spellName, name, description, keyValue)
+         values(#{spellName}, #{name}, #{description}, #{keyValue})
+    </select>
+
+    <select id="selectSpell" parameterType="int" resultType="Project.pro.gg.Model.SpellDTO">
+        select * from spell
+        where keyValue = #{keyValue}
+    </select>
 </mapper>

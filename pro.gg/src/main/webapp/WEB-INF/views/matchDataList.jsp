@@ -19,7 +19,10 @@
     </style>
 </head>
 <body>
-    <% int count = 0; %>
+    <% 
+        int imgcount = 0; 
+        int spellcount = 0;
+    %>
     <c:forEach var="matchDataList" items="${matchDataList}" varStatus="status">
         <c:if test="${matchDataList.win == false}">
             <div id="lose">
@@ -29,9 +32,9 @@
                 <p>획득한 골드 : <c:out value="${matchDataList.goldEarned}"></c:out><img src="https://ddragon.leagueoflegends.com/cdn/5.5.1/img/ui/gold.png"></p>
                 <p>소모한 골드 : <c:out value="${matchDataList.goldSpent}"></c:out><img src="https://ddragon.leagueoflegends.com/cdn/5.5.1/img/ui/gold.png"></p>
                 <% 
-                    String itemList = "itemlist_List"+count;
+                    String itemList = "itemlist_List"+imgcount;
                     List<String> itemList_string = (ArrayList)request.getAttribute(itemList);
-                    count++;
+                    imgcount++;
                 %>
                 <p>최종 아이템 : 
                     <img src="<%= itemList_string.get(0) %>" alt="">
@@ -42,7 +45,15 @@
                     <img src="<%= itemList_string.get(5) %>" alt="">
                     <img src="<%= itemList_string.get(6) %>" alt="">
                 </p>
-                <p>소환사 마법 : <c:out value="${matchDataList.spellList}"></c:out></p>
+                <% 
+                    String spellList = "spellList_List"+spellcount;
+                    List<String> spellList_string = (ArrayList)request.getAttribute(spellList);
+                    spellcount++;
+                %>
+                <p>소환사 마법 : 
+                    <img src="<%= spellList_string.get(0) %>" alt="">
+                    <img src="<%= spellList_string.get(1) %>" alt="">
+                </p>
                 <hr>
             </div>
         </c:if>
@@ -54,9 +65,9 @@
                 <p>획득한 골드 : <c:out value="${matchDataList.goldEarned}"></c:out><img src="https://ddragon.leagueoflegends.com/cdn/5.5.1/img/ui/gold.png"></p>
                 <p>소모한 골드 : <c:out value="${matchDataList.goldSpent}"></c:out><img src="https://ddragon.leagueoflegends.com/cdn/5.5.1/img/ui/gold.png"></p>
                 <% 
-                    String itemList = "itemlist_List"+count;
+                    String itemList = "itemlist_List"+imgcount;
                     List<String> itemList_string = (ArrayList)request.getAttribute(itemList);
-                    count++;
+                    imgcount++;
                 %>
                 <p>최종 아이템 : 
                     <img src="<%= itemList_string.get(0) %>" alt="">
@@ -67,7 +78,15 @@
                     <img src="<%= itemList_string.get(5) %>" alt="">
                     <img src="<%= itemList_string.get(6) %>" alt="">
                 </p>
-                <p>소환사 마법 : <c:out value="${matchDataList.spellList}"></c:out></p>
+                <% 
+                    String spellList = "spellList_List"+spellcount;
+                    List<String> spellList_string = (ArrayList)request.getAttribute(spellList);
+                    spellcount++;
+                %>
+                <p>소환사 마법 : 
+                    <img src="<%= spellList_string.get(0) %>" alt="">
+                    <img src="<%= spellList_string.get(1) %>" alt="">
+                </p>
                 <hr>
             </div>
         </c:if>

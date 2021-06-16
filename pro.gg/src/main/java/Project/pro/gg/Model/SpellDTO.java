@@ -12,5 +12,5 @@ public class SpellDTO {
     private String spellName;
     private String name;
     private String description;
-    private int key;
+    private int keyValue;
 }
