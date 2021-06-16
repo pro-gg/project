@@ -1,10 +1,7 @@
 package Project.pro.gg.Repository;
 
 import Project.pro.gg.DAO.SummonerDAO;
-import Project.pro.gg.Model.MemberDTO;
-import Project.pro.gg.Model.RankedFlexDTO;
-import Project.pro.gg.Model.RankedSoloDTO;
-import Project.pro.gg.Model.SummonerDTO;
+import Project.pro.gg.Model.*;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -73,5 +70,15 @@ public class SummonerRepository implements SummonerDAO {
     @Override
     public SummonerDTO findByUserid(String userid) {
         return sqlSession.selectOne("summoner.findByUserid", userid);
+    }
+
+    @Override
+    public void insertSpellData(SpellDTO spellDTO) {
+        sqlSession.insert("summoner.insertSpell", spellDTO);
+    }
+
+    @Override
+    public SpellDTO selectSpellData(int keyValue) {
+        return sqlSession.selectOne("summoner.selectSpell", keyValue);
     }
 }

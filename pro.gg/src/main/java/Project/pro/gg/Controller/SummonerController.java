@@ -503,7 +503,9 @@ public class SummonerController {
         model.addAttribute("matchDataList", matchDataDTOList);
 
         JSONObject jsonObject_itemList = null;
+        JSONObject jsonObject_spellList = null;
 
+        // 구매한 아이템들 이미지 처리
         for (int i = 0; i < matchDataDTOList.size(); i++){
             List<String> itemImageList = new ArrayList<>();
             JSONObject jsonObject = new JSONObject((Map) matchDataDTOList.get(i));
@@ -528,40 +530,150 @@ public class SummonerController {
             String sendModel = "itemlist_List"+i;
             model.addAttribute(sendModel, itemImageList);
         }
-//        for (int i = 0; i < matchDataDTOList.size(); i++){
-//            List<String> itemImageList = new ArrayList<>();
-//            JSONObject jsonObject = new JSONObject((Map) matchDataDTOList.get(i));
-//            jsonObject_itemList = new JSONObject(jsonObject.getString("spellList"));
-//        }
+
+        // 사용한 소환사 스펠 이미지 처리
+        for (int i = 0; i < matchDataDTOList.size(); i++){
+            List<String> spellImageList = new ArrayList<>();
+            JSONObject jsonObject = new JSONObject((Map) matchDataDTOList.get(i));
+            jsonObject_spellList = new JSONObject(jsonObject.getString("spellList"));
+
+            int keyValue1 = jsonObject_spellList.getInt("summoner1Id");
+            int keyValue2 = jsonObject_spellList.getInt("summoner2Id");
+
+            SpellDTO spellDTO1 = summonerService.selectSpellData(keyValue1);
+            SpellDTO spellDTO2 = summonerService.selectSpellData(keyValue2);
+
+            String spell1 = "http://ddragon.leagueoflegends.com/cdn/11.12.1/img/spell/"+spellDTO1.getSpellName()+".png";
+            String spell2 = "http://ddragon.leagueoflegends.com/cdn/11.12.1/img/spell/"+spellDTO2.getSpellName()+".png";
+
+            spellImageList.add(spell1);
+            spellImageList.add(spell2);
+
+            String sendModel = "spellList_List"+i;
+            model.addAttribute(sendModel, spellImageList);
+        }
         
         // 임의로 소환사 스펠 데이터들을 모두 가져올 코드 생성(추후에 주석 처리 또는 코드 제거)
         // 데이터베이스에 소환사 스펠 데이터들을 모두 가지고 있어야 소환사 스펠에 대한 이미지 처리가 용이해진다.
-        try{
-            apiURL = "https://ddragon.leagueoflegends.com/cdn/11.12.1/data/ko_KR/summoner.json";
-            riotURL = new URL(apiURL);
-            urlConnection = (HttpURLConnection)riotURL.openConnection();
-            urlConnection.setRequestMethod("GET");
-
-            br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));
-            String result="";
-            String line="";
-            while((line=br.readLine()) != null) {
-                result += line;
-            }
-
-            JSONObject jsonObject = new JSONObject(result);
-            JSONObject spellObjects = jsonObject.getJSONObject("data");
-            System.out.println(spellObjects.get("SummonerBarrier"));
-            // DTO 구조 : 스펠 영문이름(이미지 처리를 위함 - 기본키), name : 스펠 한글 이름, description : 스펠 설명, key : 스펠 키값(이미지 처리 조건)
-//            for (int i = 0; i < spellObjects.length(); i++){
+//        try{
+//            apiURL = "https://ddragon.leagueoflegends.com/cdn/11.12.1/data/ko_KR/summoner.json";
+//            riotURL = new URL(apiURL);
+//            urlConnection = (HttpURLConnection)riotURL.openConnection();
+//            urlConnection.setRequestMethod("GET");
 //
+//            br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));
+//            String result="";
+//            String line="";
+//            while((line=br.readLine()) != null) {
+//                result += line;
 //            }
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
-
-
+//
+//            JSONObject jsonObject = new JSONObject(result);
+//            JSONObject spellObjects = jsonObject.getJSONObject("data");
+//            // DTO 구조 : 스펠 영문이름(이미지 처리를 위함 - 기본키), name : 스펠 한글 이름, description : 스펠 설명, key : 스펠 키값(이미지 처리 조건)
+//            SpellDTO spellDTO = new SpellDTO();
+//
+//            JSONObject spellObejct = spellObjects.getJSONObject("SummonerBarrier");
+//            spellDTO.setSpellName("SummonerBarrier");
+//            spellDTO.setName(spellObejct.getString("name"));
+//            spellDTO.setDescription(spellObejct.getString("description"));
+//            spellDTO.setKeyValue(spellObejct.getInt("key"));
+//            summonerService.insertSpellData(spellDTO);
+//
+//            spellObejct = spellObjects.getJSONObject("SummonerBoost");
+//            spellDTO.setSpellName("SummonerBoost");
+//            spellDTO.setName(spellObejct.getString("name"));
+//            spellDTO.setDescription(spellObejct.getString("description"));
+//            spellDTO.setKeyValue(spellObejct.getInt("key"));
+//            summonerService.insertSpellData(spellDTO);
+//
+//            spellObejct = spellObjects.getJSONObject("SummonerDot");
+//            spellDTO.setSpellName("SummonerDot");
+//            spellDTO.setName(spellObejct.getString("name"));
+//            spellDTO.setDescription(spellObejct.getString("description"));
+//            spellDTO.setKeyValue(spellObejct.getInt("key"));
+//            summonerService.insertSpellData(spellDTO);
+//
+//            spellObejct = spellObjects.getJSONObject("SummonerExhaust");
+//            spellDTO.setSpellName("SummonerExhaust");
+//            spellDTO.setName(spellObejct.getString("name"));
+//            spellDTO.setDescription(spellObejct.getString("description"));
+//            spellDTO.setKeyValue(spellObejct.getInt("key"));
+//            summonerService.insertSpellData(spellDTO);
+//
+//            spellObejct = spellObjects.getJSONObject("SummonerFlash");
+//            spellDTO.setSpellName("SummonerFlash");
+//            spellDTO.setName(spellObejct.getString("name"));
+//            spellDTO.setDescription(spellObejct.getString("description"));
+//            spellDTO.setKeyValue(spellObejct.getInt("key"));
+//            summonerService.insertSpellData(spellDTO);
+//
+//            spellObejct = spellObjects.getJSONObject("SummonerHaste");
+//            spellDTO.setSpellName("SummonerHaste");
+//            spellDTO.setName(spellObejct.getString("name"));
+//            spellDTO.setDescription(spellObejct.getString("description"));
+//            spellDTO.setKeyValue(spellObejct.getInt("key"));
+//            summonerService.insertSpellData(spellDTO);
+//
+//            spellObejct = spellObjects.getJSONObject("SummonerHeal");
+//            spellDTO.setSpellName("SummonerHeal");
+//            spellDTO.setName(spellObejct.getString("name"));
+//            spellDTO.setDescription(spellObejct.getString("description"));
+//            spellDTO.setKeyValue(spellObejct.getInt("key"));
+//            summonerService.insertSpellData(spellDTO);
+//
+//            spellObejct = spellObjects.getJSONObject("SummonerMana");
+//            spellDTO.setSpellName("SummonerMana");
+//            spellDTO.setName(spellObejct.getString("name"));
+//            spellDTO.setDescription(spellObejct.getString("description"));
+//            spellDTO.setKeyValue(spellObejct.getInt("key"));
+//            summonerService.insertSpellData(spellDTO);
+//
+//            spellObejct = spellObjects.getJSONObject("SummonerPoroRecall");
+//            spellDTO.setSpellName("SummonerPoroRecall");
+//            spellDTO.setName(spellObejct.getString("name"));
+//            spellDTO.setDescription(spellObejct.getString("description"));
+//            spellDTO.setKeyValue(spellObejct.getInt("key"));
+//            summonerService.insertSpellData(spellDTO);
+//
+//            spellObejct = spellObjects.getJSONObject("SummonerPoroThrow");
+//            spellDTO.setSpellName("SummonerPoroThrow");
+//            spellDTO.setName(spellObejct.getString("name"));
+//            spellDTO.setDescription(spellObejct.getString("description"));
+//            spellDTO.setKeyValue(spellObejct.getInt("key"));
+//            summonerService.insertSpellData(spellDTO);
+//
+//            spellObejct = spellObjects.getJSONObject("SummonerSmite");
+//            spellDTO.setSpellName("SummonerSmite");
+//            spellDTO.setName(spellObejct.getString("name"));
+//            spellDTO.setDescription(spellObejct.getString("description"));
+//            spellDTO.setKeyValue(spellObejct.getInt("key"));
+//            summonerService.insertSpellData(spellDTO);
+//
+//            spellObejct = spellObjects.getJSONObject("SummonerSnowURFSnowball_Mark");
+//            spellDTO.setSpellName("SummonerSnowURFSnowball_Mark");
+//            spellDTO.setName(spellObejct.getString("name"));
+//            spellDTO.setDescription(spellObejct.getString("description"));
+//            spellDTO.setKeyValue(spellObejct.getInt("key"));
+//            summonerService.insertSpellData(spellDTO);
+//
+//            spellObejct = spellObjects.getJSONObject("SummonerSnowball");
+//            spellDTO.setSpellName("SummonerSnowball");
+//            spellDTO.setName(spellObejct.getString("name"));
+//            spellDTO.setDescription(spellObejct.getString("description"));
+//            spellDTO.setKeyValue(spellObejct.getInt("key"));
+//            summonerService.insertSpellData(spellDTO);
+//
+//            spellObejct = spellObjects.getJSONObject("SummonerTeleport");
+//            spellDTO.setSpellName("SummonerTeleport");
+//            spellDTO.setName(spellObejct.getString("name"));
+//            spellDTO.setDescription(spellObejct.getString("description"));
+//            spellDTO.setKeyValue(spellObejct.getInt("key"));
+//            summonerService.insertSpellData(spellDTO);
+//
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
         return "matchDataList";
     }
 }

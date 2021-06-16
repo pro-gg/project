@@ -1,9 +1,6 @@
 package Project.pro.gg.DAO;
 
-import Project.pro.gg.Model.MemberDTO;
-import Project.pro.gg.Model.RankedFlexDTO;
-import Project.pro.gg.Model.RankedSoloDTO;
-import Project.pro.gg.Model.SummonerDTO;
+import Project.pro.gg.Model.*;
 
 public interface SummonerDAO {
 
@@ -23,4 +20,8 @@ public interface SummonerDAO {
     public RankedFlexDTO selectRankedFlexData(String id);
 
     public SummonerDTO findByUserid(String userid);
+
+    public void insertSpellData(SpellDTO spellDTO);
+
+    public SpellDTO selectSpellData(int keyValue);
 }
