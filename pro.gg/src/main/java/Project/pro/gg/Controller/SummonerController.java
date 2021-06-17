@@ -5,6 +5,7 @@ import Project.pro.gg.Service.MatchDataServiceImpl;
 import Project.pro.gg.Service.MemberServiceImpl;
 import Project.pro.gg.Service.SummonerServiceImpl;
 import Project.pro.gg.Service.TeamServiceImpl;
+import com.fasterxml.jackson.core.type.TypeReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONArray;
 import org.springframework.boot.configurationprocessor.json.JSONException;
