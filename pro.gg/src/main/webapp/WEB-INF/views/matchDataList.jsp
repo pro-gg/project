@@ -22,11 +22,24 @@
     <% 
         int imgcount = 0; 
         int spellcount = 0;
+        int championcount = 0;
     %>
     <c:forEach var="matchDataList" items="${matchDataList}" varStatus="status">
         <c:if test="${matchDataList.win == false}">
             <div id="lose">
-                <p>챔피언 이름 : <c:out value="${matchDataList.championName}"></c:out></p>
+                <%
+                    String championImage = "championImage"+championcount;
+                    String championImagePath = (String)request.getAttribute(championImage);
+
+                    String championName = "championName"+championcount;
+                    championName = (String)request.getAttribute(championName);
+                    championcount++;
+                %>
+                <p>챔피언 : 
+                    <img src="<%= championImagePath %>" alt=""><br>
+                    <b>&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;<%= championName %></b>
+                </p>
+                
                 <p>K/D/A : <c:out value="${matchDataList.kills}/${matchDataList.deaths}/${matchDataList.assists}"></c:out></p>
                 <p>승패 여부 : <c:out value="패배.."></c:out></p>
                 <p>획득한 골드 : <c:out value="${matchDataList.goldEarned}"></c:out><img src="https://ddragon.leagueoflegends.com/cdn/5.5.1/img/ui/gold.png"></p>
@@ -59,7 +72,18 @@
         </c:if>
         <c:if test="${matchDataList.win == true}">
             <div id="win">
-                <p>챔피언 이름 : <c:out value="${matchDataList.championName}"></c:out></p>
+                <%
+                    String championImage = "championImage"+championcount;
+                    String championImagePath = (String)request.getAttribute(championImage);
+
+                    String championName = "championName"+championcount;
+                    championName = (String)request.getAttribute(championName);
+                    championcount++;
+                %>
+                <p>챔피언 : 
+                    <img src="<%= championImagePath %>" alt=""><br>
+                    <b>&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;<%= championName %></b>
+                </p>
                 <p>K/D/A : <c:out value="${matchDataList.kills}/${matchDataList.deaths}/${matchDataList.assists}"></c:out></p>
                 <p>승패 여부 : <c:out value="승리!"></c:out></p>
                 <p>획득한 골드 : <c:out value="${matchDataList.goldEarned}"></c:out><img src="https://ddragon.leagueoflegends.com/cdn/5.5.1/img/ui/gold.png"></p>

@@ -461,8 +461,10 @@ public class SummonerController {
         model.addAttribute("matchDataList", matchDataDTOList);
 
         JSONObject jsonObject_itemList = null;
+        JSONObject jsonObject_spellList = null;
 
         for (int i = 0; i < matchDataDTOList.size(); i++){
+            // 구매한 아이템들 이미지 처리
             List<String> itemImageList = new ArrayList<>();
             JSONObject jsonObject = new JSONObject((Map) matchDataDTOList.get(i));
             jsonObject_itemList = new JSONObject(jsonObject.getString("itemList"));
@@ -483,8 +485,58 @@ public class SummonerController {
             itemImageList.add(item5);
             itemImageList.add(item6);
 
-            String sendModel = "itemlist_List"+i;
-            model.addAttribute(sendModel, itemImageList);
+            String sendItemImage = "itemlist_List"+i;
+            model.addAttribute(sendItemImage, itemImageList);
+
+            // 사용한 소환사 스펠 이미지 처리
+            List<String> spellImageList = new ArrayList<>();
+            jsonObject_spellList = new JSONObject(jsonObject.getString("spellList"));
+
+            int keyValue1 = jsonObject_spellList.getInt("summoner1Id");
+            int keyValue2 = jsonObject_spellList.getInt("summoner2Id");
+
+            SpellDTO spellDTO1 = summonerService.selectSpellData(keyValue1);
+            SpellDTO spellDTO2 = summonerService.selectSpellData(keyValue2);
+
+            String spell1 = "http://ddragon.leagueoflegends.com/cdn/11.12.1/img/spell/"+spellDTO1.getSpellName()+".png";
+            String spell2 = "http://ddragon.leagueoflegends.com/cdn/11.12.1/img/spell/"+spellDTO2.getSpellName()+".png";
+
+            spellImageList.add(spell1);
+            spellImageList.add(spell2);
+
+            String sendSummonerSpell = "spellList_List"+i;
+            model.addAttribute(sendSummonerSpell, spellImageList);
+
+            // 선택한 챔피언 이미지 처리
+            String championName = jsonObject.getString("championName");
+            String championImagePath = "http://ddragon.leagueoflegends.com/cdn/11.12.1/img/champion/"+championName+".png";
+
+            String sendChampionImage = "championImage"+i;
+            model.addAttribute(sendChampionImage, championImagePath);
+
+            try{
+                apiURL = "https://ddragon.leagueoflegends.com/cdn/11.12.1/data/ko_KR/champion/"+championName+".json";
+                riotURL = new URL(apiURL);
+                urlConnection = (HttpURLConnection)riotURL.openConnection();
+                urlConnection.setRequestMethod("GET");
+
+                br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));
+                String result="";
+                String line="";
+                while((line=br.readLine()) != null) {
+                    result += line;
+                }
+
+                JSONObject jsonObject1 = new JSONObject(result);
+                JSONObject championList = jsonObject1.getJSONObject("data");
+                JSONObject championJSON = championList.getJSONObject(championName);
+                championName = championJSON.getString("name");
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+            String sendChapionName = "championName"+i;
+            model.addAttribute(sendChapionName, championName);
         }
         return "matchDataList";
     }
@@ -504,9 +556,9 @@ public class SummonerController {
 
         JSONObject jsonObject_itemList = null;
         JSONObject jsonObject_spellList = null;
-
-        // 구매한 아이템들 이미지 처리
+        
         for (int i = 0; i < matchDataDTOList.size(); i++){
+            // 구매한 아이템들 이미지 처리
             List<String> itemImageList = new ArrayList<>();
             JSONObject jsonObject = new JSONObject((Map) matchDataDTOList.get(i));
             jsonObject_itemList = new JSONObject(jsonObject.getString("itemList"));
@@ -527,14 +579,11 @@ public class SummonerController {
             itemImageList.add(item5);
             itemImageList.add(item6);
 
-            String sendModel = "itemlist_List"+i;
-            model.addAttribute(sendModel, itemImageList);
-        }
+            String sendItemImage = "itemlist_List"+i;
+            model.addAttribute(sendItemImage, itemImageList);
 
-        // 사용한 소환사 스펠 이미지 처리
-        for (int i = 0; i < matchDataDTOList.size(); i++){
+            // 사용한 소환사 스펠 이미지 처리
             List<String> spellImageList = new ArrayList<>();
-            JSONObject jsonObject = new JSONObject((Map) matchDataDTOList.get(i));
             jsonObject_spellList = new JSONObject(jsonObject.getString("spellList"));
 
             int keyValue1 = jsonObject_spellList.getInt("summoner1Id");
@@ -549,8 +598,39 @@ public class SummonerController {
             spellImageList.add(spell1);
             spellImageList.add(spell2);
 
-            String sendModel = "spellList_List"+i;
-            model.addAttribute(sendModel, spellImageList);
+            String sendSummonerSpell = "spellList_List"+i;
+            model.addAttribute(sendSummonerSpell, spellImageList);
+
+            // 선택한 챔피언 이미지 처리
+            String championName = jsonObject.getString("championName");
+            String championImagePath = "http://ddragon.leagueoflegends.com/cdn/11.12.1/img/champion/"+championName+".png";
+
+            String sendChampionImage = "championImage"+i;
+            model.addAttribute(sendChampionImage, championImagePath);
+
+            try{
+                apiURL = "https://ddragon.leagueoflegends.com/cdn/11.12.1/data/ko_KR/champion/"+championName+".json";
+                riotURL = new URL(apiURL);
+                urlConnection = (HttpURLConnection)riotURL.openConnection();
+                urlConnection.setRequestMethod("GET");
+
+                br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));
+                String result="";
+                String line="";
+                while((line=br.readLine()) != null) {
+                    result += line;
+                }
+
+                JSONObject jsonObject1 = new JSONObject(result);
+                JSONObject championList = jsonObject1.getJSONObject("data");
+                JSONObject championJSON = championList.getJSONObject(championName);
+                championName = championJSON.getString("name");
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+            String sendChapionName = "championName"+i;
+            model.addAttribute(sendChapionName, championName);
         }
         
         // 임의로 소환사 스펠 데이터들을 모두 가져올 코드 생성(추후에 주석 처리 또는 코드 제거)
