@@ -157,7 +157,7 @@
 		    	<div class="col-sm-12">
 			    	<div class="card">
 			    		<div class="card-header">
-			    			<h5 class="card-header-text">${team.teamName}</h5>
+			    			<h5 class="card-header-text">${team.teamName}(${team.tier_average })</h5>
 			    			<p>${team.team_description}</p>
 			    		</div>
 			    		<div class="card-block">

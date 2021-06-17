@@ -42,8 +42,14 @@ public class TeamRepository implements TeamDAO {
         String sql = "select tier_value from tiervalue where tier='"+tier+"' and tier_rank='"+tier_rank+"'";
         return sqlSession.selectOne("team.selectTierValue", sql);
     }
-
+    
     @Override
+	public String selectTier(int tier_value) {
+    	String sql = "SELECT concat(tier,' ', tier_rank) FROM tiervalue WHERE tier_value = "+ tier_value;
+		return sqlSession.selectOne("team.selectTier", sql);
+	}
+
+	@Override
     public void insertApply(TeamApplyDTO teamApplyDTO) {
         sqlSession.insert("team.insertApply", teamApplyDTO);
     }
@@ -77,4 +83,9 @@ public class TeamRepository implements TeamDAO {
     public void updateTeamLine(TeamApplyDTO teamApplyDTO) {
         sqlSession.update("team.updateTeamLine", teamApplyDTO);
     }
+
+	@Override
+	public void updateTierAvg(TeamDTO teamDTO) {
+		sqlSession.update("team.updateTierAvg", teamDTO);
+	}
 }
