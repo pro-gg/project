@@ -12,26 +12,38 @@
         function solo_rank_mypage(){
             $("#ranked_mypage").empty();
             var ranked_solo = "${ranked_solo}";
+            var tier = "${ranked_solo.tier}";
 
-            if(ranked_solo !== null){
+            if(tier !== ''){
                 document.getElementById("ranked_mypage").innerHTML="<p>솔로 랭크</p>" +
+                    "<img src='/images/Emblem_${ranked_solo.tier}.png' style='width:100px; height:100px;'/>" +
                     "<p>LP : ${ranked_solo.leaguePoints}</p>" +
                     "<p>티어 : ${ranked_solo.tier} ${ranked_solo.tier_rank}</p>" +
                     "<p>승 : ${ranked_solo.wins}, 패 : ${ranked_solo.losses}</p>" +
                     "<p>승률 : ${ranked_solo.rate}%</p>";
-            }
+            }else {
+            	document.getElementById("ranked_mypage").innerHTML="<p>솔로 랭크</p>" +
+        		"<img src='/images/provisional.png' style='width:100px; height:100px;'/>" +
+        		"<p>Unranked</p>";
+        	}
         }
 
         function flex_rank_mypage(){
             $("#ranked_mypage").empty();
             var ranked_flex = "${ranked_flex}";
+            var tier = "${ranked_flex.tier}";
 
-            if(ranked_flex !== null){
+            if(tier !== ''){
                 document.getElementById("ranked_mypage").innerHTML="<p>자유 랭크</p>" +
+                    "<img src='/images/Emblem_${ranked_flex.tier}.png' style='width:100px; height:100px;'/>" +
                     "<p>LP : ${ranked_flex.leaguePoints}</p>" +
                     "<p>티어 : ${ranked_flex.tier} ${ranked_flex.tier_rank}</p>" +
                     "<p>승 : ${ranked_flex.wins}, 패 : ${ranked_flex.losses}</p>" +
                     "<p>승률 : ${ranked_flex.rate}%</p>";
+            }else {
+            	document.getElementById("ranked_mypage").innerHTML="<p>자유 랭크</p>" +
+            		"<img src='/images/provisional.png' style='width:100px; height:100px;'/>" +
+            		"<p>Unranked</p>";
             }
         }
     </script>

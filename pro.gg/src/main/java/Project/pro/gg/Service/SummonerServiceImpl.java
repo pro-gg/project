@@ -1,9 +1,6 @@
 package Project.pro.gg.Service;
 
-import Project.pro.gg.Model.MemberDTO;
-import Project.pro.gg.Model.RankedFlexDTO;
-import Project.pro.gg.Model.RankedSoloDTO;
-import Project.pro.gg.Model.SummonerDTO;
+import Project.pro.gg.Model.*;
 import Project.pro.gg.Repository.SummonerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -58,5 +55,15 @@ public class SummonerServiceImpl implements SummonerService{
     @Override
     public SummonerDTO findByUserid(String userid) {
         return summonerRepository.findByUserid(userid);
+    }
+
+    @Override
+    public void insertSpellData(SpellDTO spellDTO) {
+        summonerRepository.insertSpellData(spellDTO);
+    }
+
+    @Override
+    public SpellDTO selectSpellData(int keyValue) {
+        return summonerRepository.selectSpellData(keyValue);
     }
 }
