@@ -73,6 +73,12 @@
         			<li>
         				<a href="${pageContext.request.contextPath }/move/teammatch.do">팀 매칭</a>
         			</li>
+                    <li>
+                        <a href="${pageContext.request.contextPath}/move/searchTeamName.do">팀 검색</a>
+                    </li>
+                    <li>
+                        <a href="${pageContext.request.contextPath}/move/searchCrew.do">조건 별 회원검색</a>
+                    </li>
         		</ul>
         		<div class="navbar-custom-menu f-right">
         			<ul class="top-nav profile">

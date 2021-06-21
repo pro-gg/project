@@ -110,4 +110,14 @@ public class PageController {
         model.addAttribute("team", teamDTO);
         return "teamApplyForm";
     }
+
+    @GetMapping("/move/searchTeamName.do")
+    public String moveSearchTeamName(){
+        return null;
+    }
+
+    @GetMapping("/move/searchCrew.do")
+    public String moveSearchCrew(){
+        return null;
+    }
 }
