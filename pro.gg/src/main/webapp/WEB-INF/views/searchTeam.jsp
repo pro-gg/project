@@ -67,7 +67,6 @@
 			    	<div class="card">
 			    		<div class="card-header">
 			    			<h5 class="card-header-text">팀 목록</h5>
-							<input type="button" value="팀 생성" name="createTeam" id="createTeam" onclick="TeamCreate()">
 			    		</div>
 			    		<div class="card-block">
 			    			<div class="row">
@@ -78,6 +77,7 @@
 			    				</div>
 			    			</div>
 			    		</div>
+						<input type="button" value="팀 생성" name="createTeam" id="createTeam" onclick="TeamCreate()">
 			    	</div>
 			    </div>
 		    </div>
