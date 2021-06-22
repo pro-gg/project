@@ -6,6 +6,8 @@ import Project.pro.gg.Model.TeamDTO;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 public interface TeamDAO {
     public TeamDTO selectTeam(TeamDTO teamDTO);
 
@@ -34,4 +36,6 @@ public interface TeamDAO {
     public void updateTeamLine(TeamApplyDTO teamApplyDTO);
     
     public void updateTierAvg(TeamDTO teamDTO);
+    
+    public List<TeamDTO> selectMatchList(@Param("startIdx") int startIdx, @Param("endIdx") int endIdx);
 }
