@@ -84,7 +84,7 @@ public class TeamController {
             return "../valid/teamNameValid";
         } else {
             teamService.insertTeamData(teamDTO, memberDTO);
-            return "redirect:/move/teammatch.do";
+            return "redirect:/move/searchTeamName.do";
         }
     }
 
@@ -363,7 +363,7 @@ public class TeamController {
         // 세션에서 또한 teamName 필드 데이터 삭제
         memberDTO_captin.setTeamName(null);
         session.setAttribute("member", memberDTO_captin);
-        return "redirect:/move/teammatch.do";
+        return "redirect:/move/searchTeamName.do";
     }
 
     @GetMapping("/crewsecession.do")
@@ -397,7 +397,6 @@ public class TeamController {
 
         // 어떤 라인의 회원이 탈퇴하는지 판별 완료 후 해당 라인 필드 값 null 로 업데이트
         teamService.updateTeamLine(teamApplyDTO);
-
         // 회원 측 teamName 필드 null 로 업데이트
         memberDTO_crew.setTeamName(null);
         memberService.updateTeamName(memberDTO_crew);
@@ -406,7 +405,7 @@ public class TeamController {
             model.addAttribute("member", memberDTO_crew);
             return "updateSummonerName";
         }
-        return "redirect:/move/teammatch.do";
+        return "redirect:/move/searchTeamName.do";
     }
 
     @GetMapping("/crewexile.do")

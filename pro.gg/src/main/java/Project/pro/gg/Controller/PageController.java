@@ -113,7 +113,7 @@ public class PageController {
 
     @GetMapping("/move/searchTeamName.do")
     public String moveSearchTeamName(){
-        return null;
+        return "searchTeam";
     }
 
     @GetMapping("/move/searchCrew.do")
