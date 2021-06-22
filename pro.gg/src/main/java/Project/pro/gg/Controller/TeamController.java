@@ -1,9 +1,16 @@
 package Project.pro.gg.Controller;
 
-import Project.pro.gg.Model.*;
-import Project.pro.gg.Service.MemberServiceImpl;
-import Project.pro.gg.Service.SummonerServiceImpl;
-import Project.pro.gg.Service.TeamServiceImpl;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.stereotype.Controller;
@@ -12,15 +19,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.HttpSession;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.*;
-import java.util.stream.Collectors;
+import Project.pro.gg.Model.MemberDTO;
+import Project.pro.gg.Model.RankedSoloDTO;
+import Project.pro.gg.Model.SummonerDTO;
+import Project.pro.gg.Model.TeamApplyDTO;
+import Project.pro.gg.Model.TeamDTO;
+import Project.pro.gg.Service.MemberServiceImpl;
+import Project.pro.gg.Service.SummonerServiceImpl;
+import Project.pro.gg.Service.TeamServiceImpl;
 
 @Controller
 public class TeamController {
-
     @Autowired
     MemberServiceImpl memberService;
 
@@ -169,9 +178,11 @@ public class TeamController {
             model.addAttribute("team_suppoter", summonerDTO_suppoter.getSummoner_name());
             model.addAttribute("soloData_suppoter", rankedSoloDTO_suppoter);
         }
-        teamDTO.setTier_average(teamService.getTier(Math.round(tiertotal/cnt)));
+        teamDTO.setTier_average(Math.round(tiertotal/cnt));
         teamService.updateTierAvg(teamDTO);
+        String tier = teamService.getTier(teamDTO.getTier_average());
         model.addAttribute("team", teamDTO);
+        model.addAttribute("tier", tier);
         
        
         
@@ -569,5 +580,42 @@ public class TeamController {
         }
 
         return "redirect:/teamdetail.do?teamName="+URLEncoder.encode(teamName, "UTF-8")+"&target=detail";
+    }
+    
+    @GetMapping("/matchList.do")
+    public String matchList(Model model, HttpServletRequest request) {
+    	HttpSession session = request.getSession();
+    	MemberDTO member = (MemberDTO)session.getAttribute("member");
+		TeamDTO teamDTO = new TeamDTO();
+	    teamDTO.setTeamName(member.getTeamName());
+	    TeamDTO team = teamService.selectTeam(teamDTO);
+	    int startIdx = 0;
+	    int endIdx = 0;
+	    List<TeamDTO> teamDTOList = null;
+	    if(team.getTop() != null || team.getMiddle() != null || team.getJungle() != null || team.getBottom() != null || team.getSuppoter() != null) {
+	    	if(team.getTier_average() > 0 && team.getTier_average()<=4) {
+	    		startIdx = 1;
+	    		endIdx = 8;
+	    	}else if(team.getTier_average() > 4 && team.getTier_average()<=8) {
+	    		startIdx = 1;
+	    		endIdx = 12;
+	    	}else if(team.getTier_average() > 8 && team.getTier_average()<=12) {
+	    		startIdx = 5;
+	    		endIdx = 16;
+	    	}else if(team.getTier_average() > 12 && team.getTier_average()<=16) {
+	    		startIdx = 9;
+	    		endIdx = 20;
+	    	}else if(team.getTier_average() > 16 && team.getTier_average()<=20) {
+	    		startIdx = 13;
+	    		endIdx = 24;
+	    	}else if(team.getTier_average() > 21 && team.getTier_average()<=27) {
+	    		startIdx = 17;
+	    		endIdx = 27;
+	    	}
+	    	teamDTOList = teamService.selectMatchList(startIdx, endIdx);
+	    	System.out.println(teamDTOList);
+	    }
+        model.addAttribute("teamList", teamDTOList);
+    	return "matchList";
     }
 }

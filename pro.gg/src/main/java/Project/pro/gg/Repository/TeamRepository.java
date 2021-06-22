@@ -4,6 +4,8 @@ import Project.pro.gg.DAO.TeamDAO;
 import Project.pro.gg.Model.MemberDTO;
 import Project.pro.gg.Model.TeamApplyDTO;
 import Project.pro.gg.Model.TeamDTO;
+
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -87,5 +89,10 @@ public class TeamRepository implements TeamDAO {
 	@Override
 	public void updateTierAvg(TeamDTO teamDTO) {
 		sqlSession.update("team.updateTierAvg", teamDTO);
+	}
+
+	@Override
+	public List<TeamDTO> selectMatchList(@Param("startIdx") int startIdx, @Param("endIdx") int endIdx) {
+		return sqlSession.selectList("team.selectMatchList");
 	}
 }

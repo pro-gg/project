@@ -120,4 +120,9 @@ public class PageController {
     public String moveSearchCrew(){
         return null;
     }
+    
+    @GetMapping("/move/myMatching.do")
+    public String myMatching() {
+    	return "myMatching";
+    }
 }
