@@ -95,4 +95,9 @@ public class TeamRepository implements TeamDAO {
 	public List<TeamDTO> selectMatchList(HashMap<String,Integer> idx) {
 		return sqlSession.selectList("team.selectMatchList",idx);
 	}
+
+    @Override
+    public List<TeamDTO> selectDynamicSearch(TeamDTO teamDTO) {
+        return sqlSession.selectList("team.selectDynamicSearch", teamDTO);
+    }
 }

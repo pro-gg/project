@@ -112,6 +112,11 @@ public class TeamServiceImpl implements TeamService{
 	public List<TeamDTO> selectMatchList(HashMap<String,Integer> idx) {
 		return teamRepository.selectMatchList(idx);
 	}
-	
-	
+
+    @Override
+    public List<TeamDTO> selectDynamicSearch(TeamDTO teamDTO) {
+        return teamRepository.selectDynamicSearch(teamDTO);
+    }
+
+
 }

@@ -79,4 +79,34 @@
     <select id="selectMatchList" parameterType="HashMap" resultType="Map">
     	SELECT * FROM team INNER JOIN tiervalue ON team.tier_average = tiervalue.tier_value WHERE tier_average BETWEEN #{startIdx} AND #{endIdx}
     </select>
+
+    <select id="selectDynamicSearch" parameterType="Project.pro.gg.Model.TeamDTO" resultType="Map">
+        select * from team
+        <choose>
+            <when test="teamName != null and tier_limit == null and line == null">
+                where teamName = #{teamName}
+            </when>
+            <when test="teamName == null and tier_limit != null and line == null">
+                where tier_limit = #{tier_limit}
+            </when>
+            <when test="teamName == null and tier_limit == null and line != null">
+                where ${line} is null
+            </when>
+            <when test="teamName != null and tier_limit != null and line == null">
+                where teamName = #{teamName} and tier_limit = #{tier_limit}
+            </when>
+            <when test="teamName != null and tier_limit == null and line != null">
+                where teamName = #{teamName} and ${line} is null
+            </when>
+            <when test="teamName == null and tier_limit != null and line != null">
+                where tier_limit = #{tier_limit} and ${line} is null
+            </when>
+            <when test="teamName != null and tier_limit != null and line != null">
+                where teamName = #{teamName} and tier_limit = #{tier_limit} and ${line} is null
+            </when>
+            <otherwise>
+                where teamName = ''
+            </otherwise>
+        </choose>
+    </select>
 </mapper>

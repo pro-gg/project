@@ -44,4 +44,6 @@ public interface TeamService {
     public void updateTierAvg(TeamDTO teamDTO);
     
     public List<TeamDTO> selectMatchList(HashMap<String,Integer> idx);
+
+    public List<TeamDTO> selectDynamicSearch(TeamDTO teamDTO);
 }
