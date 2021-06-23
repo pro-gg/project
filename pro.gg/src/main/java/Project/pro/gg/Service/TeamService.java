@@ -44,4 +44,6 @@ public interface TeamService {
     public void updateTierAvg(TeamDTO teamDTO);
     
     public List<TeamDTO> selectMatchList(@Param("startIdx") int startIdx, @Param("endIdx") int endIdx);
+
+    public List<TeamDTO> selectDynamicSearch(TeamDTO teamDTO);
 }

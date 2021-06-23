@@ -25,4 +25,6 @@ public class TeamDTO {
 
     private int tier_average;
     private double rate_average;
+    
+    private String line; // 팀 검색 기능을 위한 필드 추가
 }

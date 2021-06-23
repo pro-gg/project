@@ -2,11 +2,8 @@ package Project.pro.gg.Controller;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.sql.SQLSyntaxErrorException;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -616,5 +613,51 @@ public class TeamController {
 	    }
         model.addAttribute("teamList", teamDTOList);
     	return "matchList";
+    }
+
+    @GetMapping("/searchTeam.do")
+    public String searchTeamName(@RequestParam("searchData") String searchData, Model model){
+
+        String teamName = null;
+        String tier_limit = null;
+        String empty_line = null;
+
+        try{
+            JSONObject jsonObject = new JSONObject(searchData);
+
+            teamName = jsonObject.getString("teamName");
+            tier_limit = jsonObject.getString("tier_limit");
+            empty_line = jsonObject.getString("empty_line");
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        TeamDTO teamDTO = new TeamDTO();
+
+        if (!teamName.equals("")) {
+            teamDTO.setTeamName(teamName);
+        }
+        if (!tier_limit.equals("")) {
+            teamDTO.setTier_limit(tier_limit);
+        }
+        if (!empty_line.equals("")) {
+            teamDTO.setLine(empty_line);
+        }
+
+        List<TeamDTO> teamDTOList = new ArrayList<>();
+
+        if (teamDTO.getTeamName() != null || teamDTO.getTier_limit() != null || teamDTO.getLine() != null){
+            // 동적 쿼리 조건에 맞지 않을 경우 select * from team 쿼리가 수행되서 결과가 전달되는 것 방지
+            teamDTOList = teamService.selectDynamicSearch(teamDTO);
+        }
+
+        if (teamDTOList.size() == 0){
+            model.addAttribute("notexistTeam", "notexistTeam");
+            return "searchTeam";
+        }
+        model.addAttribute("notexistTeam", null);
+        model.addAttribute("teamDTOList", teamDTOList);
+        return "searchTeam";
     }
 }

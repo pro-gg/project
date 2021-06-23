@@ -112,6 +112,11 @@ public class TeamServiceImpl implements TeamService{
 	public List<TeamDTO> selectMatchList(@Param("startIdx") int startIdx, @Param("endIdx") int endIdx) {
 		return teamRepository.selectMatchList(startIdx, endIdx);
 	}
-	
-	
+
+    @Override
+    public List<TeamDTO> selectDynamicSearch(TeamDTO teamDTO) {
+        return teamRepository.selectDynamicSearch(teamDTO);
+    }
+
+
 }
