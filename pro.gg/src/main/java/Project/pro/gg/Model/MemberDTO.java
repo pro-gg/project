@@ -17,4 +17,7 @@ public class MemberDTO {
 
     private String summoner_name;
     private String teamName;
+
+    private String tier;
+    private double rate;
 }

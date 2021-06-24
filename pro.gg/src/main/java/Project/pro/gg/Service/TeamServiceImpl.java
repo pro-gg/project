@@ -1,6 +1,7 @@
 package Project.pro.gg.Service;
 
 import Project.pro.gg.Model.MemberDTO;
+import Project.pro.gg.Model.RankedSoloDTO;
 import Project.pro.gg.Model.TeamApplyDTO;
 import Project.pro.gg.Model.TeamDTO;
 import Project.pro.gg.Repository.TeamRepository;
@@ -116,6 +117,11 @@ public class TeamServiceImpl implements TeamService{
     @Override
     public List<TeamDTO> selectDynamicSearch(TeamDTO teamDTO) {
         return teamRepository.selectDynamicSearch(teamDTO);
+    }
+
+    @Override
+    public List<RankedSoloDTO> selectDynamicSearch_Crew(RankedSoloDTO rankedSoloDTO) {
+        return teamRepository.selectDynamicSearch_Crew(rankedSoloDTO);
     }
 
 

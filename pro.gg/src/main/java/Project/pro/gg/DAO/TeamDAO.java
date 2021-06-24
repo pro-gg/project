@@ -1,6 +1,7 @@
 package Project.pro.gg.DAO;
 
 import Project.pro.gg.Model.MemberDTO;
+import Project.pro.gg.Model.RankedSoloDTO;
 import Project.pro.gg.Model.TeamApplyDTO;
 import Project.pro.gg.Model.TeamDTO;
 
@@ -40,4 +41,6 @@ public interface TeamDAO {
     public List<TeamDTO> selectMatchList(@Param("startIdx") int startIdx, @Param("endIdx") int endIdx);
 
     public List<TeamDTO> selectDynamicSearch(TeamDTO teamDTO);
+
+    public List<RankedSoloDTO> selectDynamicSearch_Crew(RankedSoloDTO rankedSoloDTO);
 }
