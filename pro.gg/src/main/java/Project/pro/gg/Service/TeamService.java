@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import Project.pro.gg.Model.MemberDTO;
+import Project.pro.gg.Model.RankedSoloDTO;
 import Project.pro.gg.Model.TeamApplyDTO;
 import Project.pro.gg.Model.TeamDTO;
 
@@ -46,4 +47,6 @@ public interface TeamService {
     public List<TeamDTO> selectMatchList(HashMap<String,Integer> idx);
 
     public List<TeamDTO> selectDynamicSearch(TeamDTO teamDTO);
+
+    public List<RankedSoloDTO> selectDynamicSearch_Crew(RankedSoloDTO rankedSoloDTO);
 }

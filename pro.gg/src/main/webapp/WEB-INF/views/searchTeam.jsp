@@ -98,7 +98,7 @@
 			    	<div class="card">
 			    		<div class="card-header">
 			    			<h5 class="card-header-text">팀 목록</h5>
-								<!--티어 제한과 지원가능 라인을 드랍다운 링크 방식으로 적용해보자.-->
+								
 								<select name="tier_limit" id="tier_limit">
 									<option value="">티어 제한</option>
 									<option value="IRON IV">IRON IV</option>

@@ -24,4 +24,6 @@ public interface SummonerDAO {
     public void insertSpellData(SpellDTO spellDTO);
 
     public SpellDTO selectSpellData(int keyValue);
+
+    public SummonerDTO findByid(String id);
 }

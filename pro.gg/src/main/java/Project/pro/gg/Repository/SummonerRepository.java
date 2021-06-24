@@ -81,4 +81,9 @@ public class SummonerRepository implements SummonerDAO {
     public SpellDTO selectSpellData(int keyValue) {
         return sqlSession.selectOne("summoner.selectSpell", keyValue);
     }
+
+    @Override
+    public SummonerDTO findByid(String id) {
+        return sqlSession.selectOne("summoner.findByid", id);
+    }
 }

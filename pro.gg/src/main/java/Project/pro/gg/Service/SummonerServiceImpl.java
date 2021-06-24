@@ -66,4 +66,9 @@ public class SummonerServiceImpl implements SummonerService{
     public SpellDTO selectSpellData(int keyValue) {
         return summonerRepository.selectSpellData(keyValue);
     }
+
+    @Override
+    public SummonerDTO findByid(String id) {
+        return summonerRepository.findByid(id);
+    }
 }

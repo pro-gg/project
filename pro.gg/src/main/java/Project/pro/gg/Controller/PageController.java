@@ -118,7 +118,7 @@ public class PageController {
 
     @GetMapping("/move/searchCrew.do")
     public String moveSearchCrew(){
-        return null;
+        return "searchCrew";
     }
     
     @GetMapping("/move/myMatching.do")
