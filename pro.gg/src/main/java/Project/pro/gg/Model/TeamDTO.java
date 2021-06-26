@@ -24,5 +24,7 @@ public class TeamDTO {
     private String suppoter;
 
     private int tier_average;
-    private double rate_average;
+    private int tier;
+    private int tier_rank;
+    
 }

@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -588,32 +589,31 @@ public class TeamController {
 		TeamDTO teamDTO = new TeamDTO();
 	    teamDTO.setTeamName(member.getTeamName());
 	    TeamDTO team = teamService.selectTeam(teamDTO);
-	    int startIdx = 0;
-	    int endIdx = 0;
+	    HashMap<String,Integer> idx = new HashMap<String, Integer>();
 	    List<TeamDTO> teamDTOList = null;
 	    if(team.getTop() != null || team.getMiddle() != null || team.getJungle() != null || team.getBottom() != null || team.getSuppoter() != null) {
 	    	if(team.getTier_average() > 0 && team.getTier_average()<=4) {
-	    		startIdx = 1;
-	    		endIdx = 8;
+	    		idx.put("startIdx", 1);
+	    		idx.put("endIdx", 8);
 	    	}else if(team.getTier_average() > 4 && team.getTier_average()<=8) {
-	    		startIdx = 1;
-	    		endIdx = 12;
+	    		idx.put("startIdx", 1);
+	    		idx.put("endIdx", 12);
 	    	}else if(team.getTier_average() > 8 && team.getTier_average()<=12) {
-	    		startIdx = 5;
-	    		endIdx = 16;
+	    		idx.put("startIdx", 5);
+	    		idx.put("endIdx", 16);
 	    	}else if(team.getTier_average() > 12 && team.getTier_average()<=16) {
-	    		startIdx = 9;
-	    		endIdx = 20;
+	    		idx.put("startIdx", 9);
+	    		idx.put("endIdx", 20);
 	    	}else if(team.getTier_average() > 16 && team.getTier_average()<=20) {
-	    		startIdx = 13;
-	    		endIdx = 24;
+	    		idx.put("startIdx", 13);
+	    		idx.put("endIdx", 24);
 	    	}else if(team.getTier_average() > 21 && team.getTier_average()<=27) {
-	    		startIdx = 17;
-	    		endIdx = 27;
+	    		idx.put("startIdx", 17);
+	    		idx.put("endIdx", 27);
 	    	}
-	    	teamDTOList = teamService.selectMatchList(startIdx, endIdx);
-	    	System.out.println(teamDTOList);
+	    	teamDTOList = teamService.selectMatchList(idx);
 	    }
+	    System.out.println(teamDTOList);
         model.addAttribute("teamList", teamDTOList);
     	return "matchList";
     }

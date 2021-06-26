@@ -1,16 +1,16 @@
 package Project.pro.gg.Repository;
 
-import Project.pro.gg.DAO.TeamDAO;
-import Project.pro.gg.Model.MemberDTO;
-import Project.pro.gg.Model.TeamApplyDTO;
-import Project.pro.gg.Model.TeamDTO;
+import java.util.HashMap;
+import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import Project.pro.gg.DAO.TeamDAO;
+import Project.pro.gg.Model.MemberDTO;
+import Project.pro.gg.Model.TeamApplyDTO;
+import Project.pro.gg.Model.TeamDTO;
 
 @Repository
 public class TeamRepository implements TeamDAO {
@@ -92,7 +92,7 @@ public class TeamRepository implements TeamDAO {
 	}
 
 	@Override
-	public List<TeamDTO> selectMatchList(@Param("startIdx") int startIdx, @Param("endIdx") int endIdx) {
-		return sqlSession.selectList("team.selectMatchList");
+	public List<TeamDTO> selectMatchList(HashMap<String,Integer> idx) {
+		return sqlSession.selectList("team.selectMatchList",idx);
 	}
 }

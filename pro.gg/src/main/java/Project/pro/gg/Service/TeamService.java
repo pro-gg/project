@@ -1,13 +1,13 @@
 package Project.pro.gg.Service;
 
+import java.util.HashMap;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
 import Project.pro.gg.Model.MemberDTO;
 import Project.pro.gg.Model.TeamApplyDTO;
 import Project.pro.gg.Model.TeamDTO;
-
-import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public interface TeamService {
@@ -43,5 +43,5 @@ public interface TeamService {
     
     public void updateTierAvg(TeamDTO teamDTO);
     
-    public List<TeamDTO> selectMatchList(@Param("startIdx") int startIdx, @Param("endIdx") int endIdx);
+    public List<TeamDTO> selectMatchList(HashMap<String,Integer> idx);
 }
