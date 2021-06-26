@@ -1,15 +1,15 @@
 package Project.pro.gg.Service;
 
+import java.util.HashMap;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import Project.pro.gg.Model.MemberDTO;
 import Project.pro.gg.Model.TeamApplyDTO;
 import Project.pro.gg.Model.TeamDTO;
 import Project.pro.gg.Repository.TeamRepository;
-
-import org.apache.ibatis.annotations.Param;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class TeamServiceImpl implements TeamService{
@@ -109,8 +109,8 @@ public class TeamServiceImpl implements TeamService{
 	}
 
 	@Override
-	public List<TeamDTO> selectMatchList(@Param("startIdx") int startIdx, @Param("endIdx") int endIdx) {
-		return teamRepository.selectMatchList(startIdx, endIdx);
+	public List<TeamDTO> selectMatchList(HashMap<String,Integer> idx) {
+		return teamRepository.selectMatchList(idx);
 	}
 	
 	
