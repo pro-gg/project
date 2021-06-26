@@ -4,8 +4,13 @@ import java.util.HashMap;
 import java.util.List;
 
 import Project.pro.gg.Model.MemberDTO;
+import Project.pro.gg.Model.RankedSoloDTO;
 import Project.pro.gg.Model.TeamApplyDTO;
 import Project.pro.gg.Model.TeamDTO;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
 
 public interface TeamDAO {
     public TeamDTO selectTeam(TeamDTO teamDTO);
@@ -37,4 +42,8 @@ public interface TeamDAO {
     public void updateTierAvg(TeamDTO teamDTO);
     
     public List<TeamDTO> selectMatchList(HashMap<String, Integer> idx);
+
+    public List<TeamDTO> selectDynamicSearch(TeamDTO teamDTO);
+
+    public List<RankedSoloDTO> selectDynamicSearch_Crew(RankedSoloDTO rankedSoloDTO);
 }

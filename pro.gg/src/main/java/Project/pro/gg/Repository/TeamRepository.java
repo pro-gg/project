@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import Project.pro.gg.DAO.TeamDAO;
 import Project.pro.gg.Model.MemberDTO;
+import Project.pro.gg.Model.RankedSoloDTO;
 import Project.pro.gg.Model.TeamApplyDTO;
 import Project.pro.gg.Model.TeamDTO;
 
@@ -95,4 +96,14 @@ public class TeamRepository implements TeamDAO {
 	public List<TeamDTO> selectMatchList(HashMap<String,Integer> idx) {
 		return sqlSession.selectList("team.selectMatchList",idx);
 	}
+
+    @Override
+    public List<TeamDTO> selectDynamicSearch(TeamDTO teamDTO) {
+        return sqlSession.selectList("team.selectDynamicSearch", teamDTO);
+    }
+
+    @Override
+    public List<RankedSoloDTO> selectDynamicSearch_Crew(RankedSoloDTO rankedSoloDTO) {
+        return sqlSession.selectList("team.selectDynamicSearch_Crew", rankedSoloDTO);
+    }
 }

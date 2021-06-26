@@ -81,4 +81,9 @@
         select * from spell
         where keyValue = #{keyValue}
     </select>
+
+    <select id="findByid" parameterType="String" resultType="Project.pro.gg.Model.SummonerDTO">
+        select * from summoner
+        where id = #{id}
+    </select>
 </mapper>

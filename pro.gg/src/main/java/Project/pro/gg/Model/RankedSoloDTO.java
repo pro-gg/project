@@ -17,4 +17,6 @@ public class RankedSoloDTO {
     private int wins;
     private int losses;
     private double rate;
+
+    private String rateRank;
 }

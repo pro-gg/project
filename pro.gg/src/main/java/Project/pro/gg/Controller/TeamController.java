@@ -2,12 +2,7 @@ package Project.pro.gg.Controller;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -616,5 +611,134 @@ public class TeamController {
 	    System.out.println(teamDTOList);
         model.addAttribute("teamList", teamDTOList);
     	return "matchList";
+    }
+
+    @GetMapping("/searchTeam.do")
+    public String searchTeamName(@RequestParam("searchData") String searchData, Model model){
+
+        String teamName = null;
+        String tier_limit = null;
+        String empty_line = null;
+
+        try{
+            JSONObject jsonObject = new JSONObject(searchData);
+
+            teamName = jsonObject.getString("teamName");
+            tier_limit = jsonObject.getString("tier_limit");
+            empty_line = jsonObject.getString("empty_line");
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        TeamDTO teamDTO = new TeamDTO();
+
+        if (!teamName.equals("")) {
+            teamDTO.setTeamName(teamName);
+        }
+        if (!tier_limit.equals("")) {
+            teamDTO.setTier_limit(tier_limit);
+        }
+        if (!empty_line.equals("")) {
+            teamDTO.setLine(empty_line);
+        }
+
+        List<TeamDTO> teamDTOList = new ArrayList<>();
+
+        // 아무것도 전달되지 않았을 경우 동적 쿼리를 수행 시키지 않기 위한 조건문
+        if (teamDTO.getTeamName() != null || teamDTO.getTier_limit() != null || teamDTO.getLine() != null){
+            teamDTOList = teamService.selectDynamicSearch(teamDTO);
+        }
+
+        if (teamDTOList.size() == 0){
+            model.addAttribute("notexistTeam", "notexistTeam");
+            return "searchTeam";
+        }
+        model.addAttribute("notexistTeam", null);
+        model.addAttribute("teamDTOList", teamDTOList);
+        return "searchTeam";
+    }
+
+    @GetMapping("/searchCrew.do")
+    public String searchCrew(@RequestParam("searchData") String searchData, Model model){
+
+        String tier = null;
+        String rateRank = null;
+        double rate;
+
+        try{
+            JSONObject jsonObject = new JSONObject(searchData);
+            tier = jsonObject.getString("tier");
+            rateRank = jsonObject.getString("rate");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        RankedSoloDTO rankedSoloDTO = new RankedSoloDTO();
+        // 티어와 승률에 맞는 결과값을 동적 쿼리를 통해 찾는다.
+        if (!tier.equals("")){
+            String [] tier_array = tier.split(" ");
+            rankedSoloDTO.setTier(tier_array[0]);
+            rankedSoloDTO.setTier_rank(tier_array[1]);
+        }
+
+        if (!rateRank.equals("")){
+            // rateRank 값에 따라 쿼리 검색 범위 변경(동적 쿼리)
+            // RankedSoloDTO 에 데이터베이스 필드로 들어가지 않는 승률 판별 필드를 따로 만들어 줘야 할 듯
+            rankedSoloDTO.setRateRank(rateRank);
+        }
+
+        // 검색 결과값으로 넘어온 티어, 승률 데이터와 함께 회원 닉네임, 소환사 명도 함께 출력시켜 줘야 한다.
+        // 티어와 승률 필드를 MemberDTO 에 추가시켜 준다.(데이터베이스 에는 포함되지 않음)
+        List<RankedSoloDTO> rankedSoloDTOList = new ArrayList<>();
+        List<MemberDTO> memberDTOList = new ArrayList<>();
+
+        if ((rankedSoloDTO.getTier() != null && rankedSoloDTO.getTier_rank() != null) || rankedSoloDTO.getRateRank() != null){
+            // 검색 결과값
+            // 우선 티어와 승률에 맞는 쿼리 결과를 가져온다.(결과값은 RankedSoloDTO 객체 타입의 리스트)
+            // 해당 객체값에서 소환사 id 값을 추출하여 그에 맞는 소환사 데이터를 가져온다.(SummonerDTO) - 소환사 명 정보를 받아올 수 있음
+            // 소환사 객체 값에서 userid 필드를 통해 회원 객체값을 찾은 후 회원 닉네임 정보를 가져온다.
+            // 여기서 해결과제는 selectList 메소드를 이용해서 가져온 RankedSoloDTO 타입의 리스트 에서 RankedSoloDTO 객체 데이터를 하나씩 하나씩 추출해 내야 하는데
+            // 이 경우 데이터 타입이 맞지 않게 된다는 문제점이 발생한다
+
+            rankedSoloDTOList = teamService.selectDynamicSearch_Crew(rankedSoloDTO);
+
+            try{
+                JSONObject jsonObject = null;
+                for (int i = 0; i < rankedSoloDTOList.size(); i++){
+                    MemberDTO memberDTO = new MemberDTO();
+
+                    jsonObject = new JSONObject((Map) rankedSoloDTOList.get(i));
+                    rankedSoloDTO.setId(jsonObject.getString("id"));
+                    rankedSoloDTO.setTier(jsonObject.getString("tier"));
+                    rankedSoloDTO.setTier_rank(jsonObject.getString("tier_rank"));
+                    rankedSoloDTO.setRate(jsonObject.getDouble("rate"));
+
+                    memberDTO.setTier(rankedSoloDTO.getTier()+" "+rankedSoloDTO.getTier_rank());
+                    memberDTO.setRate(rankedSoloDTO.getRate());
+
+                    SummonerDTO summonerDTO = summonerService.findByid(rankedSoloDTO.getId());
+                    memberDTO.setSummoner_name(summonerDTO.getSummoner_name());
+                    memberDTO.setUserid(summonerDTO.getUserid());
+
+                    MemberDTO findNickName = memberService.selectMemberOne(memberDTO.getUserid());
+                    memberDTO.setNickname(findNickName.getNickname());
+
+                    memberDTOList.add(memberDTO);
+                }
+
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+
+        if (rankedSoloDTOList.size() == 0){
+            model.addAttribute("notexistCrew", "notexistCrew");
+            return "crewSearchList";
+        }
+
+        model.addAttribute("notexistCrew", null);
+        model.addAttribute("memberDTOList", memberDTOList);
+        return "crewSearchList";
     }
 }
