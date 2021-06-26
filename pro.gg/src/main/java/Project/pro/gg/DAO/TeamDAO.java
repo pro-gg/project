@@ -8,6 +8,10 @@ import Project.pro.gg.Model.RankedSoloDTO;
 import Project.pro.gg.Model.TeamApplyDTO;
 import Project.pro.gg.Model.TeamDTO;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 public interface TeamDAO {
     public TeamDTO selectTeam(TeamDTO teamDTO);
 

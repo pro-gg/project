@@ -156,4 +156,81 @@
             </otherwise>
         </choose>
     </select>
+
+    <select id="selectDynamicSearch" parameterType="Project.pro.gg.Model.TeamDTO" resultType="Map">
+        select * from team
+        <choose>
+            <when test="teamName != null and tier_limit == null and line == null">
+                where teamName = #{teamName}
+            </when>
+            <when test="teamName == null and tier_limit != null and line == null">
+                where tier_limit = #{tier_limit}
+            </when>
+            <when test="teamName == null and tier_limit == null and line != null">
+                where ${line} is null
+            </when>
+            <when test="teamName != null and tier_limit != null and line == null">
+                where teamName = #{teamName} and tier_limit = #{tier_limit}
+            </when>
+            <when test="teamName != null and tier_limit == null and line != null">
+                where teamName = #{teamName} and ${line} is null
+            </when>
+            <when test="teamName == null and tier_limit != null and line != null">
+                where tier_limit = #{tier_limit} and ${line} is null
+            </when>
+            <when test="teamName != null and tier_limit != null and line != null">
+                where teamName = #{teamName} and tier_limit = #{tier_limit} and ${line} is null
+            </when>
+            <otherwise>
+                where teamName = ''
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="selectDynamicSearch_Crew" parameterType="Project.pro.gg.Model.RankedSoloDTO" resultType="Map">
+        select * from ranked_solo
+        <choose>
+            <when test="tier != null and tier_rank != null and rateRank == null ">
+                where tier = #{tier} and tier_rank = #{tier_rank}
+            </when>
+            <when test="tier == null and tier_rank == null and rateRank != null">
+                <if test="rateRank == 'Erank'">
+                    where rate between 0.0 and 20.0
+                </if>
+                <if test="rateRank == 'Drank'">
+                    where rate between 20 and 40
+                </if>
+                <if test="rateRank == 'Crank'">
+                    where rate between 40 and 60
+                </if>
+                <if test="rateRank == 'Brank'">
+                    where rate between 60 and 80
+                </if>
+                <if test="rateRank == 'Arank'">
+                    where rate between 80 and 100
+                </if>
+            </when>
+            <when test="tier != null and tier_rank != null and rateRank != null">
+                where tier = #{tier} and tier_rank = #{tier_rank} and
+                <if test="rateRank == 'Erank'">
+                    rate between 0 and 20
+                </if>
+                <if test="rateRank == 'Drank'">
+                    rate between 20 and 40
+                </if>
+                <if test="rateRank == 'Crank'">
+                    rate between 40 and 60
+                </if>
+                <if test="rateRank == 'Brank'">
+                    rate between 60 and 80
+                </if>
+                <if test="rateRank == 'Arank'">
+                    rate between 80 and 100
+                </if>
+            </when>
+            <otherwise>
+                where id = ''
+            </otherwise>
+        </choose>
+    </select>
 </mapper>

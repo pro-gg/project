@@ -681,7 +681,7 @@ public class TeamController {
             rankedSoloDTO.setTier(tier_array[0]);
             rankedSoloDTO.setTier_rank(tier_array[1]);
         }
-        
+
         if (!rateRank.equals("")){
             // rateRank 값에 따라 쿼리 검색 범위 변경(동적 쿼리)
             // RankedSoloDTO 에 데이터베이스 필드로 들어가지 않는 승률 판별 필드를 따로 만들어 줘야 할 듯
