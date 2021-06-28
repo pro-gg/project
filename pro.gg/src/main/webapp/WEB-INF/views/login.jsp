@@ -32,8 +32,66 @@
             window.open("${pageContext.request.contextPath}/move/findPasswd.do", "findId", "width=550, height=450, left=100, top=50");
         }
 	</script>
+
+	<!--페이스북 로그인-->
+	<script>
+		window.fbAsyncInit = function(){
+			FB.init({
+				appId : '202332558445458',
+				autoLogAppEvents : true,
+				xfbml : true,
+				version : 'v11.0'
+			});
+
+			FB.AppEvents.logPageView();
+
+			FB.getLoginStatus(function(response) {
+				statusChangeCallback(response);
+			});
+		};
+
+		(function(d, s, id){
+			var js, fjs = d.getElementsByTagName(s)[0];
+			if (d.getElementById(id)) {return;}
+			js = d.createElement(s); js.id = id;
+			js.src = "https://connect.facebook.net/ko_KR/sdk.js";
+			fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));
+
+		function checkLoginState() {
+			FB.getLoginStatus(function(response) {
+				statusChangeCallback(response);
+			});
+		}
+
+		function statusChangeCallback(response){
+			console.log("Button click");
+			if(response.status === 'connected'){
+				getUserData();
+			}
+		}
+
+		function getUserData(){
+			console.log("Facebook Login test");
+			FB.api(
+				'/me',
+				'GET',
+				{"fields":"id,name,email"},
+				function(response) {
+					console.log("Login Success!");
+					console.log("이름 : " + response.name);
+					console.log("아이디 : " + response.id);
+					console.log("이메일 : " + response.email);
+				}
+			);
+		}
+	</script>
+	<script async defer crossorigin="anonymous" src="https://connect.facebook.net/ko_KR/sdk.js" nonce="86tvEXGE"></script>
 </head>
 <body class="back-gray">
+
+	<div id="fb-root"></div>
+	
     <header></header>
     <aside></aside>
     <article>
@@ -66,6 +124,8 @@
 		    				<div class="row">
 		    					<div class="col-xs-10 offset-xs-1">
 		    						<input type="submit" class="btn btn-color btn-md btn-block text-center m-b-20" value="로그인"></input>
+									<fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+									</fb:login-button>
 		    					</div>
 		    				</div>
 		    				<div class="row">
