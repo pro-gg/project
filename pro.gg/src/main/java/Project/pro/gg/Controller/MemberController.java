@@ -32,7 +32,6 @@ import Project.pro.gg.Model.RankedSoloDTO;
 import Project.pro.gg.Model.SummonerDTO;
 import Project.pro.gg.Service.MemberServiceImpl;
 import Project.pro.gg.Service.SummonerServiceImpl;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class MemberController {
