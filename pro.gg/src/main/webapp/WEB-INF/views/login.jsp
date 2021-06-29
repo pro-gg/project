@@ -78,10 +78,21 @@
 				'GET',
 				{"fields":"id,name,email"},
 				function(response) {
-					console.log("Login Success!");
-					console.log("이름 : " + response.name);
-					console.log("아이디 : " + response.id);
-					console.log("이메일 : " + response.email);
+
+					var facebookName = response.name;
+					var facebookId = response.id;
+					var facebookEmail = response.email;
+
+					$.ajax({
+						type:'post',
+						url:'${pageContext.request.contextPath}/facebookLogin.do?facebookName='+encodeURI(facebookName)+'&facebookId='+facebookId+'&facebookEmail='+facebookEmail,
+						data:'',
+						dataType:'',
+						success:function(data){
+							$("body").html(data);
+						}
+					})
+					
 				}
 			);
 		}
