@@ -45,8 +45,6 @@ public class MemberController {
 
     public static HttpSession session;
 
-    KakaoAPI kakaoApi = new KakaoAPI();
-
     @PostMapping("/check_id.do")
     public void check_id(HttpServletRequest request, HttpServletResponse response) {
     	String userid = request.getParameter("id");
@@ -420,11 +418,15 @@ public class MemberController {
 
     @PostMapping("/facebookLogin.do")
     public String facebookLogin(@RequestParam("facebookName") String facebookName, @RequestParam("facebookId") String facebookId,
-                                @RequestParam("facebookEmail") String facebookEmail, RedirectAttributes redirectAttributes
-                                , Model model){
+                                @RequestParam("facebookEmail") String facebookEmail, HttpServletRequest request,
+                                Model model){
 
         // 데이터베이스 검색 시 기존에 존재하는 계정이라면 로그인 성공 처리
+        facebookId = "A"+facebookId; // 전적 테이블 명 처리를 위한 문자 삽입
         MemberDTO memberDTO = memberService.selectMemberOne(facebookId);
+        session = request.getSession();
+
+        System.out.println(memberDTO);
 
         if(memberDTO == null){
             //존재하지 않는 계정이라면 데이터베이스에 삽입시킨 다음 로그인 성공 처리
@@ -437,8 +439,11 @@ public class MemberController {
             memberDTO.setNickname(facebookName);
             memberDTO.setEmail(facebookEmail);
             memberService.insert(memberDTO);
+        }else{
+            memberDTO.setSummoner_name(memberService.selectInnerJoinsummoner_name(memberDTO.getUserid()));
         }
-        redirectAttributes.addFlashAttribute("id", memberDTO.getUserid()).addFlashAttribute("passwd", memberDTO.getPasswd());
-        return "redirect:/trylogin.do";
+        session.setAttribute("member", memberDTO);
+        model.addAttribute("result", "Success");
+        return "../valid/loginvalid";
     }
 }

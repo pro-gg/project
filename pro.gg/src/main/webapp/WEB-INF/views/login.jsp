@@ -90,6 +90,7 @@
 						dataType:'',
 						success:function(data){
 							$("body").html(data);
+							window.location.replace('/');
 						}
 					})
 					
