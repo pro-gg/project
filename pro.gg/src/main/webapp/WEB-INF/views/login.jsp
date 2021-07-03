@@ -39,7 +39,7 @@
 	<script>
 		window.fbAsyncInit = function(){
 			FB.init({
-				appId : '202332558445458',
+				appId : '901123407102819',
 				autoLogAppEvents : true,
 				xfbml : true,
 				version : 'v11.0'
@@ -47,8 +47,8 @@
 
 			FB.AppEvents.logPageView();
 
-			FB.getLoginStatus(function(response) {
-				statusChangeCallback(response);
+			FB.getLoginStatus(function(response){
+				console.log(response.status);
 			});
 		};
 
@@ -60,51 +60,45 @@
 			fjs.parentNode.insertBefore(js, fjs);
 		}(document, 'script', 'facebook-jssdk'));
 
-		function checkLoginState() {
-			FB.getLoginStatus(function(response) {
-				statusChangeCallback(response);
-			});
-		}
+		function checkLoginState(){
+			FB.getLoginStatus(function(response){
+				if(response.status === 'connected'){
+					console.log("Facebook Login test");
+					FB.api(
+						'/me',
+						'GET',
+						{"fields":"id,name,email"},
+						function(response) {
 
-		function statusChangeCallback(response){
-			console.log("Button click");
-			if(response.status === 'connected'){
-				getUserData();
-			}
-		}
+							var facebookName = response.name;
+							var facebookId = response.id;
+							var facebookEmail = response.email;
 
-		function getUserData(){
-			console.log("Facebook Login test");
-			FB.api(
-				'/me',
-				'GET',
-				{"fields":"id,name,email"},
-				function(response) {
+							$.ajax({
+								type:'post',
+								url:'${pageContext.request.contextPath}/facebookLogin.do?facebookName='+encodeURI(facebookName)+'&facebookId='+facebookId+'&facebookEmail='+facebookEmail,
+								data:'',
+								dataType:'',
+								success:function(data){
+									$("body").html(data);
+									window.location.replace('/');
+								}
+							})
 
-					var facebookName = response.name;
-					var facebookId = response.id;
-					var facebookEmail = response.email;
-
-					$.ajax({
-						type:'post',
-						url:'${pageContext.request.contextPath}/facebookLogin.do?facebookName='+encodeURI(facebookName)+'&facebookId='+facebookId+'&facebookEmail='+facebookEmail,
-						data:'',
-						dataType:'',
-						success:function(data){
-							$("body").html(data);
-							window.location.replace('/');
 						}
-					})
-
+					);
+				}else if(response.status === 'not_authorized'){
+					alert('로그인 되어 있지않은 상태입니다.');
 				}
-			);
-		}
+			});
+		};
+
 	</script>
 	<script async defer crossorigin="anonymous" src="https://connect.facebook.net/ko_KR/sdk.js" nonce="86tvEXGE"></script>
 
 	<script>
 		function init() {
-	gapi.load('auth2', function() {
+		gapi.load('auth2', function() {
 		gapi.auth2.init();
 		options = new gapi.auth2.SigninOptionsBuilder();
 		options.setPrompt('select_account');
@@ -138,11 +132,17 @@ function onSignInFailure(t){
 	console.log(t);
 }
 	</script>
+	<style>
+		#facebookLoingBTN{
+			margin-left: 69px;
+
+		}
+	</style>
 </head>
 <body class="back-gray">
 
 	<div id="fb-root"></div>
-	
+	<script async defer crossorigin="anonymous" src="https://connect.facebook.net/ko_KR/sdk.js#xfbml=1&version=v11.0&appId=901123407102819&autoLogAppEvents=1" nonce="inuMS5S2"></script>
     <header></header>
     <aside></aside>
     <article>
@@ -175,13 +175,16 @@ function onSignInFailure(t){
 		    				<div class="row">
 		    					<div class="col-xs-10 offset-xs-1">
 		    						<input type="submit" class="btn btn-color btn-md btn-block text-center m-b-20" value="로그인"></input>
-									<li id="GgCustomLogin">
-										<fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
-										</fb:login-button>
-										<a href="#" onclick="init()">
-											<span>Login with Google</span>
-										</a>
-									</li>
+									<dl>
+										<dt id="facebookLoingBTN">
+											<div class="fb-login-button" data-width="" data-size="large" data-button-type="continue_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false" onlogin="checkLoginState()"></div>
+										</dt>
+										<dt id="GgCustomLogin">
+											<img src="/images/btn_google_signin_dark_pressed_web.png" onclick="init()" width="308px" height="45px">
+											</img>
+										</dt>
+									</ul>
+
 		    					</div>
 		    				</div>
 		    				<div class="row">

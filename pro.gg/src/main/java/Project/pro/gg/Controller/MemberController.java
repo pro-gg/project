@@ -425,8 +425,6 @@ public class MemberController {
         MemberDTO memberDTO = memberService.selectMemberOne(facebookId);
         session = request.getSession();
 
-        System.out.println(memberDTO);
-
         if(memberDTO == null){
             //존재하지 않는 계정이라면 데이터베이스에 삽입시킨 다음 로그인 성공 처리
             // 비밀번호는 아이디와 동일한 값으로 삽입하고 닉네임은 이름과 똑같은 값으로 삽입 시켜준다.
