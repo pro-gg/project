@@ -313,23 +313,35 @@ public class MemberController {
     }
 
     @PostMapping("/googleLogin.do")
-    public String googleLogin(@RequestParam("profile") String profile, Model model){
+    public String googleLogin(@RequestParam("profile") String profile, Model model, HttpServletRequest request){
 
-        MemberDTO memberDTO = new MemberDTO();
+        String googleId = null;
+        session = request.getSession();
 
         try{
-            JSONObject jsonObject = new JSONObject(profile);
 
-            memberDTO.setUserid(jsonObject.getString("LS"));
-            memberDTO.setPasswd(jsonObject.getString("LS"));
-            // 인게임 닉네임(페북, 구글 공통) 과 이름이 같을경우 어떤 정보로 저장시킬 것인가?
-            // 현재 닉네임은 중복을 허용하지 않고 있다.
-            memberDTO.setName(jsonObject.getString("Ue"));
-            memberDTO.setNickname(jsonObject.getString("Ue"));
-            memberDTO.setEmail(jsonObject.getString("Nt"));
+            JSONObject jsonObject = new JSONObject(profile);
+            googleId = "B"+jsonObject.getString("LS");
+            MemberDTO memberDTO = memberService.selectMemberOne(googleId);
+            if (memberDTO == null){
+                memberDTO = new MemberDTO();
+
+                memberDTO.setUserid(googleId);
+                memberDTO.setPasswd(googleId);
+                // 추후에 닉네임 중복을 허용하기 위해 닉네임 중복 검사 기능을 삭제하자
+                memberDTO.setName(jsonObject.getString("Ue"));
+                memberDTO.setNickname(jsonObject.getString("Ue"));
+                memberDTO.setEmail(jsonObject.getString("Nt"));
+                memberService.insert(memberDTO);
+            }else{
+                memberDTO.setSummoner_name(memberService.selectInnerJoinsummoner_name(memberDTO.getUserid()));
+            }
+
+            session.setAttribute("member", memberDTO);
+            model.addAttribute("result", "Success");
         }catch (Exception e){
             e.printStackTrace();
         }
-        return null;
+        return "../valid/loginvalid";
     }
 }
