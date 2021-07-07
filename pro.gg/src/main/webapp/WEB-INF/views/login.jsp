@@ -1,4 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" isELIgnored="false"%>
+<%@ page import="java.net.URLEncoder" %>
+<%@ page import="java.security.SecureRandom" %>
+<%@ page import="java.math.BigInteger" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -64,6 +67,22 @@
 		    					<div class="col-xs-10 offset-xs-1">
 		    						<input type="submit" class="btn btn-color btn-md btn-block text-center m-b-20" value="로그인"></input>
 		    					</div>
+		    				</div>
+		    				<div class="row">
+		    					<%
+								    String clientId = "_GlAhgDzVIlPh0a5FTYm";//애플리케이션 클라이언트 아이디값";
+								    String redirectURI = URLEncoder.encode("http://localhost:8120/naver.do", "UTF-8");
+								    SecureRandom random = new SecureRandom();
+								    String state = new BigInteger(130, random).toString();
+								    String apiURL = "https://nid.naver.com/oauth2.0/authorize?response_type=code";
+								    apiURL += "&client_id=" + clientId;
+								    apiURL += "&redirect_uri=" + redirectURI;
+								    apiURL += "&state=" + state;
+								    session.setAttribute("state", state);
+								%>
+		    					<a href="<%=apiURL %>"><img height="50" src="/images/btnG_icon_circle.png"/></a>
+		    					&nbsp;&nbsp;
+		    					<a href="https://kauth.kakao.com/oauth/authorize?client_id=1447fe0b65f3900660f98ce2af5f18cf&redirect_uri=http://localhost:8120/kakao.do&response_type=code"><img height="50" src="/images/kakaoLogin.png"/></a>
 		    				</div>
 		    				<div class="col-sm-12 col-xs-12 text-center">
 		    					<span class="text-muted">처음이세요?</span>

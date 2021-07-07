@@ -92,7 +92,7 @@
 		   							<span>로그인</span>
 		   						</a>
 		                	</c:if>
-		                	<c:if test="${sessionScope.member != null || sessionScope.admin != null}">
+		                	<c:if test="${sessionScope.member != null || sessionScope.admin != null || sessionScope.name}">
 			                	<a href="#" data-toggle="dropdown" class="dropdown-toggle drop icon-circle drop-image">
 	        						<span>
 	        							<img class="img-circle" src="/images/person.png" id="imgPerson" style="width:40px;">
