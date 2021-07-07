@@ -140,7 +140,7 @@
 				console.log(e);
 			})
 		}
-		function onSignInFailure(t){		
+		function onSignInFailure(t){
 			console.log(t);
 		}
 	</script>
