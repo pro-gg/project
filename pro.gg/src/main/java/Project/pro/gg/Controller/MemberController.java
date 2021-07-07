@@ -20,9 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
 import Project.pro.gg.API.KakaoAPI;
 import Project.pro.gg.Model.AdminDTO;
@@ -32,6 +30,7 @@ import Project.pro.gg.Model.RankedSoloDTO;
 import Project.pro.gg.Model.SummonerDTO;
 import Project.pro.gg.Service.MemberServiceImpl;
 import Project.pro.gg.Service.SummonerServiceImpl;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class MemberController {
@@ -43,7 +42,7 @@ public class MemberController {
     SummonerServiceImpl summonerService;
 
     public static HttpSession session;
-    
+
     KakaoAPI kakaoApi = new KakaoAPI();
 
     @PostMapping("/check_id.do")
@@ -301,9 +300,9 @@ public class MemberController {
     @GetMapping("/naver.do")
     public String naverLogin(@RequestParam("code") String code, @RequestParam("state") String state) throws UnsupportedEncodingException {
     	String clientId = "_GlAhgDzVIlPh0a5FTYm";
-		String clientSecret = "3bQFANR1Il"; 
+		String clientSecret = "3bQFANR1Il";
 		String redirectURI = URLEncoder.encode("/main.jsp","UTF-8");
-				
+
 		String apiURL = "";
 		apiURL += "https://nid.naver.com/oauth2.0/token?grant_type=authorization_code&";
 		apiURL += "client_id=" + clientId;
@@ -313,8 +312,8 @@ public class MemberController {
 		apiURL += "&state=" + state;
 		String access_token = "";
 		String refresh_token = ""; //나중에 이용
-		
-		try { 
+
+		try {
 			  URL naverUrl = new URL(apiURL);
 		      HttpURLConnection con = (HttpURLConnection)naverUrl.openConnection();
 		      con.setRequestMethod("GET");
@@ -335,8 +334,8 @@ public class MemberController {
 //		    	  System.out.println(res.toString());
 		    		JSONParser parsing = new JSONParser();
 		    		org.json.simple.JSONObject result = (org.json.simple.JSONObject)parsing.parse(res.toString());
-		    		
-		    		
+
+
 		    		access_token = (String)result.get("access_token");
 		    		refresh_token = (String)result.get("refresh_token");
 		    		if(access_token != null) {
@@ -359,15 +358,15 @@ public class MemberController {
 		    				res.append(inputLine);
 		    				}
 		    				br.close();
-		    				
+
 		    				parsing = new JSONParser();
 		    				result = (org.json.simple.JSONObject)parsing.parse(res.toString());
-		    				
+
 		    				String id = (String)((org.json.simple.JSONObject)result.get("response")).get("id");
 		    				String email = (String)((org.json.simple.JSONObject)result.get("response")).get("email");
 		    				String name = (String)((org.json.simple.JSONObject)result.get("response")).get("name");
 		    				String nickname = (String)((org.json.simple.JSONObject)result.get("response")).get("nickname");
-		    				
+
 		    				System.out.println(id);
 		    				MemberDTO memberDTO = memberService.selectMemberOne(id);
 		    				if(memberDTO == null) {
@@ -379,20 +378,20 @@ public class MemberController {
 		    	    			memberDTO.setEmail(email);
 		    	    			memberService.insert(memberDTO);
 		    	    		}
-		    				
+
 		    				session.setAttribute("member", memberDTO);
 						} catch (Exception e) {
-							
+
 						}
 		    		}
 		      }
 		    } catch (Exception e) {
 		      System.out.println(e);
 		    }
-    	
+
     	return "main";
     }
-    
+
     @GetMapping("/kakao.do")
     public String login(@RequestParam("code") String code, HttpServletRequest request) {
     	String access_token = kakaoApi.getAccessToken(code);
@@ -407,13 +406,75 @@ public class MemberController {
     			memberDTO.setNickname(userInfo.get("nickname"));
     			memberDTO.setName(userInfo.get("nickname"));
     			memberDTO.setEmail(userInfo.get("email"));
-    			
+
     			memberService.insert(memberDTO);
     		}
     	}
     	session = request.getSession();
     	session.setAttribute("member", memberDTO);
-    	
+
     	return "main";
+    }
+
+    @PostMapping("/facebookLogin.do")
+    public String facebookLogin(@RequestParam("facebookName") String facebookName, @RequestParam("facebookId") String facebookId,
+                                @RequestParam("facebookEmail") String facebookEmail, HttpServletRequest request,
+                                Model model){
+
+        // 데이터베이스 검색 시 기존에 존재하는 계정이라면 로그인 성공 처리
+        facebookId = "A"+facebookId; // 전적 테이블 명 처리를 위한 문자 삽입
+        MemberDTO memberDTO = memberService.selectMemberOne(facebookId);
+        session = request.getSession();
+
+        if(memberDTO == null){
+            //존재하지 않는 계정이라면 데이터베이스에 삽입시킨 다음 로그인 성공 처리
+            // 비밀번호는 아이디와 동일한 값으로 삽입하고 닉네임은 이름과 똑같은 값으로 삽입 시켜준다.
+            memberDTO = new MemberDTO();
+
+            memberDTO.setUserid(facebookId);
+            memberDTO.setPasswd(facebookId);
+            memberDTO.setName(facebookName);
+            memberDTO.setNickname(facebookName);
+            memberDTO.setEmail(facebookEmail);
+            memberService.insert(memberDTO);
+        }else{
+            memberDTO.setSummoner_name(memberService.selectInnerJoinsummoner_name(memberDTO.getUserid()));
+        }
+        session.setAttribute("member", memberDTO);
+        model.addAttribute("result", "Success");
+        return "../valid/loginvalid";
+    }
+
+    @PostMapping("/googleLogin.do")
+    public String googleLogin(@RequestParam("profile") String profile, Model model, HttpServletRequest request){
+
+        String googleId = null;
+        session = request.getSession();
+
+        try{
+
+            JSONObject jsonObject = new JSONObject(profile);
+            googleId = "B"+jsonObject.getString("LS");
+            MemberDTO memberDTO = memberService.selectMemberOne(googleId);
+            if (memberDTO == null){
+                memberDTO = new MemberDTO();
+
+                memberDTO.setUserid(googleId);
+                memberDTO.setPasswd(googleId);
+                // 추후에 닉네임 중복을 허용하기 위해 닉네임 중복 검사 기능을 삭제하자
+                memberDTO.setName(jsonObject.getString("Ue"));
+                memberDTO.setNickname(jsonObject.getString("Ue"));
+                memberDTO.setEmail(jsonObject.getString("Nt"));
+                memberService.insert(memberDTO);
+            }else{
+                memberDTO.setSummoner_name(memberService.selectInnerJoinsummoner_name(memberDTO.getUserid()));
+            }
+
+            session.setAttribute("member", memberDTO);
+            model.addAttribute("result", "Success");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return "../valid/loginvalid";
     }
 }
