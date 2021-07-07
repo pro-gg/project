@@ -20,9 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
 import Project.pro.gg.API.KakaoAPI;
 import Project.pro.gg.Model.AdminDTO;
@@ -43,6 +41,8 @@ public class MemberController {
     SummonerServiceImpl summonerService;
 
     public static HttpSession session;
+
+    KakaoAPI kakaoApi = new KakaoAPI();
 
     @PostMapping("/check_id.do")
     public void check_id(HttpServletRequest request, HttpServletResponse response) {
