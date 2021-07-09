@@ -82,6 +82,9 @@
                     <li>
                     	<a href="${pageContext.request.contextPath}/move/myMatching.do">상대팀 찾기</a>
                     </li>
+                    <li>
+                    	<a href="${pageContext.request.contextPath}/move/board.do">게시판</a>
+                    </li>
         		</ul>
         		<div class="navbar-custom-menu f-right">
         			<ul class="top-nav profile">

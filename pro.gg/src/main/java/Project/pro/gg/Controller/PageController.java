@@ -125,4 +125,9 @@ public class PageController {
     public String myMatching() {
     	return "myMatching";
     }
+
+    @GetMapping("/move/board.do")
+    public String moveBoard(){
+        return "freeboard"; // 기본링크 - 자유게시판
+    }
 }
