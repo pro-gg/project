@@ -128,6 +128,6 @@ public class PageController {
 
     @GetMapping("/move/board.do")
     public String moveBoard(){
-        return "freeboard"; // 기본링크 - 자유게시판
+        return "../board/freeboard"; // 기본링크 - 자유게시판
     }
 }
