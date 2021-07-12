@@ -31,6 +31,26 @@
                 })
             })
         }
+
+        function boardPosting(){
+            var member = '${sessionScope.member}';
+            if(member.length !== 0){
+                // 게시판 글 작성 페이지로 이동
+                // 어떤 게시판에서 작성되는 글인지 구분하기 위해 게시판 분류 번호를 데이터로 넘겨준다.
+                // (1 : 자유 게시판, 2 : 팀원 모집 게시판, 3 : 팁 게시판)
+                $.ajax({
+                    type:'get',
+                    url:'${pageContext.request.contextPath}/move/boardpost.do?boardNumber='+1,
+                    data:'',
+                    dataType:'',
+                    success:function(data){
+                        $("body").html(data);
+                    }
+                })
+            }else{
+                alert('로그인 해야만 이용 가능한 기능입니다.');
+            }
+        }
     </script>
     <style>
         li{
@@ -73,7 +93,7 @@
 			    				</div>
                             </div>
                         </div>
-                        <input type="button" value="글 작성" id="writePost" onclick="">
+                        <input type="button" value="글 작성" id="writePost" onclick="boardPosting()">
                     </div>
                 </div>
             </div>
