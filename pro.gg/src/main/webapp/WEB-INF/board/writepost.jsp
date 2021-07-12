@@ -12,15 +12,8 @@
     <script src="/js/semantic_aside.js" charset="utf-8"></script>
     <script src="/js/semantic_header.js" charset="utf-8"></script>
     <script src="/js/elements.js" charset="utf-8"></script>
-    <script src="https://cdn.ckeditor.com/ckeditor5/29.0.0/classic/ckeditor.js"></script> <!--ckeditor 경로-->
+    <script src="/js/ckeditor.js"></script><!--ckeditor 경로-->
     <title>글 작성</title>
-    <script>
-        ClassicEditor
-        .create(document.querySelector('#postContent'))
-        .catch(error => {
-            console.error(error);
-        });
-    </script>
 </head>
 <body>
     <header></header>
@@ -49,8 +42,17 @@
                             <input type="text" placeholder="제목을 입력하세요" size=70 id="postTitle">
                             <br>
                             <hr>
-                            <label for="postContent">내용</label><br>
-                            <textarea id="postContent" cols="150" rows="10"></textarea>
+                            <!-- <label for="postContent">내용</label><br> -->
+                            <textarea name="content" id="editor"></textarea>
+                            <script>
+                                $(function(){
+                                    ClassicEditor
+                                    .create( document.querySelector( '#editor' ) )
+                                    .catch( error => {
+                                        console.error( error );
+                                    } );
+                                })
+                            </script>
                         </div>
                     </div>
                 </div>
