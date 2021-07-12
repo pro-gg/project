@@ -37,6 +37,9 @@
             float: left;
             margin-right: 30px;
         }
+        #searchArea, #writePost{
+            float: right;
+        }
     </style>
 </head>
 <body>
@@ -62,11 +65,15 @@
                         </div>
                         <div class="card-block">
                             <div class="row">
+                                <div id="searchArea">
+                                    <input type="text" placeholder="게시글 검색" id="searchPost"><input type="button" value="검색" id="searchBottonClick" onclick="" >
+                                </div>
                                 <script>callfreeboard()</script>
                                 <div class="col-sm-12 table-responsive" id="freeBoardList">
 			    				</div>
                             </div>
                         </div>
+                        <input type="button" value="글 작성" id="writePost" onclick="">
                     </div>
                 </div>
             </div>
