@@ -131,7 +131,7 @@ public class PageController {
         return "../board/freeboard"; // 기본링크 - 자유게시판
     }
 
-    @GetMapping("/move/boardpost.do")
+    @PostMapping("/move/boardpost.do")
     public String boardpost(@RequestParam("boardNumber") int boardNumber, Model model){
         // 게시판 글 작성 페이지로 이동
         // 게시판 분류 번호를 url에 함께 넘겨준다.(redirect 활용)

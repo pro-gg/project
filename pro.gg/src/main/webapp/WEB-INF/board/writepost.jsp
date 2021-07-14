@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, multipart/form-data, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="/css/mystyle.css"/>
     <script src="/webjars/jquery/3.6.0/jquery.min.js"></script>
@@ -13,7 +13,27 @@
     <script src="/js/semantic_header.js" charset="utf-8"></script>
     <script src="/js/elements.js" charset="utf-8"></script>
     <script src="/js/ckeditor.js"></script><!--ckeditor 경로-->
+    <script src="/js/UploadAdapter.js"></script>
     <title>글 작성</title>
+    <script>
+
+        function MyCustomUploadAdapterPlugin(postContent){
+            var boardNumber = "${boardNumber}";
+            postContent.plugins.get('FileRepository').createUploadAdapter = (loader) =>{
+                return new UploadAdapter(loader, boardNumber);
+            }
+        }
+
+        function writePosting(){
+            // 작성한 글 데이터베이스에 저장
+            var title = document.getElementById("postTitle").value;
+            var postContent = window.ckeditor.getData();
+            if(title === '') {
+                alert("제목은 필수 입니다.");
+                console.log(postContent);
+            }
+        }
+    </script>
 </head>
 <body>
     <header></header>
@@ -23,7 +43,7 @@
             <div class="content-wrapper">
                 <div class="col-sm-12">
                     <div class="card">
-                        <div class="card-block">
+                        <form class="card-block" method="POST" enctype="multipart/form-data">
                             <c:if test="${boardNumber == 1}">
                                 <label for="boardName">게시판</label>
                                 <input type="text" placeholder="자유게시판" id="boardName" disabled>
@@ -43,17 +63,22 @@
                             <br>
                             <hr>
                             <!-- <label for="postContent">내용</label><br> -->
-                            <textarea name="content" id="editor"></textarea>
+                            <textarea name="postContent" id="postContent"></textarea><input type="button" value="작성하기" onclick="writePosting()">
                             <script>
                                 $(function(){
                                     ClassicEditor
-                                    .create( document.querySelector( '#editor' ) )
+                                    .create( document.querySelector('#postContent'),{
+                                        extraPlugins:[MyCustomUploadAdapterPlugin]
+                                    })
+                                    .then(editor =>{
+                                        window.ckeditor = editor ;
+                                    })
                                     .catch( error => {
                                         console.error( error );
                                     } );
                                 })
                             </script>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
