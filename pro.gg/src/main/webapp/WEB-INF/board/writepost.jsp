@@ -28,9 +28,12 @@
             // 작성한 글 데이터베이스에 저장
             var title = document.getElementById("postTitle").value;
             var postContent = window.ckeditor.getData();
+            console.log(postContent)
             if(title === '') {
                 alert("제목은 필수 입니다.");
-                console.log(postContent);
+            }
+            if(postContent === ''){
+                alert("내용을 입력해 주십시오");
             }
         }
     </script>

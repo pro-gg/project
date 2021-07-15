@@ -70,8 +70,6 @@ public class BoardController{
 
         printWriter.println("<script>window.parent/CKEDITOR.tools.callFunction("+callback+",'"+fileUrl+"','이미지가 업로드 되었습니다.'"+"</script>");
         printWriter.flush();
-        System.out.println(fileUrl);
-        System.out.println(real_save_path);
     }
 
     @GetMapping("/freeboardList.do")
