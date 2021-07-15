@@ -14,10 +14,6 @@
     <script src="/js/elements.js" charset="utf-8"></script>
     <script src="/js/ckeditor.js"></script><!--ckeditor 경로-->
     <script src="/js/UploadAdapter.js"></script>
-    <script src="/js/enter.js"></script>
-    <script src="/js/entercommand.js"></script>
-    <script src="/js/enterobserver.js"></script>
-    <script src="/js/utils.js"></script>
     <title>글 작성</title>
     <script>
 
