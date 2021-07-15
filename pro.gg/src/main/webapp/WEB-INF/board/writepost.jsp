@@ -1,0 +1,91 @@
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" isELIgnored="false"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, multipart/form-data, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/mystyle.css"/>
+    <script src="/webjars/jquery/3.6.0/jquery.min.js"></script>
+    <script src="/js/semantic_aside.js" charset="utf-8"></script>
+    <script src="/js/semantic_header.js" charset="utf-8"></script>
+    <script src="/js/elements.js" charset="utf-8"></script>
+    <script src="/js/ckeditor.js"></script><!--ckeditor 경로-->
+    <script src="/js/UploadAdapter.js"></script>
+    <title>글 작성</title>
+    <script>
+
+        function MyCustomUploadAdapterPlugin(postContent){
+            var boardNumber = "${boardNumber}";
+            postContent.plugins.get('FileRepository').createUploadAdapter = (loader) =>{
+                return new UploadAdapter(loader, boardNumber);
+            }
+        }
+
+        function writePosting(){
+            // 작성한 글 데이터베이스에 저장
+            var title = document.getElementById("postTitle").value;
+            var postContent = window.ckeditor.getData();
+            console.log(postContent)
+            if(title === '') {
+                alert("제목은 필수 입니다.");
+            }
+            if(postContent === ''){
+                alert("내용을 입력해 주십시오");
+            }
+        }
+    </script>
+</head>
+<body>
+    <header></header>
+    <aside></aside>
+    <article>
+        <div class="wrapper">
+            <div class="content-wrapper">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <form class="card-block" method="POST" enctype="multipart/form-data">
+                            <c:if test="${boardNumber == 1}">
+                                <label for="boardName">게시판</label>
+                                <input type="text" placeholder="자유게시판" id="boardName" disabled>
+                            </c:if>
+                            <c:if test="${boardNumber == 2}">
+                                <label for="boardName">게시판</label>
+                                <input type="text" placeholder="팀원 모집 게시판" id="boardName" disabled>
+                            </c:if>
+                            <c:if test="${boardNumber == 3}">
+                                <label for="boardName">게시판</label>
+                                <input type="text" placeholder="팁 게시판" id="boardName" disabled>
+                            </c:if>
+                            <br>
+
+                            <label for="postTitle">제목</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <input type="text" placeholder="제목을 입력하세요" size=70 id="postTitle">
+                            <br>
+                            <hr>
+                            <!-- <label for="postContent">내용</label><br> -->
+                            <textarea name="postContent" id="postContent"></textarea><input type="button" value="작성하기" onclick="writePosting()">
+                            <script>
+                                $(function(){
+                                    ClassicEditor
+                                    .create( document.querySelector('#postContent'),{
+                                        extraPlugins:[MyCustomUploadAdapterPlugin]
+                                    })
+                                    .then(editor =>{
+                                        window.ckeditor = editor ;
+                                    })
+                                    .catch( error => {
+                                        console.error( error );
+                                    } );
+                                })
+                            </script>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </article>
+</body>
+</html>
