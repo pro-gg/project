@@ -3,6 +3,7 @@ package Project.pro.gg.Controller;
 import Project.pro.gg.Service.PostServiceImpl;
 import Project.pro.gg.Service.ReplyServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,6 +32,11 @@ public class BoardController{
 
     @Autowired
     ReplyServiceImpl replyService;
+
+    @GetMapping("/freeboardList.do")
+    public String freeboardList(Model model){
+        return "freeboardList";
+    }
 
     @RequestMapping(value = "/image.do", headers = "content-type=multipart/form-data", method = {RequestMethod.GET, RequestMethod.POST})
     public void imgUpload(@RequestParam("boardNumber") int boardNumber, HttpServletRequest request,
@@ -72,8 +78,27 @@ public class BoardController{
         printWriter.flush();
     }
 
-    @GetMapping("/freeboardList.do")
-    public String freeboardList(Model model){
-        return "freeboardList";
+    @GetMapping("/postWriting.do")
+    public String postWriting(@RequestParam("post") String post){
+        int boardNumber = 0;
+
+        try{
+            JSONObject jsonObject = new JSONObject(post);
+            String title = jsonObject.getString("title");
+            String content = jsonObject.getString("writedPosting");
+            boardNumber = jsonObject.getInt("boardNumber");
+            System.out.println(title);
+            System.out.println(content); // 이미지 태그에 업로드한 이미지가 삽입 되어야 한다.(현재는 img 태그만 넘어와 있는 상태)
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        if (boardNumber == 1){
+            return "../board/freeboard";
+        }else if (boardNumber == 2) {
+            return "../board/crewRecruitBoard";
+        }else{
+            return "../board/tipboard";
+        }
     }
+
 }
