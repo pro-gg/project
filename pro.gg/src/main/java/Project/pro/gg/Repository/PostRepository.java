@@ -1,8 +1,20 @@
 package Project.pro.gg.Repository;
 
 import Project.pro.gg.DAO.PostDAO;
+import Project.pro.gg.Model.PostDTO;
+
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class PostRepository implements PostDAO {
+
+	@Autowired
+	SqlSession sqlSession;
+	
+	@Override
+	public void insertPost(PostDTO postDTO) {
+		sqlSession.insert("post.insert", postDTO);
+	}
 }

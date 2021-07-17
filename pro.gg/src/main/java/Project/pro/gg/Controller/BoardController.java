@@ -1,25 +1,32 @@
 package Project.pro.gg.Controller;
 
-import Project.pro.gg.Service.PostServiceImpl;
-import Project.pro.gg.Service.ReplyServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
-import org.springframework.http.MediaType;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Blob;
+import java.util.UUID;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.UUID;
+import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+
+import Project.pro.gg.Model.MemberDTO;
+import Project.pro.gg.Model.PostDTO;
+import Project.pro.gg.Service.PostServiceImpl;
+import Project.pro.gg.Service.ReplyServiceImpl;
 
 @Controller
 @MultipartConfig(maxRequestSize = 1024*1024*50) //50MB
@@ -60,6 +67,8 @@ public class BoardController{
         // 이미지를 업로드 할 폴더(주의 : 개발자 폴더 이므로 반드시 ~/images 을 새로고침 해야함)
         String path = "/WEB-INF/freeUploadImage";
         String real_save_path = request.getServletContext().getRealPath(path)+"\\";
+        
+        System.out.println(real_save_path);
 
         // 서버로 업로드
         // write 메소드의 매개값으로 파일의 총 바이트를 매개값으로 준다.
@@ -79,14 +88,23 @@ public class BoardController{
     }
 
     @GetMapping("/postWriting.do")
-    public String postWriting(@RequestParam("post") String post){
+    public String postWriting(@RequestParam("post") String post, HttpServletRequest request){
         int boardNumber = 0;
-
+        HttpSession session = request.getSession();
+    	MemberDTO member = (MemberDTO)session.getAttribute("member");
         try{
             JSONObject jsonObject = new JSONObject(post);
             String title = jsonObject.getString("title");
             String content = jsonObject.getString("writedPosting");
             boardNumber = jsonObject.getInt("boardNumber");
+            
+            PostDTO postDTO = new PostDTO();
+            postDTO.setBoardNumber(boardNumber);
+            postDTO.setPostContent(content);
+            postDTO.setPostTitle(title);
+            postDTO.setNickname(member.getNickname());
+            postService.insertPost(postDTO);
+            
             System.out.println(title);
             System.out.println(content); // 이미지 태그에 업로드한 이미지가 삽입 되어야 한다.(현재는 img 태그만 넘어와 있는 상태)
         }catch (Exception e){
