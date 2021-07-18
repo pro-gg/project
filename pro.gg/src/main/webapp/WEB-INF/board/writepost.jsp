@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, multipart/form-data, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="/css/mystyle.css"/>
     <script src="/webjars/jquery/3.6.0/jquery.min.js"></script>
@@ -26,6 +26,14 @@
              ClassicEditor
                 .create( document.querySelector('#postContent'),{
                     extraPlugins:[MyCustomUploadAdapterPlugin],
+                    language: 'ko',
+                    // ckfinder:{
+                    //     // uploadUrl:'/image.do?boardNumber='+'${boardNumber}',
+                    //     uploadUrl: 'https://localhost:8120/image.do?boardNumber='+'${boardNumber}',
+                    //     options:{
+                    //         resourceType:'Images'
+                    //     }
+                    // },
                 })
                 .then(editor =>{  
                     writedPosting = editor ;
@@ -85,7 +93,7 @@
             <div class="content-wrapper">
                 <div class="col-sm-12">
                     <div class="card">
-                        <form class="card-block" method="POST" enctype="multipart/form-data">
+                        <form class="card-block" method="POST">
                             <c:if test="${boardNumber == 1}">
                                 <label for="boardName">게시판</label>
                                 <input type="text" placeholder="자유게시판" id="boardName" disabled>

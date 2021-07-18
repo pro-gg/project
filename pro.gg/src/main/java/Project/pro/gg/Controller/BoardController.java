@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Blob;
+import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.ServletException;
@@ -13,20 +13,24 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import Project.pro.gg.Model.MemberDTO;
 import Project.pro.gg.Model.PostDTO;
 import Project.pro.gg.Service.PostServiceImpl;
 import Project.pro.gg.Service.ReplyServiceImpl;
+
+import com.oreilly.servlet.MultipartRequest;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.ModelAndView;
+
 
 @Controller
 @MultipartConfig(maxRequestSize = 1024*1024*50) //50MB
@@ -45,29 +49,30 @@ public class BoardController{
         return "freeboardList";
     }
 
-    @RequestMapping(value = "/image.do", headers = "content-type=multipart/form-data", method = {RequestMethod.GET, RequestMethod.POST})
-    public void imgUpload(@RequestParam("boardNumber") int boardNumber, HttpServletRequest request,
+    @RequestMapping(value = "/image.do", method = {RequestMethod.GET, RequestMethod.POST})
+    public ModelAndView imgUpload(@RequestParam("boardNumber") int boardNumber, HttpServletRequest request,
                             HttpServletResponse response, @RequestParam MultipartFile upload) throws ServletException, IOException {
 
+        ModelAndView mv = new ModelAndView("jsonView");
         // 파일이름 중복성 제거
         UUID uuid = UUID.randomUUID();
 
         //한글 인코딩
         request.setCharacterEncoding("UTF-8");
         //파라미터로 전달되는 한글 인코딩
-//        response.setContentType("charset=utf-8");
-        
+        response.setContentType("charset=utf-8");
+
         // 업로드 파일 이름
         String filename = uuid.toString() + "_" + upload.getOriginalFilename();
         System.out.println("업로드 파일명 : " + filename);
 
         //파일을 바이트로 변환
         byte[] bytes = upload.getBytes();
-
         // 이미지를 업로드 할 폴더(주의 : 개발자 폴더 이므로 반드시 ~/images 을 새로고침 해야함)
         String path = "/WEB-INF/freeUploadImage";
         String real_save_path = request.getServletContext().getRealPath(path)+"\\";
-        
+
+
         System.out.println(real_save_path);
 
         // 서버로 업로드
@@ -75,17 +80,23 @@ public class BoardController{
         // 지정된 바이트를 출력 스트림에 쓴다.(출력하기 위해서)
         FileOutputStream out = new FileOutputStream(new File(real_save_path+filename));
         out.write(bytes);
-        
-        // 클라이언트에 결과표시 : ckeditor 자체에서 사용되는 파라미터 이름
-        String callback = request.getParameter("CKEditorFuncNum");
 
-        // 서버 => 클라이언트로 텍스트 전송(자바스크립트 실행)
-        PrintWriter printWriter = response.getWriter();
-        String fileUrl = request.getContextPath()+"\\freeUploadImage\\"+filename;
-
-        printWriter.println("<script>window.parent/CKEDITOR.tools.callFunction("+callback+",'"+fileUrl+"','이미지가 업로드 되었습니다.'"+"</script>");
-        printWriter.flush();
+        mv.addObject("uploaded", true);
+        mv.addObject("url", real_save_path + filename);
+        return mv;
     }
+
+
+//    @Value("#{postContent['editor.mode']}")
+//    private String mode;
+//
+//    @Value("#{postContent['editor.img.load.url']}")
+//    private String loadUrl;
+//
+//    @RequestMapping(value = "/image.do", headers = "content-type=multipart/form-data")
+//    public @ResponseBody void ckeditorImage(Model model, @RequestParam("upload") MultipartFile file, HttpServletRequest request){
+//        System.out.println(file.getOriginalFilename());
+//    }
 
     @GetMapping("/postWriting.do")
     public String postWriting(@RequestParam("post") String post, HttpServletRequest request){
@@ -103,7 +114,7 @@ public class BoardController{
             postDTO.setPostContent(content);
             postDTO.setPostTitle(title);
             postDTO.setNickname(member.getNickname());
-            postService.insertPost(postDTO);
+//            postService.insertPost(postDTO);
             
             System.out.println(title);
             System.out.println(content); // 이미지 태그에 업로드한 이미지가 삽입 되어야 한다.(현재는 img 태그만 넘어와 있는 상태)

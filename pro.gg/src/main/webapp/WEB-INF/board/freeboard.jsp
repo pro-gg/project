@@ -39,10 +39,12 @@
                 // 어떤 게시판에서 작성되는 글인지 구분하기 위해 게시판 분류 번호를 데이터로 넘겨준다.
                 // (1 : 자유 게시판, 2 : 팀원 모집 게시판, 3 : 팁 게시판)
                 $.ajax({
-                    type:'get',
+                    type:'post',
                     url:'${pageContext.request.contextPath}/move/boardpost.do?boardNumber='+1,
                     data:'',
                     dataType:'',
+                    processData:false,
+                    contentType:false,
                     success:function(data){
                         $("body").html(data);
                     }
