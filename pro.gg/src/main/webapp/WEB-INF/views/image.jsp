@@ -1,0 +1,1 @@
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" isELIgnored="false"%><% request.setCharacterEncoding("UTF-8"); String src = (String)request.getAttribute("url"); %><%= src %>

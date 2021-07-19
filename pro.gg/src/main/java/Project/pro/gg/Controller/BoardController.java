@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -49,11 +50,9 @@ public class BoardController{
         return "freeboardList";
     }
 
-    @RequestMapping(value = "/image.do", method = {RequestMethod.GET, RequestMethod.POST})
-    public HttpServletResponse imgUpload(@RequestParam("boardNumber") int boardNumber, HttpServletRequest request,
-                            HttpServletResponse response, @RequestParam MultipartFile upload) throws ServletException, IOException {
-
-        ModelAndView mv = new ModelAndView("jsonView");
+    @RequestMapping(value = "/image.do", headers = "content-type=multipart/form-data", method = {RequestMethod.GET, RequestMethod.POST})
+    public HttpServletRequest imgUpload(@RequestParam("boardNumber") int boardNumber, HttpServletRequest request,
+                            HttpServletResponse response, @RequestParam MultipartFile upload) throws ServletException, IOException, JSONException {
         // 파일이름 중복성 제거
         UUID uuid = UUID.randomUUID();
 
@@ -69,23 +68,29 @@ public class BoardController{
         //파일을 바이트로 변환
         byte[] bytes = upload.getBytes();
         // 이미지를 업로드 할 폴더(주의 : 개발자 폴더 이므로 반드시 ~/images 을 새로고침 해야함)
-        String path = "/WEB-INF/freeUploadImage";
-        String real_save_path = request.getServletContext().getRealPath(path)+"\\";
+//        String path = "/WEB-INF/freeUploadImage";
+        String path = "resources\\static\\images\\freeUploadImage\\";
+        String real_save_path = request.getServletContext().getRealPath("").toString();
+//        String real_save_path = request.getServletContext().getRealPath(path)+"\\";
+        StringBuilder save_path = new StringBuilder(real_save_path);
 
+        save_path.deleteCharAt(save_path.length()-1);
 
-        System.out.println(real_save_path);
-
+        for (int i = save_path.length()-1; save_path.charAt(i) != '\\'; i--){
+            save_path.deleteCharAt(i);
+        }
+        save_path.append(path);
+        System.out.println(save_path);
         // 서버로 업로드
         // write 메소드의 매개값으로 파일의 총 바이트를 매개값으로 준다.
         // 지정된 바이트를 출력 스트림에 쓴다.(출력하기 위해서)
-        FileOutputStream out = new FileOutputStream(new File(real_save_path+filename));
+        FileOutputStream out = new FileOutputStream(new File(save_path+filename));
         out.write(bytes);
 
-        mv.addObject("uploaded", true);
-        mv.addObject("url", real_save_path + filename);
-        response.encodeURL(real_save_path + filename);
+        request.setAttribute("url", save_path+filename);
+        request.setAttribute("uploaded", true);
 
-        return response;
+        return request;
     }
 
 

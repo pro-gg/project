@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" isELIgnored="false"%>
+<%@ page language="java" contentType="multipart/form-data; charset=utf-8" pageEncoding="utf-8" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="ko">
@@ -17,9 +17,6 @@
     <title>글 작성</title>
     <script>
 
-        // import Plugin from '@ckeditor/ckeditor5-core/src/plugin';
-        // import EnterCommand from './entercommand';
-
         var writedPosting;
 
         $(function(){
@@ -27,13 +24,6 @@
                 .create( document.querySelector('#postContent'),{
                     extraPlugins:[MyCustomUploadAdapterPlugin],
                     language: 'ko',
-                    // ckfinder:{
-                    //     // uploadUrl:'/image.do?boardNumber='+'${boardNumber}',
-                    //     uploadUrl: 'https://localhost:8120/image.do?boardNumber='+'${boardNumber}',
-                    //     options:{
-                    //         resourceType:'Images'
-                    //     }
-                    // },
                 })
                 .then(editor =>{  
                     writedPosting = editor ;
