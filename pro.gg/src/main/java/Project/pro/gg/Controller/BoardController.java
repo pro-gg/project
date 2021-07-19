@@ -50,7 +50,7 @@ public class BoardController{
     }
 
     @RequestMapping(value = "/image.do", method = {RequestMethod.GET, RequestMethod.POST})
-    public ModelAndView imgUpload(@RequestParam("boardNumber") int boardNumber, HttpServletRequest request,
+    public HttpServletResponse imgUpload(@RequestParam("boardNumber") int boardNumber, HttpServletRequest request,
                             HttpServletResponse response, @RequestParam MultipartFile upload) throws ServletException, IOException {
 
         ModelAndView mv = new ModelAndView("jsonView");
@@ -83,7 +83,9 @@ public class BoardController{
 
         mv.addObject("uploaded", true);
         mv.addObject("url", real_save_path + filename);
-        return mv;
+        response.encodeURL(real_save_path + filename);
+
+        return response;
     }
 
 

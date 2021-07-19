@@ -43,9 +43,9 @@
                 });
         });
 
-        function MyCustomUploadAdapterPlugin(postContent){
+        function MyCustomUploadAdapterPlugin(editor){
             var boardNumber = "${boardNumber}";
-            postContent.plugins.get('FileRepository').createUploadAdapter = (loader) =>{
+            editor.plugins.get('FileRepository').createUploadAdapter = (loader) =>{
                 return new UploadAdapter(loader, boardNumber);
             }
         }
