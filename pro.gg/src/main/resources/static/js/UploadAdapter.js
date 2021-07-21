@@ -35,9 +35,12 @@ class UploadAdapter {
             // 그냥 에러 발생은 없다고 가정하고 로직을 제외하자.
             console.log(response);
             console.log(responseText);
+            
+            // responseText = btoa(unescape(encodeURIComponent(responseText)));
+            responseText = btoa(responseText);
+            // console.log(responseText);
 
             if(!response || response.error) {
-                
                 return reject( response && response.error ? response.error.message : genericErrorText );
             }
 
