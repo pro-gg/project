@@ -1,9 +1,10 @@
 package Project.pro.gg.Controller;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.List;
 import java.util.UUID;
 
@@ -13,9 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.stereotype.Controller;
@@ -28,9 +27,7 @@ import Project.pro.gg.Model.PostDTO;
 import Project.pro.gg.Service.PostServiceImpl;
 import Project.pro.gg.Service.ReplyServiceImpl;
 
-import com.oreilly.servlet.MultipartRequest;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.servlet.ModelAndView;
+import org.apache.commons.io.FilenameUtils;
 
 
 @Controller
@@ -87,7 +84,27 @@ public class BoardController{
         FileOutputStream out = new FileOutputStream(new File(save_path+filename));
         out.write(bytes);
 
-        request.setAttribute("url", save_path+filename);
+        // 이미지 경로 base64 인코딩
+        // base64 인코딩 참조(https://nowonbun.tistory.com/476)
+        File file = new File(save_path+filename);
+        byte[] data = new byte[(int)file.length()];
+        try(FileInputStream stream = new FileInputStream(file)){
+            stream.read(data, 0, data.length);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        byte[] binary = data;
+        String encodedURL = Base64.getEncoder().encodeToString(binary);
+//        System.out.println(encodedURL);
+
+        String ext = FilenameUtils.getExtension(filename);
+        if (ext.equals("JPG") || ext.equals("jpg")) ext = "jpeg"; // 확장자 변환
+        String base64FrontURL = "data:image/"+ext+";base64,";
+        String base64FullURL = base64FrontURL + new String(encodedURL);
+
+        request.setAttribute("url", base64FullURL);
+//        request.setAttribute("url", save_path+filename);
         request.setAttribute("uploaded", true);
 
         return request;
@@ -115,16 +132,63 @@ public class BoardController{
             String title = jsonObject.getString("title");
             String content = jsonObject.getString("writedPosting");
             boardNumber = jsonObject.getInt("boardNumber");
-            
+
             PostDTO postDTO = new PostDTO();
             postDTO.setBoardNumber(boardNumber);
             postDTO.setPostContent(content);
             postDTO.setPostTitle(title);
             postDTO.setNickname(member.getNickname());
 //            postService.insertPost(postDTO);
-            
+
             System.out.println(title);
-            System.out.println(content); // 이미지 태그에 업로드한 이미지가 삽입 되어야 한다.(현재는 img 태그만 넘어와 있는 상태)
+//            System.out.println(content); // 이미지 태그에 업로드한 이미지가 삽입 되어야 한다.(현재는 img 태그만 넘어와 있는 상태)
+
+            // 글 작성을 통해 넘어온 base64 타입 이미지를 디코딩 해줘야 한다.
+            // 일단 넘어온 내용 중에서 base64 타입 데이터를 추출해 내야 한다.
+
+            // 별로 좋은 로직은 아닌것 같음....
+            String base64STR = "";
+            if (content.contains("img src")){
+                System.out.println("이미지 포함되어 있음");
+                for (int i = 0; i < content.length(); i++){
+                    if (content.charAt(i) == 's') {
+                        i++;
+                        if (content.charAt(i) == 'r'){
+                            i++;
+                            if (content.charAt(i) == 'c'){
+                                i += 3;
+                                while(content.charAt(i) != '\"'){
+                                    base64STR = base64STR + content.charAt(i);
+                                    i++;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+//            System.out.println("base64 : " + base64STR);
+
+            // ,까지 문자열을 잘라야 한다.
+            System.out.println(base64STR);
+            System.out.println();
+            System.out.println();
+            for (int i = 0; i < base64STR.length(); i++){
+                if (base64STR.charAt(i) == ','){
+                    i++;
+                    base64STR = base64STR.substring(i, base64STR.length());
+                    break;
+                }
+            }
+
+            // 추출해낸 base64 데이터를 원래 경로가 되게끔 다시 디코딩 해줘야 한다.
+            // 아직 해결중
+            System.out.println("base64 : " + base64STR);
+            byte[] decodedURL = Base64.getDecoder().decode(base64STR.trim());
+            String decodedstr = new String(decodedURL);
+            decodedstr = decodedstr.replace("%", "%25");
+            String decodedURLstr = URLDecoder.decode(decodedstr, "UTF-8");
+            System.out.println(decodedURLstr);
+
         }catch (Exception e){
             e.printStackTrace();
         }
