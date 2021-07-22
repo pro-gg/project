@@ -2,10 +2,8 @@ package Project.pro.gg.Controller;
 
 import java.io.*;
 import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
-import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.ServletException;
@@ -28,7 +26,6 @@ import Project.pro.gg.Service.PostServiceImpl;
 import Project.pro.gg.Service.ReplyServiceImpl;
 
 import org.apache.commons.io.FilenameUtils;
-
 
 @Controller
 @MultipartConfig(maxRequestSize = 1024*1024*50) //50MB
@@ -102,6 +99,13 @@ public class BoardController{
         if (ext.equals("JPG") || ext.equals("jpg")) ext = "jpeg"; // 확장자 변환
         String base64FrontURL = "data:image/"+ext+";base64,";
         String base64FullURL = base64FrontURL + new String(encodedURL);
+        System.out.println(encodedURL);
+
+        //base64 형태로 인코딩된 이미지에서 파일의 이름을 추출해 내는건 불가능하다
+        //그러므로 base64 형태로 인코딩된 형태를 키 값으로 가지고 해당 하는 파일의 진짜 이름을 필드 값으로 갖는 테이블을 따로 만들어서
+        //게시판에 업로드 되는 이미지를 저장하자.
+        //업로드 되는 이미지의 경로와 파일 이름 까지 모두 일치하는 데이터가 들어오게 될 경우 따로 데이터베이스에 저장하는 것이 불가능 하므로
+        //기존에 데이터베이스에 저장되어 있는 파일을 불러와서 업로드 시키는 방향으로 대체한다.
 
         request.setAttribute("url", base64FullURL);
 //        request.setAttribute("url", save_path+filename);
@@ -109,18 +113,6 @@ public class BoardController{
 
         return request;
     }
-
-
-//    @Value("#{postContent['editor.mode']}")
-//    private String mode;
-//
-//    @Value("#{postContent['editor.img.load.url']}")
-//    private String loadUrl;
-//
-//    @RequestMapping(value = "/image.do", headers = "content-type=multipart/form-data")
-//    public @ResponseBody void ckeditorImage(Model model, @RequestParam("upload") MultipartFile file, HttpServletRequest request){
-//        System.out.println(file.getOriginalFilename());
-//    }
 
     @GetMapping("/postWriting.do")
     public String postWriting(@RequestParam("post") String post, HttpServletRequest request){
@@ -141,7 +133,7 @@ public class BoardController{
 //            postService.insertPost(postDTO);
 
             System.out.println(title);
-//            System.out.println(content); // 이미지 태그에 업로드한 이미지가 삽입 되어야 한다.(현재는 img 태그만 넘어와 있는 상태)
+            System.out.println(content); // 이미지 태그에 업로드한 이미지가 삽입 되어야 한다.(현재는 img 태그만 넘어와 있는 상태)
 
             // 글 작성을 통해 넘어온 base64 타입 이미지를 디코딩 해줘야 한다.
             // 일단 넘어온 내용 중에서 base64 타입 데이터를 추출해 내야 한다.
@@ -182,12 +174,11 @@ public class BoardController{
 
             // 추출해낸 base64 데이터를 원래 경로가 되게끔 다시 디코딩 해줘야 한다.
             // 아직 해결중
-            System.out.println("base64 : " + base64STR);
-            byte[] decodedURL = Base64.getDecoder().decode(base64STR.trim());
-            String decodedstr = new String(decodedURL);
-            decodedstr = decodedstr.replace("%", "%25");
-            String decodedURLstr = URLDecoder.decode(decodedstr, "UTF-8");
-            System.out.println(decodedURLstr);
+//            System.out.println("base64 : " + base64STR);
+            URLDecoder.decode(base64STR, "UTF-8");
+            byte[] decodedURL = org.apache.commons.codec.binary.Base64.decodeBase64(base64STR);
+            File file = new File(new String(decodedURL));
+            System.out.println(file.getAbsolutePath());
 
         }catch (Exception e){
             e.printStackTrace();
