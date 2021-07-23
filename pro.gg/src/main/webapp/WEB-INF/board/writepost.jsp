@@ -50,12 +50,13 @@
                 alert("내용을 입력해 주십시오");
             }
             else{
+
                 var post = {
                     title : title,
                     writedPosting : writedPosting.getData(),
                     boardNumber : '${boardNumber}'
                 }
-                console.log(writedPosting.getData())
+                
                 // 참고 : https://stackoverflow.com/questions/20960582/html-string-nbsp-breaking-json
                 // enter 키를 통해 개행이 발생했을 경우 데이터를 제대로 받아오지 못하는 에러 발생
                 // 확인 결과 개행은 &nbsp; 로 처리 되고 있었다

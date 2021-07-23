@@ -52,7 +52,7 @@ public class BoardController{
 
     @RequestMapping(value = "/image.do", headers = "content-type=multipart/form-data", method = {RequestMethod.GET, RequestMethod.POST})
     public HttpServletRequest imgUpload(@RequestParam("boardNumber") int boardNumber, HttpServletRequest request,
-                            HttpServletResponse response, @RequestParam MultipartFile upload) throws ServletException, IOException, JSONException {
+                                        HttpServletResponse response, @RequestParam MultipartFile upload) throws ServletException, IOException, JSONException {
         // 파일이름 중복성 제거
         UUID uuid = UUID.randomUUID();
 
@@ -88,46 +88,34 @@ public class BoardController{
         out.write(bytes);
         request.setAttribute("url", "/images/freeUploadImage/"+filename);
         request.setAttribute("uploaded", true);
-        
+
         try {
-        	Thread.sleep(3000);
+            Thread.sleep(3000);
         }catch(Exception e) {
-        	
+
         }
 
         return request;
     }
 
-
-//    @Value("#{postContent['editor.mode']}")
-//    private String mode;
-//
-//    @Value("#{postContent['editor.img.load.url']}")
-//    private String loadUrl;
-//
-//    @RequestMapping(value = "/image.do", headers = "content-type=multipart/form-data")
-//    public @ResponseBody void ckeditorImage(Model model, @RequestParam("upload") MultipartFile file, HttpServletRequest request){
-//        System.out.println(file.getOriginalFilename());
-//    }
-
     @GetMapping("/postWriting.do")
     public String postWriting(@RequestParam("post") String post, HttpServletRequest request){
         int boardNumber = 0;
         HttpSession session = request.getSession();
-    	MemberDTO member = (MemberDTO)session.getAttribute("member");
+        MemberDTO member = (MemberDTO)session.getAttribute("member");
         try{
             JSONObject jsonObject = new JSONObject(post);
             String title = jsonObject.getString("title");
             String content = jsonObject.getString("writedPosting");
             boardNumber = jsonObject.getInt("boardNumber");
-            
+
             PostDTO postDTO = new PostDTO();
             postDTO.setBoardNumber(boardNumber);
             postDTO.setPostContent(content);
             postDTO.setPostTitle(title);
             postDTO.setNickname(member.getNickname());
 //            postService.insertPost(postDTO);
-            
+
             System.out.println(title);
             System.out.println(content); // 이미지 태그에 업로드한 이미지가 삽입 되어야 한다.(현재는 img 태그만 넘어와 있는 상태)
         }catch (Exception e){
