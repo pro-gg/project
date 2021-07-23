@@ -86,9 +86,14 @@ public class BoardController{
         // 지정된 바이트를 출력 스트림에 쓴다.(출력하기 위해서)
         FileOutputStream out = new FileOutputStream(new File(save_path+filename));
         out.write(bytes);
-
-        request.setAttribute("url", save_path+filename);
+        request.setAttribute("url", "/images/freeUploadImage/"+filename);
         request.setAttribute("uploaded", true);
+        
+        try {
+        	Thread.sleep(3000);
+        }catch(Exception e) {
+        	
+        }
 
         return request;
     }
