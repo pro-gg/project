@@ -39,7 +39,7 @@ class UploadAdapter {
             
             // responseText = btoa(unescape(encodeURIComponent(responseText)));
             // responseText = btoa(responseText);
-            // console.log(responseText);
+            console.log(responseText);
 
             if(!response || response.error) {
                 return reject( response && response.error ? response.error.message : genericErrorText );

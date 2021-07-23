@@ -1,10 +1,6 @@
 package Project.pro.gg.Controller;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.List;
+import java.io.*;
 import java.util.UUID;
 
 import javax.servlet.ServletException;
@@ -13,9 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.stereotype.Controller;
@@ -28,9 +22,6 @@ import Project.pro.gg.Model.PostDTO;
 import Project.pro.gg.Service.PostServiceImpl;
 import Project.pro.gg.Service.ReplyServiceImpl;
 
-import com.oreilly.servlet.MultipartRequest;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.servlet.ModelAndView;
 
 
 @Controller
@@ -86,15 +77,16 @@ public class BoardController{
         // 지정된 바이트를 출력 스트림에 쓴다.(출력하기 위해서)
         FileOutputStream out = new FileOutputStream(new File(save_path+filename));
         out.write(bytes);
-        request.setAttribute("url", "/images/freeUploadImage/"+filename);
-        request.setAttribute("uploaded", true);
 
         try {
+            // 이미지 업로드 시간을 벌기 위한 시간 딜레이
             Thread.sleep(3000);
         }catch(Exception e) {
 
         }
 
+        request.setAttribute("url", "/images/freeUploadImage/" + filename);
+        request.setAttribute("uploaded", true);
         return request;
     }
 
