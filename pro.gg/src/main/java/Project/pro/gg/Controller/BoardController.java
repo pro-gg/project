@@ -138,4 +138,15 @@ public class BoardController{
         return "../board/pastPost";
     }
 
+    @GetMapping("/callPostContent.do")
+    public String callPostContent(@RequestParam("postTitle") String postTitle, @RequestParam("nickname") String nickname, Model model){
+        PostDTO postDTO = new PostDTO();
+        String postContent = postService.selectPostContent(postTitle, nickname);
+        postDTO.setNickname(nickname);
+        postDTO.setPostTitle(postTitle);
+        postDTO.setPostContent(postContent);
+        model.addAttribute("selectPostContent", postDTO);
+        return "../board/printPostContent";
+    }
+
 }

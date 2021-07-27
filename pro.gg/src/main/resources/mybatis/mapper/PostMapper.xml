@@ -10,4 +10,8 @@
         select * from boardpost
         where nickname = #{nickname}
     </select>
+    <select id="selectPostContent" parameterType="Project.pro.gg.Model.PostDTO" resultType="String">
+        select postContent from boardpost
+        where nickname = #{nickname} and postTitle = #{postTitle}
+    </select>
 </mapper>

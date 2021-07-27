@@ -23,4 +23,9 @@ public class PostServiceImpl implements PostService{
 	public List<PostDTO> selectPastPost(String nickname) {
 		return postRepository.selectPastPost(nickname);
 	}
+
+	@Override
+	public String selectPostContent(String postTitle, String nickname) {
+		return postRepository.selectPostContent(postTitle, nickname);
+	}
 }

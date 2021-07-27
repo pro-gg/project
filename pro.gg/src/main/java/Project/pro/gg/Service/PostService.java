@@ -10,5 +10,7 @@ import java.util.List;
 public interface PostService {
 	public void insertPost(PostDTO postDTO);
 
-    List<PostDTO> selectPastPost(String nickname);
+    public List<PostDTO> selectPastPost(String nickname);
+
+    public String selectPostContent(String postTitle, String nickname);
 }

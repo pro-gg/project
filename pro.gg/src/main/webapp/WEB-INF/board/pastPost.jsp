@@ -15,6 +15,15 @@
         function callPostContent(postTitle, nickname){
             console.log(postTitle);
             console.log(nickname);
+            $.ajax({
+                type:'get',
+                url:'${pageContext.request.contextPath}/callPostContent.do?postTitle=' + postTitle + '&nickname=' + nickname,
+                data:'',
+                dataType:'',
+                success:function(data){
+                    $("body").html(data);
+                }
+            })
         }
     </script>
 </head>
@@ -42,7 +51,7 @@
                                         <c:forEach var="searchPostList" items="${searchPostList}" varStatus="status">
                                             <tr>
                                                 <td>
-                                                    <c:if test="${sesearchPostList.boardNumber == 1}">
+                                                    <c:if test='${searchPostList.boardNumber == 1}'>
                                                         자유게시판
                                                     </c:if>
                                                 </td>
@@ -51,12 +60,11 @@
                                                 <td>
                                                     <a href="#" onclick="callPostContent('${searchPostList.postTitle}', '${searchPostList.nickname}')">
                                                         ${searchPostList.postTitle}
-                                                    </a>
+                                                    </a> 
                                                 </td>
                                                 <td>${searchPostList.postTime}</td>
                                                 <script>
                                                     var postTime = '${searchPostList.postTime}';
-                                                    console.log(postTime);
                                                 </script>
                                             </tr>                  
                                         </c:forEach>

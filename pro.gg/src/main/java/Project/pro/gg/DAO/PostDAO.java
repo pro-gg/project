@@ -8,4 +8,6 @@ public interface PostDAO {
 	public void insertPost(PostDTO postDTO);
 
     public List<PostDTO> selectPastPost(String nickname);
+
+    public String selectPostContent(String postTitle, String nickname);
 }
