@@ -51,8 +51,24 @@
             }
             else{
 
+                let today = new Date();
+
+                let year = today.getFullYear();
+                let month = today.getMonth() + 1;
+                let date = today.getDate();
+                let time = today.getTime();
+
+                var hour = today.getHours();
+                var minutes = today.getMinutes();
+                var seconds = today.getSeconds();
+
+                var postDate = year + "." + month +"." + date;
+                var postTime = hour + ":" + minutes + ":" + seconds;
+
                 var post = {
                     title : title,
+                    postDate : postDate,
+                    postTime : postTime,
                     writedPosting : writedPosting.getData(),
                     boardNumber : '${boardNumber}'
                 }

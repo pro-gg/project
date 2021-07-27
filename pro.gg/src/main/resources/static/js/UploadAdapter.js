@@ -31,14 +31,7 @@ class UploadAdapter {
         encodeURI(xhr.response);
         const response = xhr.response;
         var responseText = xhr.responseText;
-            // response 가 왜 null 인 것이며, Content-type 은 왜 '' 가 나오는지 도저히 모르겠다
-            // 그냥 에러 발생은 없다고 가정하고 로직을 제외하자.
 
-            // console.log(response);
-            // console.log(responseText);
-            
-            // responseText = btoa(unescape(encodeURIComponent(responseText)));
-            // responseText = btoa(responseText);
             console.log(responseText);
 
             if(!response || response.error) {

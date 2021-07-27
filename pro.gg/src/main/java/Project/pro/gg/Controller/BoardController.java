@@ -1,6 +1,9 @@
 package Project.pro.gg.Controller;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.ServletException;
@@ -80,7 +83,7 @@ public class BoardController{
 
         try {
             // 이미지 업로드 시간을 벌기 위한 시간 딜레이
-            Thread.sleep(3000);
+            Thread.sleep(5000);
         }catch(Exception e) {
 
         }
@@ -99,6 +102,8 @@ public class BoardController{
             JSONObject jsonObject = new JSONObject(post);
             String title = jsonObject.getString("title");
             String content = jsonObject.getString("writedPosting");
+            String postDate = jsonObject.getString("postDate");
+            String postTime = jsonObject.getString("postTime");
             boardNumber = jsonObject.getInt("boardNumber");
 
             PostDTO postDTO = new PostDTO();
@@ -106,7 +111,9 @@ public class BoardController{
             postDTO.setPostContent(content);
             postDTO.setPostTitle(title);
             postDTO.setNickname(member.getNickname());
-//            postService.insertPost(postDTO);
+            postDTO.setPostDate(postDate);
+            postDTO.setPostTime(postTime);
+            postService.insertPost(postDTO);
 
             System.out.println(title);
             System.out.println(content); // 이미지 태그에 업로드한 이미지가 삽입 되어야 한다.(현재는 img 태그만 넘어와 있는 상태)
@@ -120,6 +127,15 @@ public class BoardController{
         }else{
             return "../board/tipboard";
         }
+    }
+
+    @GetMapping("/searchPastPost.do")
+    public String searchPastPost(@RequestParam("nickname") String nickname, Model model){
+
+        List<PostDTO> searchPostList = new ArrayList<>();
+        searchPostList = postService.selectPastPost(nickname);
+        model.addAttribute("searchPostList", searchPostList);
+        return "../board/pastPost";
     }
 
 }

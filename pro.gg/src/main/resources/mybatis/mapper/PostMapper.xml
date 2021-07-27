@@ -3,7 +3,11 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="post">
 	<select id="insert">
-        insert into boardpost(boardNumber, postTitle, postContent, nickname)
-            values(#{boardNumber}, #{postTitle}, #{postContent}, #{nickname})
+        insert into boardpost(boardNumber, postTitle, postContent, nickname, postDate, postTime)
+            values(#{boardNumber}, #{postTitle}, #{postContent}, #{nickname}, #{postDate}, #{postTime})
+    </select>
+    <select id="selectPastPost" parameterType="String" resultType="Map">
+        select * from boardpost
+        where nickname = #{nickname}
     </select>
 </mapper>

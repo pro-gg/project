@@ -120,6 +120,19 @@
                 window.open("${pageContext.request.contextPath}/move/currentPasswd_popup.do?target=secession", "findId", "width=550, height=450, left=100, top=50");
             }
         }
+
+        function searchPastPost(){
+            var nickname = '${sessionScope.member.nickname}';
+            $.ajax({
+                type:'get',
+                url:'${pageContext.request.contextPath}/searchPastPost.do?nickname='+nickname,
+                data:'',
+                dataType:'',
+                success:function(data){
+                    $("body").html(data);
+                }
+            })
+        }
     </script>
     <style>
         #printMatchHistory{
@@ -138,6 +151,7 @@
 	            <p>닉네임 : ${sessionScope.member.nickname}<a href="#" id="memberSecession" onclick="secessionMember()"> 회원 탈퇴</a></p>
 	            <p>이메일 : ${sessionScope.member.email}</p>
 	            <p>비밀번호 : <input type="password" id="passwd_input"value="${sessionScope.member.passwd}" disabled>&nbsp;<a href="#" id="memberSecession" onclick="updatePasswd()"> 비밀번호 변경</a></p>
+                <p><a href="#" onclick="searchPastPost()">작성한 게시글</a>&nbsp;&nbsp;<a href="#">작성한 댓글</a></p>
 	            <c:if test = "${sessionScope.member.summoner_name == null}">
 	                <hr>
 	                <p>소환사 명 등록하기 : <input type="text" name="summonerName" id="summonerName" placeholder="소환사 명"></p>

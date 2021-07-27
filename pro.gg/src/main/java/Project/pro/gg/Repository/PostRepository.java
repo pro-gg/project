@@ -7,6 +7,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class PostRepository implements PostDAO {
 
@@ -16,5 +18,10 @@ public class PostRepository implements PostDAO {
 	@Override
 	public void insertPost(PostDTO postDTO) {
 		sqlSession.insert("post.insert", postDTO);
+	}
+
+	@Override
+	public List<PostDTO> selectPastPost(String nickname) {
+		return sqlSession.selectList("post.selectPastPost", nickname);
 	}
 }

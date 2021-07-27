@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import Project.pro.gg.Model.PostDTO;
 import Project.pro.gg.Repository.PostRepository;
 
+import java.util.List;
+
 @Service
 public class PostServiceImpl implements PostService{
 
@@ -15,5 +17,10 @@ public class PostServiceImpl implements PostService{
 	@Override
 	public void insertPost(PostDTO postDTO) {
 		postRepository.insertPost(postDTO);
+	}
+
+	@Override
+	public List<PostDTO> selectPastPost(String nickname) {
+		return postRepository.selectPastPost(nickname);
 	}
 }
