@@ -9,6 +9,8 @@ import java.util.List;
 @Service
 public interface PostService {
 	public void insertPost(PostDTO postDTO);
+	
+	public List<PostDTO> selectPostList(int boardNumber);
 
     public List<PostDTO> selectPastPost(String nickname);
 

@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface PostDAO {
 	public void insertPost(PostDTO postDTO);
+	
+	public List<PostDTO> selectPostList(int boardNumber);
 
     public List<PostDTO> selectPastPost(String nickname);
 

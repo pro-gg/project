@@ -6,6 +6,9 @@
         insert into boardpost(boardNumber, postTitle, postContent, nickname, postDate, postTime)
             values(#{boardNumber}, #{postTitle}, #{postContent}, #{nickname}, #{postDate}, #{postTime})
     </select>
+    <select id="selectPostList" resultType="map">
+    	${sql}
+    </select>    
     <select id="selectPastPost" parameterType="String" resultType="Map">
         select * from boardpost
         where nickname = #{nickname}

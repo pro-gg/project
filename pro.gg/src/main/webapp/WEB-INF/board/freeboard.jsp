@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,25 +12,24 @@
     <script src="/js/semantic_aside.js" charset="utf-8"></script>
     <script src="/js/semantic_header.js" charset="utf-8"></script>
     <script src="/js/elements.js" charset="utf-8"></script>
-    <title>자유게시판</title>
+    <title></title>
     <script>
-        function pageReload(){
-            window.location.reload();
-        }
-
-        function callfreeboard(){
-            $(function(){
-                $.ajax({
-                    type:'get',
-                    url:'${pageContext.request.contextPath}/freeboardList.do',
-                    data:'',
-                    dataType:'',
-                    success:function(data){
-                        $("#freeBoardList").html(data);
-                    }
-                })
-            })
-        }
+	    var boardNumber = 1;
+	
+	    function callfreeboard(x){
+	    	boardNumber = x;
+	        $(function(){
+	            $.ajax({
+	                type:'get',
+	                url:'${pageContext.request.contextPath}/freeboardList.do?boardNumber='+ boardNumber,
+	                data:'',
+	                dataType:'',
+	                success:function(data){
+	                    $("#freeBoardList").html(data);
+	                }
+	            })
+	        })
+	    }
 
         function boardPosting(){
             var member = '${sessionScope.member}';
@@ -40,7 +39,7 @@
                 // (1 : 자유 게시판, 2 : 팀원 모집 게시판, 3 : 팁 게시판)
                 $.ajax({
                     type:'post',
-                    url:'${pageContext.request.contextPath}/move/boardpost.do?boardNumber='+1,
+                    url:'${pageContext.request.contextPath}/move/boardpost.do?boardNumber='+boardNumber,
                     data:'',
                     dataType:'',
                     processData:false,
@@ -75,13 +74,13 @@
                         <div class="card-header">
                             <ul class="top-nav lft-nav">
                                 <li>
-                                    <a href="#" onclick="pageReload()">자유 게시판 </a>
+                                    <a href="#" onclick="callfreeboard(1)">자유 게시판 </a>
                                 </li>
                                 <li>
-                                    <a href="#">팀원 모집 게시판 </a>
+                                    <a href="#" onclick="callfreeboard(2)">팀원 모집 게시판 </a>
                                 </li>
                                 <li>
-                                    <a href="#">팁 게시판 </a>
+                                    <a href="#" onclick="callfreeboard(3)">팁 게시판 </a>
                                 </li>
                             </ul>
                         </div>
@@ -90,7 +89,7 @@
                                 <div id="searchArea">
                                     <input type="text" placeholder="게시글 검색" id="searchPost"><input type="button" value="검색" id="searchBottonClick" onclick="" >
                                 </div>
-                                <script>callfreeboard()</script>
+                                <script>callfreeboard(1)</script>
                                 <div class="col-sm-12 table-responsive" id="freeBoardList">
 			    				</div>
                             </div>

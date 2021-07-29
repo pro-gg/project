@@ -18,6 +18,11 @@ public class PostServiceImpl implements PostService{
 	public void insertPost(PostDTO postDTO) {
 		postRepository.insertPost(postDTO);
 	}
+	
+	@Override
+	public List<PostDTO> selectPostList(int boardNumber) {
+		return postRepository.selectPostList(boardNumber);
+	}
 
 	@Override
 	public List<PostDTO> selectPastPost(String nickname) {

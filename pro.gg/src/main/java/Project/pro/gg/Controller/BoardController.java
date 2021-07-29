@@ -40,8 +40,19 @@ public class BoardController{
     ReplyServiceImpl replyService;
 
     @GetMapping("/freeboardList.do")
-    public String freeboardList(Model model){
-        return "freeboardList";
+    public String freeboardList(@RequestParam("boardNumber") int boardNumber, Model model){
+    	List<PostDTO> postDTOList = postService.selectPostList(boardNumber);
+        model.addAttribute("boardList", postDTOList);
+        
+        if(boardNumber == 1) {
+        	model.addAttribute("postType", "자유게시판");
+        }else if(boardNumber == 2) {
+        	model.addAttribute("postType", "팀원 모집 게시판");
+        }else if(boardNumber == 3) {
+        	model.addAttribute("postType", "팁 게시판");
+        }
+    	System.out.println(postDTOList);
+        return "../board/boardList";
     }
 
     @RequestMapping(value = "/image.do", headers = "content-type=multipart/form-data", method = {RequestMethod.GET, RequestMethod.POST})
@@ -120,13 +131,7 @@ public class BoardController{
         }catch (Exception e){
             e.printStackTrace();
         }
-        if (boardNumber == 1){
-            return "../board/freeboard";
-        }else if (boardNumber == 2) {
-            return "../board/crewRecruitBoard";
-        }else{
-            return "../board/tipboard";
-        }
+        return "../board/freeboard";
     }
 
     @GetMapping("/searchPastPost.do")

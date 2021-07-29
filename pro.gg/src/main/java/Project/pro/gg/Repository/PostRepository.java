@@ -20,6 +20,13 @@ public class PostRepository implements PostDAO {
 		sqlSession.insert("post.insert", postDTO);
 	}
 
+
+	@Override
+	public List<PostDTO> selectPostList(int boardNumber) {
+		String sql = "SELECT postNumber, postTitle, postContent, nickname FROM boardpost WHERE boardNumber = "+boardNumber;
+		return sqlSession.selectList("post.selectPostList", sql);
+	}
+	
 	@Override
 	public List<PostDTO> selectPastPost(String nickname) {
 		return sqlSession.selectList("post.selectPastPost", nickname);
