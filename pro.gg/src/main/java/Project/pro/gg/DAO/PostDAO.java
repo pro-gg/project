@@ -12,8 +12,12 @@ public interface PostDAO {
     public List<PostDTO> selectPastPost(String nickname);
 
     public String selectPostContent(String postTitle, String nickname);
-    
+
+    public PostDTO selectPostBy_postNumber(int postNumber);
+
+    void updateLookUpCount(PostDTO postDTO);
+
     public PostDTO selectPostDetail(int postNumber);
-    
+
     public void updatePostContent(PostDTO post);
 }

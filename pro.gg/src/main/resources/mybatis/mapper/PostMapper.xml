@@ -3,8 +3,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="post">
 	<select id="insert">
-        insert into boardpost(boardNumber, postTitle, postContent, nickname, postDate, postTime)
-            values(#{boardNumber}, #{postTitle}, #{postContent}, #{nickname}, #{postDate}, #{postTime})
+        insert into boardpost(boardNumber, postTitle, postContent, nickname, postDate, postTime, lookupCount)
+            values(#{boardNumber}, #{postTitle}, #{postContent}, #{nickname}, #{postDate}, #{postTime}, #{lookupCount})
     </select>
     <select id="selectPostList" resultType="map">
     	${sql}
@@ -16,6 +16,15 @@
     <select id="selectPostContent" parameterType="Project.pro.gg.Model.PostDTO" resultType="String">
         select postContent from boardpost
         where nickname = #{nickname} and postTitle = #{postTitle}
+    </select>
+    <select id="selectPostBy_postNumber" parameterType="Integer" resultType="Project.pro.gg.Model.PostDTO">
+        select * from boardpost
+        where postNumber = #{postNumber}
+    </select>
+    <select id="updateLookUpCount" parameterType="Project.pro.gg.Model.PostDTO">
+        update boardpost
+            set lookupCount = #{lookupCount}
+        where postNumber = #{postNumber}
     </select>
     <select id="selectPostDetail" parameterType="int" resultType="Project.pro.gg.Model.PostDTO">
     	select * from boardpost where postNumber = #{postNumber}
