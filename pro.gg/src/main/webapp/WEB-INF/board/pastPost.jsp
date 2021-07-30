@@ -25,6 +25,22 @@
                 }
             })
         }
+
+        function checkPostDate(postDate, postTime, count){
+            
+            let today = new Date();
+
+            let year = today.getFullYear();
+            let month = today.getMonth() + 1;
+            let date = today.getDate();
+
+            var currentDate = year + "." + month +"." + date;
+            if(currentDate === postDate){
+                document.getElementById(count).innerHTML = postTime;
+            }else{
+                document.getElementById(count).innerHTML = postDate;
+            }
+        }
     </script>
 </head>
 <body>
@@ -45,6 +61,7 @@
                                             <th>닉네임</th>
                                             <th>제목</th>
                                             <th>게시일</th>
+                                            <th>조회수</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -62,10 +79,13 @@
                                                         ${searchPostList.postTitle}
                                                     </a> 
                                                 </td>
-                                                <td>${searchPostList.postTime}</td>
                                                 <script>
+                                                    var postDate = '${searchPostList.postDate}';
                                                     var postTime = '${searchPostList.postTime}';
+                                                    checkPostDate(postDate, postTime, '${status.count}');
                                                 </script>
+                                                <td id="${status.count}"></td>
+                                                <td>${searchPostList.lookupCount}</td>
                                             </tr>                  
                                         </c:forEach>
                                     </tbody>

@@ -11,6 +11,23 @@
  <script src="/webjars/jquery/3.6.0/jquery.min.js"></script>
  <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>
  <link rel="stylesheet" type="text/css" href="/css/mystyle.css"/>
+ <script>
+     function checkPostDate(postDate, postTime, count){
+            
+            let today = new Date();
+
+            let year = today.getFullYear();
+            let month = today.getMonth() + 1;
+            let date = today.getDate();
+
+            var currentDate = year + "." + month +"." + date;
+            if(currentDate === postDate){
+                document.getElementById(count).innerHTML = postTime;
+            }else{
+                document.getElementById(count).innerHTML = postDate;
+            }
+        }
+ </script>
 </head>
 <body>
 	<br>
@@ -22,6 +39,8 @@
                 <th>No</th>
                 <th>닉네임</th>
                 <th>제목</th>
+                <th>작성일시</th>
+                <th>조회수</th>
             </tr>
         </thead>
         <tbody>
@@ -29,7 +48,14 @@
                 <tr>
                     <td>${status.count}</td>
                     <td>${boardList.nickname}</td>
-                    <td><a href="${pageContext.request.contextPath}/postUpdate.do?postNumber=${boardList.postNumber}">${boardList.postTitle}</a></td> 
+                    <td><a href="${pageContext.request.contextPath}/postdetail.do?postNumber=${boardList.postNumber}">${boardList.postTitle}</a></td>
+                    <script>
+                        var postDate = '${boardList.postDate}';
+                        var postTime = '${boardList.postTime}';
+                        checkPostDate(postDate, postTime, '${status.count}');
+                    </script>
+                    <td id="${status.count}"></td>
+                    <td>${boardList.lookupCount}</td>
                 </tr>                  
             </c:forEach>
         </tbody>

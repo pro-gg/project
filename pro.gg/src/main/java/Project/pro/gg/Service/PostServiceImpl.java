@@ -33,4 +33,14 @@ public class PostServiceImpl implements PostService{
 	public String selectPostContent(String postTitle, String nickname) {
 		return postRepository.selectPostContent(postTitle, nickname);
 	}
+
+	@Override
+	public PostDTO selectPostBy_postNumber(int postNumber) {
+		return postRepository.selectPostBy_postNumber(postNumber);
+	}
+
+	@Override
+	public void updateLookUpCount(PostDTO postDTO) {
+		postRepository.updateLookUpCount(postDTO);
+	}
 }

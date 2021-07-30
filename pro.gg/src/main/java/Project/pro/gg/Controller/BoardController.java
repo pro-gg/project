@@ -1,10 +1,7 @@
 package Project.pro.gg.Controller;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -42,6 +39,7 @@ public class BoardController{
     @GetMapping("/freeboardList.do")
     public String freeboardList(@RequestParam("boardNumber") int boardNumber, Model model){
     	List<PostDTO> postDTOList = postService.selectPostList(boardNumber);
+        Collections.reverse(postDTOList);
         model.addAttribute("boardList", postDTOList);
         
         if(boardNumber == 1) {
@@ -124,6 +122,7 @@ public class BoardController{
             postDTO.setNickname(member.getNickname());
             postDTO.setPostDate(postDate);
             postDTO.setPostTime(postTime);
+            postDTO.setLookupCount(0);
             postService.insertPost(postDTO);
 
             System.out.println(title);
@@ -152,6 +151,25 @@ public class BoardController{
         postDTO.setPostContent(postContent);
         model.addAttribute("selectPostContent", postDTO);
         return "../board/printPostContent";
+    }
+
+    @GetMapping("/postdetail.do")
+    public String postDetail(@RequestParam("postNumber") int postNumber, Model model){
+        // 게시글 출력 로직은 승진이형 코드 리베이스 받으면서 가져온다.
+        // 지금은 조회수 변경 기능만 구현
+
+        PostDTO postDTO = postService.selectPostBy_postNumber(postNumber);
+        HttpSession session = MemberController.session;
+        MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
+
+        // 작성자가 아닌 사람이 클릭 했을 경우 조회수 증가
+        // 작성자 본인이 클릭한 경우 조회수가 증가하지 않게끔 한다.
+        if (!memberDTO.getNickname().equals(postDTO.getNickname())){
+            postDTO.setLookupCount(postDTO.getLookupCount()+1);
+            postService.updateLookUpCount(postDTO);
+        }
+
+        return null;
     }
 
 }
