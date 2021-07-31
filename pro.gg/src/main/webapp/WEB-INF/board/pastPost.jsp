@@ -12,12 +12,10 @@
     <script src="/js/semantic_aside.js" charset="utf-8"></script>
     <script src="/js/semantic_header.js" charset="utf-8"></script>
     <script>
-        function callPostContent(postTitle, nickname){
-            console.log(postTitle);
-            console.log(nickname);
+        function callPostContent(postTitle, nickname, postNumber){
             $.ajax({
                 type:'get',
-                url:'${pageContext.request.contextPath}/callPostContent.do?postTitle=' + postTitle + '&nickname=' + nickname,
+                url:'${pageContext.request.contextPath}/callPostContent.do?postTitle=' + postTitle + '&nickname=' + nickname + '&postNumber=' + postNumber,
                 data:'',
                 dataType:'',
                 success:function(data){
@@ -75,7 +73,7 @@
                                                 <td><c:out value="${searchPostList.postNumber}"></c:out></td>
                                                 <td>${searchPostList.nickname}</td>
                                                 <td>
-                                                    <a href="#" onclick="callPostContent('${searchPostList.postTitle}', '${searchPostList.nickname}')">
+                                                    <a href="#" onclick="callPostContent('${searchPostList.postTitle}', '${searchPostList.nickname}', '${searchPostList.postNumber}')">
                                                         ${searchPostList.postTitle}
                                                     </a> 
                                                 </td>

@@ -50,6 +50,11 @@ public class PostRepository implements PostDAO {
 		sqlSession.update("post.updateLookUpCount", postDTO);
 	}
 
+	@Override
+	public void postDelete(int postNumber) {
+		sqlSession.delete("post.postDelete", postNumber);
+	}
+
 
 	@Override
 	public PostDTO selectPostDetail(int postNumber) {

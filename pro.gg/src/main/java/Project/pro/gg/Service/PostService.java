@@ -20,6 +20,8 @@ public interface PostService {
 
     public void updateLookUpCount(PostDTO postDTO);
 
+    public void postDelete(int postNumber);
+
     public PostDTO selectPostDetail(int postNumber);
 
     public void updatePostContent(PostDTO post);

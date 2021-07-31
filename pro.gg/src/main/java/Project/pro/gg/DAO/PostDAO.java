@@ -20,4 +20,6 @@ public interface PostDAO {
     public PostDTO selectPostDetail(int postNumber);
 
     public void updatePostContent(PostDTO post);
+
+    public void postDelete(int postNumber);
 }

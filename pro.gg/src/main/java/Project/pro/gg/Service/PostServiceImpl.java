@@ -45,6 +45,11 @@ public class PostServiceImpl implements PostService{
 	}
 
 	@Override
+	public void postDelete(int postNumber) {
+		postRepository.postDelete(postNumber);
+	}
+
+	@Override
 	public PostDTO selectPostDetail(int postNumber) {
 		return postRepository.selectPostDetail(postNumber);
 	}

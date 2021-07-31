@@ -26,6 +26,10 @@
             set lookupCount = #{lookupCount}
         where postNumber = #{postNumber}
     </select>
+    <select id="postDelete" parameterType="Integer">
+        delete from boardpost
+        where postNumber = #{postNumber}
+    </select>
     <select id="selectPostDetail" parameterType="int" resultType="Project.pro.gg.Model.PostDTO">
     	select * from boardpost where postNumber = #{postNumber}
     </select>
