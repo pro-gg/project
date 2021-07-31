@@ -143,12 +143,14 @@ public class BoardController{
     }
 
     @GetMapping("/callPostContent.do")
-    public String callPostContent(@RequestParam("postTitle") String postTitle, @RequestParam("nickname") String nickname, Model model){
+    public String callPostContent(@RequestParam("postTitle") String postTitle, @RequestParam("nickname") String nickname,
+                                  @RequestParam("postNumber") Long postNUmber, Model model){
         PostDTO postDTO = new PostDTO();
         String postContent = postService.selectPostContent(postTitle, nickname);
         postDTO.setNickname(nickname);
         postDTO.setPostTitle(postTitle);
         postDTO.setPostContent(postContent);
+        postDTO.setPostNumber(postNUmber);
         model.addAttribute("selectPostContent", postDTO);
         return "../board/printPostContent";
     }
@@ -170,6 +172,15 @@ public class BoardController{
         }
 
         return null;
+    }
+
+    @GetMapping("/postDelete.do")
+    public String postDelete(@RequestParam("postNumber") int postNumber, @RequestParam("nickname") String nickname){
+
+        // 일단 지금은 간단하게 끝내지만 나중에 댓글기능이 구현되었을 땐
+        // 글을 삭제할 때 댓글과의 연관관계 또한 고려해서 로직을 다시 짜야 한다.
+        postService.postDelete(postNumber);
+        return "redirect:/searchPastPost.do?nickname="+nickname;
     }
 
 }

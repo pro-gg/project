@@ -43,4 +43,9 @@ public class PostServiceImpl implements PostService{
 	public void updateLookUpCount(PostDTO postDTO) {
 		postRepository.updateLookUpCount(postDTO);
 	}
+
+	@Override
+	public void postDelete(int postNumber) {
+		postRepository.postDelete(postNumber);
+	}
 }

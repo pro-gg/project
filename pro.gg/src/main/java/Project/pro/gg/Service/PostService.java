@@ -19,4 +19,6 @@ public interface PostService {
     public PostDTO selectPostBy_postNumber(int postNumber);
 
     public void updateLookUpCount(PostDTO postDTO);
+
+    public void postDelete(int postNumber);
 }

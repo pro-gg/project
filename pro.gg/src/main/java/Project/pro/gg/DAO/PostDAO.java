@@ -16,4 +16,6 @@ public interface PostDAO {
     public PostDTO selectPostBy_postNumber(int postNumber);
 
     void updateLookUpCount(PostDTO postDTO);
+
+    public void postDelete(int postNumber);
 }
