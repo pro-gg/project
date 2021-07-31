@@ -39,4 +39,18 @@ public class PostRepository implements PostDAO {
 		postDTO.setNickname(nickname);
 		return sqlSession.selectOne("post.selectPostContent", postDTO);
 	}
+
+
+	@Override
+	public PostDTO selectPostDetail(int postNumber) {
+		return sqlSession.selectOne("post.selectPostDetail", postNumber);
+	}
+
+
+	@Override
+	public void updatePostContent(PostDTO post) {
+		sqlSession.update("post.updatePostContent",post);
+	}
+
+
 }

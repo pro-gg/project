@@ -17,4 +17,10 @@
         select postContent from boardpost
         where nickname = #{nickname} and postTitle = #{postTitle}
     </select>
+    <select id="selectPostDetail" parameterType="int" resultType="Project.pro.gg.Model.PostDTO">
+    	select * from boardpost where postNumber = #{postNumber}
+    </select>
+    <select id="updatePostContent" parameterType="Project.pro.gg.Model.PostDTO">
+        update boardpost set postTitle = #{postTitle}, postContent = #{postContent} where postNumber = #{postNumber}
+    </select>
 </mapper>
