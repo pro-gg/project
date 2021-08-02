@@ -170,7 +170,9 @@ public class BoardController{
             postService.updateLookUpCount(postDTO);
         }
 
-        return null;
+        model.addAttribute("post", postDTO);
+
+        return "../board/postDetail";
     }
 
     @GetMapping("/postDelete.do")
