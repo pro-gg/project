@@ -154,14 +154,6 @@ public class BoardController{
         return "../board/printPostContent";
     }
 
-    @GetMapping("/postDetail.do")
-    public String postDetail(@RequestParam("postNumber") int postNumber, Model model) {
-    	PostDTO postDTO = postService.selectPostDetail(postNumber);
-
-    	model.addAttribute("post", postDTO);
-
-    	return "../board/postDetail";
-    }
     @GetMapping("/postdetail.do")
     public String postDetail(@RequestParam("postNumber") int postNumber, Model model){
         // 게시글 출력 로직은 승진이형 코드 리베이스 받으면서 가져온다.
