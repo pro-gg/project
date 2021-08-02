@@ -51,7 +51,6 @@ public class BoardController{
         }else if(boardNumber == 3) {
         	model.addAttribute("postType", "팁 게시판");
         }
-    	System.out.println(postDTOList);
         return "../board/boardList";
     }
 
@@ -153,5 +152,39 @@ public class BoardController{
         model.addAttribute("selectPostContent", postDTO);
         return "../board/printPostContent";
     }
+    
+    @GetMapping("/postDetail.do")
+    public String postDetail(@RequestParam("postNumber") int postNumber, Model model) {
+    	PostDTO postDTO = postService.selectPostDetail(postNumber);
+    	
+    	model.addAttribute("post", postDTO);
+    	
+    	return "../board/postDetail";
+    }
+    
+    @GetMapping("/postModify.do")
+    public String postModify(@RequestParam("postNumber")int postNumber, Model model) {
+    	PostDTO postDTO = postService.selectPostDetail(postNumber);
+    	
+    	model.addAttribute("post", postDTO);
+    	
+    	return "../board/postUpdate";
+    }
 
+    @GetMapping("/postUpdate.do")
+    public String postUpdate(@RequestParam("post") String post) {
+    	JSONObject jsonObject;
+    	PostDTO postDTO = new PostDTO();
+		try {
+			jsonObject = new JSONObject(post);
+	        postDTO.setPostTitle(jsonObject.getString("title"));
+	        postDTO.setPostContent(jsonObject.getString("writedPosting"));
+	        postDTO.setPostNumber(jsonObject.getLong("postNumber"));
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+    	
+    	postService.updatePostContent(postDTO);
+    	return "../board/freeboard";
+    }
 }

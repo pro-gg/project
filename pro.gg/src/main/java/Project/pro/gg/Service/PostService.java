@@ -15,4 +15,8 @@ public interface PostService {
     public List<PostDTO> selectPastPost(String nickname);
 
     public String selectPostContent(String postTitle, String nickname);
+    
+    public PostDTO selectPostDetail(int postNumber);
+    
+    public void updatePostContent(PostDTO post);
 }

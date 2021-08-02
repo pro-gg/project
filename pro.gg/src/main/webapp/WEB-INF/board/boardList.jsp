@@ -29,7 +29,7 @@
                 <tr>
                     <td>${status.count}</td>
                     <td>${boardList.nickname}</td>
-                    <td><a href="${pageContext.request.contextPath}/postUpdate.do?postNumber=${boardList.postNumber}">${boardList.postTitle}</a></td> 
+                    <td><a href="${pageContext.request.contextPath}/postDetail.do?postNumber=${boardList.postNumber}">${boardList.postTitle}</a></td> 
                 </tr>                  
             </c:forEach>
         </tbody>

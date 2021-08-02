@@ -33,4 +33,14 @@ public class PostServiceImpl implements PostService{
 	public String selectPostContent(String postTitle, String nickname) {
 		return postRepository.selectPostContent(postTitle, nickname);
 	}
+
+	@Override
+	public PostDTO selectPostDetail(int postNumber) {
+		return postRepository.selectPostDetail(postNumber);
+	}
+
+	@Override
+	public void updatePostContent(PostDTO post) {
+		postRepository.updatePostContent(post);
+	}
 }
