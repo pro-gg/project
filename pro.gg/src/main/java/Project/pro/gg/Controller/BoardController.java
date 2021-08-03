@@ -220,17 +220,22 @@ public class BoardController{
     @GetMapping("/clickRecommend.do")
     public String clickRecommend(@RequestParam("postNumber") int postNumber, @RequestParam("nickname") String nickname) throws JSONException {
         // 이미 누른 사람인지 아닌지 부터 확인
+        PostDTO postDTO = postService.selectPostBy_postNumber(postNumber);
         MemberDTO memberDTO = memberService.findByNickname(nickname);
         String str_recommendPost = memberDTO.getRecommendpost();
+        String str_jsonArray = null;
         // 처음으로 추천 버튼을 눌렀을 때 처리
         if (str_recommendPost == null){
             JSONArray jsonArray = new JSONArray();
             jsonArray.put(postNumber);
 
-            String str_jsonArray = jsonArray.toString();
+            str_jsonArray = jsonArray.toString();
             memberDTO.setRecommendpost(str_jsonArray);
 
             memberService.updateRecommendPost(memberDTO);
+
+            postDTO.setPostRecommendCount(postDTO.getPostRecommendCount()+1);
+            postService.updateRecommendCount(postDTO);
         }else{
             // 처음 추천 버튼을 누른게 아닌경우 처리
             JSONArray jsonArray = new JSONArray(str_recommendPost);
@@ -239,25 +244,36 @@ public class BoardController{
             // 이미 눌렀던 게시글인지 아닌지 판별(순차 탐색)
             for (int i = 0; i < jsonArray.length(); i++){
                 // 현재까지 추천 버튼을 누른 게시글과의 비교
-                if (postNumber != Integer.parseInt((String) jsonArray.get(i))){
-                    continue; // 
-                }else{
+                if (postNumber == (Integer)jsonArray.get(i)){
                     // 추천 버튼을 누른 적 있는 게시글일 경우 처리
                     exist_recommend = true;
+
+                    // 회원 데이터에서 게시글 추천 기록 삭제
+                    jsonArray.remove(i);
+                    str_jsonArray = jsonArray.toString();
+                    memberDTO.setRecommendpost(str_jsonArray);
+                    memberService.updateRecommendPost(memberDTO);
+
+                    // 해당 게시글에서 추천 횟수 1회 차감
+                    postDTO.setPostRecommendCount(postDTO.getPostRecommendCount()-1);
+                    postService.updateRecommendCount(postDTO);
+                    break;
                 }
             }
 
             // 반복문을 모두 거쳤음에도 추천 버튼을 누른 게시글들 중에 글 번호가 일치하는 경우가 없는 경우
             // 즉, 이전에 추천 버튼을 누른적이 없는 게시글일 경우 처리
             if (exist_recommend == false){
+                jsonArray.put(postNumber);
+                str_jsonArray = jsonArray.toString();
+                memberDTO.setRecommendpost(str_jsonArray);
+                memberService.updateRecommendPost(memberDTO);
 
+                postDTO.setPostRecommendCount(postDTO.getPostRecommendCount()+1);
+                postService.updateRecommendCount(postDTO);
             }
         }
 
-        PostDTO postDTO = new PostDTO();
-        postDTO = postService.selectPostBy_postNumber(postNumber);
-        postDTO.setPostRecommendCount(postDTO.getPostRecommendCount()+1);
-//        postService.updateRecommendCount(postDTO);
         return null;
     }
 
