@@ -4,7 +4,10 @@ import Project.pro.gg.DAO.MemberDAO;
 import Project.pro.gg.Model.MemberDTO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.configurationprocessor.json.JSONArray;
 import org.springframework.stereotype.Repository;
+
+import java.io.Serializable;
 
 @Repository
 public class MemberRepository implements MemberDAO {
@@ -50,6 +53,11 @@ public class MemberRepository implements MemberDAO {
     @Override
     public void updateTeamName(MemberDTO memberDTO) {
         sqlSession.update("member.updateTeamName", memberDTO);
+    }
+
+    @Override
+    public void updateRecommendPost(MemberDTO memberDTO){
+        sqlSession.update("member.updateRecommendPost", memberDTO);
     }
 
     @Override

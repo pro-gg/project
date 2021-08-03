@@ -69,7 +69,7 @@
                 data:'',
                 dataType:'',
                 success:function(data){
-                	window.location.href='${pageContext.request.contextPath}/postDetail.do?postNumber='+${post.postNumber};
+                	window.location.href='${pageContext.request.contextPath}/postdetail.do?postNumber='+'${post.postNumber}';
                 }
             })
         }
@@ -104,7 +104,7 @@
                             <br>
                             <hr>
                             <!-- <label for="postContent">내용</label><br> -->
-                            <textarea name="postContent" id="postContent">${post.postContent }</textarea><input type="button" value="수정하기" onclick="writePosting(${post.boardNumber},${post.postNumber })">
+                            <textarea name="postContent" id="postContent">${post.postContent }</textarea><input type="button" value="수정하기" onclick="writePosting('${post.boardNumber}','${post.postNumber }')">
                         </form>
                     </div>
                 </div>

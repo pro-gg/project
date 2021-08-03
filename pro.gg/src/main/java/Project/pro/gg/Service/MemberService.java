@@ -1,10 +1,13 @@
 package Project.pro.gg.Service;
 
 import Project.pro.gg.Model.MemberDTO;
+import org.springframework.boot.configurationprocessor.json.JSONArray;
 import org.springframework.stereotype.Service;
 
+import java.io.Serializable;
+
 @Service
-public interface MemberService  {
+public interface MemberService{
 
     public void insert(MemberDTO memberDTO);
     public String selectOne(String id, String passwd);
@@ -26,4 +29,6 @@ public interface MemberService  {
     public MemberDTO findByNickname(String nickname);
 
     public void updateTeamName(MemberDTO memberDTO);
+
+    public void updateRecommendPost(MemberDTO memberDTO);
 }

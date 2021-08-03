@@ -26,6 +26,8 @@ public interface PostService {
     public PostDTO selectPostDetail(int postNumber);
 
     public void updatePostContent(PostDTO post);
-    
+
     public int countPost(int boardNumber);
+
+    public void updateRecommendCount(PostDTO postDTO);
 }

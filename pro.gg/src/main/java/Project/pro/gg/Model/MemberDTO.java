@@ -3,11 +3,15 @@ package Project.pro.gg.Model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.boot.configurationprocessor.json.JSONArray;
+
+import java.io.Serializable;
+import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
-public class MemberDTO {
+public class MemberDTO{
 
     private String userid;
     private String passwd;
@@ -20,4 +24,7 @@ public class MemberDTO {
 
     private String tier;
     private double rate;
+
+    private String recommendpost;
+    private String recommendreply;
 }
