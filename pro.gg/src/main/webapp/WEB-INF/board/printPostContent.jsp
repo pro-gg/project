@@ -12,11 +12,29 @@
     <script src="/js/semantic_aside.js" charset="utf-8"></script>
     <script src="/js/semantic_header.js" charset="utf-8"></script>
     <script>
+        function postDelete(postNumber, nickname){
+            if(confirm("정말로 글을 삭제 하시겠습니까?")){
+                $.ajax({
+                    type:'get',
+                    url:'${pageContext.request.contextPath}/postDelete.do?postNumber='+postNumber+'&nickname='+nickname,
+                    data:'',
+                    dataType:'',
+                    success:function(data){
+                        $("body").html(data);
+                    }
+                })
+            }      
+        }
     </script>
     <style>
         #nickname{
             font-size: 8px;
             color: grey;
+        }
+        #updateORdelete{
+            font-size: 15px;
+            float: right;
+            margin-right: 20px;
         }
         #postContent{
             margin-left: 200px;
@@ -40,7 +58,10 @@
                                 <table class="table">
                                     <thead>
                                         <td>${selectPostContent.postTitle}</td>
-                                        <td id="nickname">${selectPostContent.nickname}</td>
+                                        <td id="nickname">
+                                            ${selectPostContent.nickname} <br><br>
+                                        </td>
+                                        <p id="updateORdelete"><a href="#">수정</a>&nbsp;&nbsp;&nbsp;<a href="#" onclick="postDelete('${selectPostContent.postNumber}', '${selectPostContent.nickname}')">삭제</a></p>
                                     </thead>
                                 </table>
                                 <hr>

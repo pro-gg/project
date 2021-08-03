@@ -35,6 +35,21 @@ public class PostServiceImpl implements PostService{
 	}
 
 	@Override
+	public PostDTO selectPostBy_postNumber(int postNumber) {
+		return postRepository.selectPostBy_postNumber(postNumber);
+	}
+
+	@Override
+	public void updateLookUpCount(PostDTO postDTO) {
+		postRepository.updateLookUpCount(postDTO);
+	}
+
+	@Override
+	public void postDelete(int postNumber) {
+		postRepository.postDelete(postNumber);
+	}
+
+	@Override
 	public PostDTO selectPostDetail(int postNumber) {
 		return postRepository.selectPostDetail(postNumber);
 	}

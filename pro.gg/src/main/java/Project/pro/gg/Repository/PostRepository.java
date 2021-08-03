@@ -23,7 +23,7 @@ public class PostRepository implements PostDAO {
 
 	@Override
 	public List<PostDTO> selectPostList(int boardNumber) {
-		String sql = "SELECT postNumber, postTitle, postContent, nickname FROM boardpost WHERE boardNumber = "+boardNumber;
+		String sql = "SELECT postNumber, postTitle, postContent, postDate, postTime, nickname, lookupCount FROM boardpost WHERE boardNumber = "+boardNumber;
 		return sqlSession.selectList("post.selectPostList", sql);
 	}
 	
@@ -38,6 +38,21 @@ public class PostRepository implements PostDAO {
 		postDTO.setPostTitle(postTitle);
 		postDTO.setNickname(nickname);
 		return sqlSession.selectOne("post.selectPostContent", postDTO);
+	}
+
+	@Override
+	public PostDTO selectPostBy_postNumber(int postNumber) {
+		return sqlSession.selectOne("post.selectPostBy_postNumber", postNumber);
+	}
+
+	@Override
+	public void updateLookUpCount(PostDTO postDTO) {
+		sqlSession.update("post.updateLookUpCount", postDTO);
+	}
+
+	@Override
+	public void postDelete(int postNumber) {
+		sqlSession.delete("post.postDelete", postNumber);
 	}
 
 
