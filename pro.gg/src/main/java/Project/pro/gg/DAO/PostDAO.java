@@ -22,4 +22,6 @@ public interface PostDAO {
     public void updatePostContent(PostDTO post);
 
     public void postDelete(int postNumber);
+
+    public void updateRecommendCount(PostDTO postDTO);
 }

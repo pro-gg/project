@@ -58,4 +58,9 @@ public class PostServiceImpl implements PostService{
 	public void updatePostContent(PostDTO post) {
 		postRepository.updatePostContent(post);
 	}
+
+	@Override
+	public void updateRecommendCount(PostDTO postDTO) {
+		postRepository.updateRecommendCount(postDTO);
+	}
 }

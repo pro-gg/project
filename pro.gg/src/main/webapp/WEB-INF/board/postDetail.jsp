@@ -13,6 +13,36 @@
     <script src="/js/semantic_header.js" charset="utf-8"></script>
     <script src="/js/elements.js" charset="utf-8"></script>
     <title></title>
+    <script>
+        $(function(){
+            $('#recommendButton').click(function(){
+                var memberNickname = '${sessionScope.member.nickname}';
+                if(memberNickname.length !== 0){
+                    if(memberNickname === '${post.nickname}'){
+                        alert("글 작성자는 추천, 또는 비추천을 할 수 없습니다.");
+                    }
+                    else{
+                        // 글 작성자가 아닌 타인이 좋아요 버튼을 클릭했을 경우
+                        $.ajax({
+                            type:'get',
+                            url:'${pageContext.request.contextPath}/clickRecommend.do?postNumber='+'${post.postNumber}'+'&nickname='+memberNickname,
+                            data:'',
+                            dataType:'',
+                            success:function(data){
+                                window.location.reload();
+                            }
+
+                        })
+                    }
+                }
+            })
+        })
+    </script>
+    <style>
+        #recommendButton{
+            margin-left: 500px;
+        }
+    </style>
 </head>
 <body>
 	<header></header>
@@ -35,6 +65,18 @@
 	                           		</tr>
 	                           	</tbody>
                             </table>
+                            <br>
+                            <button id="recommendButton">
+                                좋아요!
+                                <hr>
+                                <b>${post.postRecommendCount}</b>
+                            </button>
+                            &nbsp;&nbsp;
+                            <button id="not_recommendButton">
+                                싫어요!
+                                <hr>
+                                <b>${post.postNotRecommendCount}</b>
+                            </button>
                             <br>
                             <c:if test = "${sessionScope.member.nickname == post.nickname}">
                             	<a href="${pageContext.request.contextPath}/postModify.do?postNumber=${post.postNumber}">수정</a>

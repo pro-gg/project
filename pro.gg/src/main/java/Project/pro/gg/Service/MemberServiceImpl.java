@@ -3,10 +3,13 @@ package Project.pro.gg.Service;
 import Project.pro.gg.Model.MemberDTO;
 import Project.pro.gg.Repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.configurationprocessor.json.JSONArray;
 import org.springframework.stereotype.Service;
 
+import java.io.Serializable;
+
 @Service
-public class MemberServiceImpl implements MemberService{
+public class MemberServiceImpl implements MemberService {
 
     @Autowired
     MemberRepository memberRepository;
@@ -56,6 +59,11 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public void updateTeamName(MemberDTO memberDTO) {
         memberRepository.updateTeamName(memberDTO);
+    }
+
+    @Override
+    public void updateRecommendPost(MemberDTO memberDTO) {
+        memberRepository.updateRecommendPost(memberDTO);
     }
 
     @Override
