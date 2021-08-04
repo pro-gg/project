@@ -27,6 +27,8 @@ public interface PostDAO {
     public void postDelete(int postNumber);
 
     public void updateRecommendCount(PostDTO postDTO);
-    
+
+    public void updateNotRecommendCount(PostDTO postDTO);
+
     public int countPost(int boardNumber);
 }

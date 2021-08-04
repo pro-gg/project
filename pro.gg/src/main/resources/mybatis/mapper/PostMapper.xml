@@ -51,4 +51,7 @@
     <select id="countPost" resultType="int">
     	select count(*) from boardpost where boardNumber=#{boardNumber}
     </select>
+    <select id="updateNotRecommendCount">
+        update boardpost set postNotRecommendCount = #{postNotRecommendCount}
+    </select>
 </mapper>

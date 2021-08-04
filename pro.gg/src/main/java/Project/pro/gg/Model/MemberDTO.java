@@ -26,5 +26,8 @@ public class MemberDTO{
     private double rate;
 
     private String recommendpost;
+    private String not_recommendpost;
+
     private String recommendreply;
+    private String not_recommendreply;
 }

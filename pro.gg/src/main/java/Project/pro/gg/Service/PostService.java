@@ -30,4 +30,6 @@ public interface PostService {
     public int countPost(int boardNumber);
 
     public void updateRecommendCount(PostDTO postDTO);
+
+    public void updateNotRecommendCount(PostDTO postDTO);
 }

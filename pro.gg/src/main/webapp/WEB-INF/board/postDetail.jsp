@@ -17,6 +17,20 @@
         $(function(){
             $('#recommendButton').click(function(){
                 var memberNickname = '${sessionScope.member.nickname}';
+                var not_recommendpost = '${sessionScope.member.not_recommendpost}';
+                var postNumber = parseInt('${post.postNumber}');
+                var jsonObj = undefined;
+
+                if(not_recommendpost !== '[]'){
+                    jsonObj = JSON.parse(not_recommendpost);
+                    for(var i = 0; i < jsonObj.length; i++){
+                        if(jsonObj[i] === postNumber){
+                            alert("추천/비추천은 한번씩만 누를 수 있습니다.");
+                            return;
+                        }
+                    }
+                }
+
                 if(memberNickname.length !== 0){
                     if(memberNickname === '${post.nickname}'){
                         alert("글 작성자는 추천, 또는 비추천을 할 수 없습니다.");
@@ -26,6 +40,42 @@
                         $.ajax({
                             type:'get',
                             url:'${pageContext.request.contextPath}/clickRecommend.do?postNumber='+'${post.postNumber}'+'&nickname='+memberNickname,
+                            data:'',
+                            dataType:'',
+                            success:function(data){
+                                window.location.reload();
+                            }
+                        })
+                        
+                    }
+                }
+            })
+
+            $('#not_recommendButton').click(function(){
+                var memberNickname = '${sessionScope.member.nickname}';
+                var recommendpost = '${sessionScope.member.recommendpost}';
+                var postNumber = parseInt('${post.postNumber}');
+                var jsonObj = undefined;
+
+                if(recommendpost !== '[]'){
+                    jsonObj = JSON.parse(recommendpost);
+                    for(var i = 0; i < jsonObj.length; i++){
+                        if(jsonObj[i] === postNumber){
+                            alert("추천/비추천은 한번씩만 누를 수 있습니다.");
+                            return;
+                        }
+                    }
+                }
+
+                if(memberNickname.length !== 0){
+                    if(memberNickname === '${post.nickname}'){
+                        alert("글 작성자는 추천, 또는 비추천을 할 수 없습니다.");
+                    }
+                    else{
+                        // 글 작성자가 아닌 타인이 좋아요 버튼을 클릭했을 경우
+                        $.ajax({
+                            type:'get',
+                            url:'${pageContext.request.contextPath}/clickNotRecommend.do?postNumber='+'${post.postNumber}'+'&nickname='+memberNickname,
                             data:'',
                             dataType:'',
                             success:function(data){
