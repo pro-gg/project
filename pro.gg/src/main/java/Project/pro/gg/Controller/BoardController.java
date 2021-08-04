@@ -219,7 +219,7 @@ public class BoardController{
 
     @GetMapping("/clickRecommend.do")
     public String clickRecommend(@RequestParam("postNumber") int postNumber, @RequestParam("nickname") String nickname) throws JSONException {
-        // 이미 누른 사람인지 아닌지 부터 확인
+
         PostDTO postDTO = postService.selectPostBy_postNumber(postNumber);
         MemberDTO memberDTO = memberService.findByNickname(nickname);
         String str_recommendPost = memberDTO.getRecommendpost();
@@ -274,7 +274,74 @@ public class BoardController{
             }
         }
 
-        return null;
+        HttpSession session = MemberController.session;
+        session.setAttribute("member", memberDTO);
+
+        return "redirect:/postdetail.do?postNumber="+postNumber;
+    }
+
+    @GetMapping("/clickNotRecommend.do")
+    public String clickNotRecommend(@RequestParam("postNumber") int postNumber, @RequestParam("nickname") String nickname) throws JSONException {
+
+        PostDTO postDTO = postService.selectPostBy_postNumber(postNumber);
+        MemberDTO memberDTO = memberService.findByNickname(nickname);
+        String str_NotrecommendPost = memberDTO.getNot_recommendpost();
+        String str_jsonArray = null;
+        // 처음으로 비추천 버튼을 눌렀을 때 처리
+        if (str_NotrecommendPost == null){
+            JSONArray jsonArray = new JSONArray();
+            jsonArray.put(postNumber);
+
+            str_jsonArray = jsonArray.toString();
+            memberDTO.setNot_recommendpost(str_jsonArray);
+
+            memberService.updateRecommendPost(memberDTO);
+            memberService.updateNotRecommendPost(memberDTO);
+
+            postDTO.setPostNotRecommendCount(postDTO.getPostNotRecommendCount()+1);
+            postService.updateNotRecommendCount(postDTO);
+        }else{
+            // 처음 비추천 버튼을 누른게 아닌경우 처리
+            JSONArray jsonArray = new JSONArray(str_NotrecommendPost);
+            boolean exist_Notrecommend = false;
+
+            // 이미 눌렀던 게시글인지 아닌지 판별(순차 탐색)
+            for (int i = 0; i < jsonArray.length(); i++){
+                // 현재까지 비추천 버튼을 누른 게시글과의 비교
+                if (postNumber == (Integer)jsonArray.get(i)){
+                    // 비추천 버튼을 누른 적 있는 게시글일 경우 처리
+                    exist_Notrecommend = true;
+
+                    // 회원 데이터에서 게시글 추천 기록 삭제
+                    jsonArray.remove(i);
+                    str_jsonArray = jsonArray.toString();
+                    memberDTO.setNot_recommendpost(str_jsonArray);
+                    memberService.updateNotRecommendPost(memberDTO);
+
+                    // 해당 게시글에서 추천 횟수 1회 차감
+                    postDTO.setPostNotRecommendCount(postDTO.getPostNotRecommendCount()-1);
+                    postService.updateNotRecommendCount(postDTO);
+                    break;
+                }
+            }
+
+            // 반복문을 모두 거쳤음에도 비추천 버튼을 누른 게시글들 중에 글 번호가 일치하는 경우가 없는 경우
+            // 즉, 이전에 비추천 버튼을 누른적이 없는 게시글일 경우 처리
+            if (exist_Notrecommend == false){
+                jsonArray.put(postNumber);
+                str_jsonArray = jsonArray.toString();
+                memberDTO.setNot_recommendpost(str_jsonArray);
+                memberService.updateNotRecommendPost(memberDTO);
+
+                postDTO.setPostNotRecommendCount(postDTO.getPostNotRecommendCount()+1);
+                postService.updateNotRecommendCount(postDTO);
+            }
+        }
+
+        HttpSession session = MemberController.session;
+        session.setAttribute("member", memberDTO);
+
+        return "redirect:/postdetail.do?postNumber="+postNumber;
     }
 
 }

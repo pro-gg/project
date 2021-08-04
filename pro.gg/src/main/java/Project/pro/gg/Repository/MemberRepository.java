@@ -61,6 +61,11 @@ public class MemberRepository implements MemberDAO {
     }
 
     @Override
+    public void updateNotRecommendPost(MemberDTO memberDTO) {
+        sqlSession.update("member.updateNotRecommendPost", memberDTO);
+    }
+
+    @Override
     public void updatePasswd(MemberDTO memberDTO) {
         sqlSession.update("member.updatePasswd", memberDTO);
     }

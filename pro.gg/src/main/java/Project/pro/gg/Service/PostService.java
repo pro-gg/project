@@ -27,4 +27,6 @@ public interface PostService {
     public void updatePostContent(PostDTO post);
 
     public void updateRecommendCount(PostDTO postDTO);
+
+    public void updateNotRecommendCount(PostDTO postDTO);
 }

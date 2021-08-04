@@ -67,6 +67,11 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    public void updateNotRecommendPost(MemberDTO memberDTO) {
+        memberRepository.updateNotRecommendPost(memberDTO);
+    }
+
+    @Override
     public void updatePasswd(MemberDTO memberDTO) {
         memberRepository.updatePasswd(memberDTO);
     }

@@ -26,4 +26,6 @@ public interface MemberDAO {
     public void updateTeamName(MemberDTO memberDTO);
 
     public void updateRecommendPost(MemberDTO memberDTO);
+
+    public void updateNotRecommendPost(MemberDTO memberDTO);
 }
