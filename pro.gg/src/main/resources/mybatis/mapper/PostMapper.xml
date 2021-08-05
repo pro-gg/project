@@ -3,17 +3,17 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="post">
 	<select id="insert">
-        insert into boardpost(boardNumber, postTitle, postContent, nickname, postDate, postTime, lookupCount)
-            values(#{boardNumber}, #{postTitle}, #{postContent}, #{nickname}, #{postDate}, #{postTime}, #{lookupCount})
+        insert into boardpost(boardNumber, postTitle, postContent, nickname, postDate, postTime, lookupCount, postRecommendCount, postNotRecommendCount)
+            values(#{boardNumber}, #{postTitle}, #{postContent}, #{nickname}, #{postDate}, #{postTime}, #{lookupCount}, #{postRecommendCount}, #{postNotRecommendCount})
     </select>
     <select id="selectPostList" resultType="Project.pro.gg.Model.PostDTO">
-    	SELECT * 
+    	SELECT *
 		FROM (
-			SELECT @ROWNUM:=@ROWNUM+1 AS RN, A.* 
+			SELECT @ROWNUM:=@ROWNUM+1 AS RN, A.*
 				FROM (
-						SELECT * 
-						FROM boardpost 
-						ORDER BY postNumber DESC 
+						SELECT *
+						FROM boardpost
+						ORDER BY postNumber DESC
 						)A
 				WHERE (@ROWNUM:=0)=0)B
 	WHERE RN BETWEEN #{start} AND #{end} AND boardNumber = #{boardNumber}
@@ -45,7 +45,13 @@
     <select id="updatePostContent" parameterType="Project.pro.gg.Model.PostDTO">
         update boardpost set postTitle = #{postTitle}, postContent = #{postContent} where postNumber = #{postNumber}
     </select>
+    <select id="updateRecommendCount">
+        update boardpost set postRecommendCount = #{postRecommendCount}
+    </select>
     <select id="countPost" resultType="int">
     	select count(*) from boardpost where boardNumber=#{boardNumber}
+    </select>
+    <select id="updateNotRecommendCount">
+        update boardpost set postNotRecommendCount = #{postNotRecommendCount}
     </select>
 </mapper>

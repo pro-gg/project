@@ -1,6 +1,7 @@
 package Project.pro.gg.DAO;
 
 import Project.pro.gg.Model.MemberDTO;
+import org.springframework.boot.configurationprocessor.json.JSONArray;
 
 public interface MemberDAO {
 
@@ -23,4 +24,8 @@ public interface MemberDAO {
     public MemberDTO findByNickname(String nickname);
 
     public void updateTeamName(MemberDTO memberDTO);
+
+    public void updateRecommendPost(MemberDTO memberDTO);
+
+    public void updateNotRecommendPost(MemberDTO memberDTO);
 }

@@ -64,4 +64,14 @@ public class PostServiceImpl implements PostService{
 	public int countPost(int boardNumber) {
 		return postRepository.countPost(boardNumber);
 	}
+
+	@Override
+	public void updateRecommendCount(PostDTO postDTO) {
+		postRepository.updateRecommendCount(postDTO);
+	}
+
+	@Override
+	public void updateNotRecommendCount(PostDTO postDTO) {
+		postRepository.updateNotRecommendCount(postDTO);
+	}
 }

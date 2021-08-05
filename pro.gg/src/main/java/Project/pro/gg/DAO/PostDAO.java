@@ -1,5 +1,7 @@
 package Project.pro.gg.DAO;
 
+import Project.pro.gg.Model.PostDTO;
+
 import java.util.List;
 
 import Project.pro.gg.API.Paging;
@@ -23,6 +25,10 @@ public interface PostDAO {
     public void updatePostContent(PostDTO post);
 
     public void postDelete(int postNumber);
-    
+
+    public void updateRecommendCount(PostDTO postDTO);
+
+    public void updateNotRecommendCount(PostDTO postDTO);
+
     public int countPost(int boardNumber);
 }

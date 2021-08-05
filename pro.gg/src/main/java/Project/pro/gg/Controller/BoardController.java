@@ -14,7 +14,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import Project.pro.gg.Service.MemberServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.configurationprocessor.json.JSONArray;
 import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.stereotype.Controller;
@@ -44,6 +46,9 @@ public class BoardController{
 
     @Autowired
     ReplyServiceImpl replyService;
+
+    @Autowired
+    MemberServiceImpl memberService;
 
     @GetMapping("/freeboardList.do")
     public String freeboardList(Model model, Paging paging,
@@ -147,6 +152,8 @@ public class BoardController{
             postDTO.setPostDate(postDate);
             postDTO.setPostTime(postTime);
             postDTO.setLookupCount(0);
+            postDTO.setPostRecommendCount(0);
+            postDTO.setPostNotRecommendCount(0);
             postService.insertPost(postDTO);
 
             System.out.println(title);
@@ -233,6 +240,133 @@ public class BoardController{
 
     	postService.updatePostContent(postDTO);
     	return "../board/freeboard";
+    }
+
+    @GetMapping("/clickRecommend.do")
+    public String clickRecommend(@RequestParam("postNumber") int postNumber, @RequestParam("nickname") String nickname) throws JSONException {
+
+        PostDTO postDTO = postService.selectPostBy_postNumber(postNumber);
+        MemberDTO memberDTO = memberService.findByNickname(nickname);
+        String str_recommendPost = memberDTO.getRecommendpost();
+        String str_jsonArray = null;
+        // 처음으로 추천 버튼을 눌렀을 때 처리
+        if (str_recommendPost == null){
+            JSONArray jsonArray = new JSONArray();
+            jsonArray.put(postNumber);
+
+            str_jsonArray = jsonArray.toString();
+            memberDTO.setRecommendpost(str_jsonArray);
+
+            memberService.updateRecommendPost(memberDTO);
+
+            postDTO.setPostRecommendCount(postDTO.getPostRecommendCount()+1);
+            postService.updateRecommendCount(postDTO);
+        }else{
+            // 처음 추천 버튼을 누른게 아닌경우 처리
+            JSONArray jsonArray = new JSONArray(str_recommendPost);
+            boolean exist_recommend = false;
+            
+            // 이미 눌렀던 게시글인지 아닌지 판별(순차 탐색)
+            for (int i = 0; i < jsonArray.length(); i++){
+                // 현재까지 추천 버튼을 누른 게시글과의 비교
+                if (postNumber == (Integer)jsonArray.get(i)){
+                    // 추천 버튼을 누른 적 있는 게시글일 경우 처리
+                    exist_recommend = true;
+
+                    // 회원 데이터에서 게시글 추천 기록 삭제
+                    jsonArray.remove(i);
+                    str_jsonArray = jsonArray.toString();
+                    memberDTO.setRecommendpost(str_jsonArray);
+                    memberService.updateRecommendPost(memberDTO);
+
+                    // 해당 게시글에서 추천 횟수 1회 차감
+                    postDTO.setPostRecommendCount(postDTO.getPostRecommendCount()-1);
+                    postService.updateRecommendCount(postDTO);
+                    break;
+                }
+            }
+
+            // 반복문을 모두 거쳤음에도 추천 버튼을 누른 게시글들 중에 글 번호가 일치하는 경우가 없는 경우
+            // 즉, 이전에 추천 버튼을 누른적이 없는 게시글일 경우 처리
+            if (exist_recommend == false){
+                jsonArray.put(postNumber);
+                str_jsonArray = jsonArray.toString();
+                memberDTO.setRecommendpost(str_jsonArray);
+                memberService.updateRecommendPost(memberDTO);
+
+                postDTO.setPostRecommendCount(postDTO.getPostRecommendCount()+1);
+                postService.updateRecommendCount(postDTO);
+            }
+        }
+
+        HttpSession session = MemberController.session;
+        session.setAttribute("member", memberDTO);
+
+        return "redirect:/postdetail.do?postNumber="+postNumber;
+    }
+
+    @GetMapping("/clickNotRecommend.do")
+    public String clickNotRecommend(@RequestParam("postNumber") int postNumber, @RequestParam("nickname") String nickname) throws JSONException {
+
+        PostDTO postDTO = postService.selectPostBy_postNumber(postNumber);
+        MemberDTO memberDTO = memberService.findByNickname(nickname);
+        String str_NotrecommendPost = memberDTO.getNot_recommendpost();
+        String str_jsonArray = null;
+        // 처음으로 비추천 버튼을 눌렀을 때 처리
+        if (str_NotrecommendPost == null){
+            JSONArray jsonArray = new JSONArray();
+            jsonArray.put(postNumber);
+
+            str_jsonArray = jsonArray.toString();
+            memberDTO.setNot_recommendpost(str_jsonArray);
+
+            memberService.updateRecommendPost(memberDTO);
+            memberService.updateNotRecommendPost(memberDTO);
+
+            postDTO.setPostNotRecommendCount(postDTO.getPostNotRecommendCount()+1);
+            postService.updateNotRecommendCount(postDTO);
+        }else{
+            // 처음 비추천 버튼을 누른게 아닌경우 처리
+            JSONArray jsonArray = new JSONArray(str_NotrecommendPost);
+            boolean exist_Notrecommend = false;
+
+            // 이미 눌렀던 게시글인지 아닌지 판별(순차 탐색)
+            for (int i = 0; i < jsonArray.length(); i++){
+                // 현재까지 비추천 버튼을 누른 게시글과의 비교
+                if (postNumber == (Integer)jsonArray.get(i)){
+                    // 비추천 버튼을 누른 적 있는 게시글일 경우 처리
+                    exist_Notrecommend = true;
+
+                    // 회원 데이터에서 게시글 추천 기록 삭제
+                    jsonArray.remove(i);
+                    str_jsonArray = jsonArray.toString();
+                    memberDTO.setNot_recommendpost(str_jsonArray);
+                    memberService.updateNotRecommendPost(memberDTO);
+
+                    // 해당 게시글에서 추천 횟수 1회 차감
+                    postDTO.setPostNotRecommendCount(postDTO.getPostNotRecommendCount()-1);
+                    postService.updateNotRecommendCount(postDTO);
+                    break;
+                }
+            }
+
+            // 반복문을 모두 거쳤음에도 비추천 버튼을 누른 게시글들 중에 글 번호가 일치하는 경우가 없는 경우
+            // 즉, 이전에 비추천 버튼을 누른적이 없는 게시글일 경우 처리
+            if (exist_Notrecommend == false){
+                jsonArray.put(postNumber);
+                str_jsonArray = jsonArray.toString();
+                memberDTO.setNot_recommendpost(str_jsonArray);
+                memberService.updateNotRecommendPost(memberDTO);
+
+                postDTO.setPostNotRecommendCount(postDTO.getPostNotRecommendCount()+1);
+                postService.updateNotRecommendCount(postDTO);
+            }
+        }
+
+        HttpSession session = MemberController.session;
+        session.setAttribute("member", memberDTO);
+
+        return "redirect:/postdetail.do?postNumber="+postNumber;
     }
 
 }

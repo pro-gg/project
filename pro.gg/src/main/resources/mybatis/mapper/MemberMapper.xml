@@ -56,4 +56,14 @@
         inner join member on summoner.userid = member.userid
         where summoner.userid = #{userid}
     </select>
+
+    <select id="updateRecommendPost">
+        update member set recommendpost = #{recommendpost}
+        where nickname = #{nickname}
+    </select>
+    
+    <select id="updateNotRecommendPost">
+        update member set not_recommendpost = #{not_recommendpost}
+        where nickname = #{nickname}
+    </select>
 </mapper>
