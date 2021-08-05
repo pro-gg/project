@@ -1,5 +1,6 @@
 package Project.pro.gg.Repository;
 
+import Project.pro.gg.API.Paging;
 import Project.pro.gg.DAO.PostDAO;
 import Project.pro.gg.Model.PostDTO;
 
@@ -22,9 +23,8 @@ public class PostRepository implements PostDAO {
 
 
 	@Override
-	public List<PostDTO> selectPostList(int boardNumber) {
-		String sql = "SELECT postNumber, postTitle, postContent, postDate, postTime, nickname, lookupCount FROM boardpost WHERE boardNumber = "+boardNumber;
-		return sqlSession.selectList("post.selectPostList", sql);
+	public List<PostDTO> selectPostList(Paging paging) {
+		return sqlSession.selectList("post.selectPostList", paging);
 	}
 	
 	@Override
@@ -65,6 +65,12 @@ public class PostRepository implements PostDAO {
 	@Override
 	public void updatePostContent(PostDTO post) {
 		sqlSession.update("post.updatePostContent",post);
+	}
+
+
+	@Override
+	public int countPost(int boardNumber) {
+		return sqlSession.selectOne("post.countPost", boardNumber);
 	}
 
 

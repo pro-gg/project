@@ -21,7 +21,7 @@
 	        $(function(){
 	            $.ajax({
 	                type:'get',
-	                url:'${pageContext.request.contextPath}/freeboardList.do?boardNumber='+ boardNumber,
+	                url:'${pageContext.request.contextPath}/freeboardList.do?nowPage=1&cntPerPage=10&boardNumber='+ boardNumber,
 	                data:'',
 	                dataType:'',
 	                success:function(data){
@@ -30,7 +30,7 @@
 	            })
 	        })
 	    }
-
+	    
         function boardPosting(){
             var member = '${sessionScope.member}';
             if(member.length !== 0){

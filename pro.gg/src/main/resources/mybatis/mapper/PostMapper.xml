@@ -6,9 +6,18 @@
         insert into boardpost(boardNumber, postTitle, postContent, nickname, postDate, postTime, lookupCount)
             values(#{boardNumber}, #{postTitle}, #{postContent}, #{nickname}, #{postDate}, #{postTime}, #{lookupCount})
     </select>
-    <select id="selectPostList" resultType="map">
-    	${sql}
-    </select>    
+    <select id="selectPostList" resultType="Project.pro.gg.Model.PostDTO">
+    	SELECT * 
+		FROM (
+			SELECT @ROWNUM:=@ROWNUM+1 AS RN, A.* 
+				FROM (
+						SELECT * 
+						FROM boardpost 
+						ORDER BY postNumber DESC 
+						)A
+				WHERE (@ROWNUM:=0)=0)B
+	WHERE RN BETWEEN #{start} AND #{end} AND boardNumber = #{boardNumber}
+    </select>
     <select id="selectPastPost" parameterType="String" resultType="Map">
         select * from boardpost
         where nickname = #{nickname}
@@ -35,5 +44,8 @@
     </select>
     <select id="updatePostContent" parameterType="Project.pro.gg.Model.PostDTO">
         update boardpost set postTitle = #{postTitle}, postContent = #{postContent} where postNumber = #{postNumber}
+    </select>
+    <select id="countPost" resultType="int">
+    	select count(*) from boardpost where boardNumber=#{boardNumber}
     </select>
 </mapper>

@@ -3,6 +3,7 @@ package Project.pro.gg.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import Project.pro.gg.API.Paging;
 import Project.pro.gg.Model.PostDTO;
 import Project.pro.gg.Repository.PostRepository;
 
@@ -20,8 +21,8 @@ public class PostServiceImpl implements PostService{
 	}
 	
 	@Override
-	public List<PostDTO> selectPostList(int boardNumber) {
-		return postRepository.selectPostList(boardNumber);
+	public List<PostDTO> selectPostList(Paging paging) {
+		return postRepository.selectPostList(paging);
 	}
 
 	@Override
@@ -57,5 +58,10 @@ public class PostServiceImpl implements PostService{
 	@Override
 	public void updatePostContent(PostDTO post) {
 		postRepository.updatePostContent(post);
+	}
+
+	@Override
+	public int countPost(int boardNumber) {
+		return postRepository.countPost(boardNumber);
 	}
 }
