@@ -2,6 +2,7 @@ package Project.pro.gg.Service;
 
 import org.springframework.stereotype.Service;
 
+import Project.pro.gg.API.Paging;
 import Project.pro.gg.Model.PostDTO;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
 public interface PostService {
 	public void insertPost(PostDTO postDTO);
 	
-	public List<PostDTO> selectPostList(int boardNumber);
+	public List<PostDTO> selectPostList(Paging paging);
 
     public List<PostDTO> selectPastPost(String nickname);
 
@@ -25,4 +26,6 @@ public interface PostService {
     public PostDTO selectPostDetail(int postNumber);
 
     public void updatePostContent(PostDTO post);
+    
+    public int countPost(int boardNumber);
 }

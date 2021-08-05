@@ -1,13 +1,14 @@
 package Project.pro.gg.DAO;
 
-import Project.pro.gg.Model.PostDTO;
-
 import java.util.List;
+
+import Project.pro.gg.API.Paging;
+import Project.pro.gg.Model.PostDTO;
 
 public interface PostDAO {
 	public void insertPost(PostDTO postDTO);
 	
-	public List<PostDTO> selectPostList(int boardNumber);
+	public List<PostDTO> selectPostList(Paging paging);
 
     public List<PostDTO> selectPastPost(String nickname);
 
@@ -22,4 +23,6 @@ public interface PostDAO {
     public void updatePostContent(PostDTO post);
 
     public void postDelete(int postNumber);
+    
+    public int countPost(int boardNumber);
 }

@@ -1,7 +1,12 @@
 package Project.pro.gg.Controller;
 
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -14,9 +19,13 @@ import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import Project.pro.gg.API.Paging;
 import Project.pro.gg.Model.MemberDTO;
 import Project.pro.gg.Model.PostDTO;
 import Project.pro.gg.Service.PostServiceImpl;
@@ -37,10 +46,26 @@ public class BoardController{
     ReplyServiceImpl replyService;
 
     @GetMapping("/freeboardList.do")
-    public String freeboardList(@RequestParam("boardNumber") int boardNumber, Model model){
-    	List<PostDTO> postDTOList = postService.selectPostList(boardNumber);
-        Collections.reverse(postDTOList);
-        model.addAttribute("boardList", postDTOList);
+    public String freeboardList(Model model, Paging paging,
+    		@RequestParam("boardNumber") int boardNumber,
+    		@RequestParam(value="nowPage", required=false) String nowPage,
+    		@RequestParam(value="cntPerPage", required=false) String cntPerPage){
+    	
+    	int total = postService.countPost(boardNumber);
+    	
+    	if(nowPage == null && cntPerPage == null) {
+    		nowPage = "1";
+    		cntPerPage = "5";
+    	} else if(nowPage == null) {
+    		nowPage = "1";
+    	} else if(cntPerPage == null) {
+    		cntPerPage = "5";
+    	}
+    	
+    	paging = new Paging(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage), boardNumber);
+    	
+        model.addAttribute("boardList", postService.selectPostList(paging));
+        model.addAttribute("paging", paging);
         
         if(boardNumber == 1) {
         	model.addAttribute("postType", "자유게시판");

@@ -27,11 +27,50 @@
                 document.getElementById(count).innerHTML = postDate;
             }
         }
+     
+     function selChange(){
+    	 	var sel = document.getElementById('cntPerPage').value;
+	        $(function(){
+	            $.ajax({
+	                type:'get',
+	                url:'${pageContext.request.contextPath}/freeboardList.do?nowPage=${paging.nowPage}&cntPerPage='+sel+'&boardNumber=${paging.boardNumber}',
+	                data:'',
+	                dataType:'',
+	                success:function(data){
+	                    $("#freeBoardList").html(data);
+	                }
+	            })
+	        })
+	    }
+     
+     function pageChange(x, y){
+    	 $(function(){
+	            $.ajax({
+	                type:'get',
+	                url:'${pageContext.request.contextPath}/freeboardList.do?boardNumber=${paging.boardNumber }&nowPage='+x+'&cntPerPage='+y,
+	                data:'',
+	                dataType:'',
+	                success:function(data){
+	                    $("#freeBoardList").html(data);
+	                }
+	            })
+	        })
+     }
  </script>
 </head>
 <body>
 	<br>
 	<h2>${postType }</h2>
+	<div style="float: right;">
+		<select id="cntPerPage" name="sel" onchange="selChange()">
+			<option value="5"
+				<c:if test="${paging.cntPerPage == 5}">selected</c:if>>5줄 보기</option>
+			<option value="10"
+				<c:if test="${paging.cntPerPage == 10}">selected</c:if>>10줄 보기</option>
+			<option value="20"
+				<c:if test="${paging.cntPerPage == 20}">selected</c:if>>20줄 보기</option>
+		</select>
+	</div>
 	<br><br>
 	<table class="table">
         <thead>
@@ -46,7 +85,7 @@
         <tbody>
             <c:forEach var="boardList" items="${boardList}" varStatus="status">
                 <tr>
-                    <td>${status.count}</td>
+                    <td>${boardList.postNumber}</td>
                     <td>${boardList.nickname}</td>
                     <td><a href="${pageContext.request.contextPath}/postdetail.do?postNumber=${boardList.postNumber}">${boardList.postTitle}</a></td>
                     <script>
@@ -60,5 +99,23 @@
             </c:forEach>
         </tbody>
     </table>
+    <div style="display: block; text-align: center;">		
+		<c:if test="${paging.startPage != 1 }">
+			<a href="#" onclick="pageChange(${paging.startPage - 1 },${paging.cntPerPage});">&lt;</a>
+		</c:if>
+		<c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="p">
+			<c:choose>
+				<c:when test="${p == paging.nowPage }">
+					<b>${p }</b>
+				</c:when>
+				<c:when test="${p != paging.nowPage }">
+					<a href="#" onclick="pageChange(${p},${paging.cntPerPage });">${p }</a>
+				</c:when>
+			</c:choose>
+		</c:forEach>
+		<c:if test="${paging.endPage != paging.lastPage}">
+			<a href="#" onclick="pageChange(${paging.endPage+1 },${paging.cntPerPage})">&gt;</a>
+		</c:if>
+	</div>
 </body>
 </html>
