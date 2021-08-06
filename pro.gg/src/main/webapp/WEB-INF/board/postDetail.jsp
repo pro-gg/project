@@ -16,6 +16,10 @@
     <script>
         $(function(){
             $('#recommendButton').click(function(){
+                if('${sessionScope.member}'.length === 0){
+                    alert("게시글 추천 기능은 로그인 후 이용하실 수 있습니다.");
+                    return;
+                }
                 var memberNickname = '${sessionScope.member.nickname}';
                 var not_recommendpost = '${sessionScope.member.not_recommendpost}';
                 var postNumber = parseInt('${post.postNumber}');
@@ -46,12 +50,17 @@
                                 window.location.reload();
                             }
                         })
-                        
+
                     }
                 }
             })
 
             $('#not_recommendButton').click(function(){
+                if('${sessionScope.member}'.length === 0){
+                    alert("게시글 비추천 기능은 로그인 후 이용하실 수 있습니다.");
+                    return;
+                }
+
                 var memberNickname = '${sessionScope.member.nickname}';
                 var recommendpost = '${sessionScope.member.recommendpost}';
                 var postNumber = parseInt('${post.postNumber}');
@@ -92,6 +101,13 @@
         #recommendButton{
             margin-left: 500px;
         }
+        #postContent{
+            margin-left: 200px;
+        }
+        img{
+            height: auto;
+            width: 600px;
+        }
     </style>
 </head>
 <body>
@@ -111,7 +127,7 @@
 	                           	</thead>
 	                           	<tbody>
 	                           		<tr>
-	                           			<td><pre>${post.postContent }</pre></td>
+	                           			<td><pre id="postContent">${post.postContent }</pre></td>
 	                           		</tr>
 	                           	</tbody>
                             </table>
@@ -131,6 +147,19 @@
                             <c:if test = "${sessionScope.member.nickname == post.nickname}">
                             	<a href="${pageContext.request.contextPath}/postModify.do?postNumber=${post.postNumber}">수정</a>
                             </c:if>
+                            <hr>
+                            <c:if test="${sessionScope.member == null}">
+                                <p>로그인 후 댓글을 작성할 수 있습니다.</p>
+                            </c:if>
+                            <c:if test="${sessionScope.member != null}">
+                                <div>
+                                    <p>
+                                        ${sessionScope.member.nickname}
+                                        <textarea name="" id="" cols="30" rows="10"></textarea>
+                                    </p>
+                                </div>
+                            </c:if>
+
                         </div>
                     </div>
                 </div>
