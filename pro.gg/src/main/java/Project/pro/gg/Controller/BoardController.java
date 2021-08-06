@@ -190,10 +190,20 @@ public class BoardController{
     public String postDetail(@RequestParam("postNumber") int postNumber, Model model){
         // 게시글 출력 로직은 승진이형 코드 리베이스 받으면서 가져온다.
         // 지금은 조회수 변경 기능만 구현
+        PostDTO postDTO = postService.selectPostBy_postNumber(postNumber);;
+        MemberDTO memberDTO = null;
 
-        PostDTO postDTO = postService.selectPostBy_postNumber(postNumber);
-        HttpSession session = MemberController.session;
-        MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
+        try{
+            HttpSession session = MemberController.session;
+            memberDTO = (MemberDTO) session.getAttribute("member");
+        }catch (NullPointerException no){
+            no.getStackTrace();
+
+            // 로그인이 안 된 상태일 경우 조회수를 높이지 않는다.
+            model.addAttribute("post", postDTO);
+            return "../board/postDetail";
+        }
+
 
         // 작성자가 아닌 사람이 클릭 했을 경우 조회수 증가
         // 작성자 본인이 클릭한 경우 조회수가 증가하지 않게끔 한다.
