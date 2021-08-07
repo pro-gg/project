@@ -18,14 +18,15 @@
             $('#recommendButton').click(function(){
                 if('${sessionScope.member}'.length === 0){
                     alert("게시글 추천 기능은 로그인 후 이용하실 수 있습니다.");
-                    return;
+                    window.location.href='${pageContext.request.contextPath}/move/login.do';
                 }
                 var memberNickname = '${sessionScope.member.nickname}';
                 var not_recommendpost = '${sessionScope.member.not_recommendpost}';
+                console.log(not_recommendpost);
                 var postNumber = parseInt('${post.postNumber}');
                 var jsonObj = undefined;
 
-                if(not_recommendpost !== '[]'){
+                if(not_recommendpost !== '[]' && not_recommendpost !== ''){
                     jsonObj = JSON.parse(not_recommendpost);
                     for(var i = 0; i < jsonObj.length; i++){
                         if(jsonObj[i] === postNumber){
@@ -58,7 +59,7 @@
             $('#not_recommendButton').click(function(){
                 if('${sessionScope.member}'.length === 0){
                     alert("게시글 비추천 기능은 로그인 후 이용하실 수 있습니다.");
-                    return;
+                    window.location.href='${pageContext.request.contextPath}/move/login.do';
                 }
 
                 var memberNickname = '${sessionScope.member.nickname}';
@@ -66,7 +67,7 @@
                 var postNumber = parseInt('${post.postNumber}');
                 var jsonObj = undefined;
 
-                if(recommendpost !== '[]'){
+                if(recommendpost !== '[]' && recommendpost !== ''){
                     jsonObj = JSON.parse(recommendpost);
                     for(var i = 0; i < jsonObj.length; i++){
                         if(jsonObj[i] === postNumber){
@@ -107,6 +108,9 @@
         img{
             height: auto;
             width: 600px;
+        }
+        #replyArea, #registerReply{
+            margin-left: 20px;
         }
     </style>
 </head>
@@ -152,14 +156,14 @@
                                 <p>로그인 후 댓글을 작성할 수 있습니다.</p>
                             </c:if>
                             <c:if test="${sessionScope.member != null}">
-                                <div>
-                                    <p>
-                                        ${sessionScope.member.nickname}
-                                        <textarea name="" id="" cols="30" rows="10"></textarea>
-                                    </p>
-                                </div>
+                                <table>
+                                    <thead>
+                                        <th><b id="nickname">${sessionScope.member.nickname}</b></th>
+                                        <th><textarea name="" id="replyArea" cols="100" rows="2"></textarea></th>
+                                        <th><button id="registerReply">등록하기</button></th>
+                                    </thead>
+                                </table>
                             </c:if>
-
                         </div>
                     </div>
                 </div>
