@@ -96,7 +96,54 @@
                     }
                 }
             })
+
+            $.ajax({
+                type:'get',
+                url:'${pageContext.request.contextPath}/callReplyList.do?postNumber='+'${post.postNumber}',
+                data:'',
+                dataType:'',
+                success:function(data){
+                    $("#replyList").html(data);
+                }
+            })
         })
+
+        function replyRegister(postNumber){
+
+            let today = new Date();
+
+            let year = today.getFullYear();
+            let month = today.getMonth() + 1;
+            let date = today.getDate();
+            let time = today.getTime();
+
+            var hour = today.getHours();
+            var minutes = today.getMinutes();
+            var seconds = today.getSeconds();
+
+            var replyDate = year + "." + month +"." + date;
+            var replyTime = hour + ":" + minutes + ":" + seconds;
+
+            var replyContent = document.getElementById("replyArea").value;
+
+            var reply = {
+                replyDate : replyDate,
+                replyTime : replyTime,
+                replyContent : replyContent,
+                postNumber : postNumber
+            }
+
+            $.ajax({
+
+                type:'get',
+                url:'${pageContext.request.contextPath}/replyregister.do?reply='+encodeURI(JSON.stringify(reply)),
+                data:'',
+                dataType:'',
+                success:function(data){
+                    window.location.reload();
+                }
+            })
+        }
     </script>
     <style>
         #recommendButton{
@@ -160,10 +207,11 @@
                                     <thead>
                                         <th><b id="nickname">${sessionScope.member.nickname}</b></th>
                                         <th><textarea name="" id="replyArea" cols="100" rows="2"></textarea></th>
-                                        <th><button id="registerReply">등록하기</button></th>
+                                        <th><button id="registerReply" onclick="replyRegister('${post.postNumber}')">등록하기</button></th>
                                     </thead>
                                 </table>
                             </c:if>
+                            <div id="replyList"></div>
                         </div>
                     </div>
                 </div>
