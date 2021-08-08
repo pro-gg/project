@@ -14,9 +14,10 @@ public class ReplyDTO {
 
     private Long replyNumber; // 댓글 번호 순번
     private Long postNumber;
-    private Blob replyContent;
+    private String replyContent;
     private String nickname;
     private String replyDate;
+    private String replyTime;
     private int replyRecommendCount;
     private int replyNotRecommendCount;
 }

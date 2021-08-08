@@ -26,7 +26,7 @@
             }else{
                 document.getElementById(count).innerHTML = postDate;
             }
-        }
+    }
      
      function selChange(){
     	 	var sel = document.getElementById('cntPerPage').value;

@@ -3,10 +3,7 @@ package Project.pro.gg.Controller;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -14,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import Project.pro.gg.Model.ReplyDTO;
 import Project.pro.gg.Service.MemberServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONArray;
@@ -377,6 +375,49 @@ public class BoardController{
         session.setAttribute("member", memberDTO);
 
         return "redirect:/postdetail.do?postNumber="+postNumber;
+    }
+
+    @GetMapping("/replyregister.do")
+    public String replyRegister(@RequestParam("reply") String reply){
+        MemberDTO memberDTO = null;
+        ReplyDTO replyDTO = new ReplyDTO();
+
+        HttpSession session = MemberController.session;
+        memberDTO = (MemberDTO) session.getAttribute("member");
+
+        Long postNumber = null;
+        try{
+            JSONObject jsonObject = new JSONObject(reply);
+
+            postNumber = jsonObject.getLong("postNumber");
+            String replyDate = jsonObject.getString("replyDate");
+            String replyTime = jsonObject.getString("replyTime");
+            String replyContent = jsonObject.getString("replyContent");
+
+            replyDTO.setNickname(memberDTO.getNickname());
+            replyDTO.setReplyDate(replyDate);
+            replyDTO.setReplyTime(replyTime);
+            replyDTO.setReplyContent(replyContent);
+            replyDTO.setPostNumber(postNumber);
+            replyDTO.setReplyRecommendCount(0);
+            replyDTO.setReplyNotRecommendCount(0);
+
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        replyService.replyInsert(replyDTO);
+        return "redirect:/postdetail.do?postNumber="+postNumber;
+    }
+
+    @GetMapping("/callReplyList.do")
+    public String callReplyList(@RequestParam("postNumber") Long postNumber, Model model){
+
+        List<ReplyDTO> replyDTOList =  replyService.callreplyList(postNumber);
+        Collections.reverse(replyDTOList);
+        model.addAttribute("replyDTOList", replyDTOList);
+        model.addAttribute("replyListSize", replyDTOList.size());
+        return "../board/replyList";
     }
 
 }
