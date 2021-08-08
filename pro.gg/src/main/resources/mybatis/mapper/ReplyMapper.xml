@@ -13,4 +13,18 @@
         where postNumber = #{postNumber}
     </select>
 
+    <select id="selectReplyBy_replyNumber" parameterType="Integer" resultType="Project.pro.gg.Model.ReplyDTO">
+        select * from boardreply
+        where replyNumber = #{replyNumber}
+    </select>
+    
+    <select id="updateRecommendCount">
+        update boardreply set replyRecommendCount = #{replyRecommendCount}
+        where replyNumber = #{replyNumber}
+    </select>
+
+    <select id="updateNotRecommendCount">
+        update boardreply set replyNotRecommendCount = #{replyNotRecommendCount}
+        where replyNumber = #{replyNumber}
+    </select>
 </mapper>

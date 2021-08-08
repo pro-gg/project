@@ -22,7 +22,6 @@
                 }
                 var memberNickname = '${sessionScope.member.nickname}';
                 var not_recommendpost = '${sessionScope.member.not_recommendpost}';
-                console.log(not_recommendpost);
                 var postNumber = parseInt('${post.postNumber}');
                 var jsonObj = undefined;
 

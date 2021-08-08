@@ -21,4 +21,19 @@ public class ReplyServiceImpl implements ReplyService{
     public List<ReplyDTO> callreplyList(Long postNumber) {
         return replyRepository.callreplyList(postNumber);
     }
+
+    @Override
+    public ReplyDTO selectReplyBy_replyNumber(int replyNumber) {
+        return replyRepository.selectReplyBy_replyNumber(replyNumber);
+    }
+
+    @Override
+    public void updateRecommendCount(ReplyDTO replyDTO) {
+        replyRepository.updateRecommendCount(replyDTO);
+    }
+
+    @Override
+    public void updateNotRecommendCount(ReplyDTO replyDTO) {
+        replyRepository.updateNotRecommendCount(replyDTO);
+    }
 }

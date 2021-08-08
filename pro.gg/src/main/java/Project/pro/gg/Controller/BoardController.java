@@ -328,7 +328,6 @@ public class BoardController{
             str_jsonArray = jsonArray.toString();
             memberDTO.setNot_recommendpost(str_jsonArray);
 
-            memberService.updateRecommendPost(memberDTO);
             memberService.updateNotRecommendPost(memberDTO);
 
             postDTO.setPostNotRecommendCount(postDTO.getPostNotRecommendCount()+1);
@@ -418,6 +417,132 @@ public class BoardController{
         model.addAttribute("replyDTOList", replyDTOList);
         model.addAttribute("replyListSize", replyDTOList.size());
         return "../board/replyList";
+    }
+
+    @GetMapping("/replyRecommendClick.do")
+    public String replyRecommendClick(@RequestParam("replyNumber") int replyNumber, @RequestParam("nickname") String nickname) throws JSONException {
+
+        ReplyDTO replyDTO = replyService.selectReplyBy_replyNumber(replyNumber);
+        MemberDTO memberDTO = memberService.findByNickname(nickname);
+        String str_recommendReply = memberDTO.getRecommendreply();
+        String str_jsonArray = null;
+
+        if (str_recommendReply == null){
+            JSONArray jsonArray = new JSONArray();
+            jsonArray.put(replyNumber);
+
+            str_jsonArray = jsonArray.toString();
+            memberDTO.setRecommendreply(str_jsonArray);
+
+            memberService.updateRecommendReply(memberDTO);
+
+            replyDTO.setReplyRecommendCount(replyDTO.getReplyRecommendCount()+1);
+            replyService.updateRecommendCount(replyDTO);
+        }else {
+            // 처음 추천 버튼을 누른게 아닌경우 처리
+            JSONArray jsonArray = new JSONArray(str_recommendReply);
+            boolean exist_recommend = false;
+
+            // 이미 눌렀던 댓글 인지 아닌지 판별(순차 탐색)
+            for (int i = 0; i < jsonArray.length(); i++) {
+                // 현재까지 추천 버튼을 누른 댓글 과의 비교
+                if (replyNumber == (Integer) jsonArray.get(i)) {
+                    // 비추천 버튼을 누른 적 있는 댓글일 경우 처리
+                    exist_recommend = true;
+
+                    // 회원 데이터에서 댓글 추천 기록 삭제
+                    jsonArray.remove(i);
+                    str_jsonArray = jsonArray.toString();
+                    memberDTO.setRecommendreply(str_jsonArray);
+                    memberService.updateRecommendReply(memberDTO);
+
+                    // 해당 댓글에서 추천 횟수 1회 감소
+                    replyDTO.setReplyRecommendCount(replyDTO.getReplyRecommendCount() - 1);
+                    replyService.updateRecommendCount(replyDTO);
+                    break;
+                }
+            }
+
+            // 반복문을 모두 거쳤음에도 추천 버튼을 누른 게시글들 중에 글 번호가 일치하는 경우가 없는 경우
+            // 즉, 이전에 추천 버튼을 누른적이 없는 게시글일 경우 처리
+            if (exist_recommend == false) {
+                jsonArray.put(replyNumber);
+                str_jsonArray = jsonArray.toString();
+                memberDTO.setRecommendreply(str_jsonArray);
+                memberService.updateRecommendReply(memberDTO);
+
+                replyDTO.setReplyRecommendCount(replyDTO.getReplyRecommendCount() + 1);
+                replyService.updateRecommendCount(replyDTO);
+            }
+        }
+
+        HttpSession session = MemberController.session;
+        session.setAttribute("member", memberDTO);
+
+        return "redirect:/postdetail.do?postNumber="+replyDTO.getPostNumber();
+    }
+
+    @GetMapping("/replyNotRecommendClick.do")
+    public String replyNotRecommendClick(@RequestParam("replyNumber") int replyNumber, @RequestParam("nickname") String nickname) throws JSONException {
+
+        ReplyDTO replyDTO = replyService.selectReplyBy_replyNumber(replyNumber);
+        MemberDTO memberDTO = memberService.findByNickname(nickname);
+        String str_NotrecommendReply = memberDTO.getNot_recommendreply();
+        String str_jsonArray = null;
+
+        if (str_NotrecommendReply == null){
+            JSONArray jsonArray = new JSONArray();
+            jsonArray.put(replyNumber);
+
+            str_jsonArray = jsonArray.toString();
+            memberDTO.setNot_recommendreply(str_jsonArray);
+
+            memberService.updateNotRecommendReply(memberDTO);
+
+            replyDTO.setReplyNotRecommendCount(replyDTO.getReplyNotRecommendCount()+1);
+            replyService.updateNotRecommendCount(replyDTO);
+        }else {
+            // 처음 추천 버튼을 누른게 아닌경우 처리
+            JSONArray jsonArray = new JSONArray(str_NotrecommendReply);
+            boolean exist_recommend = false;
+
+            // 이미 눌렀던 댓글 인지 아닌지 판별(순차 탐색)
+            for (int i = 0; i < jsonArray.length(); i++) {
+                // 현재까지 추천 버튼을 누른 댓글 과의 비교
+                if (replyNumber == (Integer) jsonArray.get(i)) {
+                    // 비추천 버튼을 누른 적 있는 댓글일 경우 처리
+                    exist_recommend = true;
+
+                    // 회원 데이터에서 댓글 추천 기록 삭제
+                    jsonArray.remove(i);
+                    str_jsonArray = jsonArray.toString();
+                    memberDTO.setNot_recommendreply(str_jsonArray);
+                    memberService.updateNotRecommendReply(memberDTO);
+
+                    // 해당 댓글에서 추천 횟수 1회 감소
+                    replyDTO.setReplyNotRecommendCount(replyDTO.getReplyNotRecommendCount() - 1);
+                    replyService.updateNotRecommendCount(replyDTO);
+                    break;
+                }
+            }
+
+            // 반복문을 모두 거쳤음에도 추천 버튼을 누른 게시글들 중에 글 번호가 일치하는 경우가 없는 경우
+            // 즉, 이전에 추천 버튼을 누른적이 없는 게시글일 경우 처리
+            if (exist_recommend == false) {
+                jsonArray.put(replyNumber);
+                str_jsonArray = jsonArray.toString();
+                memberDTO.setNot_recommendreply(str_jsonArray);
+                memberService.updateNotRecommendReply(memberDTO);
+
+                replyDTO.setReplyNotRecommendCount(replyDTO.getReplyNotRecommendCount() + 1);
+                replyService.updateNotRecommendCount(replyDTO);
+            }
+        }
+
+        HttpSession session = MemberController.session;
+        session.setAttribute("member", memberDTO);
+
+        return "redirect:/postdetail.do?postNumber="+replyDTO.getPostNumber();
     }
 
 }

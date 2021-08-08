@@ -66,4 +66,14 @@
         update member set not_recommendpost = #{not_recommendpost}
         where nickname = #{nickname}
     </select>
+
+    <select id="updateRecommendReply">
+        update member set recommendreply = #{recommendreply}
+        where nickname = #{nickname}
+    </select>
+
+    <select id="updateNotRecommendReply">
+        update member set not_recommendreply = #{not_recommendreply}
+        where nickname = #{nickname}
+    </select>
 </mapper>

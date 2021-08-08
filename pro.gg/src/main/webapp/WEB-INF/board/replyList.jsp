@@ -27,6 +27,86 @@
                 document.getElementById(count).innerHTML = replyDate;
             }
         }
+
+        function recommendReply(replyNumber, nickname){
+            if('${sessionScope.member}'.length === 0){
+                alert("댓글 추천 기능은 로그인 이후에 이용하실 수 있습니다.");
+                window.location.href='${pageContext.request.contextPath}/move/login.do';
+            }
+
+            var memberNickname = '${sessionScope.member.nickname}';
+            var not_recommendReply = '${sessionScope.member.not_recommendreply}';
+            var replyNumber = parseInt(replyNumber);
+            var jsonObj = undefined;
+
+            if(not_recommendReply !== '[]' && not_recommendReply !== ''){
+                jsonObj = JSON.parse(not_recommendReply);
+                for(var i = 0; i < jsonObj.length; i++){
+                    if(jsonObj[i] === replyNumber){
+                        alert("추천/비추천은 한번씩만 누를 수 있습니다.");
+                        return;
+                    }
+                }
+            }
+
+            if(memberNickname.length !== 0){
+                if(memberNickname === nickname){
+                    alert("본인이 작성한 댓글은 추천, 또는 비추천을 할 수 없습니다.");
+                }
+                else{
+
+                    $.ajax({
+                        type:'get',
+                        url:'${pageContext.request.contextPath}/replyRecommendClick.do?replyNumber='+ replyNumber + '&nickname='+ memberNickname,
+                        data:'',
+                        dataType:'',
+                        success:function(data){
+                            window.location.reload();
+                        }
+                    })
+                }
+            }
+        }
+
+        function not_recommendReply(replyNumber, nickname){
+            if('${sessionScope.member}'.length === 0){
+                alert("댓글 추천 기능은 로그인 이후에 이용하실 수 있습니다.");
+                window.location.href='${pageContext.request.contextPath}/move/login.do';
+            }
+
+            var memberNickname = '${sessionScope.member.nickname}';
+            var recommendReply = '${sessionScope.member.recommendreply}';
+            var replyNumber = parseInt(replyNumber);
+            var jsonObj = undefined;
+
+            if(recommendReply !== '[]' && recommendReply !== ''){
+                jsonObj = JSON.parse(recommendReply);
+                for(var i = 0; i < jsonObj.length; i++){
+                    if(jsonObj[i] === replyNumber){
+                        alert("추천/비추천은 한번씩만 누를 수 있습니다.");
+                        return;
+                    }
+                }
+            }
+
+            if(memberNickname.length !== 0){
+                if(memberNickname === nickname){
+                    alert("본인이 작성한 댓글은 추천, 또는 비추천을 할 수 없습니다.");
+                }
+                else{
+
+                    $.ajax({
+                        type:'get',
+                        url:'${pageContext.request.contextPath}/replyNotRecommendClick.do?replyNumber='+ replyNumber + '&nickname='+ memberNickname,
+                        data:'',
+                        dataType:'',
+                        success:function(data){
+                            window.location.reload();
+                        }
+                    })
+                }
+            }
+        }
     </script>
     <style>
         #replyContent{
@@ -53,7 +133,10 @@
                         checkPostDate(replyDate, replyTime, '${status.count}');
                     </script>
                     <th id="${status.count}"></th>
-                    <th><button id="replyRecommend">추천! ${replyDTOList.replyRecommendCount}</button>&nbsp;<button id="replyNotRecommend">비추천! ${replyDTOList.replyNotRecommendCount}</button></th>
+                    <th>
+                        <button id="replyRecommend" onclick="recommendReply('${replyDTOList.replyNumber}', '${replyDTOList.nickname}')">추천! ${replyDTOList.replyRecommendCount}</button>
+                        &nbsp;
+                        <button id="replyNotRecommend" onclick="not_recommendReply('${replyDTOList.replyNumber}', '${replyDTOList.nickname}')">비추천! ${replyDTOList.replyNotRecommendCount}</button></th>
                 </thead>                         
             </c:forEach>
        

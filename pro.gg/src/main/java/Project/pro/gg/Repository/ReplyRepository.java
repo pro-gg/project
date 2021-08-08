@@ -23,4 +23,19 @@ public class ReplyRepository implements ReplyDAO {
     public List<ReplyDTO> callreplyList(Long postNumber) {
         return sqlSession.selectList("reply.replyList", postNumber);
     }
+
+    @Override
+    public ReplyDTO selectReplyBy_replyNumber(int replyNumber) {
+        return sqlSession.selectOne("reply.selectReplyBy_replyNumber", replyNumber);
+    }
+
+    @Override
+    public void updateRecommendCount(ReplyDTO replyDTO) {
+        sqlSession.update("reply.updateRecommendCount", replyDTO);
+    }
+
+    @Override
+    public void updateNotRecommendCount(ReplyDTO replyDTO) {
+        sqlSession.update("reply.updateNotRecommendCount", replyDTO);
+    }
 }
