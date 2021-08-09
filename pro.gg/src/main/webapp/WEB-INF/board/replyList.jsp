@@ -21,7 +21,7 @@
             let date = today.getDate();
 
             var currentDate = year + "." + month +"." + date;
-            if(currentDate === postDate){
+            if(currentDate === replyDate){
                 document.getElementById(count).innerHTML = replyTime;
             }else{
                 document.getElementById(count).innerHTML = replyDate;
@@ -107,39 +107,80 @@
                 }
             }
         }
+
+        function replyUpdate(replyNumber, nickname, replyContent, count){
+            var target = "contentUpdate";
+
+            $.ajax({
+                type:'get',
+                url:'${pageContext.request.contextPath}/replyUpdate.do?replyNumber=' + replyNumber + '&replyContent=' + replyContent + '&nickname=' + nickname + '&target=' + target,
+                data:'',
+                dataType:'',
+                success:function(data){
+                    $("#"+count+"update").html(data);
+                }
+            })
+        }
+
+        function replyDelete(replyNumber, nickname, replyContent){
+            var target = "replydelete";
+
+            if(confirm("댓글을 삭제 하시겠습니까?")){
+                $.ajax({
+                    type:'get',
+                    url:'${pageContext.request.contextPath}/replyUpdate.do?replyNumber=' + replyNumber + '&replyContent=' + replyContent + '&nickname=' + nickname + '&target=' + target,
+                    data:'',
+                    dataType:'',
+                    success:function(data){
+                        window.location.reload();
+                    }
+                })
+            }  
+        }
     </script>
     <style>
-        #replyContent{
-            padding-left: 25px;
-
-            width: 500px;
+        ul{
+            list-style: none;
         }
-        #replyRecommend{
-            margin-left: 450px;
+        #replyContent{
+            /* padding-left: 25px; */
+
+            width: 600px;
+        }
+        #updateORdelete{
+            float: right;
         }
     </style>
 </head>
 <body>
-    <table>
         <p>총 ${replyListSize} 개 댓글</p>
         <hr>
             <c:forEach var="replyDTOList" items="${replyDTOList}" varStatus="status">
-                <thead>
-                    <th id="nickname">${replyDTOList.nickname}</th>
-                    <th id="replyContent">${replyDTOList.replyContent}</th>
+                <ul id="${status.count}update">
                     <script>
                         var replyDate = '${replyDTOList.replyDate}';
                         var replyTime = '${replyDTOList.replyTime}';
                         checkPostDate(replyDate, replyTime, '${status.count}');
                     </script>
-                    <th id="${status.count}"></th>
-                    <th>
+                    <li>
+                        <b>${replyDTOList.nickname}</b>
+                        &nbsp;
+                        <small id="${status.count}"></small>
+                        <div id="updateORdelete">
+                            <c:if test='${sessionScope.member.nickname == replyDTOList.nickname}'>
+                                <a href="#" onclick="replyUpdate('${replyDTOList.replyNumber}', '${replyDTOList.nickname}', '${replyDTOList.replyContent}', '${status.count}')">수정</a>
+                                &nbsp;
+                                <a href="#" onclick="replyDelete('${replyDTOList.replyNumber}', '${replyDTOList.nickname}', '${replyDTOList.replyContent}')">삭제</a>
+                            </c:if>
+                        </div>
+                    </li>
+                    <li id="replyContent">${replyDTOList.replyContent}</li>   
+                    <li>
                         <button id="replyRecommend" onclick="recommendReply('${replyDTOList.replyNumber}', '${replyDTOList.nickname}')">추천! ${replyDTOList.replyRecommendCount}</button>
                         &nbsp;
-                        <button id="replyNotRecommend" onclick="not_recommendReply('${replyDTOList.replyNumber}', '${replyDTOList.nickname}')">비추천! ${replyDTOList.replyNotRecommendCount}</button></th>
-                </thead>                         
+                        <button id="replyNotRecommend" onclick="not_recommendReply('${replyDTOList.replyNumber}', '${replyDTOList.nickname}')">비추천! ${replyDTOList.replyNotRecommendCount}</button>
+                    </li>
+                </ul>                         
             </c:forEach>
-       
-    </table>
 </body>
 </html>

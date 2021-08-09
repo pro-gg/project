@@ -38,4 +38,14 @@ public class ReplyRepository implements ReplyDAO {
     public void updateNotRecommendCount(ReplyDTO replyDTO) {
         sqlSession.update("reply.updateNotRecommendCount", replyDTO);
     }
+
+    @Override
+    public void updateReply(ReplyDTO replyDTO) {
+        sqlSession.update("reply.updateReply", replyDTO);
+    }
+
+    @Override
+    public void replyDelete(ReplyDTO replyDTO) {
+        sqlSession.delete("reply.replyDelete", replyDTO);
+    }
 }
