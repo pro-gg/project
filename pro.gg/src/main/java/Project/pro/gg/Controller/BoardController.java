@@ -545,4 +545,46 @@ public class BoardController{
         return "redirect:/postdetail.do?postNumber="+replyDTO.getPostNumber();
     }
 
+    @GetMapping("/replyUpdate.do")
+    public String replyUpdate(@RequestParam("replyNumber") String str_replyNumber, @RequestParam("replyContent") String replyContent,
+                              @RequestParam("nickname") String nickname, @RequestParam("target") String target, Model model){
+
+        Long replyNumber = Long.parseLong(str_replyNumber);
+        ReplyDTO replyDTO = new ReplyDTO();
+        // 댓글 수정폼으로 이동
+        if (target.equals("contentUpdate")){
+
+            replyDTO.setReplyNumber(replyNumber);
+            replyDTO.setNickname(nickname);
+            replyDTO.setReplyContent(replyContent);
+
+            model.addAttribute("reply", replyDTO);
+            return "../board/replyUpdateForm";
+        }
+        // 수정 폼에서 수정 버튼이 클릭 되었을 경우 처리
+        else if (target.equals("replyUpdate")){
+            replyDTO.setReplyNumber(replyNumber);
+            replyDTO.setNickname(nickname);
+            replyDTO.setReplyContent(replyContent);
+
+            replyService.updateReply(replyDTO);
+            int integer_replyNumber = Integer.parseInt(str_replyNumber);
+            replyDTO = replyService.selectReplyBy_replyNumber(integer_replyNumber);
+            return "redirect:/postdetail.do?postNumber="+replyDTO.getPostNumber();
+        } // 댓글 삭제 버튼이 눌려졌을 경우 처리
+        else{
+            replyDTO.setReplyNumber(replyNumber);
+            replyDTO.setNickname(nickname);
+            replyDTO.setReplyContent(replyContent);
+
+            int integer_replyNumber = Integer.parseInt(str_replyNumber);
+            replyDTO = replyService.selectReplyBy_replyNumber(integer_replyNumber);
+            Long postNumber = replyDTO.getPostNumber();
+
+            replyService.replyDelete(replyDTO);
+
+            return "redirect:/postdetail.do?postNumber="+postNumber;
+        }
+    }
+
 }

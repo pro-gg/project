@@ -17,4 +17,8 @@ public interface ReplyService {
     public void updateRecommendCount(ReplyDTO replyDTO);
 
     public void updateNotRecommendCount(ReplyDTO replyDTO);
+
+    public void updateReply(ReplyDTO replyDTO);
+
+    public void replyDelete(ReplyDTO replyDTO);
 }

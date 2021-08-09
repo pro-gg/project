@@ -27,4 +27,14 @@
         update boardreply set replyNotRecommendCount = #{replyNotRecommendCount}
         where replyNumber = #{replyNumber}
     </select>
+    
+    <select id="updateReply" parameterType="Project.pro.gg.Model.ReplyDTO">
+        update boardreply set replyContent = #{replyContent}
+        where replyNumber = #{replyNumber} and nickname = #{nickname}
+    </select>
+
+    <select id="replyDelete" parameterType="Project.pro.gg.Model.ReplyDTO">
+        delete from boardreply
+        where replyNumber = #{replyNumber} and nickname = #{nickname}
+    </select>
 </mapper>

@@ -36,4 +36,14 @@ public class ReplyServiceImpl implements ReplyService{
     public void updateNotRecommendCount(ReplyDTO replyDTO) {
         replyRepository.updateNotRecommendCount(replyDTO);
     }
+
+    @Override
+    public void updateReply(ReplyDTO replyDTO) {
+        replyRepository.updateReply(replyDTO);
+    }
+
+    @Override
+    public void replyDelete(ReplyDTO replyDTO) {
+        replyRepository.replyDelete(replyDTO);
+    }
 }
