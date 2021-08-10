@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="reply">
+
+    <select id="insertReply" parameterType="Project.pro.gg.Model.ReplyDTO">
+        insert into boardreply(postNumber, replyDate, replyTime, replyContent, nickname, replyRecommendCount, replyNotRecommendCount)
+        values(#{postNumber}, #{replyDate}, #{replyTime}, #{replyContent}, #{nickname}, #{replyRecommendCount}, #{replyNotRecommendCount})
+    </select>
+
+    <select id="replyList" parameterType="Long" resultType="Map">
+        select * from boardreply
+        where postNumber = #{postNumber}
+    </select>
+
+    <select id="selectReplyBy_replyNumber" parameterType="Integer" resultType="Project.pro.gg.Model.ReplyDTO">
+        select * from boardreply
+        where replyNumber = #{replyNumber}
+    </select>
+    
+    <select id="updateRecommendCount">
+        update boardreply set replyRecommendCount = #{replyRecommendCount}
+        where replyNumber = #{replyNumber}
+    </select>
+
+    <select id="updateNotRecommendCount">
+        update boardreply set replyNotRecommendCount = #{replyNotRecommendCount}
+        where replyNumber = #{replyNumber}
+    </select>
+    
+    <select id="updateReply" parameterType="Project.pro.gg.Model.ReplyDTO">
+        update boardreply set replyContent = #{replyContent}
+        where replyNumber = #{replyNumber} and nickname = #{nickname}
+    </select>
+
+    <select id="replyDelete" parameterType="Project.pro.gg.Model.ReplyDTO">
+        delete from boardreply
+        where replyNumber = #{replyNumber} and nickname = #{nickname}
+    </select>
+</mapper>

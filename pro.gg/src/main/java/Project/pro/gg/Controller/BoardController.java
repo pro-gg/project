@@ -3,10 +3,7 @@ package Project.pro.gg.Controller;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -14,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import Project.pro.gg.Model.ReplyDTO;
 import Project.pro.gg.Service.MemberServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONArray;
@@ -190,10 +188,20 @@ public class BoardController{
     public String postDetail(@RequestParam("postNumber") int postNumber, Model model){
         // 게시글 출력 로직은 승진이형 코드 리베이스 받으면서 가져온다.
         // 지금은 조회수 변경 기능만 구현
+        PostDTO postDTO = postService.selectPostBy_postNumber(postNumber);;
+        MemberDTO memberDTO = null;
 
-        PostDTO postDTO = postService.selectPostBy_postNumber(postNumber);
-        HttpSession session = MemberController.session;
-        MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
+        try{
+            HttpSession session = MemberController.session;
+            memberDTO = (MemberDTO) session.getAttribute("member");
+        }catch (NullPointerException no){
+            no.getStackTrace();
+
+            // 로그인이 안 된 상태일 경우 조회수를 높이지 않는다.
+            model.addAttribute("post", postDTO);
+            return "../board/postDetail";
+        }
+
 
         // 작성자가 아닌 사람이 클릭 했을 경우 조회수 증가
         // 작성자 본인이 클릭한 경우 조회수가 증가하지 않게끔 한다.
@@ -320,7 +328,6 @@ public class BoardController{
             str_jsonArray = jsonArray.toString();
             memberDTO.setNot_recommendpost(str_jsonArray);
 
-            memberService.updateRecommendPost(memberDTO);
             memberService.updateNotRecommendPost(memberDTO);
 
             postDTO.setPostNotRecommendCount(postDTO.getPostNotRecommendCount()+1);
@@ -367,6 +374,217 @@ public class BoardController{
         session.setAttribute("member", memberDTO);
 
         return "redirect:/postdetail.do?postNumber="+postNumber;
+    }
+
+    @GetMapping("/replyregister.do")
+    public String replyRegister(@RequestParam("reply") String reply){
+        MemberDTO memberDTO = null;
+        ReplyDTO replyDTO = new ReplyDTO();
+
+        HttpSession session = MemberController.session;
+        memberDTO = (MemberDTO) session.getAttribute("member");
+
+        Long postNumber = null;
+        try{
+            JSONObject jsonObject = new JSONObject(reply);
+
+            postNumber = jsonObject.getLong("postNumber");
+            String replyDate = jsonObject.getString("replyDate");
+            String replyTime = jsonObject.getString("replyTime");
+            String replyContent = jsonObject.getString("replyContent");
+
+            replyDTO.setNickname(memberDTO.getNickname());
+            replyDTO.setReplyDate(replyDate);
+            replyDTO.setReplyTime(replyTime);
+            replyDTO.setReplyContent(replyContent);
+            replyDTO.setPostNumber(postNumber);
+            replyDTO.setReplyRecommendCount(0);
+            replyDTO.setReplyNotRecommendCount(0);
+
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        replyService.replyInsert(replyDTO);
+        return "redirect:/postdetail.do?postNumber="+postNumber;
+    }
+
+    @GetMapping("/callReplyList.do")
+    public String callReplyList(@RequestParam("postNumber") Long postNumber, Model model){
+
+        List<ReplyDTO> replyDTOList =  replyService.callreplyList(postNumber);
+        Collections.reverse(replyDTOList);
+        model.addAttribute("replyDTOList", replyDTOList);
+        model.addAttribute("replyListSize", replyDTOList.size());
+        return "../board/replyList";
+    }
+
+    @GetMapping("/replyRecommendClick.do")
+    public String replyRecommendClick(@RequestParam("replyNumber") int replyNumber, @RequestParam("nickname") String nickname) throws JSONException {
+
+        ReplyDTO replyDTO = replyService.selectReplyBy_replyNumber(replyNumber);
+        MemberDTO memberDTO = memberService.findByNickname(nickname);
+        String str_recommendReply = memberDTO.getRecommendreply();
+        String str_jsonArray = null;
+
+        if (str_recommendReply == null){
+            JSONArray jsonArray = new JSONArray();
+            jsonArray.put(replyNumber);
+
+            str_jsonArray = jsonArray.toString();
+            memberDTO.setRecommendreply(str_jsonArray);
+
+            memberService.updateRecommendReply(memberDTO);
+
+            replyDTO.setReplyRecommendCount(replyDTO.getReplyRecommendCount()+1);
+            replyService.updateRecommendCount(replyDTO);
+        }else {
+            // 처음 추천 버튼을 누른게 아닌경우 처리
+            JSONArray jsonArray = new JSONArray(str_recommendReply);
+            boolean exist_recommend = false;
+
+            // 이미 눌렀던 댓글 인지 아닌지 판별(순차 탐색)
+            for (int i = 0; i < jsonArray.length(); i++) {
+                // 현재까지 추천 버튼을 누른 댓글 과의 비교
+                if (replyNumber == (Integer) jsonArray.get(i)) {
+                    // 비추천 버튼을 누른 적 있는 댓글일 경우 처리
+                    exist_recommend = true;
+
+                    // 회원 데이터에서 댓글 추천 기록 삭제
+                    jsonArray.remove(i);
+                    str_jsonArray = jsonArray.toString();
+                    memberDTO.setRecommendreply(str_jsonArray);
+                    memberService.updateRecommendReply(memberDTO);
+
+                    // 해당 댓글에서 추천 횟수 1회 감소
+                    replyDTO.setReplyRecommendCount(replyDTO.getReplyRecommendCount() - 1);
+                    replyService.updateRecommendCount(replyDTO);
+                    break;
+                }
+            }
+
+            // 반복문을 모두 거쳤음에도 추천 버튼을 누른 게시글들 중에 글 번호가 일치하는 경우가 없는 경우
+            // 즉, 이전에 추천 버튼을 누른적이 없는 게시글일 경우 처리
+            if (exist_recommend == false) {
+                jsonArray.put(replyNumber);
+                str_jsonArray = jsonArray.toString();
+                memberDTO.setRecommendreply(str_jsonArray);
+                memberService.updateRecommendReply(memberDTO);
+
+                replyDTO.setReplyRecommendCount(replyDTO.getReplyRecommendCount() + 1);
+                replyService.updateRecommendCount(replyDTO);
+            }
+        }
+
+        HttpSession session = MemberController.session;
+        session.setAttribute("member", memberDTO);
+
+        return "redirect:/postdetail.do?postNumber="+replyDTO.getPostNumber();
+    }
+
+    @GetMapping("/replyNotRecommendClick.do")
+    public String replyNotRecommendClick(@RequestParam("replyNumber") int replyNumber, @RequestParam("nickname") String nickname) throws JSONException {
+
+        ReplyDTO replyDTO = replyService.selectReplyBy_replyNumber(replyNumber);
+        MemberDTO memberDTO = memberService.findByNickname(nickname);
+        String str_NotrecommendReply = memberDTO.getNot_recommendreply();
+        String str_jsonArray = null;
+
+        if (str_NotrecommendReply == null){
+            JSONArray jsonArray = new JSONArray();
+            jsonArray.put(replyNumber);
+
+            str_jsonArray = jsonArray.toString();
+            memberDTO.setNot_recommendreply(str_jsonArray);
+
+            memberService.updateNotRecommendReply(memberDTO);
+
+            replyDTO.setReplyNotRecommendCount(replyDTO.getReplyNotRecommendCount()+1);
+            replyService.updateNotRecommendCount(replyDTO);
+        }else {
+            // 처음 추천 버튼을 누른게 아닌경우 처리
+            JSONArray jsonArray = new JSONArray(str_NotrecommendReply);
+            boolean exist_recommend = false;
+
+            // 이미 눌렀던 댓글 인지 아닌지 판별(순차 탐색)
+            for (int i = 0; i < jsonArray.length(); i++) {
+                // 현재까지 추천 버튼을 누른 댓글 과의 비교
+                if (replyNumber == (Integer) jsonArray.get(i)) {
+                    // 비추천 버튼을 누른 적 있는 댓글일 경우 처리
+                    exist_recommend = true;
+
+                    // 회원 데이터에서 댓글 추천 기록 삭제
+                    jsonArray.remove(i);
+                    str_jsonArray = jsonArray.toString();
+                    memberDTO.setNot_recommendreply(str_jsonArray);
+                    memberService.updateNotRecommendReply(memberDTO);
+
+                    // 해당 댓글에서 추천 횟수 1회 감소
+                    replyDTO.setReplyNotRecommendCount(replyDTO.getReplyNotRecommendCount() - 1);
+                    replyService.updateNotRecommendCount(replyDTO);
+                    break;
+                }
+            }
+
+            // 반복문을 모두 거쳤음에도 추천 버튼을 누른 게시글들 중에 글 번호가 일치하는 경우가 없는 경우
+            // 즉, 이전에 추천 버튼을 누른적이 없는 게시글일 경우 처리
+            if (exist_recommend == false) {
+                jsonArray.put(replyNumber);
+                str_jsonArray = jsonArray.toString();
+                memberDTO.setNot_recommendreply(str_jsonArray);
+                memberService.updateNotRecommendReply(memberDTO);
+
+                replyDTO.setReplyNotRecommendCount(replyDTO.getReplyNotRecommendCount() + 1);
+                replyService.updateNotRecommendCount(replyDTO);
+            }
+        }
+
+        HttpSession session = MemberController.session;
+        session.setAttribute("member", memberDTO);
+
+        return "redirect:/postdetail.do?postNumber="+replyDTO.getPostNumber();
+    }
+
+    @GetMapping("/replyUpdate.do")
+    public String replyUpdate(@RequestParam("replyNumber") String str_replyNumber, @RequestParam("replyContent") String replyContent,
+                              @RequestParam("nickname") String nickname, @RequestParam("target") String target, Model model){
+
+        Long replyNumber = Long.parseLong(str_replyNumber);
+        ReplyDTO replyDTO = new ReplyDTO();
+        // 댓글 수정폼으로 이동
+        if (target.equals("contentUpdate")){
+
+            replyDTO.setReplyNumber(replyNumber);
+            replyDTO.setNickname(nickname);
+            replyDTO.setReplyContent(replyContent);
+
+            model.addAttribute("reply", replyDTO);
+            return "../board/replyUpdateForm";
+        }
+        // 수정 폼에서 수정 버튼이 클릭 되었을 경우 처리
+        else if (target.equals("replyUpdate")){
+            replyDTO.setReplyNumber(replyNumber);
+            replyDTO.setNickname(nickname);
+            replyDTO.setReplyContent(replyContent);
+
+            replyService.updateReply(replyDTO);
+            int integer_replyNumber = Integer.parseInt(str_replyNumber);
+            replyDTO = replyService.selectReplyBy_replyNumber(integer_replyNumber);
+            return "redirect:/postdetail.do?postNumber="+replyDTO.getPostNumber();
+        } // 댓글 삭제 버튼이 눌려졌을 경우 처리
+        else{
+            replyDTO.setReplyNumber(replyNumber);
+            replyDTO.setNickname(nickname);
+            replyDTO.setReplyContent(replyContent);
+
+            int integer_replyNumber = Integer.parseInt(str_replyNumber);
+            replyDTO = replyService.selectReplyBy_replyNumber(integer_replyNumber);
+            Long postNumber = replyDTO.getPostNumber();
+
+            replyService.replyDelete(replyDTO);
+
+            return "redirect:/postdetail.do?postNumber="+postNumber;
+        }
     }
 
 }

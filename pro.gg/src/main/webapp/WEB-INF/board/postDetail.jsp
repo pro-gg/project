@@ -16,12 +16,16 @@
     <script>
         $(function(){
             $('#recommendButton').click(function(){
+                if('${sessionScope.member}'.length === 0){
+                    alert("게시글 추천 기능은 로그인 후 이용하실 수 있습니다.");
+                    window.location.href='${pageContext.request.contextPath}/move/login.do';
+                }
                 var memberNickname = '${sessionScope.member.nickname}';
                 var not_recommendpost = '${sessionScope.member.not_recommendpost}';
                 var postNumber = parseInt('${post.postNumber}');
                 var jsonObj = undefined;
 
-                if(not_recommendpost !== '[]'){
+                if(not_recommendpost !== '[]' && not_recommendpost !== ''){
                     jsonObj = JSON.parse(not_recommendpost);
                     for(var i = 0; i < jsonObj.length; i++){
                         if(jsonObj[i] === postNumber){
@@ -46,18 +50,23 @@
                                 window.location.reload();
                             }
                         })
-                        
+
                     }
                 }
             })
 
             $('#not_recommendButton').click(function(){
+                if('${sessionScope.member}'.length === 0){
+                    alert("게시글 비추천 기능은 로그인 후 이용하실 수 있습니다.");
+                    window.location.href='${pageContext.request.contextPath}/move/login.do';
+                }
+
                 var memberNickname = '${sessionScope.member.nickname}';
                 var recommendpost = '${sessionScope.member.recommendpost}';
                 var postNumber = parseInt('${post.postNumber}');
                 var jsonObj = undefined;
 
-                if(recommendpost !== '[]'){
+                if(recommendpost !== '[]' && recommendpost !== ''){
                     jsonObj = JSON.parse(recommendpost);
                     for(var i = 0; i < jsonObj.length; i++){
                         if(jsonObj[i] === postNumber){
@@ -86,11 +95,68 @@
                     }
                 }
             })
+
+            $.ajax({
+                type:'get',
+                url:'${pageContext.request.contextPath}/callReplyList.do?postNumber='+'${post.postNumber}',
+                data:'',
+                dataType:'',
+                success:function(data){
+                    $("#replyList").html(data);
+                }
+            })
         })
+
+        function replyRegister(postNumber){
+
+            let today = new Date();
+
+            let year = today.getFullYear();
+            let month = today.getMonth() + 1;
+            let date = today.getDate();
+            let time = today.getTime();
+
+            var hour = today.getHours();
+            var minutes = today.getMinutes();
+            var seconds = today.getSeconds();
+
+            var replyDate = year + "." + month +"." + date;
+            var replyTime = hour + ":" + minutes + ":" + seconds;
+
+            var replyContent = document.getElementById("replyArea").value;
+
+            var reply = {
+                replyDate : replyDate,
+                replyTime : replyTime,
+                replyContent : replyContent,
+                postNumber : postNumber
+            }
+
+            $.ajax({
+
+                type:'get',
+                url:'${pageContext.request.contextPath}/replyregister.do?reply='+encodeURI(JSON.stringify(reply)),
+                data:'',
+                dataType:'',
+                success:function(data){
+                    window.location.reload();
+                }
+            })
+        }
     </script>
     <style>
         #recommendButton{
             margin-left: 500px;
+        }
+        #postContent{
+            margin-left: 200px;
+        }
+        img{
+            height: auto;
+            width: 600px;
+        }
+        #replyArea, #registerReply{
+            margin-left: 20px;
         }
     </style>
 </head>
@@ -111,7 +177,7 @@
 	                           	</thead>
 	                           	<tbody>
 	                           		<tr>
-	                           			<td><pre>${post.postContent }</pre></td>
+	                           			<td><pre id="postContent">${post.postContent }</pre></td>
 	                           		</tr>
 	                           	</tbody>
                             </table>
@@ -131,6 +197,20 @@
                             <c:if test = "${sessionScope.member.nickname == post.nickname}">
                             	<a href="${pageContext.request.contextPath}/postModify.do?postNumber=${post.postNumber}">수정</a>
                             </c:if>
+                            <hr>
+                            <c:if test="${sessionScope.member == null}">
+                                <p>로그인 후 댓글을 작성할 수 있습니다.</p>
+                            </c:if>
+                            <c:if test="${sessionScope.member != null}">
+                                <table>
+                                    <thead>
+                                        <th><b id="nickname">${sessionScope.member.nickname}</b></th>
+                                        <th><textarea name="" id="replyArea" cols="100" rows="2"></textarea></th>
+                                        <th><button id="registerReply" onclick="replyRegister('${post.postNumber}')">등록하기</button></th>
+                                    </thead>
+                                </table>
+                            </c:if>
+                            <div id="replyList"></div>
                         </div>
                     </div>
                 </div>

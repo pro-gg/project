@@ -33,4 +33,8 @@ public interface MemberService{
     public void updateRecommendPost(MemberDTO memberDTO);
 
     public void updateNotRecommendPost(MemberDTO memberDTO);
+
+    public void updateRecommendReply(MemberDTO memberDTO);
+
+    public void updateNotRecommendReply(MemberDTO memberDTO);
 }
