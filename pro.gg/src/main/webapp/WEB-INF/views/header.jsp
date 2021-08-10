@@ -70,9 +70,6 @@
        						<img src="/images/person.png" id="imgPerson" alt="관리자 페이지 이동">
        					</a> -->
         			</li>
-        			<li>
-        				<a href="${pageContext.request.contextPath }/move/teammatch.do">팀 매칭</a>
-        			</li>
                     <li>
                         <a href="${pageContext.request.contextPath}/move/searchTeamName.do">팀 검색</a>
                     </li>

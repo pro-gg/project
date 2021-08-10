@@ -3,6 +3,12 @@
 <%@ page import="java.security.SecureRandom" %>
 <%@ page import="java.math.BigInteger" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+<%
+	if(session.getAttribute("member")!= null){	//세션확인
+		response.sendRedirect(request.getContextPath()+"/");
+	}
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -144,12 +150,6 @@
 			console.log(t);
 		}
 	</script>
-	<style>
-		#facebookLoingBTN{
-			margin-left: 69px;
-
-		}
-	</style>
 </head>
 <body class="back-gray">
 
@@ -187,16 +187,6 @@
 		    				<div class="row">
 		    					<div class="col-xs-10 offset-xs-1">
 		    						<input type="submit" class="btn btn-color btn-md btn-block text-center m-b-20" value="로그인"></input>
-									<dl>
-										<dt id="facebookLoingBTN">
-											<div class="fb-login-button" data-width="" data-size="large" data-button-type="continue_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false" onlogin="checkLoginState()"></div>
-										</dt>
-										<dt id="GgCustomLogin">
-											<img src="/images/btn_google_signin_dark_pressed_web.png" onclick="init()" width="308px" height="45px">
-											</img>
-										</dt>
-									</ul>
-
 		    					</div>
 		    				</div>
 		    				<div class="row">
@@ -214,6 +204,8 @@
 		    					<a href="<%=apiURL %>"><img height="50" src="/images/btnG_icon_circle.png"/></a>
 		    					&nbsp;&nbsp;
 		    					<a href="https://kauth.kakao.com/oauth/authorize?client_id=1447fe0b65f3900660f98ce2af5f18cf&redirect_uri=http://localhost:8120/kakao.do&response_type=code"><img height="50" src="/images/kakaoLogin.png"/></a>
+								<a href="#"><img height="50" src="/images/btn_google_signin_dark_pressed_web.png" onclick="init()" id="GgCustomLogin"></a>
+								<div class="fb-login-button" data-auto-logout-link="false" data-use-continue-as="false" onlogin="checkLoginState()"></div>
 		    				</div>
 		    				<div class="col-sm-12 col-xs-12 text-center">
 		    					<span class="text-muted">처음이세요?</span>

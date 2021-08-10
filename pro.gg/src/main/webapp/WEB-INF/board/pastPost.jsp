@@ -69,6 +69,12 @@
                                                     <c:if test='${searchPostList.boardNumber == 1}'>
                                                         자유게시판
                                                     </c:if>
+                                                    <c:if test='${searchPostList.boardNumber == 2}'>
+                                                        팀원 모집 게시판
+                                                    </c:if>
+                                                    <c:if test='${searchPostList.boardNumber == 3}'>
+                                                        팁 게시판
+                                                    </c:if>
                                                 </td>
                                                 <td><c:out value="${searchPostList.postNumber}"></c:out></td>
                                                 <td>${searchPostList.nickname}</td>

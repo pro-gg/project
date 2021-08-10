@@ -40,7 +40,7 @@ public class SummonerController {
     @Autowired
     TeamServiceImpl teamService;
 
-    String developKey = "RGAPI-ef6db49f-1cea-4d47-93e6-e442f3e2d297";
+    String developKey = "RGAPI-3af6ad1a-8093-48f7-ba0b-bb2877dc7ada";
     String apiURL = "";
     URL riotURL = null;
     HttpURLConnection urlConnection = null;
