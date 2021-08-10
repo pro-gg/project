@@ -41,7 +41,7 @@
 </head>
 <body>
         <li id="updateReplyForm"><b id="nickname">${reply.nickname}</b>&nbsp;&nbsp;&nbsp;</li>
-        <li id="updateReplyForm"><textarea name="" id="replyContent" rows="2" placeholder="${reply.replyContent}"></textarea>&nbsp;&nbsp;&nbsp;</li>
+        <li id="updateReplyForm"><textarea name="" id="replyContent" rows="2">${reply.replyContent}</textarea>&nbsp;&nbsp;&nbsp;</li>
         <li id="updateReplyForm">
             <button id="updateReply" onclick="replyUpdateSuccess('${reply.replyNumber}')">수정</button>
             &nbsp;
