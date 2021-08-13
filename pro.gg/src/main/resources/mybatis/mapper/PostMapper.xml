@@ -56,4 +56,15 @@
         update boardpost set postNotRecommendCount = #{postNotRecommendCount}
         where postNumber = #{postNumber}
     </select>
+    <select id="selectPostList_By_ConditionCheck" parameterType="Project.pro.gg.Model.PostDTO" resultType="Map">
+        select * from boardpost
+        <choose>
+            <when test="postTitle == null and nickname != null">
+                where nickname like '%${nickname}%'
+            </when>
+            <when test="nickname == null and postTitle != null">
+                where postTitle like '%${postTitle}%'
+            </when>
+        </choose>
+    </select>
 </mapper>

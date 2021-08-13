@@ -148,6 +148,7 @@ public class MemberController {
         try{
             session.removeAttribute("member");
             session.removeAttribute("admin");
+            session.invalidate();
         }catch (NullPointerException e){
             // 세션이 만료된 상태일 때 로그아웃 기능이 동작한 경우 수행
         }

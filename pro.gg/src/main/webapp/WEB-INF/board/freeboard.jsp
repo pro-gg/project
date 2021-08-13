@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page import="java.util.*"%>
+<%@ page import="java.io.*"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -14,10 +16,11 @@
     <script src="/js/elements.js" charset="utf-8"></script>
     <title></title>
     <script>
-	    var boardNumber = 1;
-	
+        var boardNumber = 1;
+
 	    function callfreeboard(x){
 	    	boardNumber = x;
+            
 	        $(function(){
 	            $.ajax({
 	                type:'get',
@@ -32,6 +35,7 @@
 	    }
 	    
         function boardPosting(){
+    
             var member = '${sessionScope.member}';
             if(member.length !== 0){
                 // 게시판 글 작성 페이지로 이동
@@ -51,6 +55,34 @@
             }else{
                 alert('로그인 해야만 이용 가능한 기능입니다.');
             }
+        }
+
+        function postSearch(){
+            // 닉네임 검색, 게시글 제목 검색 옵션 지정해줄것
+            var searchKeyword = document.getElementById("searchPost").value;
+            var searchCondition = document.getElementById("searchCondition");
+
+            // 조건문 이용해서 컨트롤러에서 어떤 값을 받았는지 구별하게끔 한다.
+            // target 변수에 어떤 값인지를 알려주는 데이터 저장
+            var target = undefined;
+
+            var checkCondition = searchCondition.options[searchCondition.selectedIndex].text
+            if(checkCondition === "게시글 제목"){
+                target = "title";
+            }
+            else if(checkCondition === "닉네임"){
+                target = "nickname";
+            }
+
+            $.ajax({
+                type:'get',
+                url:'${pageContext.request.contextPath}/postSearch.do?searchKeyword=' + encodeURI(searchKeyword) + '&target=' + target,
+                data:'',
+                dataType:'',
+                success:function(data){
+                    $("body").html(data);
+                }
+            })
         }
     </script>
     <style>
@@ -74,20 +106,30 @@
                         <div class="card-header">
                             <ul class="top-nav lft-nav">
                                 <li>
-                                    <a href="#" onclick="callfreeboard(1)">자유 게시판 </a>
+                                    <a href="#" onclick="callfreeboard(1)" id="freeboard">
+                                        자유 게시판
+                                    </a>
                                 </li>
                                 <li>
-                                    <a href="#" onclick="callfreeboard(2)">팀원 모집 게시판 </a>
+                                    <a href="#" onclick="callfreeboard(2)" id="crewboard">
+                                        팀원 모집 게시판
+                                    </a>
                                 </li>
                                 <li>
-                                    <a href="#" onclick="callfreeboard(3)">팁 게시판 </a>
+                                    <a href="#" onclick="callfreeboard(3)" id="tipboard">
+                                        팁 게시판
+                                    </a>
                                 </li>
                             </ul>
                         </div>
                         <div class="card-block">
                             <div class="row">
                                 <div id="searchArea">
-                                    <input type="text" placeholder="게시글 검색" id="searchPost"><input type="button" value="검색" id="searchBottonClick" onclick="" >
+                                    <select name="searchCondition" id="searchCondition">
+                                        <option value="postTitle">게시글 제목</option>
+                                        <option value="nickname">닉네임</option>
+                                    </select>
+                                    <input type="text" placeholder="게시글 검색" id="searchPost"><input type="button" value="검색" id="searchBottonClick" onclick="postSearch()" >
                                 </div>
                                 <script>callfreeboard(1)</script>
                                 <div class="col-sm-12 table-responsive" id="freeBoardList">

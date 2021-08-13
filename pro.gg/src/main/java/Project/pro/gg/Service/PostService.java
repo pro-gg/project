@@ -32,4 +32,6 @@ public interface PostService {
     public void updateRecommendCount(PostDTO postDTO);
 
     public void updateNotRecommendCount(PostDTO postDTO);
+
+    public List<PostDTO> selectPostList_By_ConditionCheck(Project.pro.gg.Model.PostDTO postDTO);
 }

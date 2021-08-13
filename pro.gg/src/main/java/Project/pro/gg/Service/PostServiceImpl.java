@@ -74,4 +74,9 @@ public class PostServiceImpl implements PostService{
 	public void updateNotRecommendCount(PostDTO postDTO) {
 		postRepository.updateNotRecommendCount(postDTO);
 	}
+
+	@Override
+	public List<PostDTO> selectPostList_By_ConditionCheck(PostDTO postDTO) {
+		return postRepository.selectPostList_By_ConditionCheck(postDTO);
+	}
 }

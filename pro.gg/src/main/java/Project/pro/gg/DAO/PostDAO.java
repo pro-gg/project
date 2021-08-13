@@ -31,4 +31,6 @@ public interface PostDAO {
     public void updateNotRecommendCount(PostDTO postDTO);
 
     public int countPost(int boardNumber);
+
+    public List<PostDTO> selectPostList_By_ConditionCheck(PostDTO postDTO);
 }

@@ -83,5 +83,10 @@ public class PostRepository implements PostDAO {
 		return sqlSession.selectOne("post.countPost", boardNumber);
 	}
 
+	@Override
+	public List<PostDTO> selectPostList_By_ConditionCheck(PostDTO postDTO) {
+		return sqlSession.selectList("post.selectPostList_By_ConditionCheck", postDTO);
+	}
+
 
 }

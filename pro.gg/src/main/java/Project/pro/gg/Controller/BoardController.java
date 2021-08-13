@@ -54,6 +54,7 @@ public class BoardController{
     		@RequestParam(value="nowPage", required=false) String nowPage,
     		@RequestParam(value="cntPerPage", required=false) String cntPerPage){
     	
+        // 작성된 게시글들 전체 갯수 계산
     	int total = postService.countPost(boardNumber);
     	
     	if(nowPage == null && cntPerPage == null) {
@@ -194,7 +195,7 @@ public class BoardController{
         try{
             HttpSession session = MemberController.session;
             memberDTO = (MemberDTO) session.getAttribute("member");
-        }catch (NullPointerException no){
+        }catch (Exception no){
             no.getStackTrace();
 
             // 로그인이 안 된 상태일 경우 조회수를 높이지 않는다.
@@ -585,6 +586,33 @@ public class BoardController{
 
             return "redirect:/postdetail.do?postNumber="+postNumber;
         }
+    }
+
+    @GetMapping("/postSearch.do")
+    public String postSearch(@RequestParam("searchKeyword") String searchKeyword, @RequestParam("target") String target, Model model){
+
+        // 메소드를 하나만 만들어놓고 동적 쿼리를 통해 두 가지 조건의 검색 처리를 모두 해결한다.
+        List<PostDTO> searchPostList = new ArrayList<>();
+        PostDTO postDTO = new PostDTO();
+
+        // 페이징 메소드 에서의 활용을 위해 검색 결과 길이 결과를 반환하는 코드를 만들어둔다.
+        int total = 0;
+
+        if (target.equals("nickname")){
+            postDTO.setNickname(searchKeyword);
+            searchPostList = postService.selectPostList_By_ConditionCheck(postDTO);
+        }
+        else if (target.equals("title")){
+            postDTO.setPostTitle(searchKeyword);
+            searchPostList = postService.selectPostList_By_ConditionCheck(postDTO);
+        }
+
+        // 페이징 메소드에 사용하기 위한 검색 사이즈 크기 반환
+        total = searchPostList.size();
+
+        model.addAttribute("searchPostByCondition", searchPostList);
+        model.addAttribute("searchKeyword", searchKeyword);
+        return "../board/searchPost";
     }
 
 }
