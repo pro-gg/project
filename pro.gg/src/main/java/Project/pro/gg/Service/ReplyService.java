@@ -1,9 +1,11 @@
 package Project.pro.gg.Service;
 
-import Project.pro.gg.Model.ReplyDTO;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import Project.pro.gg.Model.CommentDTO;
+import Project.pro.gg.Model.ReplyDTO;
 
 @Service
 public interface ReplyService {
@@ -21,4 +23,15 @@ public interface ReplyService {
     public void updateReply(ReplyDTO replyDTO);
 
     public void replyDelete(ReplyDTO replyDTO);
+    
+    //댓글 답글
+    public void replyCommentInsert(CommentDTO commentDTO);
+    
+    public List<CommentDTO> callCommentList(Long replyNumber);
+    
+    public CommentDTO selectComment(Long commentNumber);
+    
+    public void updateComment(CommentDTO commentDTO);
+
+    public void commentDelete(CommentDTO commentDTO);
 }

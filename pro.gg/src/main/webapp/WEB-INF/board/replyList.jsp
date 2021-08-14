@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -137,6 +137,67 @@
                 })
             }  
         }
+        
+        function addComment(replyNumber, postNumber){
+        	loadCommentList(replyNumber, postNumber);
+        	if(document.getElementById('replyCommentList'+replyNumber).style.display ==='block'){
+        		document.getElementById('replyCommentList'+replyNumber).style.display = 'none';
+        		document.getElementById('comment-toggle'+replyNumber).textContent = '답글';
+        	} else {
+        		document.getElementById('replyCommentList'+replyNumber).style.display ='block';
+        		document.getElementById('comment-toggle'+replyNumber).textContent = '숨기기';
+        	}
+        }
+        
+        function addReplyComment(replyNumber, postNumber){
+
+            let today = new Date();
+
+            let year = today.getFullYear();
+            let month = today.getMonth() + 1;
+            let date = today.getDate();
+            let time = today.getTime();
+
+            var hour = today.getHours();
+            var minutes = today.getMinutes();
+            var seconds = today.getSeconds();
+
+            var commentDate = year + "." + month +"." + date;
+            var commentTime = hour + ":" + minutes + ":" + seconds;
+
+            var commentContent = document.getElementById("commentArea"+replyNumber).value;
+
+            var comment = {
+                commentDate : commentDate,
+                commentTime : commentTime,
+                commentContent : commentContent,
+                replyNumber : replyNumber,
+                postNumber : postNumber
+            }
+
+            $.ajax({
+
+                type:'get',
+                url:'${pageContext.request.contextPath}/addReplyComment.do?comment='+encodeURI(JSON.stringify(comment)),
+                data:'',
+                dataType:'',
+                success:function(data){
+                    window.location.reload();
+                }
+            })
+        }
+        
+        function loadCommentList(replyNumber, postNumber){
+    		$.ajax({
+                type:'get',
+                url:'${pageContext.request.contextPath}/callReplyCommentList.do?replyNumber='+replyNumber+'&postNumber='+postNumber,
+                data:'',
+                dataType:'',
+                success:function(data){
+                    $("#replyCommentList"+replyNumber).html(data);
+                }
+            })
+    	}
     </script>
     <style>
         ul{
@@ -167,6 +228,7 @@
                         &nbsp;
                         <small id="${status.count}"></small>
                         <div id="updateORdelete">
+							<a href="#" id='comment-toggle${replyDTOList.replyNumber }' onclick="addComment('${replyDTOList.replyNumber}','${replyDTOList.postNumber }')">답글</a>
                             <c:if test='${sessionScope.member.nickname == replyDTOList.nickname}'>
                                 <a href="#" onclick="replyUpdate('${replyDTOList.replyNumber}', '${replyDTOList.nickname}', '${replyDTOList.replyContent}', '${status.count}')">수정</a>
                                 &nbsp;
@@ -174,12 +236,14 @@
                             </c:if>
                         </div>
                     </li>
-                    <li id="replyContent">${replyDTOList.replyContent}</li>   
+                    <li id="replyContent">${replyDTOList.replyContent}</li>  
                     <li>
                         <button id="replyRecommend" onclick="recommendReply('${replyDTOList.replyNumber}', '${replyDTOList.nickname}')">추천! ${replyDTOList.replyRecommendCount}</button>
                         &nbsp;
                         <button id="replyNotRecommend" onclick="not_recommendReply('${replyDTOList.replyNumber}', '${replyDTOList.nickname}')">비추천! ${replyDTOList.replyNotRecommendCount}</button>
                     </li>
+                    <br>
+                    <div id="replyCommentList${replyDTOList.replyNumber }"></div>
                 </ul>                         
             </c:forEach>
 </body>

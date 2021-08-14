@@ -3,7 +3,10 @@ package Project.pro.gg.Controller;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -11,8 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import Project.pro.gg.Model.ReplyDTO;
-import Project.pro.gg.Service.MemberServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONArray;
 import org.springframework.boot.configurationprocessor.json.JSONException;
@@ -26,8 +27,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import Project.pro.gg.API.Paging;
+import Project.pro.gg.Model.CommentDTO;
 import Project.pro.gg.Model.MemberDTO;
 import Project.pro.gg.Model.PostDTO;
+import Project.pro.gg.Model.ReplyDTO;
+import Project.pro.gg.Service.MemberServiceImpl;
 import Project.pro.gg.Service.PostServiceImpl;
 import Project.pro.gg.Service.ReplyServiceImpl;
 
@@ -54,7 +58,7 @@ public class BoardController{
     		@RequestParam(value="nowPage", required=false) String nowPage,
     		@RequestParam(value="cntPerPage", required=false) String cntPerPage){
     	
-        // 작성된 게시글들 전체 갯수 계산
+    	//작성된 게시글들 전체 갯수 계산
     	int total = postService.countPost(boardNumber);
     	
     	if(nowPage == null && cntPerPage == null) {
@@ -587,7 +591,7 @@ public class BoardController{
             return "redirect:/postdetail.do?postNumber="+postNumber;
         }
     }
-
+    
     @GetMapping("/postSearch.do")
     public String postSearch(@RequestParam("searchKeyword") String searchKeyword, @RequestParam("target") String target, Model model){
 
@@ -614,5 +618,76 @@ public class BoardController{
         model.addAttribute("searchKeyword", searchKeyword);
         return "../board/searchPost";
     }
+    
+    @GetMapping("/addReplyComment.do")
+    public String addReplyComment(@RequestParam("comment") String comment) {
+    	MemberDTO memberDTO = null;
+        CommentDTO commentDTO;
 
+        HttpSession session = MemberController.session;
+        memberDTO = (MemberDTO) session.getAttribute("member");
+
+        Long postNumber = null;
+        try{
+            JSONObject jsonObject = new JSONObject(comment);
+
+            postNumber = jsonObject.getLong("postNumber");
+            String commentDate = jsonObject.getString("commentDate");
+            String commentTime = jsonObject.getString("commentTime");
+            String commentContent = jsonObject.getString("commentContent");
+            Long replyNumber = jsonObject.getLong("replyNumber");
+            
+            commentDTO = new CommentDTO(replyNumber, commentContent, memberDTO.getNickname(), commentDate, commentTime );
+            replyService.replyCommentInsert(commentDTO);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    	return "redirect:/postdetail.do?postNumber="+postNumber;
+    }
+    
+    @GetMapping("/callReplyCommentList.do")
+    public String callReplyCommentList(@RequestParam("replyNumber") Long replyNumber, @RequestParam("postNumber") Long postNumber,  Model model){
+        List<CommentDTO> commentList =  replyService.callCommentList(replyNumber);
+        Collections.reverse(commentList);
+        model.addAttribute("replyNumber", replyNumber);
+        model.addAttribute("postNumber", postNumber);
+        model.addAttribute("commentList", commentList);
+        return "../board/replyCommentList";
+    }
+    
+    @GetMapping("/commentUpdate.do")
+    public String commentUpdate(@RequestParam("commentNumber") Long commentNumber, @RequestParam("commentContent") String commentContent,
+                              @RequestParam("nickname") String nickname, @RequestParam("postNumber") Long postNumber, @RequestParam("target") String target, Model model){
+
+        CommentDTO commentDTO = new CommentDTO();
+        // 댓글 수정폼으로 이동
+        if (target.equals("update")){
+
+            commentDTO.setCommentNumber(commentNumber);
+            commentDTO.setNickname(nickname);
+            commentDTO.setCommentContent(commentContent);
+
+            model.addAttribute("comment", commentDTO);
+            model.addAttribute("postNumber", postNumber);
+            return "../board/commentUpdateForm";
+        }
+        // 수정 폼에서 수정 버튼이 클릭 되었을 경우 처리
+        else if (target.equals("commentUpdate")){
+            commentDTO.setCommentNumber(commentNumber);
+            commentDTO.setNickname(nickname);
+            commentDTO.setCommentContent(commentContent);
+
+            replyService.updateComment(commentDTO);
+            return "redirect:/postdetail.do?postNumber="+postNumber;
+        } // 댓글 삭제 버튼이 눌려졌을 경우 처리
+        else{
+            commentDTO.setCommentNumber(commentNumber);
+            commentDTO.setNickname(nickname);
+            commentDTO.setCommentContent(commentContent);
+
+            replyService.commentDelete(commentDTO);
+
+            return "redirect:/postdetail.do?postNumber="+postNumber;
+        }
+    }
 }

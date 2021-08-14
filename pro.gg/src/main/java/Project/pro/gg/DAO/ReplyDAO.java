@@ -1,8 +1,9 @@
 package Project.pro.gg.DAO;
 
-import Project.pro.gg.Model.ReplyDTO;
-
 import java.util.List;
+
+import Project.pro.gg.Model.CommentDTO;
+import Project.pro.gg.Model.ReplyDTO;
 
 public interface ReplyDAO {
 
@@ -19,4 +20,16 @@ public interface ReplyDAO {
     public void updateReply(ReplyDTO replyDTO);
 
     public void replyDelete(ReplyDTO replyDTO);
+    
+    
+    //댓글 답글
+    public void replyCommentInsert(CommentDTO commentDTO);
+    
+    public List<CommentDTO> callCommentList(Long replyNumber);
+    
+    public CommentDTO selectComment(Long commentNumber);
+    
+    public void updateComment(CommentDTO commentDTO);
+
+    public void commentDelete(CommentDTO commentDTO);
 }

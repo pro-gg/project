@@ -37,4 +37,29 @@
         delete from boardreply
         where replyNumber = #{replyNumber} and nickname = #{nickname}
     </select>
+    
+    <select id="insertReplyComment" parameterType="Project.pro.gg.Model.CommentDTO">
+        insert into replycomment(replyNumber, commentContent, nickname, commentDate, commentTime)
+        values(#{replyNumber}, #{commentContent}, #{nickname}, #{commentDate}, #{commentTime})
+    </select>
+    
+    <select id="commentList" parameterType="Long" resultType="Map">
+        select * from replycomment
+        where replyNumber = #{replyNumber}
+    </select>
+    
+    <select id="selectComment" parameterType="Long" resultType="Project.pro.gg.Model.CommentDTO">
+        select * from replycomment
+        where commentNumber = #{commentNumber}
+    </select>
+    
+    <select id="updateComment" parameterType="Project.pro.gg.Model.CommentDTO">
+        update replycomment set commentContent = #{commentContent}
+        where commentNumber = #{commentNumber} and nickname = #{nickname}
+    </select>
+
+    <select id="commentDelete" parameterType="Project.pro.gg.Model.CommentDTO">
+        delete from replycomment
+        where commentNumber = #{commentNumber} and nickname = #{nickname}
+    </select>
 </mapper>
