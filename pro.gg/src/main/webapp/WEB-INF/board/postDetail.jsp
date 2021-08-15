@@ -205,7 +205,7 @@
                                 <table>
                                     <thead>
                                         <th><b id="nickname">${sessionScope.member.nickname}</b></th>
-                                        <th><textarea name="" id="replyArea" cols="100" rows="2"></textarea></th>
+                                        <th><textarea name="" id="replyArea" cols="70" rows="2"></textarea></th>
                                         <th><button id="registerReply" onclick="replyRegister('${post.postNumber}')">등록하기</button></th>
                                     </thead>
                                 </table>

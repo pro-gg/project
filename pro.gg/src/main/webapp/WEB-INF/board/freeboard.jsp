@@ -16,11 +16,11 @@
     <script src="/js/elements.js" charset="utf-8"></script>
     <title></title>
     <script>
-        var boardNumber = 1;
-
+	    var boardNumber = 1;
+	
 	    function callfreeboard(x){
 	    	boardNumber = x;
-            
+	    	
 	        $(function(){
 	            $.ajax({
 	                type:'get',
@@ -35,7 +35,7 @@
 	    }
 	    
         function boardPosting(){
-    
+        	
             var member = '${sessionScope.member}';
             if(member.length !== 0){
                 // 게시판 글 작성 페이지로 이동
@@ -56,16 +56,14 @@
                 alert('로그인 해야만 이용 가능한 기능입니다.');
             }
         }
-
+        
         function postSearch(){
             // 닉네임 검색, 게시글 제목 검색 옵션 지정해줄것
             var searchKeyword = document.getElementById("searchPost").value;
             var searchCondition = document.getElementById("searchCondition");
-
             // 조건문 이용해서 컨트롤러에서 어떤 값을 받았는지 구별하게끔 한다.
             // target 변수에 어떤 값인지를 알려주는 데이터 저장
             var target = undefined;
-
             var checkCondition = searchCondition.options[searchCondition.selectedIndex].text
             if(checkCondition === "게시글 제목"){
                 target = "title";
@@ -73,7 +71,6 @@
             else if(checkCondition === "닉네임"){
                 target = "nickname";
             }
-
             $.ajax({
                 type:'get',
                 url:'${pageContext.request.contextPath}/postSearch.do?searchKeyword=' + encodeURI(searchKeyword) + '&target=' + target,

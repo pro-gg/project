@@ -1,6 +1,7 @@
 package Project.pro.gg.Repository;
 
 import Project.pro.gg.DAO.ReplyDAO;
+import Project.pro.gg.Model.CommentDTO;
 import Project.pro.gg.Model.ReplyDTO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,4 +49,31 @@ public class ReplyRepository implements ReplyDAO {
     public void replyDelete(ReplyDTO replyDTO) {
         sqlSession.delete("reply.replyDelete", replyDTO);
     }
+    
+    //댓글 답글
+
+	@Override
+	public void replyCommentInsert(CommentDTO commentDTO) {
+		sqlSession.insert("reply.insertReplyComment", commentDTO);
+	}
+
+	@Override
+	public List<CommentDTO> callCommentList(Long replyNumber) {
+		return sqlSession.selectList("reply.commentList", replyNumber);
+	}
+
+	@Override
+	public CommentDTO selectComment(Long commentNumber) {
+		return sqlSession.selectOne("reply.selectComment", commentNumber);
+	}
+
+	@Override
+	public void updateComment(CommentDTO commentDTO) {
+		sqlSession.update("reply.updateComment", commentDTO);
+	}
+
+	@Override
+	public void commentDelete(CommentDTO commentDTO) {
+		sqlSession.delete("reply.commentDelete", commentDTO);
+	}
 }

@@ -1,5 +1,6 @@
 package Project.pro.gg.Service;
 
+import Project.pro.gg.Model.CommentDTO;
 import Project.pro.gg.Model.ReplyDTO;
 import Project.pro.gg.Repository.ReplyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,4 +47,29 @@ public class ReplyServiceImpl implements ReplyService{
     public void replyDelete(ReplyDTO replyDTO) {
         replyRepository.replyDelete(replyDTO);
     }
+
+	@Override
+	public void replyCommentInsert(CommentDTO commentDTO) {
+		replyRepository.replyCommentInsert(commentDTO);
+	}
+
+	@Override
+	public List<CommentDTO> callCommentList(Long replyNumber) {
+		return replyRepository.callCommentList(replyNumber);
+	}
+
+	@Override
+	public CommentDTO selectComment(Long commentNumber) {
+		return replyRepository.selectComment(commentNumber);
+	}
+
+	@Override
+	public void updateComment(CommentDTO commentDTO) {
+		replyRepository.updateComment(commentDTO);
+	}
+
+	@Override
+	public void commentDelete(CommentDTO commentDTO) {
+		replyRepository.commentDelete(commentDTO);
+	}
 }
