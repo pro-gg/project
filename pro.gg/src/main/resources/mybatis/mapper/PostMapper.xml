@@ -22,9 +22,13 @@
         select * from boardpost
         where nickname = #{nickname}
     </select>
+    <select id="selectPastReply" parameterType="String" resultType="Map">
+        select * from boardreply
+        where nickname = #{nickname}
+    </select>
     <select id="selectPostContent" parameterType="Project.pro.gg.Model.PostDTO" resultType="String">
-        select postContent from boardpost
-        where nickname = #{nickname} and postTitle = #{postTitle}
+        select * from boardpost
+        where nickname = #{nickname} and postNumber = #{postNumber}
     </select>
     <select id="selectPostBy_postNumber" parameterType="Integer" resultType="Project.pro.gg.Model.PostDTO">
         select * from boardpost

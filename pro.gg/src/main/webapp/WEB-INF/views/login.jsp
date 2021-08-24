@@ -203,9 +203,10 @@
 								%>
 		    					<a href="<%=apiURL %>"><img height="50" src="/images/btnG_icon_circle.png"/></a>
 		    					&nbsp;&nbsp;
-		    					<a href="https://kauth.kakao.com/oauth/authorize?client_id=1447fe0b65f3900660f98ce2af5f18cf&redirect_uri=http://localhost:8120/kakao.do&response_type=code"><img height="50" src="/images/kakaoLogin.png"/></a>
+		    					<a href="https://kauth.kakao.com/oauth/authorize?client_id=1447fe0b65f3900660f98ce2af5f18cf&redirect_uri=http://localhost:8120/kakao.do&response_type=code"><img height="50" src="/pro.gg/resources/images/kakaoLogin.png"/></a>
 								<a href="#"><img height="50" src="/images/btn_google_signin_dark_pressed_web.png" onclick="init()" id="GgCustomLogin"></a>
-								<div class="fb-login-button" data-auto-logout-link="false" data-use-continue-as="false" onlogin="checkLoginState()"></div>
+								<img src="/pro.gg/resources/images/facebook.png" height="50" onclick="checkLoginState()">
+								<!-- <div class="fb-login-button" data-auto-logout-link="false" data-use-continue-as="false" onlogin="checkLoginState()"></div> -->
 		    				</div>
 		    				<div class="col-sm-12 col-xs-12 text-center">
 		    					<span class="text-muted">처음이세요?</span>

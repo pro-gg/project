@@ -7,9 +7,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title></title>
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>
-    <link rel="stylesheet" type="text/css" href="/css/mystyle.css"/>
-    <script src="/webjars/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/pro.gg/resources/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/pro.gg/resources/css/mystyle.css"/>
+    <script src="/pro.gg/resources/webjars/jquery/3.6.0/jquery.min.js"></script>
     <script>
         function findMemberData(){
             var nickname = document.getElementById("searchNickname").value;
@@ -29,11 +29,11 @@
 <body>
 	<div class="content-wrapper">
 		<div class="back-img text-center">
-			<img src="/images/progg2.png" id="main-img" alt="로고">
+			<img src="/pro.gg/resources/images/progg2.png" id="main-img" alt="로고">
 			<div class="searchbar">
 				<input type="text" autocomplete="off" name="searchNickName" id="searchNickname" placeholder="검색어를 입력하세요">
 				<button type="submit" value="검색" onclick="findMemberData()">
-					<img src="/images/icon_search.png">
+					<img src="/pro.gg/resources/images/icon_search.png">
 				</button>
 			</div>
         <!-- 닉네임을 검색하면, 해당 회원에게 등록되어 있는 소환사 정보와 최근 전적을 조회해 볼 수 있다.(삽입이 아닌 조회)-->

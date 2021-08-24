@@ -7,9 +7,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title></title>
-    <script src="/webjars/jquery/3.6.0/jquery.min.js"></script>
-    <script src="/js/semantic_aside.js" charset="utf-8"></script>
-    <script src="/js/semantic_header.js" charset="utf-8"></script>
+    <script src="/pro.gg/resources/webjars/jquery/3.6.0/jquery.min.js"></script>
+    <script src="/pro.gg/resources/js/semantic_aside.js" charset="utf-8"></script>
+    <script src="/pro.gg/resources/js/semantic_header.js" charset="utf-8"></script>
     <script>
         function solo_rank_nickname(){
             var ranked_solo = "${ranked_solo}";
@@ -17,14 +17,14 @@
 
             if(tier !== ''){
                 document.getElementById("rankedSoloNickname").innerHTML="<dt><b>솔로 랭크</b></dt>" +
-                	"<dd><img src='/images/Emblem_${ranked_solo.tier}.png' style='width:100px; height:100px;'/></dd>" +
+                	"<dd><img src='/pro.gg/resources/images/Emblem_${ranked_solo.tier}.png' style='width:100px; height:100px;'/></dd>" +
                     "<dd>LP : ${ranked_solo.leaguePoints}p</dd>" +
                     "<dd>티어 : ${ranked_solo.tier} ${ranked_solo.tier_rank}</dd>" +
                     "<dd>${ranked_solo.wins}승 ${ranked_solo.losses}패</dd>" +
                     "<dd>승률 : ${ranked_solo.rate}%</dd>";
             }else {
             	document.getElementById("rankedSoloNickname").innerHTML="<dt><b>솔로 랭크</b></dt>" +
-        		"<dd><img src='/images/provisional.png' style='width:100px; height:100px;'/></dd>" +
+        		"<dd><img src='/pro.gg/resources/images/provisional.png' style='width:100px; height:100px;'/></dd>" +
         		"<dd>Unranked</dd>";
         	}
         }
@@ -36,14 +36,14 @@
 
             if(tier !== ''){
                 document.getElementById("rankedFlexNickname").innerHTML="<dt><b>자유 랭크</b></dt>" +
-                	"<dd><img src='/images/Emblem_${ranked_flex.tier}.png' style='width:100px; height:100px;'/></dd>" +
+                	"<dd><img src='/pro.gg/resources/images/Emblem_${ranked_flex.tier}.png' style='width:100px; height:100px;'/></dd>" +
                     "<dd>LP : ${ranked_flex.leaguePoints}p</dd>" +
                     "<dd>티어 : ${ranked_flex.tier} ${ranked_flex.tier_rank}</dd>" +
                     "<dd>${ranked_flex.wins}승 ${ranked_flex.losses}패</dd>" +
                     "<dd>승률 : ${ranked_flex.rate}%</dd>";
             }else {
             	document.getElementById("rankedFlexNickname").innerHTML="<dt><b>자유 랭크</b></dt>" +
-            		"<dd><img src='/images/provisional.png' style='width:100px; height:100px;'/></dd>" +
+            		"<dd><img src='/pro.gg/resources/images/provisional.png' style='width:100px; height:100px;'/></dd>" +
             		"<dd>Unranked</dd>";
             }
         }

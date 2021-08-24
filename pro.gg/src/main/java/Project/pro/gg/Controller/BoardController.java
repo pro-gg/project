@@ -176,15 +176,19 @@ public class BoardController{
         return "../board/pastPost";
     }
 
+    @GetMapping("/searchPastReply.do")
+    public String searchPastReply(@RequestParam("nickname") String nickname, Model model){
+        List<ReplyDTO> searchReplyList = new ArrayList<>();
+        searchReplyList = postService.selectPastReply(nickname);
+        model.addAttribute("searchReplyList", searchReplyList);
+        return "../board/pastReply";
+    }
+
     @GetMapping("/callPostContent.do")
-    public String callPostContent(@RequestParam("postTitle") String postTitle, @RequestParam("nickname") String nickname,
+    public String callPostContent(@RequestParam("nickname") String nickname,
                                   @RequestParam("postNumber") Long postNUmber, Model model){
         PostDTO postDTO = new PostDTO();
-        String postContent = postService.selectPostContent(postTitle, nickname);
-        postDTO.setNickname(nickname);
-        postDTO.setPostTitle(postTitle);
-        postDTO.setPostContent(postContent);
-        postDTO.setPostNumber(postNUmber);
+        postDTO = postService.selectPostContent(postNUmber, nickname);
         model.addAttribute("selectPostContent", postDTO);
         return "../board/printPostContent";
     }

@@ -12,7 +12,7 @@
     <script src="/pro.gg/resources/js/semantic_aside.js" charset="utf-8"></script>
     <script src="/pro.gg/resources/js/semantic_header.js" charset="utf-8"></script>
     <script>
-        function callPostContent(postTitle, nickname, postNumber){
+        function callPostContent(nickname, postNumber){
             $.ajax({
                 type:'get',
                 url:'${pageContext.request.contextPath}/callPostContent.do?&nickname=' + nickname + '&postNumber=' + postNumber,
@@ -24,8 +24,8 @@
             })
         }
 
-        function checkPostDate(postDate, postTime, count){
-            
+        function checkPostDate(replytDate, replyTime, count){
+
             let today = new Date();
 
             let year = today.getFullYear();
@@ -33,10 +33,10 @@
             let date = today.getDate();
 
             var currentDate = year + "." + month +"." + date;
-            if(currentDate === postDate){
-                document.getElementById(count).innerHTML = postTime;
+            if(currentDate === replyDate){
+                document.getElementById(count).innerHTML = replyTime;
             }else{
-                document.getElementById(count).innerHTML = postDate;
+                document.getElementById(count).innerHTML = replyDate;
             }
         }
     </script>
@@ -54,43 +54,33 @@
                                 <table class="table">
                                     <thead>
                                         <tr>
-                                            <th>게시판</th>
-                                            <th>번호</th>
+                                            <th>댓글 번호</th>
+                                            <th>게시글 번호</th>
                                             <th>닉네임</th>
-                                            <th>제목</th>
-                                            <th>게시일</th>
-                                            <th>조회수</th>
+                                            <th>댓글 내용</th>
+                                            <th>작성일</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <c:forEach var="searchPostList" items="${searchPostList}" varStatus="status">
+                                        <c:forEach var="searchReplyList" items="${searchReplyList}" varStatus="status">
                                             <tr>
                                                 <td>
-                                                    <c:if test='${searchPostList.boardNumber == 1}'>
-                                                        자유게시판
-                                                    </c:if>
-                                                    <c:if test='${searchPostList.boardNumber == 2}'>
-                                                        팀원 모집 게시판
-                                                    </c:if>
-                                                    <c:if test='${searchPostList.boardNumber == 3}'>
-                                                        팁 게시판
-                                                    </c:if>
+                                                    <c:out value="${searchReplyList.replyNumber}"></c:out>
                                                 </td>
-                                                <td><c:out value="${searchPostList.postNumber}"></c:out></td>
-                                                <td>${searchPostList.nickname}</td>
+                                                <td><c:out value="${searchReplyList.postNumber}"></c:out></td>
+                                                <td>${searchReplyList.nickname}</td>
                                                 <td>
-                                                    <a href="#" onclick="callPostContent('${searchPostList.nickname}', '${searchPostList.postNumber}')">
-                                                        ${searchPostList.postTitle}
-                                                    </a> 
+                                                    <a href="#" onclick="callPostContent('${searchReplyList.nickname}', '${searchReplyList.postNumber}')">
+                                                        ${searchReplyList.replyContent}
+                                                    </a>
                                                 </td>
                                                 <script>
-                                                    var postDate = '${searchPostList.postDate}';
-                                                    var postTime = '${searchPostList.postTime}';
-                                                    checkPostDate(postDate, postTime, '${status.count}');
+                                                    var postDate = '${searchReplyList.replyDate}';
+                                                    var postTime = '${searchReplyList.replyTime}';
+                                                    checkPostDate(replyDate, replyTime, '${status.count}');
                                                 </script>
                                                 <td id="${status.count}"></td>
-                                                <td>${searchPostList.lookupCount}</td>
-                                            </tr>                  
+                                            </tr>
                                         </c:forEach>
                                     </tbody>
                                 </table>
