@@ -1,6 +1,9 @@
 # LOL 매칭 및 커뮤니티 프로젝트
 Riot 개발사 Leage of Legends 게임의 플레이어간 대전 매칭 및 커뮤니티 웹 사이트 프로젝트 입니다.
 
+![메인화면](https://user-images.githubusercontent.com/48443312/131247698-82a1bf98-0102-4f78-83da-bb2113faa161.png)
+
+
 ## 프로젝트 링크
 - http://progg.cf/pro.gg/
 
