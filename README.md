@@ -9,6 +9,7 @@ Riot 개발사 Leage of Legends 게임의 플레이어간 대전 매칭 및 커�
 
 ## 기술 스택
 - JAVA(JDK >= 11)
+- Javascript
 - HTML/CSS
 - JSP/Servlet
 - MySQL
