@@ -11,6 +11,7 @@ Riot 개발사 Leage of Legends 게임의 플레이어간 대전 매칭 및 커�
 - JAVA(JDK >= 11)
 - Javascript
 - HTML/CSS
+- BootStrap
 - JSP/Servlet
 - MySQL
 - Mybatis
