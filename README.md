@@ -45,12 +45,12 @@ Riot 개발사 IP인 Leage of Legends 의 플레이어간 팀 구성 및 대전 
 
 ## 프로젝트 참여자
 - 서호준 
-  이메일 : ghwns6659@gmail.com
-  깃허브 : https://github.com/HoJun-Seo
+  - 이메일 : ghwns6659@gmail.com
+  - 깃허브 : https://github.com/HoJun-Seo
 
 - 박승진
-  이메일 : 
-  깃허브 : https://github.com/jin12352
+  - 이메일 : 
+  - 깃허브 : https://github.com/jin12352
 
 ## 개발 현황
 ### 2021/05/10
