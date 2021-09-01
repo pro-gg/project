@@ -15,6 +15,15 @@ Riot 개발사 IP인 Leage of Legends 의 플레이어간 팀 구성 및 대전 
 ## 링크
 - http://progg.cf/pro.gg/
 
+## 프로젝트 참여자
+- 서호준 
+  - 이메일 : ghwns6659@gmail.com
+  - 깃허브 : https://github.com/HoJun-Seo
+
+- 박승진
+  - 이메일 : 
+  - 깃허브 : https://github.com/jin12352
+
 ## 기술 스택
 - 프론트엔드(Front-End)
   - Javascript
@@ -43,14 +52,17 @@ Riot 개발사 IP인 Leage of Legends 의 플레이어간 팀 구성 및 대전 
 - 협업 툴
   - GitHub
 
-## 프로젝트 참여자
-- 서호준 
-  - 이메일 : ghwns6659@gmail.com
-  - 깃허브 : https://github.com/HoJun-Seo
-
-- 박승진
-  - 이메일 : 
-  - 깃허브 : https://github.com/jin12352
+## 사용한 외부 API
+- LOL API
+  - 소환사 명 검색 API : 
+  - 소환사 솔로 랭크 전적 검색 API :
+  - 소환사 자유 랭크 전적 검색 API :
+  - 소환사 매치 별 상세 정보 검색 API :
+- SNS 로그인 API
+- Naver Login API :
+- Kakao Login API : 
+- Facebook Login API(현재 https 연결처리 불가로 인해 기능 이용 불가)
+- Google Login API (현재 https 연결처리 불가로 인해 기능 이용 불가)
 
 ## 개발 현황
 ### 2021/05/10
