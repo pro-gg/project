@@ -68,8 +68,8 @@ Riot 개발사 IP인 Leage of Legends 의 플레이어간 팀 구성 및 대전 
 - SNS 로그인 API
   - Naver Login API :
   - Kakao Login API : 
-  - Facebook Login API(현재 https 연결처리 불가로 인해 기능 이용 불가)
-  - Google Login API (현재 https 연결처리 불가로 인해 기능 이용 불가)
+  - Facebook Login API(현재 https 연결처리 실패로 인해 기능 이용 불가)
+  - Google Login API (현재 https 연결처리 실패로 인해 기능 이용 불가)
 
 ## 개발 현황
 ### 2021/05/10
