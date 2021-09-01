@@ -59,6 +59,12 @@ Riot 개발사 IP인 Leage of Legends 의 플레이어간 팀 구성 및 대전 
   - 소환사 자유 랭크 전적 검색 API :
   - 소환사 매치 별 상세 정보 검색 API :
 
+- LOL 각종 리소스 경로
+  - 챔피언 이미지 :
+  - 챔피언 상세 정보 :
+  - 각종 아이템 이미지 :
+  - 각종 소환사 스펠 이미지 :
+
 - SNS 로그인 API
   - Naver Login API :
   - Kakao Login API : 
