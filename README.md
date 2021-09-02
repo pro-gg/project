@@ -55,9 +55,52 @@ Riot 개발사 IP인 Leage of Legends 의 플레이어간 팀 구성 및 대전 
 ## 사용한 외부 API
 - LOL API
   - 소환사 명 검색 API : 
-  - 소환사 솔로 랭크 전적 검색 API :
-  - 소환사 자유 랭크 전적 검색 API :
+    - 소환사 명을 검색하여 해당되는 소환사의 계정 정보를 받아오는 API 입니다.
+    - 참조 링크 : https://developer.riotgames.com/apis#summoner-v4/GET_getBySummonerName
+  
+  ~~~
+  /lol/summoner/v4/summoners/by-name/{summonerName}
+  ~~~
+  
+  ~~~java
+  String apiURL = "https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/"+summonerName+"?api_key="+developKey;
+  ~~~
+  
+  - 소환사 솔로 랭크 및 자유 랭크 전적 검색 API :
+    - 수집한 소환사 id 값을 변수로 하여 소환사의 솔로 랭크 및 자유 랭크 티어, 전적을 받아오는 API 입니다.
+    - 참조 링크 : https://developer.riotgames.com/apis#league-v4/GET_getLeagueEntriesForSummoner
+  
+  ~~~
+  /lol/league/v4/entries/by-summoner/{encryptedSummonerId}
+  ~~~
+  
+  ~~~java
+  String apiURL = "https://kr.api.riotgames.com/lol/league/v4/entries/by-summoner/"+id+"?api_key="+developKey;
+  ~~~
+  
+  - 소환사 최근 매치 id 값 갯수별 검색 API :
+    - 소환사의 최근 경기부터 지정한 숫자의 매치 횟수 만큼의 각 매치별 id 값을 리스트 형태로 받아오는 API 입니다.
+    - 참조 링크 : https://developer.riotgames.com/apis#match-v5/GET_getMatchIdsByPUUID
+
+  ~~~
+   /lol/match/v5/matches/by-puuid/{puuid}/ids
+  ~~~
+  
+  ~~~java
+  String apiURL = "https://asia.api.riotgames.com/lol/match/v5/matches/by-puuid/"+puuid+"/ids?start="+0+"&count="+50+"&api_key="+developKey;
+  ~~~
+  
   - 소환사 매치 별 상세 정보 검색 API :
+    - 각 매치 별 id 값을 변수로 하여 해당하는 매치의 상세 정보를 받아오는 API 입니다.(선택한 챔피언, 구매한 아이템, 사용한 소환사 스펠, K/D/A 정보 등등)
+    - 참조 링크 : https://developer.riotgames.com/apis#match-v5/GET_getMatch
+  
+  ~~~
+  /lol/match/v5/matches/{matchId}
+  ~~~
+  
+  ~~~java
+  String apiURL = "https://asia.api.riotgames.com/lol/match/v5/matches/"+matchIdList.get(i)+"?api_key="+developKey;
+  ~~~
 
 - LOL 각종 리소스 경로
   - 챔피언 이미지 :
