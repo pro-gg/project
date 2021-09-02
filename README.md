@@ -193,6 +193,8 @@ Riot 개발사 IP인 Leage of Legends 의 플레이어간 팀 구성 및 대전 
 				//프로필을 가져온다.
 				var profile = googleUser.getBasicProfile();
 				console.log(profile)
+				
+				~~~~~~~~~~
 			})
 			.fail(function(e){
 				console.log(e);
