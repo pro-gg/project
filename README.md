@@ -194,7 +194,7 @@ Riot 개발사 IP인 Leage of Legends 의 플레이어간 팀 구성 및 대전 
 				var profile = googleUser.getBasicProfile();
 				console.log(profile)
 				
-				~~~~~~~~~~
+				// 구글 로그인 성공시 로직 작성
 			})
 			.fail(function(e){
 				console.log(e);
