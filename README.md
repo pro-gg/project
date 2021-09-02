@@ -21,7 +21,7 @@ Riot 개발사 IP인 Leage of Legends 의 플레이어간 팀 구성 및 대전 
   - 깃허브 : https://github.com/HoJun-Seo
 
 - 박승진
-  - 이메일 : 
+  - 이메일 : jin12352@naver.com
   - 깃허브 : https://github.com/jin12352
 
 ## 기술 스택
@@ -137,8 +137,112 @@ Riot 개발사 IP인 Leage of Legends 의 플레이어간 팀 구성 및 대전 
 
 - SNS 로그인 API
   - Naver Login API :
-  - Kakao Login API : 
+    - Naver 계정을 통해 간편하게 회원가입 및 로그인을 할 수 있습니다.
+    - 현재 검수요청을 하지않아 등록된 아이디만 로그인이 가능합니다.
+
+  ~~~java (코드 중 일부입니다)
+  String apiURL = "";
+  apiURL += "https://nid.naver.com/oauth2.0/token?grant_type=authorization_code&";
+  apiURL += "client_id=" + clientId;
+  apiURL += "&client_secret=" + clientSecret;
+  apiURL += "&redirect_uri=" + redirectURI;
+  apiURL += "&code=" + code;
+  apiURL += "&state=" + state;
   
+  URL naverUrl = new URL(apiURL);
+  HttpURLConnection con = (HttpURLConnection)naverUrl.openConnection();
+  con.setRequestMethod("GET");
+  int responseCode = con.getResponseCode();
+  BufferedReader br;
+  if(responseCode==200) { // 정상 호출
+  br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+  } else {  // 에러 발생
+  br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+  }
+  String inputLine;
+  StringBuffer res = new StringBuffer();
+  while ((inputLine = br.readLine()) != null) {
+  res.append(inputLine);
+  }
+  br.close();
+  
+  access_token = (String)result.get("access_token");
+  refresh_token = (String)result.get("refresh_token");
+  if(access_token != null) {
+	try {
+	 String header = "Bearer " + access_token;
+	 String apiurl = "https://openapi.naver.com/v1/nid/me";
+	 naverUrl = new URL(apiurl);
+	 con = (HttpURLConnection)naverUrl.openConnection();
+	con.setRequestMethod("GET");
+	con.setRequestProperty("Authorization", header);
+	responseCode = con.getResponseCode();
+	if(responseCode==200) { // 정상 호출
+	 br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+	} else {  // 에러 발생
+	br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+	}
+  ~~~
+  
+  - Kakao Login API : 
+    - Kakao 계정을 통해 간편하게 회원가입 및 로그인을 할 수 있습니다.
+
+  ~~~java
+  public String getAccessToken(String code) {
+	String accessToken = "";
+	String refreshToken = "";
+	String reqURL = "https://kauth.kakao.com/oauth/token";
+
+	try {
+		URL url = new URL(reqURL);
+		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+		conn.setRequestMethod("POST");
+		conn.setDoOutput(true);
+
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
+		StringBuilder sb = new StringBuilder();
+		sb.append("grant_type=authorization_code");
+		sb.append("&client_id=909c3c588f9893fec11631686c08c54a");
+		sb.append("&redirect_uri=http://localhost:8120/kakao.do");
+		sb.append("&code="+code);
+
+		bw.write(sb.toString());
+		bw.flush();
+
+		int responseCode = conn.getResponseCode();
+
+		BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+		String line = "";
+		String result = "";
+		while((line = br.readLine()) != null) {
+			result += line;
+		}
+
+
+		JSONParser parser = new JSONParser();
+		JSONObject element = (JSONObject)parser.parse(result);
+
+		accessToken = (String)element.get("access_token");
+		refreshToken = (String)element.get("refresh_token");
+
+		br.close();
+		bw.close();			
+	}catch (Exception e) {
+		e.printStackTrace();
+	}
+	return accessToken;
+  }
+	
+  String reqUrl = "https://kapi.kakao.com/v2/user/me";
+  try {
+	URL url = new URL(reqUrl);
+	HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+	conn.setRequestMethod("POST");
+	conn.setRequestProperty("Authorization", "Bearer " + accessToken);
+	int responseCode = conn.getResponseCode();
+  ~~~
+			
   - Facebook Login API(현재 https 연결처리 실패로 인해 기능 이용 불가)
     - Facebook 계정을 통해 간편하게 회원가입 및 로그인을 할 수 있습니다.
     - 현재는 서버의 https 보안 처리가 되지 않아 이용이 불가능 합니다.
