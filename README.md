@@ -103,16 +103,102 @@ Riot 개발사 IP인 Leage of Legends 의 플레이어간 팀 구성 및 대전 
   ~~~
 
 - LOL 각종 리소스 경로
-  - 챔피언 이미지 :
+  - 챔피언 이미지 : 
+    - LOL 챔피언들의 프로필 이미지 데이터를 호출해 올 수 있습니다.
+    - 예시) http://ddragon.leagueoflegends.com/cdn/11.12.1/img/champion/Aatrox.png
+
+  ~~~java
+  String championImagePath = "http://ddragon.leagueoflegends.com/cdn/11.12.1/img/champion/"+championName+".png";
+  ~~~
+    
   - 챔피언 상세 정보 :
+    - LOL 챔피언들의 상세 정보를 포함하고 있는 json 파일의 데이터를 호출해 올 수 있습니다.
+    - 예시) https://ddragon.leagueoflegends.com/cdn/11.12.1/data/ko_KR/champion/Aatrox.json
+  
+  ~~~java
+  String apiURL = "https://ddragon.leagueoflegends.com/cdn/11.12.1/data/ko_KR/champion/"+championName+".json";
+  ~~~
+  
   - 각종 아이템 이미지 :
+    - LOL 에서 매치 중에 상점에서 구매할 수 있는 아이템 들의 이미지 데이터를 호출해 올 수 있습니다.
+    - 예시) http://ddragon.leagueoflegends.com/cdn/11.12.1/img/item/***.png
+  
+  ~~~java
+  String item0 = "http://ddragon.leagueoflegends.com/cdn/11.12.1/img/item/"+(Integer) jsonObject_itemList.getInt("item0")+".png";
+  ~~~
+  
   - 각종 소환사 스펠 이미지 :
+    - LOL 에서 매치 전에 지정하여 사용할 수 있는 소환사 스펠에 대한 이미지 데이터를 호출 해 올 수 있습니다.
+    - 예시) http://ddragon.leagueoflegends.com/cdn/11.12.1/img/spell/***.png
+
+  ~~~java
+  String spell1 = "http://ddragon.leagueoflegends.com/cdn/11.12.1/img/spell/"+spellDTO1.getSpellName()+".png";
+  ~~~
 
 - SNS 로그인 API
   - Naver Login API :
   - Kakao Login API : 
+  
   - Facebook Login API(현재 https 연결처리 실패로 인해 기능 이용 불가)
+    - Facebook 계정을 통해 간편하게 회원가입 및 로그인을 할 수 있습니다.
+    - 현재는 서버의 https 보안 처리가 되지 않아 이용이 불가능 합니다.
+  
+  ~~~javascript
+  <script async defer crossorigin="anonymous" src="https://connect.facebook.net/ko_KR/sdk.js" nonce="86tvEXGE"></script>
+  
+  window.fbAsyncInit = function(){
+			FB.init({
+				appId : '************',
+				autoLogAppEvents : true,
+				xfbml : true,
+				version : 'v11.0'
+			});
+
+			FB.AppEvents.logPageView();
+
+			FB.getLoginStatus(function(response){
+				console.log(response.status);
+			});
+		};
+  ~~~
+  
   - Google Login API (현재 https 연결처리 실패로 인해 기능 이용 불가)
+    - Google 계정을 통해 간편하게 회원가입 및 로그인을 할 수 있습니다.
+    - 현재는 서버의 https 보안 처리가 되지 않아 이용이 불가능 합니다.
+
+  ~~~javascript
+  function init() {
+			gapi.load('auth2', function() {
+				gapi.auth2.init();
+				options = new gapi.auth2.SigninOptionsBuilder();
+				options.setPrompt('select_account');
+				
+				options.setScope('email profile openid https://www.googleapis.com/auth/user.birthday.read');
+				// 인스턴스의 함수 호출 - element에 로그인 기능 추가
+				// GgCustomLogin은 li태그안에 있는 ID, 위에 설정한 options와 아래 성공,실패시 실행하는 함수들
+				gapi.auth2.getAuthInstance().attachClickHandler('GgCustomLogin', options, onSignIn, onSignInFailure);
+			})
+		}
+
+		function onSignIn(googleUser) {
+			var access_token = googleUser.getAuthResponse().access_token
+			$.ajax({
+				// people api를 이용하여 프로필 및 생년월일에 대한 선택동의후 가져온다.
+				url: 'https://people.googleapis.com/v1/people/me'
+				// key에 자신의 API 키를 넣습니다.
+				, data: {personFields:'birthdays', key:'**************************', 'access_token': access_token}
+				, method:'GET'
+			})
+			.done(function(e){
+				//프로필을 가져온다.
+				var profile = googleUser.getBasicProfile();
+				console.log(profile)
+			})
+			.fail(function(e){
+				console.log(e);
+			})
+		}
+  ~~~
 
 ## 개발 현황
 ### 2021/05/10
