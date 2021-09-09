@@ -370,11 +370,12 @@ public class MemberController {
 		    				String name = (String)((org.json.simple.JSONObject)result.get("response")).get("name");
 		    				String nickname = (String)((org.json.simple.JSONObject)result.get("response")).get("nickname");
 
-		    				System.out.println(id);
-		    				MemberDTO memberDTO = memberService.selectMemberOne(id);
+		    				String[] splitResult = email.split("@");
+		    				String naver_id = "Naver_" + splitResult[0];
+		    				MemberDTO memberDTO = memberService.selectMemberOne(naver_id);
 		    				if(memberDTO == null) {
 		    					memberDTO = new MemberDTO();
-		    	    			memberDTO.setUserid(id);
+		    	    			memberDTO.setUserid(naver_id);
 		    	    			memberDTO.setPasswd(id);
 		    	    			memberDTO.setName(name);
 		    	    			memberDTO.setNickname(nickname);
@@ -384,14 +385,12 @@ public class MemberController {
 
 		    				session.setAttribute("member", memberDTO);
 						} catch (Exception e) {
-                            System.out.println("에러1");
-                            e.printStackTrace();
+
 						}
 		    		}
 		      }
 		    } catch (Exception e) {
-		      System.out.println("에러2");
-		      e.printStackTrace();
+		      System.out.println(e);
 		    }
 
     	return "main";
