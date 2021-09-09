@@ -26,7 +26,7 @@
         select * from boardreply
         where nickname = #{nickname}
     </select>
-    <select id="selectPostContent" parameterType="Project.pro.gg.Model.PostDTO" resultType="String">
+    <select id="selectPostContent" parameterType="Project.pro.gg.Model.PostDTO" resultType="Project.pro.gg.Model.PostDTO">
         select * from boardpost
         where nickname = #{nickname} and postNumber = #{postNumber}
     </select>

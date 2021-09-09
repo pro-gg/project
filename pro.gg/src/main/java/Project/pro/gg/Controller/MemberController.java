@@ -299,10 +299,12 @@ public class MemberController {
         return "searchNickNameResult";
     }
     @GetMapping("/naver.do")
-    public String naverLogin(@RequestParam("code") String code, @RequestParam("state") String state) throws UnsupportedEncodingException {
+    public String naverLogin(@RequestParam("code") String code, @RequestParam("state") String state, HttpServletRequest request) throws UnsupportedEncodingException {
     	String clientId = "_GlAhgDzVIlPh0a5FTYm";
 		String clientSecret = "3bQFANR1Il";
 		String redirectURI = URLEncoder.encode("/main.jsp","UTF-8");
+
+        session = request.getSession();
 
 		String apiURL = "";
 		apiURL += "https://nid.naver.com/oauth2.0/token?grant_type=authorization_code&";
@@ -382,12 +384,14 @@ public class MemberController {
 
 		    				session.setAttribute("member", memberDTO);
 						} catch (Exception e) {
-
+                            System.out.println("에러1");
+                            e.printStackTrace();
 						}
 		    		}
 		      }
 		    } catch (Exception e) {
-		      System.out.println(e);
+		      System.out.println("에러2");
+		      e.printStackTrace();
 		    }
 
     	return "main";

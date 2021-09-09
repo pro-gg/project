@@ -14,8 +14,7 @@ class UploadAdapter {
 
     _initRequest() {
         const xhr = this.xhr = new XMLHttpRequest();
-        xhr.open('POST', 'https://localhost:8120/image.do?boardNumber='+this.boardNumber, true);
-        // xhr.open('POST', 'https://localhost:8120/freeUploadImage', true);
+        xhr.open('POST', 'http://progg.cf/pro.gg/image.do?boardNumber='+this.boardNumber, true);
         xhr.responseType = '';
     }
 

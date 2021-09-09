@@ -46,4 +46,6 @@ public interface TeamDAO {
     public List<TeamDTO> selectDynamicSearch(TeamDTO teamDTO);
 
     public List<RankedSoloDTO> selectDynamicSearch_Crew(RankedSoloDTO rankedSoloDTO);
+
+    public void updateTeam(TeamDTO teamDTO);
 }

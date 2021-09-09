@@ -124,5 +124,10 @@ public class TeamServiceImpl implements TeamService{
         return teamRepository.selectDynamicSearch_Crew(rankedSoloDTO);
     }
 
+    @Override
+    public void updateTeam(TeamDTO teamDTO) {
+        teamRepository.updateTeam(teamDTO);
+    }
+
 
 }

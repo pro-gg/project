@@ -12,10 +12,11 @@
     <script src="/pro.gg/resources/js/semantic_aside.js" charset="utf-8"></script>
     <script src="/pro.gg/resources/js/semantic_header.js" charset="utf-8"></script>
     <script>
-        function callPostContent(nickname, postNumber){
+        function callPostContent(postNumber){
+            var num_postNumber = Number(postNumber);
             $.ajax({
                 type:'get',
-                url:'${pageContext.request.contextPath}/callPostContent.do?&nickname=' + nickname + '&postNumber=' + postNumber,
+                url:'${pageContext.request.contextPath}/postdetail.do?&postNumber=' + postNumber,
                 data:'',
                 dataType:'',
                 success:function(data){
@@ -24,7 +25,7 @@
             })
         }
 
-        function checkPostDate(replytDate, replyTime, count){
+        function checkPostDate(replyDate, replyTime, count){
 
             let today = new Date();
 
@@ -70,13 +71,13 @@
                                                 <td><c:out value="${searchReplyList.postNumber}"></c:out></td>
                                                 <td>${searchReplyList.nickname}</td>
                                                 <td>
-                                                    <a href="#" onclick="callPostContent('${searchReplyList.nickname}', '${searchReplyList.postNumber}')">
+                                                    <a href="#" onclick="callPostContent('${searchReplyList.postNumber}')">
                                                         ${searchReplyList.replyContent}
                                                     </a>
                                                 </td>
                                                 <script>
-                                                    var postDate = '${searchReplyList.replyDate}';
-                                                    var postTime = '${searchReplyList.replyTime}';
+                                                    var replyDate = '${searchReplyList.replyDate}';
+                                                    var replyTime = '${searchReplyList.replyTime}';
                                                     checkPostDate(replyDate, replyTime, '${status.count}');
                                                 </script>
                                                 <td id="${status.count}"></td>

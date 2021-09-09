@@ -12,10 +12,11 @@
     <script src="/pro.gg/resources/js/semantic_aside.js" charset="utf-8"></script>
     <script src="/pro.gg/resources/js/semantic_header.js" charset="utf-8"></script>
     <script>
-        function callPostContent(postTitle, nickname, postNumber){
+        function callPostContent(postNumber){
+            var num_postNumber = Number(postNumber);
             $.ajax({
                 type:'get',
-                url:'${pageContext.request.contextPath}/callPostContent.do?&nickname=' + nickname + '&postNumber=' + postNumber,
+                url:'${pageContext.request.contextPath}/postdetail.do?&postNumber=' + postNumber,
                 data:'',
                 dataType:'',
                 success:function(data){
@@ -79,7 +80,7 @@
                                                 <td><c:out value="${searchPostList.postNumber}"></c:out></td>
                                                 <td>${searchPostList.nickname}</td>
                                                 <td>
-                                                    <a href="#" onclick="callPostContent('${searchPostList.nickname}', '${searchPostList.postNumber}')">
+                                                    <a href="#" onclick="callPostContent('${searchPostList.postNumber}')">
                                                         ${searchPostList.postTitle}
                                                     </a> 
                                                 </td>

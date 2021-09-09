@@ -104,16 +104,13 @@ public class BoardController{
         byte[] bytes = upload.getBytes();
         // 이미지를 업로드 할 폴더(주의 : 개발자 폴더 이므로 반드시 ~/images 을 새로고침 해야함)
 //        String path = "/WEB-INF/freeUploadImage";
-        String path = "resources\\static\\images\\freeUploadImage\\";
+        String path = "WEB-INF/classes/static/images/freeUploadImage/";
         String real_save_path = request.getServletContext().getRealPath("").toString();
+        System.out.println(real_save_path);
 //        String real_save_path = request.getServletContext().getRealPath(path)+"\\";
         StringBuilder save_path = new StringBuilder(real_save_path);
+        System.out.println(save_path);
 
-        save_path.deleteCharAt(save_path.length()-1);
-
-        for (int i = save_path.length()-1; save_path.charAt(i) != '\\'; i--){
-            save_path.deleteCharAt(i);
-        }
         save_path.append(path);
         System.out.println(save_path);
         // 서버로 업로드
@@ -129,7 +126,7 @@ public class BoardController{
 
         }
 
-        request.setAttribute("url", "/images/freeUploadImage/" + filename);
+        request.setAttribute("url", "/pro.gg/resources/images/freeUploadImage/" + filename);
         request.setAttribute("uploaded", true);
         return request;
     }
@@ -182,15 +179,6 @@ public class BoardController{
         searchReplyList = postService.selectPastReply(nickname);
         model.addAttribute("searchReplyList", searchReplyList);
         return "../board/pastReply";
-    }
-
-    @GetMapping("/callPostContent.do")
-    public String callPostContent(@RequestParam("nickname") String nickname,
-                                  @RequestParam("postNumber") Long postNUmber, Model model){
-        PostDTO postDTO = new PostDTO();
-        postDTO = postService.selectPostContent(postNUmber, nickname);
-        model.addAttribute("selectPostContent", postDTO);
-        return "../board/printPostContent";
     }
 
     @GetMapping("/postdetail.do")

@@ -106,4 +106,9 @@ public class TeamRepository implements TeamDAO {
     public List<RankedSoloDTO> selectDynamicSearch_Crew(RankedSoloDTO rankedSoloDTO) {
         return sqlSession.selectList("team.selectDynamicSearch_Crew", rankedSoloDTO);
     }
+
+    @Override
+    public void updateTeam(TeamDTO teamDTO) {
+        sqlSession.update("team.updateTeam", teamDTO);
+    }
 }
