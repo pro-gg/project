@@ -1,5 +1,6 @@
 package Project.pro.gg.Service;
 
+import Project.pro.gg.Model.ReplyDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,8 +32,13 @@ public class PostServiceImpl implements PostService{
 	}
 
 	@Override
-	public String selectPostContent(String postTitle, String nickname) {
-		return postRepository.selectPostContent(postTitle, nickname);
+	public List<ReplyDTO> selectPastReply(String nickname) {
+		return postRepository.selectPastReply(nickname);
+	}
+
+	@Override
+	public PostDTO selectPostContent(Long postNumber, String nickname) {
+		return postRepository.selectPostContent(postNumber, nickname);
 	}
 
 	@Override

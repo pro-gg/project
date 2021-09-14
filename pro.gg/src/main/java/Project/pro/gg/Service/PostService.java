@@ -1,5 +1,6 @@
 package Project.pro.gg.Service;
 
+import Project.pro.gg.Model.ReplyDTO;
 import org.springframework.stereotype.Service;
 
 import Project.pro.gg.API.Paging;
@@ -15,7 +16,7 @@ public interface PostService {
 
     public List<PostDTO> selectPastPost(String nickname);
 
-    public String selectPostContent(String postTitle, String nickname);
+    public PostDTO selectPostContent(Long postNumber, String nickname);
 
     public PostDTO selectPostBy_postNumber(int postNumber);
 
@@ -34,4 +35,6 @@ public interface PostService {
     public void updateNotRecommendCount(PostDTO postDTO);
     
     public List<PostDTO> selectPostList_By_ConditionCheck(Project.pro.gg.Model.PostDTO postDTO);
+
+    public List<ReplyDTO> selectPastReply(String nickname);
 }

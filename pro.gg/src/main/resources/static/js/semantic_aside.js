@@ -1,7 +1,7 @@
 $(function () {
     $.ajax({
         type: 'get',
-        url: '/aside.do',
+        url: '/pro.gg/aside.do',
         data: '',
         dataType: '',
         success: function (data) {

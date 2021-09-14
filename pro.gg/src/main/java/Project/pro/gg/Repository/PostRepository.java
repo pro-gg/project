@@ -4,6 +4,7 @@ import Project.pro.gg.API.Paging;
 import Project.pro.gg.DAO.PostDAO;
 import Project.pro.gg.Model.PostDTO;
 
+import Project.pro.gg.Model.ReplyDTO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -33,9 +34,14 @@ public class PostRepository implements PostDAO {
 	}
 
 	@Override
-	public String selectPostContent(String postTitle, String nickname) {
+	public List<ReplyDTO> selectPastReply(String nickname) {
+		return sqlSession.selectList("post.selectPastReply", nickname);
+	}
+
+	@Override
+	public PostDTO selectPostContent(Long postNumber, String nickname) {
 		PostDTO postDTO = new PostDTO();
-		postDTO.setPostTitle(postTitle);
+		postDTO.setPostNumber(postNumber);
 		postDTO.setNickname(nickname);
 		return sqlSession.selectOne("post.selectPostContent", postDTO);
 	}
@@ -88,6 +94,8 @@ public class PostRepository implements PostDAO {
 	public List<PostDTO> selectPostList_By_ConditionCheck(PostDTO postDTO) {
 		return sqlSession.selectList("post.selectPostList_By_ConditionCheck", postDTO);
 	}
+
+
 
 
 }

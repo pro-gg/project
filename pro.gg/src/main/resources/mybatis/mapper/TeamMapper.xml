@@ -70,6 +70,16 @@
         where teamName = #{teamName}
     </select>
     
+    <select id="updateTeam" parameterType="Project.pro.gg.Model.TeamDTO">
+        update team
+        set top = #{top},
+            middle = #{middle},
+            jungle = #{jungle},
+            bottom = #{bottom},
+            suppoter = #{suppoter}
+        where teamName = #{teamName}
+    </select>
+    
     <select id="updateTierAvg" parameterType="Project.pro.gg.Model.TeamDTO">
     	UPDATE team
 		SET tier_average = #{tier_average}

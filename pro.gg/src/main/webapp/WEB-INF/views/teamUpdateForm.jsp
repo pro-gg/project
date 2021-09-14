@@ -8,9 +8,9 @@ pageEncoding="UTF-8"%>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title></title>
-    <script src="/webjars/jquery/3.6.0/jquery.min.js"></script>
-    <script src="/js/semantic_aside.js" charset="utf-8"></script>
-    <script src="/js/semantic_header.js" charset="utf-8"></script>
+    <script src="/pro.gg/resources/webjars/jquery/3.6.0/jquery.min.js"></script>
+    <script src="/pro.gg/resources/js/semantic_aside.js" charset="utf-8"></script>
+    <script src="/pro.gg/resources/js/semantic_header.js" charset="utf-8"></script>
     <script>
         $(function(){
             if("${team.captinName}" === "${team.top}"){
@@ -82,48 +82,128 @@ pageEncoding="UTF-8"%>
 			var positionBottom = document.getElementById("positionBottom");
 			var positionSuppoter = document.getElementById("positionSuppoter");
 
-			var positionArray = [];
+			var positionJSON = {
+				top:'',
+				middle:'',
+				jungle:'',
+				bottom:'',
+				suppoter:''
+			};
 			
+			var changePosition = '';
+			var crewName = '';
+
+			var overlapCheck = [];
+
+			// 겹치는 포지션이 있는지 없는지 판별
 			if("${team.top}".length !== 0){
-				positionArray.push(positionTop.options[positionTop.selectedIndex].value);
-			}else{
-				positionArray.push("");
+				overlapCheck.push(positionTop.options[positionTop.selectedIndex].value);
 			}
-
 			if("${team.middle}".length !== 0){
-				positionArray.push(positionMiddle.options[positionMiddle.selectedIndex].value);
-			}else{
-				positionArray.push("");
+				overlapCheck.push(positionMiddle.options[positionMiddle.selectedIndex].value);
 			}
-
 			if("${team.jungle}".length !== 0){
-				positionArray.push(positionJungle.options[positionJungle.selectedIndex].value);
-			}else{
-				positionArray.push("");
+				overlapCheck.push(positionJungle.options[positionJungle.selectedIndex].value);
 			}
-
 			if("${team.bottom}".length !== 0){
-				positionArray.push(positionBottom.options[positionBottom.selectedIndex].value);
-			}else{
-				positionArray.push("");
+				overlapCheck.push(positionBottom.options[positionBottom.selectedIndex].value);
 			}
-
 			if("${team.suppoter}".length !== 0){
-				positionArray.push(positionSuppoter.options[positionSuppoter.selectedIndex].value);
-			}else{
-				positionArray.push("");
+				overlapCheck.push(positionSuppoter.options[positionSuppoter.selectedIndex].value);
 			}
 
-			encodeURI()
-			$.ajax({
-				type:'get',
-				url:'${pageContext.request.contextPath}/teamLineUpdate.do?positionArray='+positionArray+'&teamName='+teamName,
-				data:'',
-				dataType:'',
-				success:function(data){
-					$("body").html(data);
+			var overlapSet = new Set(overlapCheck);
+			if(overlapCheck.length !== overlapSet.size){ // 포지션 중복이 있을 경우 처리
+				$.ajax({
+					type:'get',
+					url:'${pageContext.request.contextPath}/teamdetail.do?teamName='+encodeURI(teamName)+'&target=overlap',
+					data:'',
+					dataType:'',
+					success:function(data){
+						$("body").html(data);
+					}
+				})
+			}else{ // 포지션 중복이 없을 경우 처리
+				
+				if("${team.top}".length !== 0){ // 기존에 top 이었던 회원이 있었을 경우
+					// 포지션이 변경 되었는지 확인
+					changePosition = positionTop.options[positionTop.selectedIndex].value;
+					crewName = "${team.top}";
+					if(changePosition !== "top"){ // 포지션이 변경 되었을 경우
+						jsonAdd(changePosition, crewName);			
+					} else{ // 포지션이 변경되지 않았을 경우
+						jsonAdd(changePosition, crewName);
+					}
 				}
-			})
+
+				if("${team.middle}".length !== 0){
+					changePosition = positionMiddle.options[positionMiddle.selectedIndex].value;
+					crewName = "${team.middle}";
+					if(changePosition !== "middle"){
+						jsonAdd(changePosition, crewName);
+					} else{ // 포지션이 변경되지 않았을 경우
+						jsonAdd(changePosition, crewName);
+					}
+				}
+
+				if("${team.jungle}".length !== 0){
+					changePosition = positionJungle.options[positionJungle.selectedIndex].value;
+					crewName = "${team.jungle}";
+					if(changePosition !== "jungle"){
+						jsonAdd(changePosition, crewName);
+					} else{ // 포지션이 변경되지 않았을 경우
+						jsonAdd(changePosition, crewName);
+					}
+				}
+
+				if("${team.bottom}".length !== 0){
+					changePosition = positionBottom.options[positionBottom.selectedIndex].value;
+					crewName = "${team.bottom}";
+					if(changePosition !== "bottom"){
+						jsonAdd(changePosition, crewName);
+					} else{ // 포지션이 변경되지 않았을 경우
+						jsonAdd(changePosition, crewName);
+					}
+				}
+
+				if("${team.suppoter}".length !== 0){
+					changePosition = positionSuppoter.options[positionSuppoter.selectedIndex].value;
+					crewName = "${team.suppoter}";
+					if(changePosition !== "suppoter"){
+						jsonAdd(changePosition, crewName);
+					} else{ // 포지션이 변경되지 않았을 경우
+						jsonAdd(changePosition, crewName);
+					}
+				}
+
+				$.ajax({
+					type:'get',
+					url:'${pageContext.request.contextPath}/teamLineUpdate.do?positionJSON='+encodeURI(JSON.stringify(positionJSON))+'&teamName='+encodeURI(teamName),
+					data:'',
+					dataType:'',
+					success:function(data){
+						$("body").html(data);
+					}
+				})
+			}
+
+			function jsonAdd(changePosition, crewName){
+				if(changePosition === "top"){
+					positionJSON.top = crewName;
+				}
+				else if(changePosition === "middle"){
+						positionJSON.middle = crewName; // JSON 변수에 데이터 추가
+				}
+				else if(changePosition === "jungle"){
+					positionJSON.jungle = crewName;
+				}
+				else if(changePosition === "bottom"){
+					positionJSON.bottom = crewName;
+				}
+				else if(changePosition === "suppoter"){
+					positionJSON.suppoter = crewName;
+				}
+			}
 		}
     </script>
 </head>

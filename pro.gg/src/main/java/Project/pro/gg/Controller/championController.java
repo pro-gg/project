@@ -30,7 +30,7 @@ public class championController {
     public String champion(Model model) {
 		
 		try {
-			urlstr = "https://ddragon.leagueoflegends.com/cdn/11.11.1/data/ko_KR/champion.json";
+			urlstr = "http://ddragon.leagueoflegends.com/cdn/11.16.1/data/ko_KR/champion.json";
 			rioturl = new URL(urlstr);
 			urlconnection = (HttpURLConnection)rioturl.openConnection();
 			urlconnection.setRequestMethod("GET");
@@ -45,14 +45,14 @@ public class championController {
 			JSONObject data = (JSONObject) k.get("data");
 			Iterator iter = data.keySet().iterator();
 			List<String> champList = new ArrayList<String>();
-			String imgPath = "https://ddragon.leagueoflegends.com/cdn/11.11.1/img/champion/";
+			String imgPath = "http://ddragon.leagueoflegends.com/cdn/11.16.1/img/champion/";
 			while(iter.hasNext()) {
 				champList.add((String)iter.next());
 			}
 			model.addAttribute("champList", champList);
 			model.addAttribute("imgPath", imgPath);
 		}catch(Exception e) {
-			
+			e.printStackTrace();
 		}
     	return "champion";
     }

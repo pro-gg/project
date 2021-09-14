@@ -299,10 +299,12 @@ public class MemberController {
         return "searchNickNameResult";
     }
     @GetMapping("/naver.do")
-    public String naverLogin(@RequestParam("code") String code, @RequestParam("state") String state) throws UnsupportedEncodingException {
+    public String naverLogin(@RequestParam("code") String code, @RequestParam("state") String state, HttpServletRequest request) throws UnsupportedEncodingException {
     	String clientId = "_GlAhgDzVIlPh0a5FTYm";
 		String clientSecret = "3bQFANR1Il";
 		String redirectURI = URLEncoder.encode("/main.jsp","UTF-8");
+
+        session = request.getSession();
 
 		String apiURL = "";
 		apiURL += "https://nid.naver.com/oauth2.0/token?grant_type=authorization_code&";
@@ -368,11 +370,12 @@ public class MemberController {
 		    				String name = (String)((org.json.simple.JSONObject)result.get("response")).get("name");
 		    				String nickname = (String)((org.json.simple.JSONObject)result.get("response")).get("nickname");
 
-		    				System.out.println(id);
-		    				MemberDTO memberDTO = memberService.selectMemberOne(id);
+		    				String[] splitResult = email.split("@");
+		    				String naver_id = "Naver_" + splitResult[0];
+		    				MemberDTO memberDTO = memberService.selectMemberOne(naver_id);
 		    				if(memberDTO == null) {
 		    					memberDTO = new MemberDTO();
-		    	    			memberDTO.setUserid(id);
+		    	    			memberDTO.setUserid(naver_id);
 		    	    			memberDTO.setPasswd(id);
 		    	    			memberDTO.setName(name);
 		    	    			memberDTO.setNickname(nickname);

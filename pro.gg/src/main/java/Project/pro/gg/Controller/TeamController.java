@@ -457,126 +457,40 @@ public class TeamController {
     }
 
     @GetMapping("/teamLineUpdate.do")
-    public String teamUpdate(@RequestParam("positionArray") String [] positionArray, @RequestParam("teamName") String teamName) throws UnsupportedEncodingException {
-
-        if (Arrays.stream(positionArray).distinct().count() != positionArray.length)
-            return "redirect:/teamdetail.do?teamName="+URLEncoder.encode(teamName, "UTF-8")+"&target=overlap";
+    public String teamUpdate(@RequestParam("positionJSON") String positionJSON, @RequestParam("teamName") String teamName) throws UnsupportedEncodingException {
 
         TeamDTO teamDTO = new TeamDTO();
-        teamDTO.setTeamName(teamName);
-        teamDTO = teamService.selectTeam(teamDTO);
+        // positionJSON 은 라인 변경이 반영된 JSON 데이터
+        try{
+            JSONObject jsonObject = new JSONObject(positionJSON);
 
-        TeamApplyDTO teamApplyDTO = new TeamApplyDTO();
-        Queue<String> positionQueue = new LinkedList<>(); // 포지션 현황 큐
-        List<String> nullCheckList = new ArrayList<>(); // 비어있는 포지션 리스트
+            String top = jsonObject.getString("top");
+            String middle = jsonObject.getString("middle");
+            String jungle = jsonObject.getString("jungle");
+            String bottom = jsonObject.getString("bottom");
+            String suppoter = jsonObject.getString("suppoter");
 
-        if (teamDTO.getTop() == null) nullCheckList.add("top");
-        if (teamDTO.getMiddle() == null) nullCheckList.add("middle");
-        if (teamDTO.getJungle() == null) nullCheckList.add("jungle");
-        if (teamDTO.getBottom() == null) nullCheckList.add("bottom");
-        if (teamDTO.getSuppoter() == null) nullCheckList.add("suppoter");
+            if (!top.equals(""))
+                teamDTO.setTop(top);
+            if (!middle.equals(""))
+                teamDTO.setMiddle(middle);
+            if (!jungle.equals(""))
+                teamDTO.setJungle(jungle);
+            if (!bottom.equals(""))
+                teamDTO.setBottom(bottom);
+            if (!suppoter.equals(""))
+                teamDTO.setSuppoter(suppoter);
 
-        for (int i = 0; i < positionArray.length; i++)
-            positionQueue.add(positionArray[i]);
+            teamDTO.setTeamName(teamName);
 
-        if (teamDTO.getTop() != null){
-            if (!positionQueue.peek().equals("top")){
-                teamApplyDTO.setNickname(teamDTO.getTop());
-                teamApplyDTO.setLine(positionQueue.poll());
-                teamApplyDTO.setTeamName(teamName);
-                teamService.updateTeamLine(teamApplyDTO);
-
-                if (nullCheckList.contains(teamApplyDTO.getLine())){
-                    teamApplyDTO.setNickname(null);
-                    teamApplyDTO.setLine("top");
-                    teamService.updateTeamLine(teamApplyDTO);
-                }
-            }else {
-                positionQueue.poll();
-            }
-        }else {
-            positionQueue.poll();
-        }
-
-        if (teamDTO.getMiddle() != null){
-            if (!positionQueue.peek().equals("middle")){
-                teamApplyDTO.setNickname(teamDTO.getMiddle());
-                teamApplyDTO.setLine(positionQueue.poll());
-                teamApplyDTO.setTeamName(teamName);
-                teamService.updateTeamLine(teamApplyDTO);
-
-                if (nullCheckList.contains(teamApplyDTO.getLine())){
-                    teamApplyDTO.setNickname(null);
-                    teamApplyDTO.setLine("middle");
-                    teamService.updateTeamLine(teamApplyDTO);
-                }
-            }else {
-                positionQueue.poll();
-            }
-        }else {
-            positionQueue.poll();
-        }
-
-        if (teamDTO.getJungle() != null){
-            if (!positionQueue.peek().equals("jungle")){
-                teamApplyDTO.setNickname(teamDTO.getJungle());
-                teamApplyDTO.setLine(positionQueue.poll());
-                teamApplyDTO.setTeamName(teamName);
-                teamService.updateTeamLine(teamApplyDTO);
-
-                if (nullCheckList.contains(teamApplyDTO.getLine())){
-                    teamApplyDTO.setNickname(null);
-                    teamApplyDTO.setLine("jungle");
-                    teamService.updateTeamLine(teamApplyDTO);
-                }
-            }else {
-                positionQueue.poll();
-            }
-        }else {
-            positionQueue.poll();
-        }
-
-        if (teamDTO.getBottom() != null){
-            if (!positionQueue.peek().equals("bottom")){
-                teamApplyDTO.setNickname(teamDTO.getBottom());
-                teamApplyDTO.setLine(positionQueue.poll());
-                teamApplyDTO.setTeamName(teamName);
-                teamService.updateTeamLine(teamApplyDTO);
-
-                if (nullCheckList.contains(teamApplyDTO.getLine())){
-                    teamApplyDTO.setNickname(null);
-                    teamApplyDTO.setLine("bottom");
-                    teamService.updateTeamLine(teamApplyDTO);
-                }
-            }else {
-                positionQueue.poll();
-            }
-        }else {
-            positionQueue.poll();
-        }
-
-        if (teamDTO.getSuppoter() != null){
-            if (!positionQueue.peek().equals("suppoter")){
-                teamApplyDTO.setNickname(teamDTO.getSuppoter());
-                teamApplyDTO.setLine(positionQueue.poll());
-                teamApplyDTO.setTeamName(teamName);
-                teamService.updateTeamLine(teamApplyDTO);
-
-                if (nullCheckList.contains(teamApplyDTO.getLine())){
-                    teamApplyDTO.setNickname(null);
-                    teamApplyDTO.setLine("suppoter");
-                    teamService.updateTeamLine(teamApplyDTO);
-                }
-            }else {
-                positionQueue.poll();
-            }
-        }else {
-            positionQueue.poll();
+            teamService.updateTeam(teamDTO);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
         }
 
         return "redirect:/teamdetail.do?teamName="+URLEncoder.encode(teamName, "UTF-8")+"&target=detail";
     }
-    
+
     @GetMapping("/matchList.do")
     public String matchList(Model model, HttpServletRequest request) {
     	HttpSession session = request.getSession();

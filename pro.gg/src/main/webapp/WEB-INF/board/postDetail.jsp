@@ -6,12 +6,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>
-    <link rel="stylesheet" type="text/css" href="/css/mystyle.css"/>
-    <script src="/webjars/jquery/3.6.0/jquery.min.js"></script>
-    <script src="/js/semantic_aside.js" charset="utf-8"></script>
-    <script src="/js/semantic_header.js" charset="utf-8"></script>
-    <script src="/js/elements.js" charset="utf-8"></script>
+    <link rel="stylesheet" type="text/css" href="/pro.gg/resources/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/pro.gg/resources/css/mystyle.css"/>
+    <script src="/pro.gg/resources/webjars/jquery/3.6.0/jquery.min.js"></script>
+    <script src="/pro.gg/resources/js/semantic_aside.js" charset="utf-8"></script>
+    <script src="/pro.gg/resources/js/semantic_header.js" charset="utf-8"></script>
+    <script src="/pro.gg/resources/js/elements.js" charset="utf-8"></script>
     <title></title>
     <script>
         $(function(){
@@ -196,6 +196,9 @@
                             <br>
                             <c:if test = "${sessionScope.member.nickname == post.nickname}">
                             	<a href="${pageContext.request.contextPath}/postModify.do?postNumber=${post.postNumber}">수정</a>
+                            </c:if>&nbsp;
+                            <c:if test = "${sessionScope.member.nickname == post.nickname}">
+                            	<a href="${pageContext.request.contextPath}/postDelete.do?postNumber=${post.postNumber}&nickname=${post.nickname}">삭제</a>
                             </c:if>
                             <hr>
                             <c:if test="${sessionScope.member == null}">

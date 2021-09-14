@@ -6,6 +6,7 @@ import java.util.List;
 
 import Project.pro.gg.API.Paging;
 import Project.pro.gg.Model.PostDTO;
+import Project.pro.gg.Model.ReplyDTO;
 
 public interface PostDAO {
 	public void insertPost(PostDTO postDTO);
@@ -14,7 +15,7 @@ public interface PostDAO {
 
     public List<PostDTO> selectPastPost(String nickname);
 
-    public String selectPostContent(String postTitle, String nickname);
+    public PostDTO selectPostContent(Long postNumber, String nickname);
 
     public PostDTO selectPostBy_postNumber(int postNumber);
 
@@ -33,4 +34,6 @@ public interface PostDAO {
     public int countPost(int boardNumber);
     
     public List<PostDTO> selectPostList_By_ConditionCheck(PostDTO postDTO);
+
+    public List<ReplyDTO> selectPastReply(String nickname);
 }
