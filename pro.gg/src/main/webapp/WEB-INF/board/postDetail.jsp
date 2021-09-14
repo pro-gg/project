@@ -196,6 +196,9 @@
                             <br>
                             <c:if test = "${sessionScope.member.nickname == post.nickname}">
                             	<a href="${pageContext.request.contextPath}/postModify.do?postNumber=${post.postNumber}">수정</a>
+                            </c:if>&nbsp;
+                            <c:if test = "${sessionScope.member.nickname == post.nickname}">
+                            	<a href="${pageContext.request.contextPath}/postDelete.do?postNumber=${post.postNumber}&nickname=${post.nickname}">삭제</a>
                             </c:if>
                             <hr>
                             <c:if test="${sessionScope.member == null}">

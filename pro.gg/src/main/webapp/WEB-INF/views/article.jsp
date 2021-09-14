@@ -12,17 +12,40 @@
     <script src="/pro.gg/resources/webjars/jquery/3.6.0/jquery.min.js"></script>
     <script>
         function findMemberData(){
-            var nickname = document.getElementById("searchNickname").value;
+            var searchCondition = document.getElementById("searchCondition");
+	        var	searchKeyword = searchCondition.options[searchCondition.selectedIndex].value;
 
-            $.ajax({
-                type:'get',
-                url:'${pageContext.request.contextPath}/findmemberdata.do?nickname='+nickname,
-                data:'',
-                dataType:'',
-                success:function(data){
-                    $("body").html(data);
+            if(searchKeyword === 'nickname'){
+		        var nickname = document.getElementById("searchKeyword").value;
+
+                $.ajax({
+                    type:'get',
+                    url:'${pageContext.request.contextPath}/findmemberdata.do?nickname='+encodeURI(nickname),
+                    data:'',
+                    dataType:'',
+                    success:function(data){
+                        $("body").html(data);
+                    }
+                })
+            }
+            else if(searchKeyword === 'summonerName'){
+		        var summonerName = document.getElementById("searchKeyword").value;
+                summonerName = {
+                    'summonerName': summonerName
                 }
-            })
+
+                $.ajax({
+                    type:'get',
+                    url:'${pageContext.request.contextPath}/searchSummonerName.do?summonerName='+encodeURI(JSON.stringify(summonerName)),
+                    data:'',
+                    dataType:'',
+                    success:function(data){
+                        $("body").html(data);
+                    }
+                })
+            }
+
+            
         }
     </script>
 </head>
@@ -30,8 +53,14 @@
 	<div class="content-wrapper">
 		<div class="back-img text-center">
 			<img src="/pro.gg/resources/images/progg2.png" id="main-img" alt="로고">
-			<div class="searchbar">
-				<input type="text" autocomplete="off" name="searchNickName" id="searchNickname" placeholder="검색어를 입력하세요">
+            <p>
+                <select name="searchCondition" id="searchCondition">
+                    <option value="summonerName">소환사 명</option>
+                    <option value="nickname">닉네임</option>
+                </select>
+            </p>
+			<div class="searchbar">       
+				<input type="text" autocomplete="off" name="searchKeyword" id="searchKeyword" placeholder="검색어를 입력하세요">
 				<button type="submit" value="검색" onclick="findMemberData()">
 					<img src="/pro.gg/resources/images/icon_search.png">
 				</button>
