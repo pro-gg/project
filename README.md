@@ -14,6 +14,7 @@ Riot 개발사 IP인 Leage of Legends 의 플레이어간 팀 구성 및 대전 
 
 ## 링크
 - http://progg.cf/pro.gg/
+  -> 도메인 에러 발생시 : http://27.96.134.220/pro.gg/
 
 ## 프로젝트 참여자
 - 서호준 
