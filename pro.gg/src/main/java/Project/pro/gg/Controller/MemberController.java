@@ -7,12 +7,16 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import Project.pro.gg.Model.*;
+import Project.pro.gg.Service.TeamServiceImpl;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
@@ -23,11 +27,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import Project.pro.gg.API.KakaoAPI;
-import Project.pro.gg.Model.AdminDTO;
-import Project.pro.gg.Model.MemberDTO;
-import Project.pro.gg.Model.RankedFlexDTO;
-import Project.pro.gg.Model.RankedSoloDTO;
-import Project.pro.gg.Model.SummonerDTO;
 import Project.pro.gg.Service.MemberServiceImpl;
 import Project.pro.gg.Service.SummonerServiceImpl;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -40,6 +39,9 @@ public class MemberController {
 
     @Autowired
     SummonerServiceImpl summonerService;
+
+    @Autowired
+    TeamServiceImpl teamService;
 
     public static HttpSession session;
 
@@ -272,6 +274,78 @@ public class MemberController {
     public String memberSecession(){
 
         MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
+        // 소속된 팀이 있는지 확인하고, 있을시 팀원인지, 팀장인지 확인
+        // 팀원일 경우 팀 추방, 팀장일 경우 팀 해체
+        if (memberDTO.getTeamName() != null){
+            // 소속된 팀이 있는 경우 처리
+            TeamDTO teamDTO = new TeamDTO();
+            teamDTO.setTeamName(memberDTO.getTeamName());
+            teamDTO = teamService.selectTeam(teamDTO);
+            
+            if (teamDTO.getCaptinName().equals(memberDTO.getNickname())){
+                // 팀장일 경우 팀 해체 처리
+                List<String> lineList = new ArrayList<>();
+                if (teamDTO.getTop() != null){
+                    lineList.add(teamDTO.getTop());
+                }
+                if (teamDTO.getMiddle() != null){
+                    lineList.add(teamDTO.getMiddle());
+                }
+                if (teamDTO.getJungle() != null){
+                    lineList.add(teamDTO.getJungle());
+                }
+                if (teamDTO.getBottom() != null){
+                    lineList.add(teamDTO.getBottom());
+                }
+                if (teamDTO.getSuppoter() != null){
+                    lineList.add(teamDTO.getSuppoter());
+                }
+
+                // 연관관계 매핑 해제 - 회원 닉네임을 통해 회원 데이터 검색 후 해당 데이터의 teamName 필드값을 null 로 업데이트
+                for (int i = 0; i < lineList.size(); i++){
+                    MemberDTO memberDTO_teamCrew = memberService.findByNickname(lineList.get(i));
+
+                    if (memberDTO_teamCrew != null) {
+                        memberDTO_teamCrew.setTeamName(null);
+                        memberService.updateTeamName(memberDTO_teamCrew);
+                    }
+                }
+                // 회원 측 연관관계 해제 이후 팀 삭제기능 동작
+                teamService.deleteTeam(teamDTO);
+            }else{
+                // 팀원일 경우 팀 추방 처리
+                TeamApplyDTO teamApplyDTO = new TeamApplyDTO();
+                teamApplyDTO.setTeamName(teamDTO.getTeamName());
+                teamApplyDTO.setNickname(memberDTO.getNickname());
+
+                if (teamApplyDTO.getNickname().equals(teamDTO.getTop())){
+                    teamApplyDTO.setLine("top");
+                }else if (teamApplyDTO.getNickname().equals(teamDTO.getMiddle())){
+                    teamApplyDTO.setLine("middle");
+                }else if (teamApplyDTO.getNickname().equals(teamDTO.getJungle())){
+                    teamApplyDTO.setLine("jungle");
+                }else if (teamApplyDTO.getNickname().equals(teamDTO.getBottom())){
+                    teamApplyDTO.setLine("bottom");
+                }else if (teamApplyDTO.getNickname().equals(teamDTO.getSuppoter())){
+                    teamApplyDTO.setLine("suppoter");
+                }
+
+                teamApplyDTO.setNickname(null);
+                teamService.updateTeamLine(teamApplyDTO);
+                
+                memberDTO.setTeamName(null);
+                memberService.updateTeamName(memberDTO);
+            }
+        }
+
+        // 등록되어 있는 소환사 데이터가 있는지 확인후, 있을시 데이터 삭제 처리
+        SummonerDTO summonerDTO = summonerService.findByUserid(memberDTO.getUserid());
+
+        if (summonerDTO != null){
+            // 탈퇴하는 회원에게 등록되어 있는 소환사 데이터가 있는 경우
+            memberDTO.setSummoner_name(summonerDTO.getSummoner_name());
+            memberService.deleteSummonerName(memberDTO);
+        }
         memberService.deleteMember(memberDTO);
         session.removeAttribute("member");
         return "../popup/currentPasswd_popup";
