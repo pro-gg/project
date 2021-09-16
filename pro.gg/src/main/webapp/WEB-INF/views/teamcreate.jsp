@@ -16,6 +16,22 @@
             var tier_limit = document.getElementById('tier_limit');
             var captinName = "${sessionScope.member.nickname}";
             var userid = "${sessionScope.member.userid}";
+			var teamName = document.getElementById('teamName').value;
+			var startTime = document.getElementById('startTime').value;
+			var endTime = document.getElementById('endTime').value;
+
+			if(teamName == ''){
+				alert("팀 이름은 필수 입니다.");
+				return;
+			}
+			if(startTime == ''){
+				alert("시작 시간은 필수 입니다.");
+				return;
+			}
+			if(endTime == ''){
+				alert("끝나는 시간은 필수 입니다.");
+				return;
+			}
 
             var teamData = {
                 'teamName':document.getElementById('teamName').value,
