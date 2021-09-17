@@ -769,8 +769,6 @@ public class SummonerController {
             }
             
             // 최근 전적 데이터 크롤링 및 이미지 처리
-            MatchDataDTO matchData = new MatchDataDTO();
-
             String puuid = summonerDTO.getPuuid();
             List<String> matchIdList = new ArrayList<>();
 
@@ -826,6 +824,8 @@ public class SummonerController {
                             continue;
                         else {
 
+                            MatchDataDTO matchData = new MatchDataDTO();
+
                             matchData.setMatchId(matchIdList.get(i));
 
                             // 선택한 챔피언 id 값 및 이름
@@ -862,6 +862,7 @@ public class SummonerController {
                             matchData.setJson_itemList(json_itemList);
 
                             matchDataDTOList.add(matchData);
+                            System.out.println(matchDataDTOList.get(matchDataDTOList.size()-1).getChampionName());
 
                             break;
                         }
@@ -872,8 +873,6 @@ public class SummonerController {
                     System.out.println(e.getMessage());
                 }
             }
-
-            Collections.reverse(matchDataDTOList);
             model.addAttribute("matchDataList", matchDataDTOList);
 
             JSONObject jsonObject_itemList = null;
