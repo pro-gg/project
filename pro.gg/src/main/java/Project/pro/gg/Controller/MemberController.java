@@ -475,11 +475,13 @@ public class MemberController {
     	String access_token = kakaoApi.getAccessToken(code);
     	HashMap<String, String> userInfo = kakaoApi.getUserInfo(access_token);
     	MemberDTO memberDTO = new MemberDTO();
+    	String[] splitResult = userInfo.get("email").split("@");
+		String kakao_id = "Kakao_" + splitResult[0];
     	if(userInfo.get("id") != null) {
-    		memberDTO = memberService.selectMemberOne(userInfo.get("id"));
+    		memberDTO = memberService.selectMemberOne(kakao_id);
     		if(memberDTO == null) {
     			memberDTO = new MemberDTO();
-    			memberDTO.setUserid(userInfo.get("id"));
+    			memberDTO.setUserid(kakao_id);
     			memberDTO.setPasswd(userInfo.get("id"));
     			memberDTO.setNickname(userInfo.get("nickname"));
     			memberDTO.setName(userInfo.get("nickname"));
