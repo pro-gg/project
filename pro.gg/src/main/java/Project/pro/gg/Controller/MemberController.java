@@ -457,6 +457,7 @@ public class MemberController {
 		    	    			memberService.insert(memberDTO);
 		    	    		}
 
+                            memberDTO.setSummoner_name(memberService.selectInnerJoinsummoner_name(memberDTO.getUserid()));
 		    				session.setAttribute("member", memberDTO);
 						} catch (Exception e) {
 
