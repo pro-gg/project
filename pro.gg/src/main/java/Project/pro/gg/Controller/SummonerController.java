@@ -125,7 +125,6 @@ public class SummonerController {
             return "redirect:/rejectapply.do?nickname="+URLEncoder.encode(memberDTO.getNickname(), "UTF-8")+
                     "&teamName="+URLEncoder.encode(teamApplyDTO.getTeamName(), "UTF-8")+"&target=updateSummonerName";
         }
-        // 소속된 팀에서 추방시키는 로직과 특정팀에 대한 지원 내역이 있을 시 그 또한 취소되는 로직을 작성한다. 
         return "updateSummonerName";
     }
 
