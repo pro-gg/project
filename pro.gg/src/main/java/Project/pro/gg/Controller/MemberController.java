@@ -490,8 +490,10 @@ public class MemberController {
 
     			memberService.insert(memberDTO);
     		}
+
     	}
     	session = request.getSession();
+        memberDTO.setSummoner_name(memberService.selectInnerJoinsummoner_name(memberDTO.getUserid()));
     	session.setAttribute("member", memberDTO);
 
     	return "main";
