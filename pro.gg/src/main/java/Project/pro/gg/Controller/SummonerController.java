@@ -1,11 +1,9 @@
 package Project.pro.gg.Controller;
 
 import Project.pro.gg.Model.*;
-import Project.pro.gg.Service.MatchDataServiceImpl;
-import Project.pro.gg.Service.MemberServiceImpl;
-import Project.pro.gg.Service.SummonerServiceImpl;
-import Project.pro.gg.Service.TeamServiceImpl;
+import Project.pro.gg.Service.*;
 import com.fasterxml.jackson.core.type.TypeReference;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONArray;
 import org.springframework.boot.configurationprocessor.json.JSONException;
@@ -26,13 +24,11 @@ import java.net.URLEncoder;
 import java.util.*;
 
 @Controller
+@RequiredArgsConstructor
 public class SummonerController {
 
-    @Autowired
-    MemberServiceImpl memberService;
-
-    @Autowired
-    SummonerServiceImpl summonerService;
+    private final MemberService memberService;
+    private final SummonerService summonerService;
 
     @Autowired
     MatchDataServiceImpl matchDataService;

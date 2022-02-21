@@ -3,6 +3,7 @@ package Project.pro.gg.Repository;
 import java.util.HashMap;
 import java.util.List;
 
+import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -14,10 +15,10 @@ import Project.pro.gg.Model.TeamApplyDTO;
 import Project.pro.gg.Model.TeamDTO;
 
 @Repository
+@RequiredArgsConstructor
 public class TeamRepository implements TeamDAO {
 
-    @Autowired
-    SqlSession sqlSession;
+    private final SqlSession sqlSession;
 
     @Override
     public TeamDTO selectTeam(TeamDTO teamDTO) {

@@ -16,7 +16,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import Project.pro.gg.Model.*;
-import Project.pro.gg.Service.TeamServiceImpl;
+import Project.pro.gg.Service.*;
+import lombok.RequiredArgsConstructor;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
@@ -27,21 +28,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import Project.pro.gg.API.KakaoAPI;
-import Project.pro.gg.Service.MemberServiceImpl;
-import Project.pro.gg.Service.SummonerServiceImpl;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
+@RequiredArgsConstructor
 public class MemberController {
 
-    @Autowired
-    MemberServiceImpl memberService;
 
-    @Autowired
-    SummonerServiceImpl summonerService;
-
-    @Autowired
-    TeamServiceImpl teamService;
+    private final MemberService memberService;
+    private final SummonerService summonerService;
+    private final TeamService teamService;
 
     public static HttpSession session;
 

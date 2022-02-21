@@ -3,6 +3,8 @@ package Project.pro.gg.Service;
 import java.util.HashMap;
 import java.util.List;
 
+import Project.pro.gg.DAO.TeamDAO;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,10 +15,11 @@ import Project.pro.gg.Model.TeamDTO;
 import Project.pro.gg.Repository.TeamRepository;
 
 @Service
+@RequiredArgsConstructor
 public class TeamServiceImpl implements TeamService{
 
-    @Autowired
-    TeamRepository teamRepository;
+
+    private final TeamDAO teamRepository;
 
     @Override
     public TeamDTO selectTeam(TeamDTO teamDTO) {

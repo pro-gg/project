@@ -1,18 +1,16 @@
 package Project.pro.gg.Service;
 
+import Project.pro.gg.DAO.MemberDAO;
 import Project.pro.gg.Model.MemberDTO;
-import Project.pro.gg.Repository.MemberRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.configurationprocessor.json.JSONArray;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.io.Serializable;
-
 @Service
+@RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
 
-    @Autowired
-    MemberRepository memberRepository;
+
+    private final MemberDAO memberRepository;
 
     @Override
     public void insert(MemberDTO memberDTO) {

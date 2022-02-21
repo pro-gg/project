@@ -2,15 +2,17 @@ package Project.pro.gg.Repository;
 
 import Project.pro.gg.DAO.SummonerDAO;
 import Project.pro.gg.Model.*;
+import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
+@RequiredArgsConstructor
 public class SummonerRepository implements SummonerDAO {
 
-    @Autowired
-    SqlSession sqlSession;
+
+    private final SqlSession sqlSession;
 
     @Override
     public SummonerDTO selectSummonerData(SummonerDTO summonerDTO) {

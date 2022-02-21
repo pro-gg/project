@@ -1,15 +1,16 @@
 package Project.pro.gg.Service;
 
+import Project.pro.gg.DAO.SummonerDAO;
 import Project.pro.gg.Model.*;
-import Project.pro.gg.Repository.SummonerRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class SummonerServiceImpl implements SummonerService{
 
-    @Autowired
-    SummonerRepository summonerRepository;
+
+    private final SummonerDAO summonerRepository;
 
     @Override
     public void insertSummonerData(SummonerDTO summonerDTO, MemberDTO memberDTO) {

@@ -1,16 +1,19 @@
 package Project.pro.gg.Service;
 
+import Project.pro.gg.DAO.AdminDAO;
 import Project.pro.gg.Model.AdminDTO;
 import Project.pro.gg.Model.MemberDTO;
 import Project.pro.gg.Repository.AdminRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class AdminServiceImpl implements AdminService{
 
-    @Autowired
-    AdminRepository adminRepository;
+
+    private final AdminDAO adminRepository;
 
     @Override
     public String selectAdmin(String adminId, String adminPasswd) {
