@@ -3,6 +3,7 @@ package Project.pro.gg.Repository;
 import Project.pro.gg.DAO.MatchDataDAO;
 import Project.pro.gg.Model.MatchDataDTO;
 import Project.pro.gg.Model.MemberDTO;
+import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -10,10 +11,11 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
+@RequiredArgsConstructor
 public class MatchDataRepository implements MatchDataDAO {
 
-    @Autowired
-    SqlSession sqlSession;
+
+    private final SqlSession sqlSession;
 
     @Override
     public String selectMatchData(MatchDataDTO matchDataDTO, MemberDTO memberDTO) {

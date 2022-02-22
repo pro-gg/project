@@ -29,12 +29,8 @@ public class SummonerController {
 
     private final MemberService memberService;
     private final SummonerService summonerService;
-
-    @Autowired
-    MatchDataServiceImpl matchDataService;
-
-    @Autowired
-    TeamServiceImpl teamService;
+    private final MatchDataService matchDataService;
+    private final TeamService teamService;
 
     String developKey = "RGAPI-d2e8a04d-ab09-4524-81ef-49715bea3ebb";
     String apiURL = "";
