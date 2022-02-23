@@ -1,11 +1,14 @@
 package Project.pro.gg.Controller;
 
+import Project.pro.gg.Configuration.DBConfiguration;
 import Project.pro.gg.Model.AdminDTO;
 import Project.pro.gg.Model.MemberDTO;
 import Project.pro.gg.Service.AdminService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,9 +22,7 @@ import javax.servlet.http.HttpSession;
 @RequiredArgsConstructor
 public class AdminController {
 
-
     private final AdminService adminService;
-
     HttpSession session;
 
     @PostMapping("confirmAdmin.do")

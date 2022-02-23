@@ -14,7 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import Project.pro.gg.Service.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.configurationprocessor.json.JSONArray;
 import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
@@ -31,26 +32,20 @@ import Project.pro.gg.Model.CommentDTO;
 import Project.pro.gg.Model.MemberDTO;
 import Project.pro.gg.Model.PostDTO;
 import Project.pro.gg.Model.ReplyDTO;
-import Project.pro.gg.Service.MemberServiceImpl;
-import Project.pro.gg.Service.PostServiceImpl;
-import Project.pro.gg.Service.ReplyServiceImpl;
-
 
 
 @Controller
 @MultipartConfig(maxRequestSize = 1024*1024*50) //50MB
+@RequiredArgsConstructor
 public class BoardController{
+
+
     private static final long serialVersionUID = 1L;
     private int maxRequestSize = 1024*1024*50;
 
-    @Autowired
-    PostServiceImpl postService;
-
-    @Autowired
-    ReplyServiceImpl replyService;
-
-    @Autowired
-    MemberServiceImpl memberService;
+    private final PostService postService;
+    private final ReplyService replyService;
+    private final MemberService memberService;
 
     @GetMapping("/freeboardList.do")
     public String freeboardList(Model model, Paging paging,
