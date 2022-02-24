@@ -7,7 +7,8 @@ import java.util.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import Project.pro.gg.Service.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,20 +21,15 @@ import Project.pro.gg.Model.RankedSoloDTO;
 import Project.pro.gg.Model.SummonerDTO;
 import Project.pro.gg.Model.TeamApplyDTO;
 import Project.pro.gg.Model.TeamDTO;
-import Project.pro.gg.Service.MemberServiceImpl;
-import Project.pro.gg.Service.SummonerServiceImpl;
-import Project.pro.gg.Service.TeamServiceImpl;
 
 @Controller
+@RequiredArgsConstructor
 public class TeamController {
-    @Autowired
-    MemberServiceImpl memberService;
 
-    @Autowired
-    SummonerServiceImpl summonerService;
 
-    @Autowired
-    TeamServiceImpl teamService;
+    private final MemberService memberService;
+    private final SummonerService summonerService;
+    private final TeamService teamService;
 
     @GetMapping("/createTeam.do")
     public String createTeam(@RequestParam("teamData") String teamData, Model model){
