@@ -1,18 +1,21 @@
 package Project.pro.gg.Service;
 
+import Project.pro.gg.DAO.ReplyDAO;
 import Project.pro.gg.Model.CommentDTO;
 import Project.pro.gg.Model.ReplyDTO;
 import Project.pro.gg.Repository.ReplyRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ReplyServiceImpl implements ReplyService{
 
-    @Autowired
-    ReplyRepository replyRepository;
+
+    private final ReplyDAO replyRepository;
 
     public void replyInsert(ReplyDTO replyDTO) {
         replyRepository.replyInsert(replyDTO);

@@ -1,6 +1,8 @@
 package Project.pro.gg.Service;
 
+import Project.pro.gg.DAO.PostDAO;
 import Project.pro.gg.Model.ReplyDTO;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,10 +13,11 @@ import Project.pro.gg.Repository.PostRepository;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class PostServiceImpl implements PostService{
 
-	@Autowired
-	PostRepository postRepository;
+
+	private final PostDAO postRepository;
 	
 	@Override
 	public void insertPost(PostDTO postDTO) {
