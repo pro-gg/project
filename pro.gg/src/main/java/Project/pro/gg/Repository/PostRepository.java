@@ -5,6 +5,7 @@ import Project.pro.gg.DAO.PostDAO;
 import Project.pro.gg.Model.PostDTO;
 
 import Project.pro.gg.Model.ReplyDTO;
+import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -12,10 +13,11 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
+@RequiredArgsConstructor
 public class PostRepository implements PostDAO {
 
-	@Autowired
-	SqlSession sqlSession;
+
+	private final SqlSession sqlSession;
 	
 	@Override
 	public void insertPost(PostDTO postDTO) {

@@ -3,6 +3,7 @@ package Project.pro.gg.Repository;
 import Project.pro.gg.DAO.ReplyDAO;
 import Project.pro.gg.Model.CommentDTO;
 import Project.pro.gg.Model.ReplyDTO;
+import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -10,10 +11,11 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
+@RequiredArgsConstructor
 public class ReplyRepository implements ReplyDAO {
 
-    @Autowired
-    SqlSession sqlSession;
+
+    private final SqlSession sqlSession;
 
     @Override
     public void replyInsert(ReplyDTO replyDTO) {

@@ -3,16 +3,17 @@ package Project.pro.gg.Repository;
 import Project.pro.gg.DAO.AdminDAO;
 import Project.pro.gg.Model.AdminDTO;
 import Project.pro.gg.Model.MemberDTO;
+import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
+@RequiredArgsConstructor
 public class AdminRepository implements AdminDAO {
 
-    @Autowired
-    SqlSession sqlSession;
 
+    private final SqlSession sqlSession;
 
     @Override
     public AdminDTO selectAdmin(String adminId) {
