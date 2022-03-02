@@ -58,14 +58,14 @@
                 let date = today.getDate();
                 let time = today.getTime();
 
-                var hour = today.getHours();
-                var minutes = today.getMinutes();
-                var seconds = today.getSeconds();
+                let hour = today.getHours();
+                let minutes = today.getMinutes();
+                let seconds = today.getSeconds();
 
-                var postDate = year + "." + month +"." + date;
-                var postTime = hour + ":" + minutes + ":" + seconds;
+                let postDate = year + "." + month +"." + date;
+                let postTime = hour + ":" + minutes + ":" + seconds;
 
-                var post = {
+                let post = {
                     title : title,
                     postDate : postDate,
                     postTime : postTime,

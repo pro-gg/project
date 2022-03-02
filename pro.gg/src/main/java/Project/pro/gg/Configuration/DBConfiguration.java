@@ -2,6 +2,7 @@ package Project.pro.gg.Configuration;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -16,6 +17,7 @@ import javax.sql.DataSource;
 
 @Configuration
 @PropertySource("classpath:/application.properties")
+@RequiredArgsConstructor
 public class DBConfiguration {
 
     /*
@@ -37,8 +39,7 @@ public class DBConfiguration {
      * 쿼리르 인식해주는 과정, 여기서 classpath 는 src/main/resources 이다.
      */
 
-    @Autowired
-    private ApplicationContext applicationContext;
+    private final ApplicationContext applicationContext;
 
     @Bean
     public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception{
