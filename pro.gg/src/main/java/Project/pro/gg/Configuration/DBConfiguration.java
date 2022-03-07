@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -21,7 +20,7 @@ import javax.sql.DataSource;
 public class DBConfiguration {
 
     /*
-     * DataSource 를 hikariConfig 에서 설정한 정보(applicatoin.properties)로 만들어준다.
+     * DataSource 를 hikariConfig 에서 설정한 정보(application.properties)로 만들어준다.
      */
     @Bean
     @ConfigurationProperties(prefix = "spring.datasource.hikari")
