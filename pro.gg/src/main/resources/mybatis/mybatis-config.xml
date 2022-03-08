@@ -9,5 +9,6 @@
         <mapper resource="TeamMapper.xml"/>
         <mapper resource="AdminMapper.xml"/>
         <mapper resource="PostMapper.xml"/>
+        <mapper resource="ReplyMapper.xml"></mapper>
     </mappers>
 </configuration>
