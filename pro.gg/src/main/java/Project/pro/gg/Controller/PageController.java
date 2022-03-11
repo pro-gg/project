@@ -30,7 +30,7 @@ public class PageController {
     public String header(){ return "header"; }
 
     @PostMapping("/move/adminpage.do")
-    public String adminPage(){ return "admin"; };
+    public String adminPage(){ return "admin"; }
 
     @GetMapping("/move/login.do")
     public String login(){

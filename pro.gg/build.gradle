@@ -16,11 +16,7 @@ bootWar{
 	archiveVersion = "0.0.0"
 }
 
-configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
-}
+
 
 repositories {
 	mavenCentral()
@@ -40,8 +36,8 @@ dependencies {
 	implementation group: 'commons-io', name: 'commons-io', version: '2.11.0'
 	implementation group: 'commons-codec', name: 'commons-codec', version: '1.15'
 	implementation 'org.springframework.boot:spring-boot-starter-aop'
-	compile('org.apache.tomcat.embed:tomcat-embed-jasper')
-	compile('javax.servlet:jstl:1.2')
+	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+	implementation 'javax.servlet:jstl'
 	compileOnly 'org.projectlombok:lombok'
 	compileOnly 'org.springframework.boot:spring-boot-starter-jdbc'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
