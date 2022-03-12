@@ -8,23 +8,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title></title>
     <script src="/pro.gg/resources/webjars/jquery/3.6.0/jquery.min.js"></script>
-    <script src="/pro.gg/resources/js/semantic_aside.js" charset="utf-8"></script>
-    <script src="/pro.gg/resources/js/semantic_header.js" charset="utf-8"></script>
     <script>
         function loginSession(){
             $(function(){
                 var result = "${result}";
 
                 if(result === "Success"){
-                    $.ajax({
-                        type:'get',
-                        url:'${pageContext.request.contextPath}/',
-                        data:'${sessionScope.member}',
-                        dataType:'',
-                        success:function(data){
-                            $("body").html(data);
-                        }
-                    })
+                    location.replace("${pageContext.request.contextPath}/");
                 }
             })
         }
@@ -64,9 +54,6 @@
     </script>
 </head>
 <body>
-    <header></header>
-    <aside></aside>
-    <article></article>
     <c:if test = "${sessionScope.member != null}">
         <script>loginSession()</script>
     </c:if>

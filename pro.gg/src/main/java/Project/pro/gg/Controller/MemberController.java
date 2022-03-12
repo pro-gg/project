@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import Project.pro.gg.API.KakaoAPI;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequiredArgsConstructor
@@ -468,32 +469,30 @@ public class MemberController {
     }
 
     @GetMapping("/kakao.do")
-    public String login(@RequestParam("code") String code, HttpServletRequest request, Model model) {
+    public String login(@RequestParam("code") String code, HttpServletRequest request,  RedirectAttributes redirectAttributes,
+            Model model) {
     	String access_token = kakaoApi.getAccessToken(code);
     	HashMap<String, String> userInfo = kakaoApi.getUserInfo(access_token);
     	MemberDTO memberDTO = new MemberDTO();
     	String[] splitResult = userInfo.get("email").split("@");
 		String kakao_id = "Kakao_" + splitResult[0];
     	if(userInfo.get("id") != null) {
-    		memberDTO = memberService.selectMemberOne(kakao_id);
-    		if(memberDTO == null) {
-    			memberDTO = new MemberDTO();
-    			memberDTO.setUserid(kakao_id);
-    			memberDTO.setPasswd(userInfo.get("id"));
-    			memberDTO.setNickname(userInfo.get("nickname"));
-    			memberDTO.setName(userInfo.get("nickname"));
-    			memberDTO.setEmail(userInfo.get("email"));
+            memberDTO = memberService.selectMemberOne(kakao_id);
+            if (memberDTO == null) {
+                memberDTO = new MemberDTO();
+                memberDTO.setUserid(kakao_id);
+                memberDTO.setPasswd(userInfo.get("id"));
+                memberDTO.setNickname(userInfo.get("nickname"));
+                memberDTO.setName(userInfo.get("nickname"));
+                memberDTO.setEmail(userInfo.get("email"));
 
-    			memberService.insert(memberDTO);
-    		}
+                memberService.insert(memberDTO);
+            }
+        }
 
-    	}
-    	session = request.getSession();
-        memberDTO.setSummoner_name(memberService.selectInnerJoinsummoner_name(memberDTO.getUserid()));
-    	session.setAttribute("member", memberDTO);
-        model.addAttribute("result", "Success");
-
-    	return "main";
+        redirectAttributes.addFlashAttribute("id", memberDTO.getUserid());
+        redirectAttributes.addFlashAttribute("passwd", memberDTO.getPasswd());
+    	return "redirect:/snsLogin.do";
     }
 
     @PostMapping("/facebookLogin.do")
@@ -556,5 +555,10 @@ public class MemberController {
             e.printStackTrace();
         }
         return "../valid/loginvalid";
+    }
+
+    @GetMapping("/snsLogin.do")
+    public String snsLogin(){
+        return "snsLogin";
     }
 }
