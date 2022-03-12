@@ -367,7 +367,8 @@ public class MemberController {
         return "searchNickNameResult";
     }
     @GetMapping("/naver.do")
-    public String naverLogin(@RequestParam("code") String code, @RequestParam("state") String state, HttpServletRequest request) throws UnsupportedEncodingException {
+    public String naverLogin(@RequestParam("code") String code, @RequestParam("state") String state, HttpServletRequest request, Model model)
+            throws UnsupportedEncodingException {
     	String clientId = "_GlAhgDzVIlPh0a5FTYm";
 		String clientSecret = "3bQFANR1Il";
 		String redirectURI = URLEncoder.encode("/main.jsp","UTF-8");
@@ -453,6 +454,7 @@ public class MemberController {
 
                             memberDTO.setSummoner_name(memberService.selectInnerJoinsummoner_name(memberDTO.getUserid()));
 		    				session.setAttribute("member", memberDTO);
+                            model.addAttribute("result", "Success");
 						} catch (Exception e) {
 
 						}
@@ -462,11 +464,11 @@ public class MemberController {
 		      System.out.println(e);
 		    }
 
-    	return "main";
+    	return "../valid/loginvalid";
     }
 
     @GetMapping("/kakao.do")
-    public String login(@RequestParam("code") String code, HttpServletRequest request) {
+    public String login(@RequestParam("code") String code, HttpServletRequest request, Model model) {
     	String access_token = kakaoApi.getAccessToken(code);
     	HashMap<String, String> userInfo = kakaoApi.getUserInfo(access_token);
     	MemberDTO memberDTO = new MemberDTO();
@@ -489,6 +491,7 @@ public class MemberController {
     	session = request.getSession();
         memberDTO.setSummoner_name(memberService.selectInnerJoinsummoner_name(memberDTO.getUserid()));
     	session.setAttribute("member", memberDTO);
+        model.addAttribute("result", "Success");
 
     	return "main";
     }
