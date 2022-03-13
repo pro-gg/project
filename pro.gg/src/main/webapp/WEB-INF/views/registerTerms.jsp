@@ -5,8 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <title>약관동의</title>
-<link rel="stylesheet" type="text/css" href="/pro.gg/resources/css/bootstrap.min.css"/>
-<link rel="stylesheet" type="text/css" href="/pro.gg/resources/css/mystyle.css"/>
+<link rel="stylesheet" type="text/css" href="/resources/css/bootstrap.min.css"/>
+<link rel="stylesheet" type="text/css" href="/resources/css/mystyle.css"/>
 <script type="text/javascript">
 	function chk() {
 		var form = document.form;

@@ -27,7 +27,7 @@ public class KakaoAPI {
 			StringBuilder sb = new StringBuilder();
 			sb.append("grant_type=authorization_code");
 			sb.append("&client_id=909c3c588f9893fec11631686c08c54a");
-			sb.append("&redirect_uri=http://progg.cf/pro.gg/kakao.do");
+			sb.append("&redirect_uri=https://progg.cf/kakao.do");
 			sb.append("&code="+code);
 
 			bw.write(sb.toString());

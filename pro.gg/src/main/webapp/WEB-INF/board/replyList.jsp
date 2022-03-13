@@ -8,9 +8,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title></title>
-    <script src="/pro.gg/resources/webjars/jquery/3.6.0/jquery.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="/pro.gg/resources/css/bootstrap.min.css"/>
-    <link rel="stylesheet" type="text/css" href="/pro.gg/resources/css/mystyle.css"/>
+    <script src="/resources/webjars/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/resources/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/resources/css/mystyle.css"/>
     <script>
         function checkPostDate(replyDate, replyTime, count){
 
@@ -20,7 +20,7 @@
             let month = today.getMonth() + 1;
             let date = today.getDate();
 
-            var currentDate = year + "." + month +"." + date;
+            let currentDate = year + "." + month +"." + date;
             if(currentDate === replyDate){
                 document.getElementById(count).innerHTML = replyTime;
             }else{
@@ -158,16 +158,16 @@
             let date = today.getDate();
             let time = today.getTime();
 
-            var hour = today.getHours();
-            var minutes = today.getMinutes();
-            var seconds = today.getSeconds();
+            let hour = today.getHours();
+            let minutes = today.getMinutes();
+            let seconds = today.getSeconds();
 
-            var commentDate = year + "." + month +"." + date;
-            var commentTime = hour + ":" + minutes + ":" + seconds;
+            let commentDate = year + "." + month +"." + date;
+            let commentTime = hour + ":" + minutes + ":" + seconds;
 
-            var commentContent = document.getElementById("commentArea"+replyNumber).value;
+            let commentContent = document.getElementById("commentArea"+replyNumber).value;
 
-            var comment = {
+            let comment = {
                 commentDate : commentDate,
                 commentTime : commentTime,
                 commentContent : commentContent,

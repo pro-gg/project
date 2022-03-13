@@ -17,12 +17,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title></title>
 	<meta name ="google-signin-client_id" content="260796672294-2ohafah614eufqbajaunso754sjuqjtq.apps.googleusercontent.com">
-    <link rel="stylesheet" type="text/css" href="/pro.gg/resources/css/bootstrap.min.css"/>
-    <link rel="stylesheet" type="text/css" href="/pro.gg/resources/css/mystyle.css"/>
-    <script src="/pro.gg/resources/webjars/jquery/3.6.0/jquery.min.js"></script>
-    <script src="/pro.gg/resources/js/semantic_aside.js" charset="utf-8"></script>
-    <script src="/pro.gg/resources/js/semantic_header.js" charset="utf-8"></script>
-    <script src="/pro.gg/resources/js/elements.js" charset="utf-8"></script>
+    <link rel="stylesheet" type="text/css" href="/resources/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/resources/css/mystyle.css"/>
+    <script src="/resources/webjars/jquery/3.6.0/jquery.min.js"></script>
+    <script src="/resources/js/semantic_aside.js" charset="utf-8"></script>
+    <script src="/resources/js/semantic_header.js" charset="utf-8"></script>
+    <script src="/resources/js/elements.js" charset="utf-8"></script>
 	<script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>
 	<script type="text/javascript">
 		function popup(){
@@ -164,7 +164,7 @@
 		    		<div class="login-card card-block">
 		    			<form class="md-float-material" action="${pageContext.request.contextPath}/trylogin.do" method="POST">
 		    				<div class="text-center">
-		    					<img src="/pro.gg/resources/images/progg.png" alt="logo"/>
+		    					<img src="/resources/images/progg.png" alt="logo"/>
 		    				</div>
 		    				<div class="row">
 		    					<div class="col-md-12">
@@ -192,20 +192,20 @@
 		    				<div class="row">
 		    					<%
 								    String clientId = "_GlAhgDzVIlPh0a5FTYm";//애플리케이션 클라이언트 아이디값
-								    String redirectURI = URLEncoder.encode("https://progg.cf/pro.gg/naver.do", "UTF-8");
+								    String redirectURI = URLEncoder.encode("https://progg.cf/naver.do", "UTF-8");
 								    SecureRandom random = new SecureRandom();
 								    String state = new BigInteger(130, random).toString();
-								    String apiURL = "http://nid.naver.com/oauth2.0/authorize?response_type=code";
+								    String apiURL = "https://nid.naver.com/oauth2.0/authorize?response_type=code";
 								    apiURL += "&client_id=" + clientId;
 								    apiURL += "&redirect_uri=" + redirectURI;
 								    apiURL += "&state=" + state;
 								    session.setAttribute("state", state);
 								%>
-		    					<a href="<%=apiURL %>"><img height="50" src="/pro.gg/resources/images/btnG_icon_circle.png"/></a>
+		    					<a href="<%=apiURL %>"><img height="50" src="/resources/images/btnG_icon_circle.png"/></a>
 		    					&nbsp;&nbsp;
-		    					<a href="https://kauth.kakao.com/oauth/authorize?client_id=1447fe0b65f3900660f98ce2af5f18cf&redirect_uri=http://progg.cf/pro.gg/kakao.do&response_type=code"><img height="50" src="/pro.gg/resources/images/kakaoLogin.png"/></a>
-								<a href="#"><img height="50" src="/pro.gg/resources/images/btn_google_signin_dark_pressed_web.png" onclick="init()" id="GgCustomLogin"></a>
-								<img src="/pro.gg/resources/images/facebook.png" height="50" onclick="checkLoginState()">
+		    					<a href="https://kauth.kakao.com/oauth/authorize?client_id=1447fe0b65f3900660f98ce2af5f18cf&redirect_uri=https://progg.cf/kakao.do&response_type=code"><img height="50" src="/resources/images/kakaoLogin.png"/></a>
+								<a href="#"><img height="50" src="/resources/images/btn_google_signin_dark_pressed_web.png" onclick="init()" id="GgCustomLogin"></a>
+								<img src="/resources/images/facebook.png" height="50" onclick="checkLoginState()">
 								<!-- <div class="fb-login-button" data-auto-logout-link="false" data-use-continue-as="false" onlogin="checkLoginState()"></div> -->
 		    				</div>
 		    				<div class="col-sm-12 col-xs-12 text-center">

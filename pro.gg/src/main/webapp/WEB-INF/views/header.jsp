@@ -7,10 +7,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title></title>
-    <link rel="stylesheet" type="text/css" href="/pro.gg/resources/css/bootstrap.min.css"/>
-    <link rel="stylesheet" type="text/css" href="/pro.gg/resources/css/mystyle.css"/>
-    <script src="/pro.gg/resources/webjars/jquery/3.6.0/jquery.min.js"></script>
-    <script src="/pro.gg/resources/js/bootstrap.min.js" charset="utf-8"></script>
+    <link rel="stylesheet" type="text/css" href="/resources/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/resources/css/mystyle.css"/>
+    <script src="/resources/webjars/jquery/3.6.0/jquery.min.js"></script>
+    <script src="/resources/js/bootstrap.min.js" charset="utf-8"></script>
     <script>
         function moveAdmin(){
             $(function(){
@@ -57,7 +57,7 @@
 <body>
     <header class="main-header-top">
         <a href="${pageContext.request.contextPath}/" class="logo">
-        	<img class="img-fluid able-logo" src="/pro.gg/resources/images/progg.png" alt="logo"/>
+        	<img class="img-fluid able-logo" src="/resources/images/progg.png" alt="logo"/>
         </a>
         <nav class="navbar navbar-static-top">
         	<a href="#!" data-toggle="offcanvas" class="sidebar-toggle">
@@ -67,7 +67,7 @@
         			<li>
         				<a href ="${pageContext.request.contextPath }/champion.do">챔피언 정보</a>
         				<!-- <a href="#" id="admin" onclick="moveAdmin()">
-       						<img src="/pro.gg/resources/images/person.png" id="imgPerson" alt="관리자 페이지 이동">
+       						<img src="/resources/images/person.png" id="imgPerson" alt="관리자 페이지 이동">
        					</a> -->
         			</li>
                     <li>
@@ -88,14 +88,14 @@
         				<li class="dropdown">
 	        				<c:if test = "${sessionScope.member == null && sessionScope.admin == null}">
 		       					<a href="#" id="login" name="login" onclick="location.href='${pageContext.request.contextPath}/move/login.do'">
-		   							<img src="/pro.gg/resources/images/person.png" id="imgPerson" alt="로그인">
+		   							<img src="/resources/images/person.png" id="imgPerson" alt="로그인">
 		   							<span>로그인</span>
 		   						</a>
 		                	</c:if>
 		                	<c:if test="${sessionScope.member != null || sessionScope.admin != null || sessionScope.name}">
 			                	<a href="#" data-toggle="dropdown" class="dropdown-toggle drop icon-circle drop-image">
 	        						<span>
-	        							<img class="img-circle" src="/pro.gg/resources/images/person.png" id="imgPerson" style="width:40px;">
+	        							<img class="img-circle" src="/resources/images/person.png" id="imgPerson" style="width:40px;">
 	        						</span>
 	        						<span>
 	        							${sessionScope.member.name }

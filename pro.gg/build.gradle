@@ -11,8 +11,8 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
 bootWar{
-	archiveBaseName = "pro.gg"
-	archiveFileName = "pro.gg.war"
+	archiveBaseName = "ROOT"
+	archiveFileName = "ROOT.war"
 	archiveVersion = "0.0.0"
 }
 

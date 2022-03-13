@@ -7,9 +7,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="/pro.gg/resources/webjars/jquery/3.6.0/jquery.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="/pro.gg/resources/css/bootstrap.min.css"/>
-    <link rel="stylesheet" type="text/css" href="/pro.gg/resources/css/mystyle.css"/>
+    <script src="/resources/webjars/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/resources/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/resources/css/mystyle.css"/>
     <title></title>
     <script>
         function teamLineApply(){

@@ -7,9 +7,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title></title>
-    <script src="/pro.gg/resources/webjars/jquery/3.6.0/jquery.min.js"></script>
-    <script src="/pro.gg/resources/js/semantic_aside.js" charset="utf-8"></script>
-    <script src="/pro.gg/resources/js/semantic_header.js" charset="utf-8"></script>
+    <script src="/resources/webjars/jquery/3.6.0/jquery.min.js"></script>
+    <script src="/resources/js/semantic_aside.js" charset="utf-8"></script>
+    <script src="/resources/js/semantic_header.js" charset="utf-8"></script>
     <script>
         function team_create(){
             var week_input = document.getElementById('week_input');

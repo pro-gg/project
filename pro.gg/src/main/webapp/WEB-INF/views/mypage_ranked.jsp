@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title></title>
-    <script src="/pro.gg/resources/webjars/jquery/3.6.0/jquery.min.js"></script>
+    <script src="/resources/webjars/jquery/3.6.0/jquery.min.js"></script>
     <script>
         function solo_rank_mypage(){
             $("#ranked_mypage").empty();
@@ -16,14 +16,14 @@
 
             if(tier !== ''){
                 document.getElementById("ranked_mypage").innerHTML="<p>솔로 랭크</p>" +
-                    "<img src='/pro.gg/resources/images/Emblem_${ranked_solo.tier}.png' style='width:100px; height:100px;'/>" +
+                    "<img src='/resources/images/Emblem_${ranked_solo.tier}.png' style='width:100px; height:100px;'/>" +
                     "<p>LP : ${ranked_solo.leaguePoints}</p>" +
                     "<p>티어 : ${ranked_solo.tier} ${ranked_solo.tier_rank}</p>" +
                     "<p>승 : ${ranked_solo.wins}, 패 : ${ranked_solo.losses}</p>" +
                     "<p>승률 : ${ranked_solo.rate}%</p>";
             }else {
             	document.getElementById("ranked_mypage").innerHTML="<p>솔로 랭크</p>" +
-        		"<img src='/pro.gg/resources/images/provisional.png' style='width:100px; height:100px;'/>" +
+        		"<img src='/resources/images/provisional.png' style='width:100px; height:100px;'/>" +
         		"<p>Unranked</p>";
         	}
         }
@@ -35,14 +35,14 @@
 
             if(tier !== ''){
                 document.getElementById("ranked_mypage").innerHTML="<p>자유 랭크</p>" +
-                    "<img src='/pro.gg/resources/images/Emblem_${ranked_flex.tier}.png' style='width:100px; height:100px;'/>" +
+                    "<img src='/resources/images/Emblem_${ranked_flex.tier}.png' style='width:100px; height:100px;'/>" +
                     "<p>LP : ${ranked_flex.leaguePoints}</p>" +
                     "<p>티어 : ${ranked_flex.tier} ${ranked_flex.tier_rank}</p>" +
                     "<p>승 : ${ranked_flex.wins}, 패 : ${ranked_flex.losses}</p>" +
                     "<p>승률 : ${ranked_flex.rate}%</p>";
             }else {
             	document.getElementById("ranked_mypage").innerHTML="<p>자유 랭크</p>" +
-            		"<img src='/pro.gg/resources/images/provisional.png' style='width:100px; height:100px;'/>" +
+            		"<img src='/resources/images/provisional.png' style='width:100px; height:100px;'/>" +
             		"<p>Unranked</p>";
             }
         }

@@ -6,12 +6,12 @@
 <head>
 <meta charset="UTF-8">
 <title>팀 찾기</title>
-<link rel="stylesheet" type="text/css" href="/pro.gg/resources/css/bootstrap.min.css"/>
-<link rel="stylesheet" type="text/css" href="/pro.gg/resources/css/mystyle.css"/>
-<script src="/pro.gg/resources/webjars/jquery/3.6.0/jquery.min.js"></script>
-<script src="/pro.gg/resources/js/semantic_aside.js" charset="utf-8"></script>
-<script src="/pro.gg/resources/js/semantic_header.js" charset="utf-8"></script>
-<script src="/pro.gg/resources/js/bootstrap.min.js" charset="utf-8"></script>
+<link rel="stylesheet" type="text/css" href="/resources/css/bootstrap.min.css"/>
+<link rel="stylesheet" type="text/css" href="/resources/css/mystyle.css"/>
+<script src="/resources/webjars/jquery/3.6.0/jquery.min.js"></script>
+<script src="/resources/js/semantic_aside.js" charset="utf-8"></script>
+<script src="/resources/js/semantic_header.js" charset="utf-8"></script>
+<script src="/resources/js/bootstrap.min.js" charset="utf-8"></script>
 <script>
 
 	$(function(){
