@@ -469,8 +469,7 @@ public class MemberController {
     }
 
     @GetMapping("/kakao.do")
-    public String login(@RequestParam("code") String code, HttpServletRequest request,  RedirectAttributes redirectAttributes,
-            Model model) {
+    public String login(@RequestParam("code") String code, HttpServletRequest request, Model model) {
     	String access_token = kakaoApi.getAccessToken(code);
     	HashMap<String, String> userInfo = kakaoApi.getUserInfo(access_token);
     	MemberDTO memberDTO = new MemberDTO();
@@ -490,9 +489,11 @@ public class MemberController {
             }
         }
 
-        redirectAttributes.addFlashAttribute("id", memberDTO.getUserid());
-        redirectAttributes.addFlashAttribute("passwd", memberDTO.getPasswd());
-    	return "redirect:/snsLogin.do";
+        memberDTO.setSummoner_name(memberService.selectInnerJoinsummoner_name(memberDTO.getUserid()));
+        session.setAttribute("member", memberDTO);
+        model.addAttribute("result", "Success");
+
+    	return "../valid/loginvalid";
     }
 
     @PostMapping("/facebookLogin.do")
@@ -501,7 +502,7 @@ public class MemberController {
                                 Model model){
 
         // 데이터베이스 검색 시 기존에 존재하는 계정이라면 로그인 성공 처리
-        facebookId = "A"+facebookId; // 전적 테이블 명 처리를 위한 문자 삽입
+        facebookId = "facebook"+facebookId; // 전적 테이블 명 처리를 위한 문자 삽입
         MemberDTO memberDTO = memberService.selectMemberOne(facebookId);
         session = request.getSession();
 
@@ -525,7 +526,7 @@ public class MemberController {
     }
 
     @PostMapping("/googleLogin.do")
-    public String googleLogin(@RequestParam("profile") String profile, Model model, HttpServletRequest request){
+    public String googleLogin(@RequestParam("googleProfile") String profile, Model model, HttpServletRequest request){
 
         String googleId = null;
         session = request.getSession();
@@ -533,7 +534,7 @@ public class MemberController {
         try{
 
             JSONObject jsonObject = new JSONObject(profile);
-            googleId = "B"+jsonObject.getString("LS");
+            googleId = "google"+jsonObject.getString("id");
             MemberDTO memberDTO = memberService.selectMemberOne(googleId);
             if (memberDTO == null){
                 memberDTO = new MemberDTO();
@@ -541,9 +542,9 @@ public class MemberController {
                 memberDTO.setUserid(googleId);
                 memberDTO.setPasswd(googleId);
                 // 추후에 닉네임 중복을 허용하기 위해 닉네임 중복 검사 기능을 삭제하자
-                memberDTO.setName(jsonObject.getString("Ue"));
-                memberDTO.setNickname(jsonObject.getString("Ue"));
-                memberDTO.setEmail(jsonObject.getString("Nt"));
+                memberDTO.setName(jsonObject.getString("name"));
+                memberDTO.setNickname(jsonObject.getString("name"));
+                memberDTO.setEmail(jsonObject.getString("email"));
                 memberService.insert(memberDTO);
             }else{
                 memberDTO.setSummoner_name(memberService.selectInnerJoinsummoner_name(memberDTO.getUserid()));
@@ -555,10 +556,5 @@ public class MemberController {
             e.printStackTrace();
         }
         return "../valid/loginvalid";
-    }
-
-    @GetMapping("/snsLogin.do")
-    public String snsLogin(){
-        return "snsLogin";
     }
 }
