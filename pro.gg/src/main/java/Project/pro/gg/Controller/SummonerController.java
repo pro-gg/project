@@ -100,9 +100,9 @@ public class SummonerController {
     }
 
     @GetMapping("/updateSummonerName.do")
-    public String updateSummonerData(Model model) throws UnsupportedEncodingException {
+    public String updateSummonerData(Model model, HttpServletRequest request) throws UnsupportedEncodingException {
         // MemberController 에서 로그인 을 통해 생성된 세션 값을 가져온다.
-        HttpSession session = MemberController.session;
+        session = request.getSession();
 
         MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
 
@@ -277,8 +277,8 @@ public class SummonerController {
     }
 
     @GetMapping("/printSummonerData_aside.do")
-    public String pringSummonerData_aside(Model model){
-        HttpSession session = MemberController.session;
+    public String pringSummonerData_aside(Model model, HttpServletRequest request){
+        session = request.getSession();
         MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
 
         SummonerDTO summonerDTO = new SummonerDTO();
@@ -301,9 +301,9 @@ public class SummonerController {
     }
 
     @GetMapping("/printSummonerData_mypage.do")
-    public String pringSummonerData_mypage(Model model){
+    public String pringSummonerData_mypage(Model model, HttpServletRequest request){
 
-        HttpSession session = MemberController.session;
+        session = request.getSession();
         MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
 
         SummonerDTO summonerDTO = new SummonerDTO();
@@ -327,10 +327,10 @@ public class SummonerController {
 
     @GetMapping("/matchHistory.do")
     public String matchHistory(@RequestParam("summoner_name") String summoner_name, @RequestParam("target") String target,
-                               Model model) throws JSONException {
+                               Model model, HttpServletRequest request) throws JSONException {
 
         // MemberController 에서 로그인 을 통해 생성된 세션 값을 가져온다.
-        HttpSession session = MemberController.session;
+        session = request.getSession();
         MemberDTO memberDTO = null;
 
         // 마이페이지, 닉네임 검색 중 어느 경로로 요청이 온 것인지 판별한다.

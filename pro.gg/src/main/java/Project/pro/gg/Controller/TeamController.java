@@ -194,9 +194,9 @@ public class TeamController {
     }
 
     @PostMapping("/teamapply.do")
-    public String teamApply(@RequestParam("teamapply") String teamapply, Model model){
+    public String teamApply(@RequestParam("teamapply") String teamapply, Model model, HttpServletRequest request){
 
-        HttpSession session = MemberController.session;
+        session = request.getSession();
         MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
 
         TeamApplyDTO teamApplyDTO = new TeamApplyDTO();
@@ -302,9 +302,9 @@ public class TeamController {
 
     @GetMapping("/rejectapply.do")
     public String rejectapply(@RequestParam("nickname") String nickname, @RequestParam("teamName") String teamName,
-                              @RequestParam("target") String target, Model model){
+                              @RequestParam("target") String target, Model model, HttpServletRequest request){
 
-        HttpSession session = MemberController.session;
+        session = request.getSession();
         MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
 
         TeamApplyDTO teamApplyDTO = new TeamApplyDTO();
@@ -330,8 +330,8 @@ public class TeamController {
     }
 
     @GetMapping("/captinsecession.do")
-    public String captinSecession(@RequestParam("teamName") String teamName){
-        HttpSession session = MemberController.session;
+    public String captinSecession(@RequestParam("teamName") String teamName, HttpServletRequest request){
+        session = request.getSession();
         MemberDTO memberDTO_captin = (MemberDTO) session.getAttribute("member");
 
         TeamDTO teamDTO = new TeamDTO();
@@ -374,10 +374,11 @@ public class TeamController {
     }
 
     @GetMapping("/crewsecession.do")
-    public String crewSecession(@RequestParam("teamName") String teamName, @RequestParam("target") String target, Model model){
+    public String crewSecession(@RequestParam("teamName") String teamName, @RequestParam("target") String target, Model model,
+                                HttpServletRequest request){
         // 팀에서 탈퇴하는 팀원 라인 null 값 처리
         // 팀원 개인 member 데이터에서 teamName 필드 null 값 처리
-        HttpSession session = MemberController.session;
+        session = request.getSession();
         MemberDTO memberDTO_crew = (MemberDTO) session.getAttribute("member");
 
         TeamDTO teamDTO = new TeamDTO();

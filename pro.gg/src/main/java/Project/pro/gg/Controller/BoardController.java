@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import Project.pro.gg.Service.*;
+import com.sun.net.httpserver.HttpsServer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.configurationprocessor.json.JSONArray;
 import org.springframework.boot.configurationprocessor.json.JSONException;
@@ -46,6 +47,8 @@ public class BoardController{
     private final PostService postService;
     private final ReplyService replyService;
     private final MemberService memberService;
+
+    private static HttpSession session;
 
     @GetMapping("/freeboardList.do")
     public String freeboardList(Model model, Paging paging,
@@ -98,11 +101,9 @@ public class BoardController{
         //파일을 바이트로 변환
         byte[] bytes = upload.getBytes();
         // 이미지를 업로드 할 폴더(주의 : 개발자 폴더 이므로 반드시 ~/images 을 새로고침 해야함)
-//        String path = "/WEB-INF/freeUploadImage";
         String path = "WEB-INF/classes/static/images/freeUploadImage/";
         String real_save_path = request.getServletContext().getRealPath("").toString();
         System.out.println(real_save_path);
-//        String real_save_path = request.getServletContext().getRealPath(path)+"\\";
         StringBuilder save_path = new StringBuilder(real_save_path);
         System.out.println(save_path);
 
@@ -151,8 +152,6 @@ public class BoardController{
             postDTO.setPostNotRecommendCount(0);
             postService.insertPost(postDTO);
 
-            System.out.println(title);
-            System.out.println(content); // 이미지 태그에 업로드한 이미지가 삽입 되어야 한다.(현재는 img 태그만 넘어와 있는 상태)
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -177,14 +176,14 @@ public class BoardController{
     }
 
     @GetMapping("/postdetail.do")
-    public String postDetail(@RequestParam("postNumber") int postNumber, Model model){
+    public String postDetail(@RequestParam("postNumber") int postNumber, Model model, HttpServletRequest request){
         // 게시글 출력 로직은 승진이형 코드 리베이스 받으면서 가져온다.
         // 지금은 조회수 변경 기능만 구현
         PostDTO postDTO = postService.selectPostBy_postNumber(postNumber);;
         MemberDTO memberDTO = null;
 
         try{
-            HttpSession session = MemberController.session;
+            session = request.getSession();
             memberDTO = (MemberDTO) session.getAttribute("member");
         }catch (Exception no){
             no.getStackTrace();
@@ -243,7 +242,8 @@ public class BoardController{
     }
 
     @GetMapping("/clickRecommend.do")
-    public String clickRecommend(@RequestParam("postNumber") int postNumber, @RequestParam("nickname") String nickname) throws JSONException {
+    public String clickRecommend(@RequestParam("postNumber") int postNumber, @RequestParam("nickname") String nickname,
+                                 HttpServletRequest request) throws JSONException {
 
         PostDTO postDTO = postService.selectPostBy_postNumber(postNumber);
         MemberDTO memberDTO = memberService.findByNickname(nickname);
@@ -299,14 +299,15 @@ public class BoardController{
             }
         }
 
-        HttpSession session = MemberController.session;
+        session = request.getSession();
         session.setAttribute("member", memberDTO);
 
         return "redirect:/postdetail.do?postNumber="+postNumber;
     }
 
     @GetMapping("/clickNotRecommend.do")
-    public String clickNotRecommend(@RequestParam("postNumber") int postNumber, @RequestParam("nickname") String nickname) throws JSONException {
+    public String clickNotRecommend(@RequestParam("postNumber") int postNumber, @RequestParam("nickname") String nickname,
+                                    HttpServletRequest request) throws JSONException {
 
         PostDTO postDTO = postService.selectPostBy_postNumber(postNumber);
         MemberDTO memberDTO = memberService.findByNickname(nickname);
@@ -362,18 +363,18 @@ public class BoardController{
             }
         }
 
-        HttpSession session = MemberController.session;
+        session = request.getSession();
         session.setAttribute("member", memberDTO);
 
         return "redirect:/postdetail.do?postNumber="+postNumber;
     }
 
     @GetMapping("/replyregister.do")
-    public String replyRegister(@RequestParam("reply") String reply){
+    public String replyRegister(@RequestParam("reply") String reply, HttpServletRequest request){
         MemberDTO memberDTO = null;
         ReplyDTO replyDTO = new ReplyDTO();
 
-        HttpSession session = MemberController.session;
+        session = request.getSession();
         memberDTO = (MemberDTO) session.getAttribute("member");
 
         Long postNumber = null;
@@ -412,7 +413,8 @@ public class BoardController{
     }
 
     @GetMapping("/replyRecommendClick.do")
-    public String replyRecommendClick(@RequestParam("replyNumber") int replyNumber, @RequestParam("nickname") String nickname) throws JSONException {
+    public String replyRecommendClick(@RequestParam("replyNumber") int replyNumber, @RequestParam("nickname") String nickname,
+                                      HttpServletRequest request) throws JSONException {
 
         ReplyDTO replyDTO = replyService.selectReplyBy_replyNumber(replyNumber);
         MemberDTO memberDTO = memberService.findByNickname(nickname);
@@ -468,14 +470,15 @@ public class BoardController{
             }
         }
 
-        HttpSession session = MemberController.session;
+        session = request.getSession();
         session.setAttribute("member", memberDTO);
 
         return "redirect:/postdetail.do?postNumber="+replyDTO.getPostNumber();
     }
 
     @GetMapping("/replyNotRecommendClick.do")
-    public String replyNotRecommendClick(@RequestParam("replyNumber") int replyNumber, @RequestParam("nickname") String nickname) throws JSONException {
+    public String replyNotRecommendClick(@RequestParam("replyNumber") int replyNumber, @RequestParam("nickname") String nickname,
+                                         HttpServletRequest request) throws JSONException {
 
         ReplyDTO replyDTO = replyService.selectReplyBy_replyNumber(replyNumber);
         MemberDTO memberDTO = memberService.findByNickname(nickname);
@@ -531,7 +534,7 @@ public class BoardController{
             }
         }
 
-        HttpSession session = MemberController.session;
+        session = request.getSession();
         session.setAttribute("member", memberDTO);
 
         return "redirect:/postdetail.do?postNumber="+replyDTO.getPostNumber();
@@ -607,11 +610,11 @@ public class BoardController{
     }
     
     @GetMapping("/addReplyComment.do")
-    public String addReplyComment(@RequestParam("comment") String comment) {
+    public String addReplyComment(@RequestParam("comment") String comment, HttpServletRequest request) {
     	MemberDTO memberDTO = null;
         CommentDTO commentDTO;
 
-        HttpSession session = MemberController.session;
+        session = request.getSession();
         memberDTO = (MemberDTO) session.getAttribute("member");
 
         Long postNumber = null;

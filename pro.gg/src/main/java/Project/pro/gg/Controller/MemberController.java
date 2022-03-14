@@ -105,36 +105,17 @@ public class MemberController {
     public String tryLogin(@RequestParam("id") String userid, @RequestParam("passwd") String passwd,
                            Model model, HttpServletRequest request){
 
-    	AdminDTO adminDTO = new AdminDTO();
         session = request.getSession();
-        String result="";
-        
-        if(userid.equals("root")) {
-        	if(passwd.equals("1234")) {
-        		result="Success";
-        		model.addAttribute("result", result);
-        		adminDTO.setAdminId("root") ;
-                adminDTO.setAdminPasswd("1234");
-                session.setAttribute("admin", adminDTO);
-                model.addAttribute("result",result);
-                model.addAttribute("admin", session.getAttribute("admin"));
-        		return "../valid/adminloginvalid";
-        	}else {
-        		session.setAttribute("admin", null);
-        		model.addAttribute("result",result);
-                model.addAttribute("admin", session.getAttribute("admin"));
-        		return "../valid/adminloginvalid";
-        	}
-        }else {
-        	 result = memberService.selectOne(userid, passwd);
-             if(result == "Success"){
-                 MemberDTO memberDTO = memberService.selectMemberOne(userid);
-                 memberDTO.setSummoner_name(memberService.selectInnerJoinsummoner_name(memberDTO.getUserid()));
-                 session.setAttribute("member", memberDTO);
-             } else{
-                 session.setAttribute("member", null);
-             }
+        String result = memberService.selectOne(userid, passwd);
+
+        if(result == "Success"){
+            MemberDTO memberDTO = memberService.selectMemberOne(userid);
+            memberDTO.setSummoner_name(memberService.selectInnerJoinsummoner_name(memberDTO.getUserid()));
+            session.setAttribute("member", memberDTO);
+        } else{
+            session.setAttribute("member", null);
         }
+
         model.addAttribute("result", result);
 
         return "../valid/loginvalid";
@@ -147,7 +128,7 @@ public class MemberController {
             session.removeAttribute("admin");
             session.invalidate();
         }catch (NullPointerException e){
-            // 세션이 만료된 상태일 때 로그아웃 기능이 동작한 경우 수행
+            e.printStackTrace();
         }
         
         return "main";
@@ -405,7 +386,7 @@ public class MemberController {
 		      }
 		      br.close();
 		      if(responseCode==200) {
-//		    	  System.out.println(res.toString());
+
 		    		JSONParser parsing = new JSONParser();
 		    		org.json.simple.JSONObject result = (org.json.simple.JSONObject)parsing.parse(res.toString());
 
