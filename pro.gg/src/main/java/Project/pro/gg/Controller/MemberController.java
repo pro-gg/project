@@ -470,18 +470,22 @@ public class MemberController {
 
     @GetMapping("/kakao.do")
     public String login(@RequestParam("code") String code, HttpServletRequest request, Model model) {
+
     	String access_token = kakaoApi.getAccessToken(code);
     	HashMap<String, String> userInfo = kakaoApi.getUserInfo(access_token);
     	MemberDTO memberDTO = new MemberDTO();
     	String[] splitResult = userInfo.get("email").split("@");
 		String kakao_id = "Kakao_" + splitResult[0];
+
+        session = request.getSession();
+
     	if(userInfo.get("id") != null) {
             memberDTO = memberService.selectMemberOne(kakao_id);
             if (memberDTO == null) {
                 memberDTO = new MemberDTO();
                 memberDTO.setUserid(kakao_id);
                 memberDTO.setPasswd(userInfo.get("id"));
-                memberDTO.setNickname(userInfo.get("nickname"));
+                memberDTO.setNickname(kakao_id);
                 memberDTO.setName(userInfo.get("nickname"));
                 memberDTO.setEmail(userInfo.get("email"));
 
@@ -501,8 +505,10 @@ public class MemberController {
                                 @RequestParam("facebookEmail") String facebookEmail, HttpServletRequest request,
                                 Model model){
 
+        String[] splitResult = facebookEmail.split("@");
         // 데이터베이스 검색 시 기존에 존재하는 계정이라면 로그인 성공 처리
-        facebookId = "facebook"+facebookId; // 전적 테이블 명 처리를 위한 문자 삽입
+        String facebook_id = "facebook"+splitResult[0]; // 전적 테이블 명 처리를 위한 문자 삽입
+        facebookId = "facebook_"+facebookId;
         MemberDTO memberDTO = memberService.selectMemberOne(facebookId);
         session = request.getSession();
 
@@ -511,10 +517,10 @@ public class MemberController {
             // 비밀번호는 아이디와 동일한 값으로 삽입하고 닉네임은 이름과 똑같은 값으로 삽입 시켜준다.
             memberDTO = new MemberDTO();
 
-            memberDTO.setUserid(facebookId);
+            memberDTO.setUserid(facebook_id);
             memberDTO.setPasswd(facebookId);
             memberDTO.setName(facebookName);
-            memberDTO.setNickname(facebookName);
+            memberDTO.setNickname(facebook_id);
             memberDTO.setEmail(facebookEmail);
             memberService.insert(memberDTO);
         }else{
@@ -534,16 +540,18 @@ public class MemberController {
         try{
 
             JSONObject jsonObject = new JSONObject(profile);
-            googleId = "google"+jsonObject.getString("id");
+            String[] splitResult = jsonObject.getString("email").split("@");
+            String google_id = "google_" + splitResult[0];
+            googleId = "google_"+jsonObject.getString("id");
             MemberDTO memberDTO = memberService.selectMemberOne(googleId);
             if (memberDTO == null){
                 memberDTO = new MemberDTO();
 
-                memberDTO.setUserid(googleId);
+                memberDTO.setUserid(google_id);
                 memberDTO.setPasswd(googleId);
                 // 추후에 닉네임 중복을 허용하기 위해 닉네임 중복 검사 기능을 삭제하자
                 memberDTO.setName(jsonObject.getString("name"));
-                memberDTO.setNickname(jsonObject.getString("name"));
+                memberDTO.setNickname(google_id);
                 memberDTO.setEmail(jsonObject.getString("email"));
                 memberService.insert(memberDTO);
             }else{

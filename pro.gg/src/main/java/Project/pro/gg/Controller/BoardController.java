@@ -121,7 +121,7 @@ public class BoardController{
 
         }
 
-        request.setAttribute("url", "/pro.gg/resources/images/freeUploadImage/" + filename);
+        request.setAttribute("url", "/resources/images/freeUploadImage/" + filename);
         request.setAttribute("uploaded", true);
         return request;
     }
@@ -288,7 +288,7 @@ public class BoardController{
 
             // 반복문을 모두 거쳤음에도 추천 버튼을 누른 게시글들 중에 글 번호가 일치하는 경우가 없는 경우
             // 즉, 이전에 추천 버튼을 누른적이 없는 게시글일 경우 처리
-            if (exist_recommend == false){
+            if (!exist_recommend){
                 jsonArray.put(postNumber);
                 str_jsonArray = jsonArray.toString();
                 memberDTO.setRecommendpost(str_jsonArray);

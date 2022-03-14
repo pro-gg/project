@@ -40,7 +40,7 @@
                         alert("글 작성자는 추천, 또는 비추천을 할 수 없습니다.");
                     }
                     else{
-                        // 글 작성자가 아닌 타인이 좋아요 버튼을 클릭했을 경우
+                        // 글 작성자가 아닌 타인이 추천 버튼을 클릭했을 경우
                         $.ajax({
                             type:'get',
                             url:'${pageContext.request.contextPath}/clickRecommend.do?postNumber='+'${post.postNumber}'+'&nickname='+memberNickname,
@@ -81,7 +81,7 @@
                         alert("글 작성자는 추천, 또는 비추천을 할 수 없습니다.");
                     }
                     else{
-                        // 글 작성자가 아닌 타인이 좋아요 버튼을 클릭했을 경우
+                        // 글 작성자가 아닌 타인이 비추천 버튼을 클릭했을 경우
                         $.ajax({
                             type:'get',
                             url:'${pageContext.request.contextPath}/clickNotRecommend.do?postNumber='+'${post.postNumber}'+'&nickname='+memberNickname,
