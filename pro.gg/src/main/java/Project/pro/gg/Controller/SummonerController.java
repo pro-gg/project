@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -29,6 +30,7 @@ public class SummonerController {
     private final SummonerService summonerService;
     private final MatchDataService matchDataService;
     private final TeamService teamService;
+    private static HttpSession session;
 
     String developKey = "RGAPI-d2e8a04d-ab09-4524-81ef-49715bea3ebb";
     String apiURL = "";
@@ -36,12 +38,14 @@ public class SummonerController {
     HttpURLConnection urlConnection = null;
     BufferedReader br = null;
 
+
+
     // 소환사 데이터 검색 및 저장 메소드
     @GetMapping("/SearchSummonerData.do")
-    public String searchSummonerData(@RequestParam("summonerName") String summonerName, Model model){
+    public String searchSummonerData(@RequestParam("summonerName") String summonerName, Model model,
+                                     HttpServletRequest request){
 
-        // MemberController 에서 로그인 을 통해 생성된 세션 값을 가져온다.
-        HttpSession session = MemberController.session;
+        session = request.getSession();
 
         MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
         SummonerDTO summonerDTO = null;
@@ -119,10 +123,10 @@ public class SummonerController {
     }
 
     @GetMapping("/updateSummonerData.do")
-    public String updateSummonerData(@RequestParam("target") String target, Model model){
+    public String updateSummonerData(@RequestParam("target") String target, Model model, HttpServletRequest request){
 
         // MemberController 에서 로그인 을 통해 생성된 세션 값을 가져온다.
-        HttpSession session = MemberController.session;
+        session = request.getSession();
         MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
         SummonerDTO summonerDTO = null;
 

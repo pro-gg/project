@@ -15,8 +15,8 @@
     </select>
 
     <select id="insertTeamData">
-        insert into team(teamName, week_input, startTime, endTime, tier_limit, team_description, captinName, top)
-        values(#{teamName}, #{week_input}, #{startTime}, #{endTime}, #{tier_limit}, #{team_description}, #{captinName}, #{top})
+        insert into team(teamName, week_input, startTime, endTime, tier_limit, team_description, captinName, top, tier_average)
+        values(#{teamName}, #{week_input}, #{startTime}, #{endTime}, #{tier_limit}, #{team_description}, #{captinName}, #{top}, #{tier_average})
     </select>
 
     <select id="selectTeamApply_Join" parameterType="String" resultType="Project.pro.gg.Model.TeamApplyDTO">

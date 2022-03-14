@@ -31,10 +31,12 @@ public class TeamController {
     private final SummonerService summonerService;
     private final TeamService teamService;
 
-    @GetMapping("/createTeam.do")
-    public String createTeam(@RequestParam("teamData") String teamData, Model model){
+    private static HttpSession session;
 
-        HttpSession session = MemberController.session;
+    @GetMapping("/createTeam.do")
+    public String createTeam(@RequestParam("teamData") String teamData, Model model, HttpServletRequest request){
+
+        session = request.getSession();
 
         TeamDTO teamDTO = new TeamDTO();
         MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
@@ -84,6 +86,8 @@ public class TeamController {
             model.addAttribute("teamname_exist", teamDTO_exist);
             return "../valid/teamNameValid";
         } else {
+            int tiertotal = teamService.tierCalculate(teamApplyDTO.getTier(), teamApplyDTO.getTier_rank());
+            teamDTO.setTier_average(tiertotal);
             teamService.insertTeamData(teamDTO, memberDTO);
             return "redirect:/move/searchTeamName.do";
         }

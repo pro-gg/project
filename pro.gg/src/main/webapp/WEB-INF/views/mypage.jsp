@@ -117,7 +117,15 @@
 
         function secessionMember(){
             if(confirm("회원 탈퇴 하시겠습니까? 탈퇴시 모든 데이터는 삭제됩니다.") == true){
-                window.open("${pageContext.request.contextPath}/move/currentPasswd_popup.do?target=secession", "findId", "width=550, height=450, left=100, top=50");
+                $.ajax({
+                    type:'post',
+                    url:'${pageContext.request.contextPath}/memberSecession.do',
+                    data:'',
+                    dataType:'',
+                    success:function(data){
+                        location.replace("${pageContext.request.contextPath}/");
+                    }
+                })
             }
         }
 

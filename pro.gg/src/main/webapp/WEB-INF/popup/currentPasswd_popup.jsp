@@ -28,18 +28,6 @@
                                 $("body").html(data);
                             }
                         })
-                    } else if("${secession}" === "secession"){
-                        $.ajax({
-                            type:'post',
-                            url:'${pageContext.request.contextPath}/memberSecession.do',
-                            data:'',
-                            dataType:'',
-                            success:function(data){
-                                alert("정상적으로 탈퇴 되었습니다.");
-                                opener.location.href='${pageContext.request.contextPath}/';
-                                window.close();
-                            }
-                        })
                     }
                 }  
                 else{

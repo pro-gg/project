@@ -266,8 +266,9 @@ public class MemberController {
     }
 
     @PostMapping("/memberSecession.do")
-    public String memberSecession(){
+    public String memberSecession(HttpServletRequest request){
 
+        session = request.getSession();
         MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
         // 소속된 팀이 있는지 확인하고, 있을시 팀원인지, 팀장인지 확인
         // 팀원일 경우 팀 추방, 팀장일 경우 팀 해체
@@ -343,7 +344,7 @@ public class MemberController {
         }
         memberService.deleteMember(memberDTO);
         session.removeAttribute("member");
-        return "../popup/currentPasswd_popup";
+        return "main";
     }
 
     @GetMapping("/findmemberdata.do")
@@ -448,7 +449,7 @@ public class MemberController {
 		    	    			memberDTO.setUserid(naver_id);
 		    	    			memberDTO.setPasswd(id);
 		    	    			memberDTO.setName(name);
-		    	    			memberDTO.setNickname(nickname);
+		    	    			memberDTO.setNickname(naver_id);
 		    	    			memberDTO.setEmail(email);
 		    	    			memberService.insert(memberDTO);
 		    	    		}
@@ -509,7 +510,7 @@ public class MemberController {
         // 데이터베이스 검색 시 기존에 존재하는 계정이라면 로그인 성공 처리
         String facebook_id = "facebook"+splitResult[0]; // 전적 테이블 명 처리를 위한 문자 삽입
         facebookId = "facebook_"+facebookId;
-        MemberDTO memberDTO = memberService.selectMemberOne(facebookId);
+        MemberDTO memberDTO = memberService.selectMemberOne(facebook_id);
         session = request.getSession();
 
         if(memberDTO == null){
@@ -543,7 +544,7 @@ public class MemberController {
             String[] splitResult = jsonObject.getString("email").split("@");
             String google_id = "google_" + splitResult[0];
             googleId = "google_"+jsonObject.getString("id");
-            MemberDTO memberDTO = memberService.selectMemberOne(googleId);
+            MemberDTO memberDTO = memberService.selectMemberOne(google_id);
             if (memberDTO == null){
                 memberDTO = new MemberDTO();
 
