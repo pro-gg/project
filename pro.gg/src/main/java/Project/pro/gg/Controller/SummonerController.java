@@ -192,6 +192,7 @@ public class SummonerController {
                         rankedSoloDTO.setLeaguePoints(json_RankedSolo.getInt("leaguePoints"));
                         rankedSoloDTO.setWins(json_RankedSolo.getInt("wins"));
                         rankedSoloDTO.setLosses(json_RankedSolo.getInt("losses"));
+                        rankedSoloDTO.setSummoner_name(summonerDTO.getSummoner_name());
 
                         total = rankedSoloDTO.getWins() + rankedSoloDTO.getLosses();
                         rate = (double)Math.round((double) rankedSoloDTO.getWins()/(double) total*1000)/10;
@@ -209,6 +210,7 @@ public class SummonerController {
                         rankedFlexDTO.setLeaguePoints(json_RankedFlex.getInt("leaguePoints"));
                         rankedFlexDTO.setWins(json_RankedFlex.getInt("wins"));
                         rankedFlexDTO.setLosses(json_RankedFlex.getInt("losses"));
+                        rankedFlexDTO.setSummoner_name(summonerDTO.getSummoner_name());
 
                         total = rankedFlexDTO.getWins() + rankedFlexDTO.getLosses();
                         rate = (double)Math.round((double) rankedFlexDTO.getWins()/(double) total*1000)/10;
@@ -243,6 +245,7 @@ public class SummonerController {
                         rankedSoloDTO.setLeaguePoints(json_RankedSolo.getInt("leaguePoints"));
                         rankedSoloDTO.setWins(json_RankedSolo.getInt("wins"));
                         rankedSoloDTO.setLosses(json_RankedSolo.getInt("losses"));
+                        rankedSoloDTO.setSummoner_name(summonerDTO.getSummoner_name());
 
                         total = rankedSoloDTO.getWins() + rankedSoloDTO.getLosses();
                         rate = (double)Math.round((double) rankedSoloDTO.getWins()/(double) total*1000)/10;
@@ -260,6 +263,7 @@ public class SummonerController {
                         rankedFlexDTO.setLeaguePoints(json_RankedFlex.getInt("leaguePoints"));
                         rankedFlexDTO.setWins(json_RankedFlex.getInt("wins"));
                         rankedFlexDTO.setLosses(json_RankedFlex.getInt("losses"));
+                        rankedFlexDTO.setSummoner_name(summonerDTO.getSummoner_name());
 
                         total = rankedFlexDTO.getWins() + rankedFlexDTO.getLosses();
                         rate = (double)Math.round((double) rankedFlexDTO.getWins()/(double) total*1000)/10;
@@ -734,6 +738,7 @@ public class SummonerController {
                         rankedSoloDTO.setLeaguePoints(json_RankedSolo.getInt("leaguePoints"));
                         rankedSoloDTO.setWins(json_RankedSolo.getInt("wins"));
                         rankedSoloDTO.setLosses(json_RankedSolo.getInt("losses"));
+                        rankedSoloDTO.setSummoner_name(summonerDTO.getSummoner_name());
 
                         total = rankedSoloDTO.getWins() + rankedSoloDTO.getLosses();
                         rate = (double)Math.round((double) rankedSoloDTO.getWins()/(double) total*1000)/10;
@@ -750,6 +755,7 @@ public class SummonerController {
                         rankedFlexDTO.setLeaguePoints(json_RankedFlex.getInt("leaguePoints"));
                         rankedFlexDTO.setWins(json_RankedFlex.getInt("wins"));
                         rankedFlexDTO.setLosses(json_RankedFlex.getInt("losses"));
+                        rankedFlexDTO.setSummoner_name(summonerDTO.getSummoner_name());
 
                         total = rankedFlexDTO.getWins() + rankedFlexDTO.getLosses();
                         rate = (double)Math.round((double) rankedFlexDTO.getWins()/(double) total*1000)/10;

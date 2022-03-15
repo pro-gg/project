@@ -13,6 +13,7 @@ public class RankedFlexDTO {
     private String queueType;
     private String tier;
     private String tier_rank;
+    private String summoner_name;
     private int leaguePoints;
     private int wins;
     private int losses;

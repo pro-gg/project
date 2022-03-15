@@ -31,13 +31,13 @@
     </select>
 
     <select id="insertRankedSoloData">
-        insert into ranked_solo(id, queueType, tier, tier_rank, leaguePoints, wins, losses, rate)
-            values(#{id}, #{queueType}, #{tier}, #{tier_rank}, #{leaguePoints}, #{wins}, #{losses}, #{rate})
+        insert into ranked_solo(id, queueType, tier, tier_rank, leaguePoints, wins, losses, rate, summoner_name)
+            values(#{id}, #{queueType}, #{tier}, #{tier_rank}, #{leaguePoints}, #{wins}, #{losses}, #{rate}, #{summoner_name})
     </select>
 
     <select id="insertRankedFlexData">
-        insert into ranked_flex(id, queueType, tier, tier_rank, leaguePoints, wins, losses, rate)
-            values(#{id}, #{queueType}, #{tier}, #{tier_rank}, #{leaguePoints}, #{wins}, #{losses}, #{rate})
+        insert into ranked_flex(id, queueType, tier, tier_rank, leaguePoints, wins, losses, rate, summoner_name)
+            values(#{id}, #{queueType}, #{tier}, #{tier_rank}, #{leaguePoints}, #{wins}, #{losses}, #{rate}, #{summoner_name})
     </select>
 
     <select id="updateRankedSoloData">
@@ -47,18 +47,20 @@
             leaguePoints = #{leaguePoints},
             wins = #{wins},
             losses = #{losses},
-            rate = #{rate}
+            rate = #{rate},
+            summoner_name = #{summoner_name}
         where id = #{id}
     </select>
 
     <select id="updateRankedFlexData">
         update ranked_flex
         set tier = #{tier},
-        tier_rank = #{tier_rank},
-        leaguePoints = #{leaguePoints},
-        wins = #{wins},
-        losses = #{losses},
-        rate = #{rate}
+            tier_rank = #{tier_rank},
+            leaguePoints = #{leaguePoints},
+            wins = #{wins},
+            losses = #{losses},
+            rate = #{rate},
+            summoner_name = #{summoner_name}
         where id = #{id}
     </select>
 
