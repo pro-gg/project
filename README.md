@@ -248,6 +248,7 @@ Riot 개발사 IP인 Leage of Legends 의 플레이어간 팀 구성 및 대전 
   - Facebook Login API(현재 https 연결처리 실패로 인해 기능 이용 불가)
     - Facebook 계정을 통해 간편하게 회원가입 및 로그인을 할 수 있습니다.
     - 현재는 서버의 https 보안 처리가 되지 않아 이용이 불가능 합니다.
+    - (문제 해결) https 보안 연결이 성공하여 현재 정상적으로 페이스북 로그인 기능을 이용할 수 있습니다.
   
   ~~~javascript
   <script async defer crossorigin="anonymous" src="https://connect.facebook.net/ko_KR/sdk.js" nonce="86tvEXGE"></script>
@@ -271,6 +272,7 @@ Riot 개발사 IP인 Leage of Legends 의 플레이어간 팀 구성 및 대전 
   - Google Login API (현재 https 연결처리 실패로 인해 기능 이용 불가)
     - Google 계정을 통해 간편하게 회원가입 및 로그인을 할 수 있습니다.
     - 현재는 서버의 https 보안 처리가 되지 않아 이용이 불가능 합니다.
+    - (문제 해결) https 보안 연결이 성공하여 현재 정상적으로  로그인 기능을 이용할 수 있습니다.
 
   ~~~javascript
   function init() {
