@@ -140,7 +140,6 @@ Riot 개발사 IP인 Leage of Legends 의 플레이어간 팀 구성 및 대전 
 - SNS 로그인 API
   - Naver Login API :
     - Naver 계정을 통해 간편하게 회원가입 및 로그인을 할 수 있습니다.
-    - 현재 검수요청을 하지않아 등록된 아이디만 로그인이 가능합니다.
 
   ~~~java (코드 중 일부입니다)
   String apiURL = "";
