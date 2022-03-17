@@ -90,11 +90,6 @@ Riot 개발사 IP인 Leage of Legends 의 플레이어간 팀 구성 및 대전 
   ~~~
   /lol/summoner/v4/summoners/by-name/{summonerName}
   ~~~
-  
-  ~~~java
-  String apiURL = "https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/"+summonerName+"?api_key="+developKey;
-  ~~~
-  
   - 소환사 솔로 랭크 및 자유 랭크 전적 검색 API :
     - 수집한 소환사 id 값을 변수로 하여 소환사의 솔로 랭크 및 자유 랭크 티어, 전적을 받아오는 API 입니다.
     - 참조 링크 : https://developer.riotgames.com/apis#league-v4/GET_getLeagueEntriesForSummoner
@@ -102,11 +97,6 @@ Riot 개발사 IP인 Leage of Legends 의 플레이어간 팀 구성 및 대전 
   ~~~
   /lol/league/v4/entries/by-summoner/{encryptedSummonerId}
   ~~~
-  
-  ~~~java
-  String apiURL = "https://kr.api.riotgames.com/lol/league/v4/entries/by-summoner/"+id+"?api_key="+developKey;
-  ~~~
-  
   - 소환사 최근 매치 id 값 갯수별 검색 API :
     - 소환사의 최근 경기부터 지정한 숫자의 매치 횟수 만큼의 각 매치별 id 값을 리스트 형태로 받아오는 API 입니다.
     - 참조 링크 : https://developer.riotgames.com/apis#match-v5/GET_getMatchIdsByPUUID
@@ -114,11 +104,6 @@ Riot 개발사 IP인 Leage of Legends 의 플레이어간 팀 구성 및 대전 
   ~~~
    /lol/match/v5/matches/by-puuid/{puuid}/ids
   ~~~
-  
-  ~~~java
-  String apiURL = "https://asia.api.riotgames.com/lol/match/v5/matches/by-puuid/"+puuid+"/ids?start="+0+"&count="+50+"&api_key="+developKey;
-  ~~~
-  
   - 소환사 매치 별 상세 정보 검색 API :
     - 각 매치 별 id 값을 변수로 하여 해당하는 매치의 상세 정보를 받아오는 API 입니다.(선택한 챔피언, 구매한 아이템, 사용한 소환사 스펠, K/D/A 정보 등등)
     - 참조 링크 : https://developer.riotgames.com/apis#match-v5/GET_getMatch
@@ -126,11 +111,6 @@ Riot 개발사 IP인 Leage of Legends 의 플레이어간 팀 구성 및 대전 
   ~~~
   /lol/match/v5/matches/{matchId}
   ~~~
-  
-  ~~~java
-  String apiURL = "https://asia.api.riotgames.com/lol/match/v5/matches/"+matchIdList.get(i)+"?api_key="+developKey;
-  ~~~
-
 - LOL 각종 리소스 경로
   - 챔피언 이미지 : 
     - LOL 챔피언들의 프로필 이미지 데이터를 호출해 올 수 있습니다.
@@ -167,177 +147,22 @@ Riot 개발사 IP인 Leage of Legends 의 플레이어간 팀 구성 및 대전 
 - SNS 로그인 API
   - Naver Login API :
     - Naver 계정을 통해 간편하게 회원가입 및 로그인을 할 수 있습니다.
-
-  ~~~java (코드 중 일부입니다)
-  String apiURL = "";
-  apiURL += "https://nid.naver.com/oauth2.0/token?grant_type=authorization_code&";
-  apiURL += "client_id=" + clientId;
-  apiURL += "&client_secret=" + clientSecret;
-  apiURL += "&redirect_uri=" + redirectURI;
-  apiURL += "&code=" + code;
-  apiURL += "&state=" + state;
-  
-  URL naverUrl = new URL(apiURL);
-  HttpURLConnection con = (HttpURLConnection)naverUrl.openConnection();
-  con.setRequestMethod("GET");
-  int responseCode = con.getResponseCode();
-  BufferedReader br;
-  if(responseCode==200) { // 정상 호출
-  br = new BufferedReader(new InputStreamReader(con.getInputStream()));
-  } else {  // 에러 발생
-  br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
-  }
-  String inputLine;
-  StringBuffer res = new StringBuffer();
-  while ((inputLine = br.readLine()) != null) {
-  res.append(inputLine);
-  }
-  br.close();
-  
-  access_token = (String)result.get("access_token");
-  refresh_token = (String)result.get("refresh_token");
-  if(access_token != null) {
-	try {
-	 String header = "Bearer " + access_token;
-	 String apiurl = "https://openapi.naver.com/v1/nid/me";
-	 naverUrl = new URL(apiurl);
-	 con = (HttpURLConnection)naverUrl.openConnection();
-	con.setRequestMethod("GET");
-	con.setRequestProperty("Authorization", header);
-	responseCode = con.getResponseCode();
-	if(responseCode==200) { // 정상 호출
-	 br = new BufferedReader(new InputStreamReader(con.getInputStream()));
-	} else {  // 에러 발생
-	br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
-	}
-  ~~~
-  
+ 
   - Kakao Login API : 
     - Kakao 계정을 통해 간편하게 회원가입 및 로그인을 할 수 있습니다.
-
-  ~~~java
-  public String getAccessToken(String code) {
-	String accessToken = "";
-	String refreshToken = "";
-	String reqURL = "https://kauth.kakao.com/oauth/token";
-
-	try {
-		URL url = new URL(reqURL);
-		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-		conn.setRequestMethod("POST");
-		conn.setDoOutput(true);
-
-		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
-		StringBuilder sb = new StringBuilder();
-		sb.append("grant_type=authorization_code");
-		sb.append("&client_id=909c3c588f9893fec11631686c08c54a");
-		sb.append("&redirect_uri=http://localhost:8120/kakao.do");
-		sb.append("&code="+code);
-
-		bw.write(sb.toString());
-		bw.flush();
-
-		int responseCode = conn.getResponseCode();
-
-		BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-
-		String line = "";
-		String result = "";
-		while((line = br.readLine()) != null) {
-			result += line;
-		}
-
-
-		JSONParser parser = new JSONParser();
-		JSONObject element = (JSONObject)parser.parse(result);
-
-		accessToken = (String)element.get("access_token");
-		refreshToken = (String)element.get("refresh_token");
-
-		br.close();
-		bw.close();			
-	}catch (Exception e) {
-		e.printStackTrace();
-	}
-	return accessToken;
-  }
-	
-  String reqUrl = "https://kapi.kakao.com/v2/user/me";
-  try {
-	URL url = new URL(reqUrl);
-	HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-	conn.setRequestMethod("POST");
-	conn.setRequestProperty("Authorization", "Bearer " + accessToken);
-	int responseCode = conn.getResponseCode();
-  ~~~
 			
   - Facebook Login API
     - Facebook 계정을 통해 간편하게 회원가입 및 로그인을 할 수 있습니다.
     - 현재는 서버의 https 보안 처리가 되지 않아 이용이 불가능 합니다.
     - (문제 해결) https 보안 연결이 성공하여 현재 정상적으로 페이스북 로그인 기능을 이용할 수 있습니다.(2022.03.14)
   
-  ~~~javascript
-  <script async defer crossorigin="anonymous" src="https://connect.facebook.net/ko_KR/sdk.js" nonce="86tvEXGE"></script>
-  
-  window.fbAsyncInit = function(){
-			FB.init({
-				appId : '************',
-				autoLogAppEvents : true,
-				xfbml : true,
-				version : 'v11.0'
-			});
-
-			FB.AppEvents.logPageView();
-
-			FB.getLoginStatus(function(response){
-				console.log(response.status);
-			});
-		};
-  ~~~
-  
   - Google Login API 
     - Google 계정을 통해 간편하게 회원가입 및 로그인을 할 수 있습니다.
     - 현재는 서버의 https 보안 처리가 되지 않아 이용이 불가능 합니다.
     - (문제 해결) https 보안 연결이 성공하여 현재 정상적으로  로그인 기능을 이용할 수 있습니다.(2022.03.14)
 
-  ~~~javascript
-  function init() {
-			gapi.load('auth2', function() {
-				gapi.auth2.init();
-				options = new gapi.auth2.SigninOptionsBuilder();
-				options.setPrompt('select_account');
-				
-				options.setScope('email profile openid https://www.googleapis.com/auth/user.birthday.read');
-				// 인스턴스의 함수 호출 - element에 로그인 기능 추가
-				// GgCustomLogin은 li태그안에 있는 ID, 위에 설정한 options와 아래 성공,실패시 실행하는 함수들
-				gapi.auth2.getAuthInstance().attachClickHandler('GgCustomLogin', options, onSignIn, onSignInFailure);
-			})
-		}
-
-		function onSignIn(googleUser) {
-			var access_token = googleUser.getAuthResponse().access_token
-			$.ajax({
-				// people api를 이용하여 프로필 및 생년월일에 대한 선택동의후 가져온다.
-				url: 'https://people.googleapis.com/v1/people/me'
-				// key에 자신의 API 키를 넣습니다.
-				, data: {personFields:'birthdays', key:'**************************', 'access_token': access_token}
-				, method:'GET'
-			})
-			.done(function(e){
-				//프로필을 가져온다.
-				var profile = googleUser.getBasicProfile();
-				console.log(profile)
-				
-				// 구글 로그인 성공시 로직 작성
-			})
-			.fail(function(e){
-				console.log(e);
-			})
-		}
-  ~~~
-
 ## ERD
-
+![proggERD](https://user-images.githubusercontent.com/48443312/158855002-cbff0598-4851-4bd2-beee-bc9e24988240.png)
 ## 화면별 기능 보기
 
 ## 개발 현황
