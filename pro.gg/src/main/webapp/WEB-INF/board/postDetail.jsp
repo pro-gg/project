@@ -43,7 +43,7 @@
                         // 글 작성자가 아닌 타인이 추천 버튼을 클릭했을 경우
                         $.ajax({
                             type:'get',
-                            url:'${pageContext.request.contextPath}/clickRecommend.do?postNumber='+'${post.postNumber}'+'&nickname='+memberNickname,
+                            url:'${pageContext.request.contextPath}/board/clickRecommend.do?postNumber='+'${post.postNumber}'+'&nickname='+memberNickname,
                             data:'',
                             dataType:'',
                             success:function(data){
@@ -84,7 +84,7 @@
                         // 글 작성자가 아닌 타인이 비추천 버튼을 클릭했을 경우
                         $.ajax({
                             type:'get',
-                            url:'${pageContext.request.contextPath}/clickNotRecommend.do?postNumber='+'${post.postNumber}'+'&nickname='+memberNickname,
+                            url:'${pageContext.request.contextPath}/board/clickNotRecommend.do?postNumber='+'${post.postNumber}'+'&nickname='+memberNickname,
                             data:'',
                             dataType:'',
                             success:function(data){
@@ -98,7 +98,7 @@
 
             $.ajax({
                 type:'get',
-                url:'${pageContext.request.contextPath}/callReplyList.do?postNumber='+'${post.postNumber}',
+                url:'${pageContext.request.contextPath}/board/callReplyList.do?postNumber='+'${post.postNumber}',
                 data:'',
                 dataType:'',
                 success:function(data){
@@ -135,7 +135,7 @@
             $.ajax({
 
                 type:'get',
-                url:'${pageContext.request.contextPath}/replyregister.do?reply='+encodeURI(JSON.stringify(reply)),
+                url:'${pageContext.request.contextPath}/board/replyregister.do?reply='+encodeURI(JSON.stringify(reply)),
                 data:'',
                 dataType:'',
                 success:function(data){
@@ -195,10 +195,10 @@
                             </button>
                             <br>
                             <c:if test = "${sessionScope.member.nickname == post.nickname}">
-                            	<a href="${pageContext.request.contextPath}/postModify.do?postNumber=${post.postNumber}">수정</a>
+                            	<a href="${pageContext.request.contextPath}/board/postModify.do?postNumber=${post.postNumber}">수정</a>
                             </c:if>&nbsp;
                             <c:if test = "${sessionScope.member.nickname == post.nickname}">
-                            	<a href="${pageContext.request.contextPath}/postDelete.do?postNumber=${post.postNumber}&nickname=${post.nickname}">삭제</a>
+                            	<a href="${pageContext.request.contextPath}/board/postDelete.do?postNumber=${post.postNumber}&nickname=${post.nickname}">삭제</a>
                             </c:if>
                             <hr>
                             <c:if test="${sessionScope.member == null}">

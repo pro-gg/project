@@ -274,7 +274,7 @@ public class TeamController {
         return "applyMemberList";
     }
 
-    @GetMapping("/team/teamapprove.do")
+    @GetMapping("/teamapprove.do")
     public String teamApprove(@RequestParam("nickname") String nickname, Model model){
         // 신청 상태정보 검색을 통해 신청을 수락받은 회원이 신청한 팀 이름을 추출하고, 이를 통해 연관관계를 매핑해준다.
         TeamApplyDTO teamApplyDTO = teamService.selectApplyStatus(nickname);
@@ -296,10 +296,10 @@ public class TeamController {
         }catch (Exception e){
             e.printStackTrace();
         }
-        return "redirect:/teamdetail.do?teamName="+returnTeamName+"&target=detail";
+        return "redirect:/team/teamdetail.do?teamName="+returnTeamName+"&target=detail";
     }
 
-    @GetMapping("/team/rejectapply.do")
+    @GetMapping("/rejectapply.do")
     public String rejectapply(@RequestParam("nickname") String nickname, @RequestParam("teamName") String teamName,
                               @RequestParam("target") String target, Model model, HttpServletRequest request){
 
@@ -325,10 +325,10 @@ public class TeamController {
         }catch (Exception e){
             e.printStackTrace();
         }
-        return "redirect:/teamdetail.do?teamName="+returnTeamName+"&target=detail";
+        return "redirect:/team/teamdetail.do?teamName="+returnTeamName+"&target=detail";
     }
 
-    @DeleteMapping("/captinsecession.do")
+    @PostMapping("/captinsecession.do")
     public String captinSecession(@RequestParam("teamName") String teamName, HttpServletRequest request){
         session = request.getSession();
         MemberDTO memberDTO_captin = (MemberDTO) session.getAttribute("member");
@@ -372,7 +372,7 @@ public class TeamController {
         return "redirect:/move/searchTeamName.do";
     }
 
-    @DeleteMapping("/crewsecession.do")
+    @PostMapping("/crewsecession.do")
     public String crewSecession(@RequestParam("teamName") String teamName, @RequestParam("target") String target, Model model,
                                 HttpServletRequest request){
         // 팀에서 탈퇴하는 팀원 라인 null 값 처리
@@ -415,7 +415,7 @@ public class TeamController {
         return "redirect:/move/searchTeamName.do";
     }
 
-    @DeleteMapping("/crewexile.do")
+    @PostMapping("/crewexile.do")
     public String crewExile(@RequestParam("exile") String exile){
 
         TeamDTO teamDTO = new TeamDTO();
@@ -488,7 +488,7 @@ public class TeamController {
             System.out.println(e.getMessage());
         }
 
-        return "redirect:/teamdetail.do?teamName="+URLEncoder.encode(teamName, "UTF-8")+"&target=detail";
+        return "redirect:/team/teamdetail.do?teamName="+URLEncoder.encode(teamName, "UTF-8")+"&target=detail";
     }
 
     @GetMapping("/matchList.do")

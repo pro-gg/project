@@ -25,7 +25,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import Project.pro.gg.API.KakaoAPI;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequiredArgsConstructor
@@ -171,7 +170,7 @@ public class MemberController {
         return "../popup/findIdSuccess_popup";
     }
 
-    @GetMapping("/findPasswd.do")
+    @PostMapping("/findPasswd.do")
     public String findPasswd(@RequestParam("findPasswd") String findPasswd, Model model){
         MemberDTO memberDTO = new MemberDTO();
 
@@ -209,7 +208,7 @@ public class MemberController {
         return "../popup/updateMemberPasswd_popup";
     }
 
-    @PutMapping("/updatePasswd.do")
+    @PostMapping("/updatePasswd.do")
     public String updatePasswd(@RequestParam("updatePasswd") String updatePasswd){
         MemberDTO memberDTO = new MemberDTO();
         try {
@@ -228,24 +227,7 @@ public class MemberController {
         return "../popup/updateMemberPasswd_popup";
     }
 
-    @PutMapping("/updateMemberData.do")
-    public String updateMemberData(@RequestParam("updateMember") String updateMember){
-        try {
-            JSONObject jsonObject = new JSONObject(updateMember);
-            MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
-
-            memberDTO.setName((String) jsonObject.getString("name"));
-            memberDTO.setNickname((String) jsonObject.getString("nickname"));
-            memberDTO.setEmail((String) jsonObject.getString("email"));
-
-            memberService.updateMemberData(memberDTO);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return "mypage";
-    }
-
-    @DeleteMapping("/memberSecession.do")
+    @PostMapping("/memberSecession.do")
     public String memberSecession(HttpServletRequest request){
 
         session = request.getSession();
@@ -257,7 +239,7 @@ public class MemberController {
             TeamDTO teamDTO = new TeamDTO();
             teamDTO.setTeamName(memberDTO.getTeamName());
             teamDTO = teamService.selectTeam(teamDTO);
-            
+
             if (teamDTO.getCaptinName().equals(memberDTO.getNickname())){
                 // 팀장일 경우 팀 해체 처리
                 List<String> lineList = new ArrayList<>();
@@ -308,7 +290,7 @@ public class MemberController {
 
                 teamApplyDTO.setNickname(null);
                 teamService.updateTeamLine(teamApplyDTO);
-                
+
                 memberDTO.setTeamName(null);
                 memberService.updateTeamName(memberDTO);
             }
@@ -325,6 +307,23 @@ public class MemberController {
         memberService.deleteMember(memberDTO);
         session.removeAttribute("member");
         return "main";
+    }
+
+    @PostMapping("/updateMemberData.do")
+    public String updateMemberData(@RequestParam("updateMember") String updateMember){
+        try {
+            JSONObject jsonObject = new JSONObject(updateMember);
+            MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
+
+            memberDTO.setName((String) jsonObject.getString("name"));
+            memberDTO.setNickname((String) jsonObject.getString("nickname"));
+            memberDTO.setEmail((String) jsonObject.getString("email"));
+
+            memberService.updateMemberData(memberDTO);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "mypage";
     }
 
     @GetMapping("/findmemberdata.do")

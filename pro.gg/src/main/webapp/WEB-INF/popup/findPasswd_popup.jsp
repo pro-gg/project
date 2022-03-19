@@ -19,8 +19,8 @@
                     'email' : document.getElementById("email").value
                 }
                 $.ajax({
-                    type:'get',
-                    url:'${pageContext.request.contextPath}/findPasswd.do?findPasswd='+encodeURI(JSON.stringify(findPasswd)),
+                    type:'post',
+                    url:'${pageContext.request.contextPath}/member/findPasswd.do?findPasswd='+encodeURI(JSON.stringify(findPasswd)),
                     data :'',
                     dataType:'',
                     success:function(data){

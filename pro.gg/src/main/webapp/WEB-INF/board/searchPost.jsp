@@ -43,7 +43,7 @@
                                             <tr>
                                                 <td>${searchPostByCondition.postNumber}</td>
                                                 <td>${searchPostByCondition.nickname}</td>
-                                                <td><a href="${pageContext.request.contextPath}/postdetail.do?postNumber=${searchPostByCondition.postNumber}">${searchPostByCondition.postTitle}</a></td>
+                                                <td><a href="${pageContext.request.contextPath}/board/postdetail.do?postNumber=${searchPostByCondition.postNumber}">${searchPostByCondition.postTitle}</a></td>
                                                 <script>
                                                     var postDate = '${searchPostByCondition.postDate}';
                                                     var postTime = '${searchPostByCondition.postTime}';

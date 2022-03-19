@@ -17,7 +17,7 @@
                 }
                 $.ajax({
                     type:'post',
-                    url:'${pageContext.request.contextPath}/findPasswdSuccess.do?userid='+encodeURI(JSON.stringify(userid)),
+                    url:'${pageContext.request.contextPath}/member/findPasswdSuccess.do?userid='+encodeURI(JSON.stringify(userid)),
                     data:'',
                     dataType:'',
                     success:function(data){

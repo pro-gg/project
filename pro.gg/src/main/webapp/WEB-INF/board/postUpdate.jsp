@@ -69,7 +69,7 @@
                 data:'',
                 dataType:'',
                 success:function(data){
-                	window.location.href='${pageContext.request.contextPath}/postdetail.do?postNumber='+'${post.postNumber}';
+                	window.location.href='${pageContext.request.contextPath}/board/postdetail.do?postNumber='+'${post.postNumber}';
                 }
             })
         }

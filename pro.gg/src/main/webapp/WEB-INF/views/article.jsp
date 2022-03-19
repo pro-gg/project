@@ -36,7 +36,7 @@
 
                 $.ajax({
                     type:'get',
-                    url:'${pageContext.request.contextPath}/searchSummonerName.do?summonerName='+encodeURI(JSON.stringify(summonerName)),
+                    url:'${pageContext.request.contextPath}/summoner/searchSummonerName.do?summonerName='+encodeURI(JSON.stringify(summonerName)),
                     data:'',
                     dataType:'',
                     success:function(data){

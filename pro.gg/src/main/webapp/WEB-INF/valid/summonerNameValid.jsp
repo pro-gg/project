@@ -10,18 +10,10 @@
     <script src="/resources/webjars/jquery/3.6.0/jquery.min.js"></script>
     <script>
         function registerSummonerName(){
-            $(function(){
-                 $.ajax({
-                    type:'get',
-                    url:'${pageContext.request.contextPath}/',
-                    data:'${member}',
-                    dataType:'',
-                    success:function(data){
-                        alert("등록 되었습니다.");
-                        $("body").html(data);
-                    }
-                })  
-            })
+
+            alert("등록 되었습니다.");
+            location.replace("${pageContext.request.contextPath}/move/mypage.do");
+
         }
     </script>
 </head>

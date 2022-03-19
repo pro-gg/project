@@ -41,7 +41,7 @@
             }
             $(function(){
                 $.ajax({
-                    type:'put',
+                    type:'post',
                     url:'${pageContext.request.contextPath}/member/updatePasswd.do?updatePasswd='+encodeURI(JSON.stringify(updatePasswd)),
                     data:'',
                     dataType:'',

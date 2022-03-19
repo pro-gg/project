@@ -13,54 +13,22 @@
 
         function alreadyBelongInTeam(){
             alert("이미 다른팀에 소속되어 있습니다.");
-            $.ajax({
-                type:'get',
-                url:'${pageContext.request.contextPath}/move/teammatch.do',
-                data:'',
-                dataType:'',
-                success:function(data){
-                    $("body").html(data);
-                }
-            })
+            location.replace("${pageContext.request.contextPath}/move/teammatch.do");
         }
 
         function existTeamName(){
             alert("이미 존재하는 팀 이름 입니다.");
-            $.ajax({
-                type:'get',
-                url:'${pageContext.request.contextPath}/move/teamCreate.do',
-                data:'',
-                dataType:'',
-                success:function(data){
-                    $("body").html(data);
-                }
-            })
+            location.replace("${pageContext.request.contextPath}/move/teamCreate.do");
         }
 
         function memberTierLimit(){
             alert("신청 제한 티어가 본인의 티어보다 높습니다.");
-            $.ajax({
-                type:'get',
-                url:'${pageContext.request.contextPath}/move/teamCreate.do',
-                data:'',
-                dataType:'',
-                success:function(data){
-                    $("body").html(data);
-                }
-            })
+            location.replace("${pageContext.request.contextPath}/move/teamCreate.do");
         }
 
         function notExistSoloRankData(){
             alert("솔로 랭크 데이터가 없으면 팀을 생성하실 수 없습니다.");
-            $.ajax({
-                type:'get',
-                url:'${pageContext.request.contextPath}/move/teammatch.do',
-                data:'',
-                dataType:'',
-                success:function(data){
-                    $("body").html(data);
-                }
-            })
+            location.replace("${pageContext.request.contextPath}/move/teammatch.do");
         }
     </script>
 </head>

@@ -19,7 +19,7 @@
                 }
                 $.ajax({
                     type:'get',
-                    url:'${pageContext.request.contextPath}/findId.do?findId='+encodeURI(JSON.stringify(findId)),
+                    url:'${pageContext.request.contextPath}/member/findId.do?findId='+encodeURI(JSON.stringify(findId)),
                     data :'',
                     dataType:'',
                     success:function(data){

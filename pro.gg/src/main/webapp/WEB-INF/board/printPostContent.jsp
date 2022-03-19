@@ -16,7 +16,7 @@
             if(confirm("정말로 글을 삭제 하시겠습니까?")){
                 $.ajax({
                     type:'get',
-                    url:'${pageContext.request.contextPath}/postDelete.do?postNumber='+postNumber+'&nickname='+nickname,
+                    url:'${pageContext.request.contextPath}/board/postDelete.do?postNumber='+postNumber+'&nickname='+nickname,
                     data:'',
                     dataType:'',
                     success:function(data){

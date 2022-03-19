@@ -17,7 +17,7 @@
                 }
                 $.ajax({
                     type:'post',
-                    url:'${pageContext.request.contextPath}/findIdSuccess.do?memberId='+encodeURI(JSON.stringify(memberId)),
+                    url:'${pageContext.request.contextPath}/member/findIdSuccess.do?memberId='+encodeURI(JSON.stringify(memberId)),
                     data:'',
                     dataType:'',
                     success:function(data){

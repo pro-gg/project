@@ -80,8 +80,8 @@
                 // 그렇기에 &nbsp; 에서 & 기호로 인해 데이터가 정상적으로 모두 전달되지 않았고, 그 결과 컨트롤러에서 데이터를 정상적으로 받아오지 못하는 에러가 발생되었다.
                 // 이를 해결하기 위해 위의 참조에서 알 수 있듯 encodeURL 메소드가 아닌 encodeURIComponent 메소드를 활용하였다. 
                 $.ajax({
-                    type:'get',
-                    url:'${pageContext.request.contextPath}/postWriting.do?post='+encodeURIComponent(JSON.stringify(post)),
+                    type:'post',
+                    url:'${pageContext.request.contextPath}/board/postWriting.do?post='+encodeURIComponent(JSON.stringify(post)),
                     data:'',
                     dataType:'',
                     success:function(data){

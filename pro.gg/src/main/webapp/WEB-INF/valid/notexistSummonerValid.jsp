@@ -14,15 +14,7 @@
                 var summoner_name = "${summoner_name}";
                 alert("소환사 명 : " + summoner_name + " 은(는) 존재하지 않습니다.");
 
-                $.ajax({
-                    type:'get',
-                    url:'${pageContext.request.contextPath}/mypage.do',
-                    data:'',
-                    dataType:'',
-                    success:function(data){
-                        $("body").html(data);
-                    }
-                })
+                location.replace("${pageCotext.request.contextPath}/move/mypage.do");
             })
         }
 
@@ -31,15 +23,7 @@
                 var summoner_name_exist = "${summoner_name_exist}";
                 alert("이미 등록되어 있는 소환사 명 입니다.");
 
-                $.ajax({
-                    type:'get',
-                    url:'${pageContext.request.contextPath}/mypage.do',
-                    data:'',
-                    dataType:'',
-                    success:function(data){
-                        $("body").html(data);
-                    }
-                })
+                location.replace("${pageCotext.request.contextPath}/move/mypage.do");
             })
         }
         

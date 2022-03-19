@@ -116,7 +116,7 @@
 				// 원활한 팀 삭제 작업을 위해 연관관계로 매핑되어 있는 데이터들을 null 값으로 세팅하여 연관관계를 제거해준다.
 				// 팀 삭제 로직은 팀장의 탈퇴 요청시 수행되는 것으로 구현한다.
 				$.ajax({
-					type:'delete',
+					type:'post',
 					url:'${pageContext.request.contextPath}/team/captinsecession.do?teamName='+teamName,
 					data:'',
 					dataType:'',
@@ -128,7 +128,7 @@
 			else{
 				// 일반 팀원이 탈퇴하는 경우 팀의 해제 없이 해당 팀원만 연관관계 매핑 해제 후 탈퇴 되는 것으로 구현한다.
 				$.ajax({
-					type:'delete',
+					type:'post',
 					url:'${pageContext.request.contextPath}/team/crewsecession.do?teamName='+teamName+'&target=secession',
 					data:'',
 					dataType:'',

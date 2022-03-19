@@ -33,7 +33,7 @@
 	        $(function(){
 	            $.ajax({
 	                type:'get',
-	                url:'${pageContext.request.contextPath}/freeboardList.do?nowPage=${paging.nowPage}&cntPerPage='+sel+'&boardNumber=${paging.boardNumber}',
+	                url:'${pageContext.request.contextPath}/board/boardList.do?nowPage=${paging.nowPage}&cntPerPage='+sel+'&boardNumber=${paging.boardNumber}',
 	                data:'',
 	                dataType:'',
 	                success:function(data){
@@ -47,7 +47,7 @@
     	 $(function(){
 	            $.ajax({
 	                type:'get',
-	                url:'${pageContext.request.contextPath}/freeboardList.do?boardNumber=${paging.boardNumber }&nowPage='+x+'&cntPerPage='+y,
+	                url:'${pageContext.request.contextPath}/board/boardList.do?boardNumber=${paging.boardNumber }&nowPage='+x+'&cntPerPage='+y,
 	                data:'',
 	                dataType:'',
 	                success:function(data){
@@ -87,7 +87,7 @@
                 <tr>
                     <td>${boardList.postNumber}</td>
                     <td>${boardList.nickname}</td>
-                    <td><a href="${pageContext.request.contextPath}/postdetail.do?postNumber=${boardList.postNumber}">${boardList.postTitle}</a></td>
+                    <td><a href="${pageContext.request.contextPath}/board/postdetail.do?postNumber=${boardList.postNumber}">${boardList.postTitle}</a></td>
                     <script>
                         var postDate = '${boardList.postDate}';
                         var postTime = '${boardList.postTime}';

@@ -60,7 +60,7 @@ pageEncoding="UTF-8"%>
 				}
 
 				$.ajax({
-					type:'delete',
+					type:'post',
 					url:'${pageContext.request.contextPath}/team/crewexile.do?exile='+encodeURI(JSON.stringify(exile)),
 					data:'',
 					dataType:'',

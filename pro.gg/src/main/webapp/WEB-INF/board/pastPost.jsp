@@ -16,7 +16,7 @@
             var num_postNumber = Number(postNumber);
             $.ajax({
                 type:'get',
-                url:'${pageContext.request.contextPath}/postdetail.do?&postNumber=' + postNumber,
+                url:'${pageContext.request.contextPath}/board/postdetail.do?&postNumber=' + postNumber,
                 data:'',
                 dataType:'',
                 success:function(data){

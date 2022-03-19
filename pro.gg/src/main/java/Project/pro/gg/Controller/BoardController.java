@@ -22,10 +22,7 @@ import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import Project.pro.gg.API.Paging;
@@ -51,7 +48,7 @@ public class BoardController{
 
     private static HttpSession session;
 
-    @GetMapping("/freeboardList.do")
+    @GetMapping("/boardList.do")
     public String freeboardList(Model model, Paging paging,
     		@RequestParam("boardNumber") int boardNumber,
     		@RequestParam(value="nowPage", required=false) String nowPage,
@@ -128,7 +125,7 @@ public class BoardController{
         return request;
     }
 
-    @GetMapping("/postWriting.do")
+    @PostMapping("/postWriting.do")
     public String postWriting(@RequestParam("post") String post, HttpServletRequest request){
         int boardNumber = 0;
         HttpSession session = request.getSession();
@@ -213,7 +210,7 @@ public class BoardController{
         // 일단 지금은 간단하게 끝내지만 나중에 댓글기능이 구현되었을 땐
         // 글을 삭제할 때 댓글과의 연관관계 또한 고려해서 로직을 다시 짜야 한다.
         postService.postDelete(postNumber);
-        return "redirect:/searchPastPost.do?nickname="+nickname;
+        return "redirect:/board/searchPastPost.do?nickname="+nickname;
     }
 
     @GetMapping("/postModify.do")
@@ -303,7 +300,7 @@ public class BoardController{
         session = request.getSession();
         session.setAttribute("member", memberDTO);
 
-        return "redirect:/postdetail.do?postNumber="+postNumber;
+        return "redirect:/board/postdetail.do?postNumber="+postNumber;
     }
 
     @GetMapping("/clickNotRecommend.do")
@@ -367,7 +364,7 @@ public class BoardController{
         session = request.getSession();
         session.setAttribute("member", memberDTO);
 
-        return "redirect:/postdetail.do?postNumber="+postNumber;
+        return "redirect:/board/postdetail.do?postNumber="+postNumber;
     }
 
     @GetMapping("/replyregister.do")
@@ -400,7 +397,7 @@ public class BoardController{
             e.printStackTrace();
         }
         replyService.replyInsert(replyDTO);
-        return "redirect:/postdetail.do?postNumber="+postNumber;
+        return "redirect:/board/postdetail.do?postNumber="+postNumber;
     }
 
     @GetMapping("/callReplyList.do")
@@ -413,7 +410,7 @@ public class BoardController{
         return "../board/replyList";
     }
 
-    @GetMapping("/replyRecommendClick.do")
+    @PostMapping("/replyRecommendClick.do")
     public String replyRecommendClick(@RequestParam("replyNumber") int replyNumber, @RequestParam("nickname") String nickname,
                                       HttpServletRequest request) throws JSONException {
 
@@ -474,10 +471,10 @@ public class BoardController{
         session = request.getSession();
         session.setAttribute("member", memberDTO);
 
-        return "redirect:/postdetail.do?postNumber="+replyDTO.getPostNumber();
+        return "redirect:/board/postdetail.do?postNumber="+replyDTO.getPostNumber();
     }
 
-    @GetMapping("/replyNotRecommendClick.do")
+    @PostMapping("/replyNotRecommendClick.do")
     public String replyNotRecommendClick(@RequestParam("replyNumber") int replyNumber, @RequestParam("nickname") String nickname,
                                          HttpServletRequest request) throws JSONException {
 
@@ -538,10 +535,10 @@ public class BoardController{
         session = request.getSession();
         session.setAttribute("member", memberDTO);
 
-        return "redirect:/postdetail.do?postNumber="+replyDTO.getPostNumber();
+        return "redirect:/board/postdetail.do?postNumber="+replyDTO.getPostNumber();
     }
 
-    @GetMapping("/replyUpdate.do")
+    @PostMapping("/replyUpdate.do")
     public String replyUpdate(@RequestParam("replyNumber") String str_replyNumber, @RequestParam("replyContent") String replyContent,
                               @RequestParam("nickname") String nickname, @RequestParam("target") String target, Model model){
 
@@ -566,7 +563,7 @@ public class BoardController{
             replyService.updateReply(replyDTO);
             int integer_replyNumber = Integer.parseInt(str_replyNumber);
             replyDTO = replyService.selectReplyBy_replyNumber(integer_replyNumber);
-            return "redirect:/postdetail.do?postNumber="+replyDTO.getPostNumber();
+            return "redirect:/board/postdetail.do?postNumber="+replyDTO.getPostNumber();
         } // 댓글 삭제 버튼이 눌려졌을 경우 처리
         else{
             replyDTO.setReplyNumber(replyNumber);
@@ -579,7 +576,7 @@ public class BoardController{
 
             replyService.replyDelete(replyDTO);
 
-            return "redirect:/postdetail.do?postNumber="+postNumber;
+            return "redirect:/board/postdetail.do?postNumber="+postNumber;
         }
     }
     
@@ -610,7 +607,7 @@ public class BoardController{
         return "../board/searchPost";
     }
     
-    @GetMapping("/addReplyComment.do")
+    @PostMapping("/addReplyComment.do")
     public String addReplyComment(@RequestParam("comment") String comment, HttpServletRequest request) {
     	MemberDTO memberDTO = null;
         CommentDTO commentDTO;
@@ -633,7 +630,7 @@ public class BoardController{
         }catch (Exception e){
             e.printStackTrace();
         }
-    	return "redirect:/postdetail.do?postNumber="+postNumber;
+    	return "redirect:/board/postdetail.do?postNumber="+postNumber;
     }
     
     @GetMapping("/callReplyCommentList.do")
@@ -669,7 +666,7 @@ public class BoardController{
             commentDTO.setCommentContent(commentContent);
 
             replyService.updateComment(commentDTO);
-            return "redirect:/postdetail.do?postNumber="+postNumber;
+            return "redirect:/board/postdetail.do?postNumber="+postNumber;
         } // 댓글 삭제 버튼이 눌려졌을 경우 처리
         else{
             commentDTO.setCommentNumber(commentNumber);
@@ -678,7 +675,7 @@ public class BoardController{
 
             replyService.commentDelete(commentDTO);
 
-            return "redirect:/postdetail.do?postNumber="+postNumber;
+            return "redirect:/board/postdetail.do?postNumber="+postNumber;
         }
     }
 }

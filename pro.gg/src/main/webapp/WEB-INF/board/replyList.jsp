@@ -56,8 +56,8 @@
                 else{
 
                     $.ajax({
-                        type:'get',
-                        url:'${pageContext.request.contextPath}/replyRecommendClick.do?replyNumber='+ replyNumber + '&nickname='+ memberNickname,
+                        type:'post',
+                        url:'${pageContext.request.contextPath}/board/replyRecommendClick.do?replyNumber='+ replyNumber + '&nickname='+ memberNickname,
                         data:'',
                         dataType:'',
                         success:function(data){
@@ -96,8 +96,8 @@
                 else{
 
                     $.ajax({
-                        type:'get',
-                        url:'${pageContext.request.contextPath}/replyNotRecommendClick.do?replyNumber='+ replyNumber + '&nickname='+ memberNickname,
+                        type:'post',
+                        url:'${pageContext.request.contextPath}/board/replyNotRecommendClick.do?replyNumber='+ replyNumber + '&nickname='+ memberNickname,
                         data:'',
                         dataType:'',
                         success:function(data){
@@ -112,8 +112,8 @@
             var target = "contentUpdate";
 
             $.ajax({
-                type:'get',
-                url:'${pageContext.request.contextPath}/replyUpdate.do?replyNumber=' + replyNumber + '&replyContent=' + replyContent + '&nickname=' + nickname + '&target=' + target,
+                type:'post',
+                url:'${pageContext.request.contextPath}/board/replyUpdate.do?replyNumber=' + replyNumber + '&replyContent=' + replyContent + '&nickname=' + nickname + '&target=' + target,
                 data:'',
                 dataType:'',
                 success:function(data){
@@ -127,8 +127,8 @@
 
             if(confirm("댓글을 삭제 하시겠습니까?")){
                 $.ajax({
-                    type:'get',
-                    url:'${pageContext.request.contextPath}/replyUpdate.do?replyNumber=' + replyNumber + '&replyContent=' + replyContent + '&nickname=' + nickname + '&target=' + target,
+                    type:'post',
+                    url:'${pageContext.request.contextPath}/board/replyUpdate.do?replyNumber=' + replyNumber + '&replyContent=' + replyContent + '&nickname=' + nickname + '&target=' + target,
                     data:'',
                     dataType:'',
                     success:function(data){
@@ -177,7 +177,7 @@
 
             $.ajax({
 
-                type:'get',
+                type:'post',
                 url:'${pageContext.request.contextPath}/addReplyComment.do?comment='+encodeURI(JSON.stringify(comment)),
                 data:'',
                 dataType:'',

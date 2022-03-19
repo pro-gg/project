@@ -24,7 +24,7 @@
 	        $(function(){
 	            $.ajax({
 	                type:'get',
-	                url:'${pageContext.request.contextPath}/freeboardList.do?nowPage=1&cntPerPage=10&boardNumber='+ boardNumber,
+	                url:'${pageContext.request.contextPath}/board/boardList.do?nowPage=1&cntPerPage=10&boardNumber='+ boardNumber,
 	                data:'',
 	                dataType:'',
 	                success:function(data){
@@ -73,7 +73,7 @@
             }
             $.ajax({
                 type:'get',
-                url:'${pageContext.request.contextPath}/postSearch.do?searchKeyword=' + encodeURI(searchKeyword) + '&target=' + target,
+                url:'${pageContext.request.contextPath}/board/postSearch.do?searchKeyword=' + encodeURI(searchKeyword) + '&target=' + target,
                 data:'',
                 dataType:'',
                 success:function(data){

@@ -98,7 +98,7 @@ public class SummonerController {
 
         String summoner_register = "summoner_name_register";
 
-        return "redirect:/updateSummonerData.do?target="+summoner_register;
+        return "redirect:/summoner/updateSummonerData.do?target="+summoner_register;
     }
 
     @GetMapping("/updateSummonerName.do")
@@ -116,9 +116,9 @@ public class SummonerController {
         // 소속된 팀에서 추방시키는 로직과 특정팀에 대한 지원 내역이 있을 시 그 또한 취소되는 로직을 작성한다.
         // 팀에 소속되어 있을 경우 추방시키는 로직
         if (memberDTO.getTeamName() != null){
-            return "redirect:/crewsecession.do?teamName="+URLEncoder.encode(memberDTO.getTeamName(), "UTF-8")+"&target=updateSummonerName";
+            return "redirect:/team/crewsecession.do?teamName="+URLEncoder.encode(memberDTO.getTeamName(), "UTF-8")+"&target=updateSummonerName";
         }else if (teamApplyDTO != null){
-            return "redirect:/rejectapply.do?nickname="+URLEncoder.encode(memberDTO.getNickname(), "UTF-8")+
+            return "redirect:/team/rejectapply.do?nickname="+URLEncoder.encode(memberDTO.getNickname(), "UTF-8")+
                     "&teamName="+URLEncoder.encode(teamApplyDTO.getTeamName(), "UTF-8")+"&target=updateSummonerName";
         }
         return "updateSummonerName";
@@ -547,7 +547,7 @@ public class SummonerController {
         MemberDTO memberDTO = memberService.findByNickname(nickname);
         List<MatchDataDTO> matchDataDTOList = matchDataService.selectMatchDataAll(memberDTO);
         if (matchDataDTOList.size() == 0) {
-            return "redirect:/matchHistory.do?summoner_name="+URLEncoder.encode(summoner_name, "UTF-8")+
+            return "redirect:/summoner/matchHistory.do?summoner_name="+URLEncoder.encode(summoner_name, "UTF-8")+
                     "&target="+URLEncoder.encode(nickname, "UTF-8");
         }
         Collections.reverse(matchDataDTOList);

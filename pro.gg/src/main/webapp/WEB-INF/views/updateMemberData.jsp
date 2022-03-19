@@ -46,7 +46,7 @@
             }
 
             $.ajax({
-                type:'put',
+                type:'post',
                 url:'${pageContext.request.contextPath}/member/updateMemberData.do?updateMember='+encodeURI(JSON.stringify(updateMember)),
                 data:'',
                 dataType:'',

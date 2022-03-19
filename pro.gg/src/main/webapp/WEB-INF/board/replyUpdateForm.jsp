@@ -16,8 +16,8 @@
             var target = "replyUpdate";
 
             $.ajax({
-                type:'get',
-                url:'${pageContext.request.contextPath}/replyUpdate.do?replyNumber=' + replyNumber + '&replyContent=' + replyContent + '&nickname=' + nickname + '&target=' + target,
+                type:'post',
+                url:'${pageContext.request.contextPath}/board/replyUpdate.do?replyNumber=' + replyNumber + '&replyContent=' + replyContent + '&nickname=' + nickname + '&target=' + target,
                 data:'',
                 dataType:'',
                 success:function(data){

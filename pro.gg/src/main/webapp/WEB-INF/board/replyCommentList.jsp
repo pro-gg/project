@@ -17,7 +17,7 @@
 		
 		        $.ajax({
 		            type:'get',
-		            url:'${pageContext.request.contextPath}/commentUpdate.do?commentNumber=' + commentNumber + '&commentContent=' + commentContent + '&nickname=' + nickname + '&postNumber=' + postNumber + '&target=' + target,
+		            url:'${pageContext.request.contextPath}/board/commentUpdate.do?commentNumber=' + commentNumber + '&commentContent=' + commentContent + '&nickname=' + nickname + '&postNumber=' + postNumber + '&target=' + target,
 		            data:'',
 		            dataType:'',
 		            success:function(data){
@@ -32,7 +32,7 @@
 		        if(confirm("댓글을 삭제 하시겠습니까?")){
 		            $.ajax({
 		                type:'get',
-		                url:'${pageContext.request.contextPath}/commentUpdate.do?commentNumber=' + commentNumber + '&commentContent=' + commentContent + '&nickname=' + nickname + '&postNumber=' + postNumber + '&target=' + target,
+		                url:'${pageContext.request.contextPath}/board/commentUpdate.do?commentNumber=' + commentNumber + '&commentContent=' + commentContent + '&nickname=' + nickname + '&postNumber=' + postNumber + '&target=' + target,
 		                data:'',
 		                dataType:'',
 		                success:function(data){

@@ -31,7 +31,7 @@
             $(function(){
                 $.ajax({
                     type:'get',
-                    url:'${pageContext.request.contextPath}/printSummonerData_aside.do',
+                    url:'${pageContext.request.contextPath}/summoner/printSummonerData_aside.do',
                     data:'',
                     dataType:'',
                     success:function(data){
