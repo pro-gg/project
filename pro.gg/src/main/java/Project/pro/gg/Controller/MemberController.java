@@ -22,15 +22,14 @@ import org.json.simple.parser.JSONParser;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import Project.pro.gg.API.KakaoAPI;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/member")
 public class MemberController {
 
 
@@ -157,7 +156,7 @@ public class MemberController {
         return "../valid/findIdValid";
     }
 
-    @PostMapping("findIdSuccess.do")
+    @PostMapping("/findIdSuccess.do")
     public String findIdSuccess(@RequestParam("memberId") String memberId, Model model){
 
         String findMemberId = "";
@@ -210,7 +209,7 @@ public class MemberController {
         return "../popup/updateMemberPasswd_popup";
     }
 
-    @PostMapping("/updatePasswd.do")
+    @PutMapping("/updatePasswd.do")
     public String updatePasswd(@RequestParam("updatePasswd") String updatePasswd){
         MemberDTO memberDTO = new MemberDTO();
         try {
@@ -229,7 +228,7 @@ public class MemberController {
         return "../popup/updateMemberPasswd_popup";
     }
 
-    @PostMapping("/updateMemberData.do")
+    @PutMapping("/updateMemberData.do")
     public String updateMemberData(@RequestParam("updateMember") String updateMember){
         try {
             JSONObject jsonObject = new JSONObject(updateMember);
@@ -246,7 +245,7 @@ public class MemberController {
         return "mypage";
     }
 
-    @PostMapping("/memberSecession.do")
+    @DeleteMapping("/memberSecession.do")
     public String memberSecession(HttpServletRequest request){
 
         session = request.getSession();

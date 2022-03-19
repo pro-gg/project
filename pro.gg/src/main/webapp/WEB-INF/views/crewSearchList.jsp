@@ -14,7 +14,7 @@ pageEncoding="UTF-8"%>
 
             $.ajax({
                 type:'get',
-                url:'${pageContext.request.contextPath}/findmemberdata.do?nickname='+nickname,
+                url:'${pageContext.request.contextPath}/member/findmemberdata.do?nickname='+nickname,
                 data:'',
                 dataType:'',
                 success:function(data){

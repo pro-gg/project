@@ -57,26 +57,33 @@
 		$(function(){
 			var teamName = "${team.teamName}";
 			var tier_limit = "${team.tier_limit}";
-			var belongTeamName = "${sessionScope.member.teamName}";
+			var sessionCheck = "${sessionScope.member}";
+			var belongTeamName = "";
+			if(sessionCheck == null){
+			    alert("로그인이 필요한 서비스 입니다.")
+			}
+			else{
+			    belongTeamName = "${sessionScope.member.teamName}";
 
-			if(belongTeamName.length !== 0){
-				alert("이미 소속되어 있는 팀이 있습니다.")
-			} else{
-				var team = {
-					teamName:teamName,
-					tier_limit:tier_limit
-				};
+			    if(belongTeamName.length !== 0){
+                	alert("이미 소속되어 있는 팀이 있습니다.")
+                } else{
+                	var team = {
+                	    teamName:teamName,
+                		tier_limit:tier_limit
+                    };
 
-				$.ajax({
-					type:'get',
-					url:'${pageContext.request.contextPath}/move/teamapplyForm.do?team='+encodeURI(JSON.stringify(team)),
-					data:'',
-					dataType:'',
-					success:function(data){
-						$("#choose_line").html(data);
-					}
-				})
-			}			
+                	$.ajax({
+                		type:'get',
+                		url:'${pageContext.request.contextPath}/move/teamapplyForm.do?team='+encodeURI(JSON.stringify(team)),
+                		data:'',
+                		dataType:'',
+                		success:function(data){
+                		    $("#choose_line").html(data);
+                	    }
+                    })
+                }
+			}
 		})
 	}
 
@@ -87,7 +94,7 @@
 
 				$.ajax({
 					type:'get',
-					url:'${pageContext.request.contextPath}/teamdetail.do?teamName='+teamName+'&target=update',
+					url:'${pageContext.request.contextPath}/team/teamdetail.do?teamName='+teamName+'&target=update',
 					data:'',
 					dataType:'',
 					success:function(data){
@@ -109,8 +116,8 @@
 				// 원활한 팀 삭제 작업을 위해 연관관계로 매핑되어 있는 데이터들을 null 값으로 세팅하여 연관관계를 제거해준다.
 				// 팀 삭제 로직은 팀장의 탈퇴 요청시 수행되는 것으로 구현한다.
 				$.ajax({
-					type:'get',
-					url:'${pageContext.request.contextPath}/captinsecession.do?teamName='+teamName,
+					type:'delete',
+					url:'${pageContext.request.contextPath}/team/captinsecession.do?teamName='+teamName,
 					data:'',
 					dataType:'',
 					success:function(data){
@@ -121,8 +128,8 @@
 			else{
 				// 일반 팀원이 탈퇴하는 경우 팀의 해제 없이 해당 팀원만 연관관계 매핑 해제 후 탈퇴 되는 것으로 구현한다.
 				$.ajax({
-					type:'get',
-					url:'${pageContext.request.contextPath}/crewsecession.do?teamName='+teamName+'&target=secession',
+					type:'delete',
+					url:'${pageContext.request.contextPath}/team/crewsecession.do?teamName='+teamName+'&target=secession',
 					data:'',
 					dataType:'',
 					success:function(data){
@@ -138,13 +145,17 @@
 
 		$.ajax({
 			type:'get',
-			url:'${pageContext.request.contextPath}/applyStatusView.do?teamName='+teamName,
+			url:'${pageContext.request.contextPath}/team/applyStatusView.do?teamName='+teamName,
 			data:'',
 			dataType:'',
 			success:function(data){
 				$("#applyInMember").html(data);
 			}
 		})
+	}
+
+	function backPage(){
+	    location.replace("${pageContext.request.contextPath}/move/searchTeamName.do")
 	}
 </script>
 </head>
@@ -295,29 +306,21 @@
 			    				</div>
 			    			</div>
 			    		</div>
-						<c:if test="${sessionScope.member.nickname != team.top &&
-							sessionScope.member.nickname != team.middle &&
-							sessionScope.member.nickname != team.jungle &&
-							sessionScope.member.nickname != team.bottom &&
-							sessionScope.member.nickname != team.suppoter}">
-							<button onclick="teamApply()">신청</button> &nbsp;&nbsp;
-						</c:if>
-			    		<button>이전</button> &nbsp;&nbsp;
-						<c:if test="${sessionScope.member.nickname == team.captinName}">
-							<button onclick="teamUpdate()">수정</button> &nbsp;&nbsp;
-						</c:if>
-						<c:if test="${sessionScope.member != null}">
-							<c:if test="${sessionScope.member.nickname == team.top ||
-								sessionScope.member.nickname == team.middle ||
-								sessionScope.member.nickname == team.jungle ||
-								sessionScope.member.nickname == team.bottom ||
-								sessionScope.member.nickname == team.suppoter}">
-								<button onclick="teamSecession()">탈퇴</button>&nbsp;&nbsp;
-							</c:if>
-						</c:if>
-						<c:if test="${sessionScope.member.nickname == team.captinName}">
-							<a href="#" onclick="applyStatusView()">신청 현황</a>&nbsp;&nbsp;
-						</c:if>
+			    		<c:if test="${sessionScope.member != null}">
+			    		    <c:if test="${sessionScope.member.nickname != team.top && sessionScope.member.nickname != team.middle && sessionScope.member.nickname != team.jungle && sessionScope.member.nickname != team.bottom && sessionScope.member.nickname != team.suppoter}">
+                            	<button onclick="teamApply()">신청</button> &nbsp;&nbsp;
+                            </c:if>
+                            <c:if test="${sessionScope.member.nickname == team.captinName}">
+                                <button onclick="teamUpdate()">수정</button> &nbsp;&nbsp;
+                            </c:if>
+                            <c:if test="${sessionScope.member.nickname == team.top || sessionScope.member.nickname == team.middle || sessionScope.member.nickname == team.jungle || sessionScope.member.nickname == team.bottom || sessionScope.member.nickname == team.suppoter}">
+                                <button onclick="teamSecession()">탈퇴</button>&nbsp;&nbsp;
+                            </c:if>
+                            <c:if test="${sessionScope.member.nickname == team.captinName}">
+                            	<button onclick="applyStatusView()">신청 현황</button>&nbsp;&nbsp;
+                            </c:if>
+			    		</c:if>
+			    		<button onclick="backPage()">이전</button> &nbsp;&nbsp;
 						<div id="choose_line"></div>
 						<div id="applyInMember"></div>
 			    	</div>

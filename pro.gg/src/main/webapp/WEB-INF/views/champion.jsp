@@ -18,7 +18,7 @@
 	    	<h3 class="white-font champ-header">챔피언 정보</h3>
 	    	<br><hr>
 	    	<c:forEach var="row" items="${champList }">
-				<a href="${pageContext.request.contextPath }/champInfo.do?champ=${row}"><img alt="챔피언" src="${imgPath }${row }.png" style="width:60px; height:60px; padding: 5px;"></a>
+				<a href="${pageContext.request.contextPath }/champion/champInfo.do?champ=${row}"><img alt="챔피언" src="${imgPath }${row }.png" style="width:60px; height:60px; padding: 5px;"></a>
 			</c:forEach>
 	    </div>
 	</article>

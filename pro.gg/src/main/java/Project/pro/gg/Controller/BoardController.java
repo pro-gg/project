@@ -38,6 +38,7 @@ import Project.pro.gg.Model.ReplyDTO;
 @Controller
 @MultipartConfig(maxRequestSize = 1024*1024*50) //50MB
 @RequiredArgsConstructor
+@RequestMapping("/board")
 public class BoardController{
 
 

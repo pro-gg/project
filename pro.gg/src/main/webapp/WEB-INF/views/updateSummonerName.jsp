@@ -19,7 +19,7 @@
                     
                 $.ajax({
                     type:'get',
-                    url:'${pageContext.request.contextPath}/SearchSummonerData.do?summonerName='+encodeURI(JSON.stringify(summonerName)),
+                    url:'${pageContext.request.contextPath}/summoner/SearchSummonerData.do?summonerName='+encodeURI(JSON.stringify(summonerName)),
                     data:'', 
                     dataType:'',
                     success:function(data){

@@ -34,7 +34,7 @@
                 else{
                     $.ajax({
                         type:'get',
-                        url:'${pageContext.request.contextPath}/teamapprove.do?nickname='+nickname,
+                        url:'${pageContext.request.contextPath}/team/teamapprove.do?nickname='+nickname,
                         data:'',
                         dataType:'',
                         success:function(data){
@@ -50,7 +50,7 @@
             if(confirm("신청을 거절 하시겠습니까?") === true){
                 $.ajax({
                     type:'get',
-                    url:'${pageContext.request.contextPath}/rejectapply.do?nickname='+nickname+"&teamName="+teamName+"&target=reject",
+                    url:'${pageContext.request.contextPath}/team/rejectapply.do?nickname='+nickname+"&teamName="+teamName+"&target=reject",
                     data:'',
                     dataType:'',
                     success:function(data){

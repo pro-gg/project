@@ -20,7 +20,7 @@
 
                 $.ajax({
                     type:'get',
-                    url:'${pageContext.request.contextPath}/findmemberdata.do?nickname='+encodeURI(nickname),
+                    url:'${pageContext.request.contextPath}/member/findmemberdata.do?nickname='+encodeURI(nickname),
                     data:'',
                     dataType:'',
                     success:function(data){

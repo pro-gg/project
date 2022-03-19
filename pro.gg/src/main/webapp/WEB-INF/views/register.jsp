@@ -33,7 +33,7 @@
 	    function check_id(id){
 			$.ajax({
 				type: "post",
-				url: "${pageContext.request.contextPath}/check_id.do",
+				url: "${pageContext.request.contextPath}/member/check_id.do",
 				data: id,
 				dataType: "text",
 				success: function(data){
@@ -57,7 +57,7 @@
 			var nickname = document.getElementById('nickname').value;
 			$.ajax({
 				type:"post",
-				url:"${pageContext.request.contextPath}/check_nickname.do?nickname="+nickname,
+				url:"${pageContext.request.contextPath}/member/check_nickname.do?nickname="+nickname,
 				data:'',
 				dataType:'',
 				success:function(data){
@@ -136,7 +136,7 @@
     	<div class="content-wrapper">
 		    <div class="container-fluid">
 		    	<div class="reg-card card-block">
-			         <form class="md-float-material" name="formReg" action="${pageContext.request.contextPath}/tryregister.do" method="POST">
+			         <form class="md-float-material" name="formReg" action="${pageContext.request.contextPath}/member/tryregister.do" method="POST">
 			         	<div class="text-center">
 			         		<h3>회원가입</h3>
 			         	</div>

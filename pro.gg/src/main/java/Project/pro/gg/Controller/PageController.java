@@ -29,9 +29,6 @@ public class PageController {
     @GetMapping("/header.do")
     public String header(){ return "header"; }
 
-    @PostMapping("/move/adminpage.do")
-    public String adminPage(){ return "admin"; }
-
     @GetMapping("/move/login.do")
     public String login(){
         return "login";

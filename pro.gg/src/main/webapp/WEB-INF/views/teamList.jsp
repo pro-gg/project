@@ -28,7 +28,7 @@ pageEncoding="UTF-8"%>
                 <tr>
                     <td>${status.count}</td>
                     <td>
-                        <a href="${pageContext.request.contextPath}/teamdetail.do?teamName=${teamList.teamName}&target=detail">
+                        <a href="${pageContext.request.contextPath}/team/teamdetail.do?teamName=${teamList.teamName}&target=detail">
                             ${teamList.teamName}
                         </a>
                     </td>

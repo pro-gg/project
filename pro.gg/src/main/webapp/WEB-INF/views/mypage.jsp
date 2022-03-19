@@ -20,7 +20,7 @@
                     
                 $.ajax({
                     type:'get',
-                    url:'${pageContext.request.contextPath}/SearchSummonerData.do?summonerName='+encodeURI(JSON.stringify(summonerName)),
+                    url:'${pageContext.request.contextPath}/summoner/SearchSummonerData.do?summonerName='+encodeURI(JSON.stringify(summonerName)),
                     data:'', 
                     dataType:'',
                     success:function(data){
@@ -35,7 +35,7 @@
                     if(confirm("소속된 팀이 있다면 자동으로 추방되고, 특정 팀에 지원중인 경우 또한 지원이 취소됩니다. 그래도 변경하시겠습니까?") === true){
                         $.ajax({
                             type:'get',
-                            url:'${pageContext.request.contextPath}/updateSummonerName.do',
+                            url:'${pageContext.request.contextPath}/summoner/updateSummonerName.do',
                             data:'',
                             dataType:'',
                             success:function(data){
@@ -55,7 +55,7 @@
             $(function(){
                 $.ajax({
                     type:'get',
-                    url:'${pageContext.request.contextPath}/matchHistory.do?summoner_name=${sessionScope.member.summoner_name}&target=callMyPage',
+                    url:'${pageContext.request.contextPath}/summoner/matchHistory.do?summoner_name=${sessionScope.member.summoner_name}&target=callMyPage',
                     data:'',
                     dataType:'',
                     success:function(data){
@@ -70,7 +70,7 @@
                 var updateSummoner = "updateSummonerData";
                 $.ajax({
                     type:'get',
-                    url:'${pageContext.request.contextPath}/updateSummonerData.do?target='+updateSummoner,
+                    url:'${pageContext.request.contextPath}/summoner/updateSummonerData.do?target='+updateSummoner,
                     data:'',
                     dataType:'',
                     success:function(data){
@@ -83,7 +83,7 @@
             $(function(){
                 $.ajax({
                     type:'get',
-                    url:'${pageContext.request.contextPath}/printSummonerData_mypage.do',
+                    url:'${pageContext.request.contextPath}/summoner/printSummonerData_mypage.do',
                     data:'',
                     dataType:'',
                     success:function(data){
@@ -118,8 +118,8 @@
         function secessionMember(){
             if(confirm("회원 탈퇴 하시겠습니까? 탈퇴시 모든 데이터는 삭제됩니다.") == true){
                 $.ajax({
-                    type:'post',
-                    url:'${pageContext.request.contextPath}/memberSecession.do',
+                    type:'delete',
+                    url:'${pageContext.request.contextPath}/member/memberSecession.do',
                     data:'',
                     dataType:'',
                     success:function(data){
@@ -133,7 +133,7 @@
             var nickname = '${sessionScope.member.nickname}';
             $.ajax({
                 type:'get',
-                url:'${pageContext.request.contextPath}/searchPastPost.do?nickname='+nickname,
+                url:'${pageContext.request.contextPath}/board/searchPastPost.do?nickname='+nickname,
                 data:'',
                 dataType:'',
                 success:function(data){
@@ -146,7 +146,7 @@
             var nickname = '${sessionScope.member.nickname}';
             $.ajax({
                 type:'get',
-                url:'${pageContext.request.contextPath}/searchPastReply.do?nickname='+nickname,
+                url:'${pageContext.request.contextPath}/board/searchPastReply.do?nickname='+nickname,
                 data:'',
                 dataType:'',
                 success:function(data){

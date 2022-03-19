@@ -12,25 +12,6 @@
     <script src="/resources/webjars/jquery/3.6.0/jquery.min.js"></script>
     <script src="/resources/js/bootstrap.min.js" charset="utf-8"></script>
     <script>
-        function moveAdmin(){
-            $(function(){
-
-                var admin = {
-                    'adminId' : prompt("관리자 아이디"),
-                    'adminPasswd' : prompt("비밀번호") 
-                }
-     
-                $.ajax({
-                    type:'post',
-                    url:'${pageContext.request.contextPath}/confirmAdmin.do?admin='+encodeURI(JSON.stringify(admin)),
-                    data:'',
-                    dataType:'',
-                    success:function(data){
-                        $("body").html(data);
-                    }
-                })
-            })
-        }
         
         function myPage(){
             $(function(){
@@ -65,10 +46,7 @@
         	<div class="navbar-custom-menu">
         		<ul class="top-nav lft-nav">
         			<li>
-        				<a href ="${pageContext.request.contextPath }/champion.do">챔피언 정보</a>
-        				<!-- <a href="#" id="admin" onclick="moveAdmin()">
-       						<img src="/resources/images/person.png" id="imgPerson" alt="관리자 페이지 이동">
-       					</a> -->
+        				<a href ="${pageContext.request.contextPath }/champion/champion.do">챔피언 정보</a>
         			</li>
                     <li>
                         <a href="${pageContext.request.contextPath}/move/searchTeamName.do">팀 검색</a>
@@ -109,7 +87,7 @@
 	        							</a>
 	        						</li>
 	        						<li>
-	        							<a href="${pageContext.request.contextPath}/logout.do">
+	        							<a href="${pageContext.request.contextPath}/member/logout.do">
 	        								로그아웃
 	        							</a>
 	        						</li>

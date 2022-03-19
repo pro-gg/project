@@ -27,7 +27,7 @@ pageEncoding="UTF-8"%>
 
             $.ajax({
                 type:'get',
-                url:'${pageContext.request.contextPath}/searchCrew.do?searchData='+encodeURI(JSON.stringify(searchData)),
+                url:'${pageContext.request.contextPath}/team/searchCrew.do?searchData='+encodeURI(JSON.stringify(searchData)),
                 data:'',
                 dataType:'',
                 success:function(data){

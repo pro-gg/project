@@ -70,7 +70,7 @@
 
 							$.ajax({
 								type:'post',
-								url:'${pageContext.request.contextPath}/facebookLogin.do?facebookName='+encodeURI(facebookName)+'&facebookId='+facebookId+'&facebookEmail='+facebookEmail,
+								url:'${pageContext.request.contextPath}/member/facebookLogin.do?facebookName='+encodeURI(facebookName)+'&facebookId='+facebookId+'&facebookEmail='+facebookEmail,
 								data:'',
 								dataType:'',
 								success:function(data){
@@ -126,7 +126,7 @@
 				
 				$.ajax({
 					type:'post',
-					url: '${pageCotext.request.contextPath}/googleLogin.do?googleProfile='+encodeURI(JSON.stringify(googleProfile)),
+					url: '${pageCotext.request.contextPath}/member/googleLogin.do?googleProfile='+encodeURI(JSON.stringify(googleProfile)),
 					data:'',
 					dataType:'',
 					success:function(data){
@@ -155,7 +155,7 @@
 	    	<div class="content-wrapper">
 		    	<div class="container-fluid">
 		    		<div class="login-card card-block">
-		    			<form class="md-float-material" action="${pageContext.request.contextPath}/trylogin.do" method="POST">
+		    			<form class="md-float-material" action="${pageContext.request.contextPath}/member/trylogin.do" method="POST">
 		    				<div class="text-center">
 		    					<img src="/resources/images/progg.png" alt="logo"/>
 		    				</div>
@@ -185,7 +185,7 @@
 		    				<div class="row">
 		    					<%
 								    String clientId = "_GlAhgDzVIlPh0a5FTYm";//애플리케이션 클라이언트 아이디값
-								    String redirectURI = URLEncoder.encode("https://progg.cf/naver.do", "UTF-8");
+								    String redirectURI = URLEncoder.encode("https://progg.cf//member/naver.do", "UTF-8");
 								    SecureRandom random = new SecureRandom();
 								    String state = new BigInteger(130, random).toString();
 								    String apiURL = "https://nid.naver.com/oauth2.0/authorize?response_type=code";
@@ -195,7 +195,7 @@
 								    session.setAttribute("state", state);
 								%>
 		    					<a href="<%=apiURL %>"><img height="50" width="435" src="/resources/images/btnG_완성형.png"/></a>
-		    					<a href="https://kauth.kakao.com/oauth/authorize?client_id=1447fe0b65f3900660f98ce2af5f18cf&redirect_uri=https://progg.cf/kakao.do&response_type=code"><img height="50" width="435" src="/resources/images/kakao_login_medium_narrow.png"/></a>
+		    					<a href="https://kauth.kakao.com/oauth/authorize?client_id=1447fe0b65f3900660f98ce2af5f18cf&redirect_uri=https://progg.cf/member/kakao.do&response_type=code"><img height="50" width="435" src="/resources/images/kakao_login_medium_narrow.png"/></a>
 								<a href="#"><img src="/resources/images/btn_facebook.png" height="50" width="435" onclick="fbCustomLogin()"></a>
 								<a href="#"><img src="/resources/images/btn_google.png" id="GgCustomLogin" height="50" width="435"></a>
 		    				</div>

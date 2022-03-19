@@ -46,14 +46,13 @@
             }
 
             $.ajax({
-                type:'post',
-                url:'${pageContext.request.contextPath}/updateMemberData.do?updateMember='+encodeURI(JSON.stringify(updateMember)),
+                type:'put',
+                url:'${pageContext.request.contextPath}/member/updateMemberData.do?updateMember='+encodeURI(JSON.stringify(updateMember)),
                 data:'',
                 dataType:'',
                 success:function(data){
                     $("body").html(data)
                 }
-
             })
         }
 

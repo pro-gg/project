@@ -60,8 +60,8 @@ pageEncoding="UTF-8"%>
 				}
 
 				$.ajax({
-					type:'get',
-					url:'${pageContext.request.contextPath}/crewexile.do?exile='+encodeURI(JSON.stringify(exile)),
+					type:'delete',
+					url:'${pageContext.request.contextPath}/team/crewexile.do?exile='+encodeURI(JSON.stringify(exile)),
 					data:'',
 					dataType:'',
 					success:function(data){
@@ -116,7 +116,7 @@ pageEncoding="UTF-8"%>
 			if(overlapCheck.length !== overlapSet.size){ // 포지션 중복이 있을 경우 처리
 				$.ajax({
 					type:'get',
-					url:'${pageContext.request.contextPath}/teamdetail.do?teamName='+encodeURI(teamName)+'&target=overlap',
+					url:'${pageContext.request.contextPath}/team/teamdetail.do?teamName='+encodeURI(teamName)+'&target=overlap',
 					data:'',
 					dataType:'',
 					success:function(data){
@@ -178,7 +178,7 @@ pageEncoding="UTF-8"%>
 
 				$.ajax({
 					type:'get',
-					url:'${pageContext.request.contextPath}/teamLineUpdate.do?positionJSON='+encodeURI(JSON.stringify(positionJSON))+'&teamName='+encodeURI(teamName),
+					url:'${pageContext.request.contextPath}/team/teamLineUpdate.do?positionJSON='+encodeURI(JSON.stringify(positionJSON))+'&teamName='+encodeURI(teamName),
 					data:'',
 					dataType:'',
 					success:function(data){

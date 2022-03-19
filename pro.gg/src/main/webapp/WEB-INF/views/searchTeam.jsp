@@ -24,7 +24,7 @@
 		$(function(){
 			$.ajax({
 				type:'get',
-				url:'${pageContext.request.contextPath}/teamList.do',
+				url:'${pageContext.request.contextPath}/team/teamList.do',
 				data:'',
 				dataType:'',
 				success:function(data){
@@ -73,7 +73,7 @@
 
 		$.ajax({
 			type:'get',
-			url:'${pageContext.request.contextPath}/searchTeam.do?searchData='+encodeURI(JSON.stringify(searchData)),
+			url:'${pageContext.request.contextPath}/team/searchTeam.do?searchData='+encodeURI(JSON.stringify(searchData)),
 			data:'',
 			dataType:'',
 			success:function(data){
@@ -169,7 +169,7 @@
 															'<tr>'+
 																'<td>${status.count}</td>'+
 																'<td>'+
-																	'<a href=\"${pageContext.request.contextPath}/teamdetail.do?teamName=${teamDTOList.teamName}&target=detail\">'+
+																	'<a href=\"${pageContext.request.contextPath}/team/teamdetail.do?teamName=${teamDTOList.teamName}&target=detail\">'+
 																		'${teamDTOList.teamName}'+
 																	'</a>'+
 																'</td>'+

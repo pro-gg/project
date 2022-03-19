@@ -30,7 +30,7 @@
 
                     $.ajax({
                         type:'post',
-                        url:'${pageContext.request.contextPath}/teamapply.do?teamapply='+encodeURI(JSON.stringify(teamapply)),
+                        url:'${pageContext.request.contextPath}/team/teamapply.do?teamapply='+encodeURI(JSON.stringify(teamapply)),
                         data:'',
                         dataType:'',
                         success:function(data){

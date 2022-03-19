@@ -53,7 +53,7 @@
                 var updateSummoner = "updateSummonerData";
                 $.ajax({
                     type:'get',
-                    url:'${pageContext.request.contextPath}/updateSummonerData.do?target='+updateSummoner,
+                    url:'${pageContext.request.contextPath}/summoner/updateSummonerData.do?target='+updateSummoner,
                     data:'',
                     dataType:'',
                     success:function(data){
@@ -69,7 +69,7 @@
 
             $.ajax({
                 type:'get',
-                url:'${pageContext.request.contextPath}/searchMatchList.do?nickname='+nickname+"&summoner_name="+summoner_name,
+                url:'${pageContext.request.contextPath}/summoner/searchMatchList.do?nickname='+nickname+"&summoner_name="+summoner_name,
                 data:'',
                 dataType:'',
                 success:function(data){
