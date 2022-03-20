@@ -81,8 +81,6 @@ Riot 개발사 IP인 Leage of Legends 의 플레이어간 팀 구성 및 대전 
 - 협업 툴
   - GitHub
 
-## API 명세
-
 ## 사용한 외부 API
 - LOL API
   - 소환사 명 검색 API : 
