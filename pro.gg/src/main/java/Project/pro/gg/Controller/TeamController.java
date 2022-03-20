@@ -32,7 +32,7 @@ public class TeamController {
 
     private static HttpSession session;
 
-    @GetMapping("/createTeam.do")
+    @PostMapping("/createTeam.do")
     public String createTeam(@RequestParam("teamData") String teamData, Model model, HttpServletRequest request){
 
         session = request.getSession();
@@ -238,7 +238,7 @@ public class TeamController {
         }
 
         // 티어 제한에 통과된 경우 지원하는 라인에 이미 지정된 회원이 있는지 검사
-        if (check_result == true){
+        if (check_result){
             String line_exist = teamService.selectLine(teamApplyDTO);
 
             // 지원하는 라인에 지정된 회원이 있는 경우 처리
@@ -247,7 +247,7 @@ public class TeamController {
                 model.addAttribute("teamName", teamApplyDTO.getTeamName());
                 return "../valid/teamApplyValid";
             }
-        }else if (check_result == false){
+        }else {
             // 티어 제한을 통과하지 못 한 경우 처리
             model.addAttribute("tierLimit", tier_limit);
             model.addAttribute("teamName", teamApplyDTO.getTeamName());
@@ -274,7 +274,7 @@ public class TeamController {
         return "applyMemberList";
     }
 
-    @GetMapping("/teamapprove.do")
+    @PostMapping("/teamapprove.do")
     public String teamApprove(@RequestParam("nickname") String nickname, Model model){
         // 신청 상태정보 검색을 통해 신청을 수락받은 회원이 신청한 팀 이름을 추출하고, 이를 통해 연관관계를 매핑해준다.
         TeamApplyDTO teamApplyDTO = teamService.selectApplyStatus(nickname);
@@ -299,7 +299,7 @@ public class TeamController {
         return "redirect:/team/teamdetail.do?teamName="+returnTeamName+"&target=detail";
     }
 
-    @GetMapping("/rejectapply.do")
+    @PostMapping("/rejectapply.do")
     public String rejectapply(@RequestParam("nickname") String nickname, @RequestParam("teamName") String teamName,
                               @RequestParam("target") String target, Model model, HttpServletRequest request){
 
@@ -456,7 +456,7 @@ public class TeamController {
         return "reload";
     }
 
-    @GetMapping("/teamLineUpdate.do")
+    @PostMapping("/teamLineUpdate.do")
     public String teamUpdate(@RequestParam("positionJSON") String positionJSON, @RequestParam("teamName") String teamName) throws UnsupportedEncodingException {
 
         TeamDTO teamDTO = new TeamDTO();

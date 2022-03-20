@@ -177,7 +177,7 @@ pageEncoding="UTF-8"%>
 				}
 
 				$.ajax({
-					type:'get',
+					type:'post',
 					url:'${pageContext.request.contextPath}/team/teamLineUpdate.do?positionJSON='+encodeURI(JSON.stringify(positionJSON))+'&teamName='+encodeURI(teamName),
 					data:'',
 					dataType:'',

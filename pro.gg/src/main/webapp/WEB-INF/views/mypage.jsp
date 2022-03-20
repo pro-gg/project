@@ -34,7 +34,7 @@
                 if(confirm("소환사 명을 변경하시겠습니까? 기존에 있던 데이터는 삭제됩니다. ") == true){
                     if(confirm("소속된 팀이 있다면 자동으로 추방되고, 특정 팀에 지원중인 경우 또한 지원이 취소됩니다. 그래도 변경하시겠습니까?") === true){
                         $.ajax({
-                            type:'get',
+                            type:'post',
                             url:'${pageContext.request.contextPath}/summoner/updateSummonerName.do',
                             data:'',
                             dataType:'',
@@ -69,7 +69,7 @@
             $(function(){
                 var updateSummoner = "updateSummonerData";
                 $.ajax({
-                    type:'get',
+                    type:'post',
                     url:'${pageContext.request.contextPath}/summoner/updateSummonerData.do?target='+updateSummoner,
                     data:'',
                     dataType:'',

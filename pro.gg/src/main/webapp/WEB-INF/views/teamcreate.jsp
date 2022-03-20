@@ -47,7 +47,7 @@
 
             $(function(){
                 $.ajax({
-                    type:'get',
+                    type:'post',
                     url:'${pageContext.request.contextPath}/team/createTeam.do?teamData='+encodeURI(JSON.stringify(teamData)),
                     data:'',
                     dataType:'',

@@ -132,7 +132,7 @@ public class MemberController {
         return "main";
     }
 
-    @GetMapping("/findId.do")
+    @PostMapping("/findId.do")
     public String findId(@RequestParam("findId") String findId, Model model){
         MemberDTO memberDTO = new MemberDTO();
 

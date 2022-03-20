@@ -16,7 +16,7 @@
 		        var target = "update";
 		
 		        $.ajax({
-		            type:'get',
+		            type:'post',
 		            url:'${pageContext.request.contextPath}/board/commentUpdate.do?commentNumber=' + commentNumber + '&commentContent=' + commentContent + '&nickname=' + nickname + '&postNumber=' + postNumber + '&target=' + target,
 		            data:'',
 		            dataType:'',
@@ -31,7 +31,7 @@
 		
 		        if(confirm("댓글을 삭제 하시겠습니까?")){
 		            $.ajax({
-		                type:'get',
+		                type:'post',
 		                url:'${pageContext.request.contextPath}/board/commentUpdate.do?commentNumber=' + commentNumber + '&commentContent=' + commentContent + '&nickname=' + nickname + '&postNumber=' + postNumber + '&target=' + target,
 		                data:'',
 		                dataType:'',

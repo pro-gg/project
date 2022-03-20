@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import Project.pro.gg.Service.*;
-import com.sun.net.httpserver.HttpsServer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.configurationprocessor.json.JSONArray;
 import org.springframework.boot.configurationprocessor.json.JSONException;
@@ -204,11 +203,9 @@ public class BoardController{
         return "../board/postDetail";
     }
 
-    @GetMapping("/postDelete.do")
+    @PostMapping("/postDelete.do")
     public String postDelete(@RequestParam("postNumber") int postNumber, @RequestParam("nickname") String nickname){
 
-        // 일단 지금은 간단하게 끝내지만 나중에 댓글기능이 구현되었을 땐
-        // 글을 삭제할 때 댓글과의 연관관계 또한 고려해서 로직을 다시 짜야 한다.
         postService.postDelete(postNumber);
         return "redirect:/board/searchPastPost.do?nickname="+nickname;
     }
@@ -222,7 +219,7 @@ public class BoardController{
     	return "../board/postUpdate";
     }
 
-    @GetMapping("/postUpdate.do")
+    @PostMapping("/postUpdate.do")
     public String postUpdate(@RequestParam("post") String post) {
     	JSONObject jsonObject;
     	PostDTO postDTO = new PostDTO();
@@ -239,7 +236,7 @@ public class BoardController{
     	return "../board/freeboard";
     }
 
-    @GetMapping("/clickRecommend.do")
+    @PostMapping("/clickRecommend.do")
     public String clickRecommend(@RequestParam("postNumber") int postNumber, @RequestParam("nickname") String nickname,
                                  HttpServletRequest request) throws JSONException {
 
@@ -303,7 +300,7 @@ public class BoardController{
         return "redirect:/board/postdetail.do?postNumber="+postNumber;
     }
 
-    @GetMapping("/clickNotRecommend.do")
+    @PostMapping("/clickNotRecommend.do")
     public String clickNotRecommend(@RequestParam("postNumber") int postNumber, @RequestParam("nickname") String nickname,
                                     HttpServletRequest request) throws JSONException {
 
@@ -367,7 +364,7 @@ public class BoardController{
         return "redirect:/board/postdetail.do?postNumber="+postNumber;
     }
 
-    @GetMapping("/replyregister.do")
+    @PostMapping("/replyregister.do")
     public String replyRegister(@RequestParam("reply") String reply, HttpServletRequest request){
         MemberDTO memberDTO = null;
         ReplyDTO replyDTO = new ReplyDTO();
@@ -643,7 +640,7 @@ public class BoardController{
         return "../board/replyCommentList";
     }
     
-    @GetMapping("/commentUpdate.do")
+    @PostMapping("/commentUpdate.do")
     public String commentUpdate(@RequestParam("commentNumber") Long commentNumber, @RequestParam("commentContent") String commentContent,
                               @RequestParam("nickname") String nickname, @RequestParam("postNumber") Long postNumber, @RequestParam("target") String target, Model model){
 

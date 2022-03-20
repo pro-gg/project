@@ -42,7 +42,7 @@
                     else{
                         // 글 작성자가 아닌 타인이 추천 버튼을 클릭했을 경우
                         $.ajax({
-                            type:'get',
+                            type:'post',
                             url:'${pageContext.request.contextPath}/board/clickRecommend.do?postNumber='+'${post.postNumber}'+'&nickname='+memberNickname,
                             data:'',
                             dataType:'',
@@ -50,7 +50,6 @@
                                 window.location.reload();
                             }
                         })
-
                     }
                 }
             })
@@ -83,7 +82,7 @@
                     else{
                         // 글 작성자가 아닌 타인이 비추천 버튼을 클릭했을 경우
                         $.ajax({
-                            type:'get',
+                            type:'post',
                             url:'${pageContext.request.contextPath}/board/clickNotRecommend.do?postNumber='+'${post.postNumber}'+'&nickname='+memberNickname,
                             data:'',
                             dataType:'',
@@ -134,7 +133,7 @@
 
             $.ajax({
 
-                type:'get',
+                type:'post',
                 url:'${pageContext.request.contextPath}/board/replyregister.do?reply='+encodeURI(JSON.stringify(reply)),
                 data:'',
                 dataType:'',
@@ -142,6 +141,18 @@
                     window.location.reload();
                 }
             })
+        }
+
+        function deletePost(postNumber, nickname){
+            var form = document.deletePost;
+
+            form.postNumber.value = postNumber;
+            form.nickname.value = nickname;
+
+            form.action = "${pageContext.request.contextPath}/board/postDelete.do";
+
+            form.method = "post";
+            form.submit();
         }
     </script>
     <style>
@@ -195,10 +206,15 @@
                             </button>
                             <br>
                             <c:if test = "${sessionScope.member.nickname == post.nickname}">
-                            	<a href="${pageContext.request.contextPath}/board/postModify.do?postNumber=${post.postNumber}">수정</a>
-                            </c:if>&nbsp;
+                                <form name="deletePost">
+                                    <input type="hidden" name="postNumber" />
+                                    <input type="hidden" name="nickname">
+                                </form>
+                            </c:if>
                             <c:if test = "${sessionScope.member.nickname == post.nickname}">
-                            	<a href="${pageContext.request.contextPath}/board/postDelete.do?postNumber=${post.postNumber}&nickname=${post.nickname}">삭제</a>
+                            	<a href="${pageContext.request.contextPath}/board/postModify.do?postNumber=${post.postNumber}">수정</a>
+                            	&nbsp;
+                            	<a href="javascript:deletePost(${post.postNumber}, '${post.nickname}')">삭제</a>
                             </c:if>
                             <hr>
                             <c:if test="${sessionScope.member == null}">

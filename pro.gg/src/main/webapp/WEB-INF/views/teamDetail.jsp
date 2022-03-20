@@ -188,13 +188,6 @@
 			    						<tbody>
 			    							<tr>
 												<th>
-													<!-- <select name="position" id="position">
-														<option value="top">탑</option>
-														<option value="middle">미드</option>
-														<option value="jungle">정글</option>
-														<option value="bottom">바텀</option>
-														<option value="support">서포터</option>
-													</select> -->
 													탑
 												</th> 
 			    								<td id="top">${team.top}</td>
@@ -211,13 +204,6 @@
 			    							</tr>
 											<tr>
 												<th>
-													<!-- <select name="position" id="position">
-														<option value="top">탑</option>
-														<option value="middle">미드</option>
-														<option value="jungle">정글</option>
-														<option value="bottom">바텀</option>
-														<option value="support">서포터</option>
-													</select> -->
 													미드
 												</th>
 			    								<td id="middle">${team.middle}</td>
@@ -234,13 +220,6 @@
 											</tr>
 											<tr>
 												<th>
-													<!-- <select name="position" id="position">
-														<option value="top">탑</option>
-														<option value="middle">미드</option>
-														<option value="jungle">정글</option>
-														<option value="bottom">바텀</option>
-														<option value="support">서포터</option>
-													</select> -->
 													정글
 												</th>
 			    								<td id="jungle">${team.jungle}</td>
@@ -257,13 +236,6 @@
 											</tr>
 											<tr>
 												<th>
-													<!-- <select name="position" id="position">
-														<option value="top">탑</option>
-														<option value="middle">미드</option>
-														<option value="jungle">정글</option>
-														<option value="bottom">바텀</option>
-														<option value="support">서포터</option>
-													</select> -->
 													바텀
 												</th>
 			    								<td id="bottom">${team.bottom}</td>
@@ -280,13 +252,6 @@
 											</tr>
 											<tr>
 												<th>
-													<!-- <select name="position" id="position">
-														<option value="top">탑</option>
-														<option value="middle">미드</option>
-														<option value="jungle">정글</option>
-														<option value="bottom">바텀</option>
-														<option value="support">서포터</option>
-													</select> -->
 													서포터
 												</th>
 			    								<td id="suppoter">${team.suppoter}</td>

@@ -18,7 +18,7 @@
                     'email' : document.getElementById("email").value
                 }
                 $.ajax({
-                    type:'get',
+                    type:'post',
                     url:'${pageContext.request.contextPath}/member/findId.do?findId='+encodeURI(JSON.stringify(findId)),
                     data :'',
                     dataType:'',

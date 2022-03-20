@@ -178,7 +178,7 @@
             $.ajax({
 
                 type:'post',
-                url:'${pageContext.request.contextPath}/addReplyComment.do?comment='+encodeURI(JSON.stringify(comment)),
+                url:'${pageContext.request.contextPath}/board/addReplyComment.do?comment='+encodeURI(JSON.stringify(comment)),
                 data:'',
                 dataType:'',
                 success:function(data){
@@ -190,7 +190,7 @@
         function loadCommentList(replyNumber, postNumber){
     		$.ajax({
                 type:'get',
-                url:'${pageContext.request.contextPath}/callReplyCommentList.do?replyNumber='+replyNumber+'&postNumber='+postNumber,
+                url:'${pageContext.request.contextPath}/board/callReplyCommentList.do?replyNumber='+replyNumber+'&postNumber='+postNumber,
                 data:'',
                 dataType:'',
                 success:function(data){

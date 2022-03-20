@@ -33,7 +33,7 @@
                 }
                 else{
                     $.ajax({
-                        type:'get',
+                        type:'post',
                         url:'${pageContext.request.contextPath}/team/teamapprove.do?nickname='+nickname,
                         data:'',
                         dataType:'',
@@ -49,7 +49,7 @@
         function reject(nickname, teamName){
             if(confirm("신청을 거절 하시겠습니까?") === true){
                 $.ajax({
-                    type:'get',
+                    type:'post',
                     url:'${pageContext.request.contextPath}/team/rejectapply.do?nickname='+nickname+"&teamName="+teamName+"&target=reject",
                     data:'',
                     dataType:'',
