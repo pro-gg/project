@@ -164,6 +164,14 @@ Riot 개발사 IP인 Leage of Legends 의 플레이어간 팀 구성 및 대전 
 ## ERD
 ![proggERD](https://user-images.githubusercontent.com/48443312/158855002-cbff0598-4851-4bd2-beee-bc9e24988240.png)
 ## 화면별 기능 보기
+- [메인 화면 및 회원가입, 로그인](https://evan-development.tistory.com/238)
+- [회원 정보변경 및 회원 탈퇴](https://evan-development.tistory.com/239)
+- [소환사 정보 등록 및 출력, 각종 챔피언에 대한 정보 출력](https://evan-development.tistory.com/240)
+- [팀 생성 및 팀 검색](https://evan-development.tistory.com/241)
+- [팀 상세 및 팀 신청](https://evan-development.tistory.com/242)
+- [팀 수정 및 팀 탈퇴](https://evan-development.tistory.com/243)
+- [조건별 회원 검색](https://evan-development.tistory.com/244)
+- [게시판](https://evan-development.tistory.com/245)
 
 ## 개발 현황
 ### 2021/05/10
