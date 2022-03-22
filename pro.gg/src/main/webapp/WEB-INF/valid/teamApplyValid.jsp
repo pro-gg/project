@@ -26,7 +26,6 @@
         function blockToTierLimit(){
             var tierLimit = "${tierLimit}";
 
-            console.log("디버그");
             alert(tierLimit + " 이하는 신청 할 수 없습니다.");
             $.ajax({
                 type:'get',

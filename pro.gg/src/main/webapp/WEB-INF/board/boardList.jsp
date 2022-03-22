@@ -101,7 +101,7 @@
     </table>
     <div style="display: block; text-align: center;">		
 		<c:if test="${paging.startPage != 1 }">
-			<a href="#" onclick="pageChange(${paging.startPage - 1 },${paging.cntPerPage});">&lt;</a>
+			<a href="#" onclick="pageChange('${paging.startPage - 1 }','${paging.cntPerPage}');">&lt;</a>
 		</c:if>
 		<c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="p">
 			<c:choose>
@@ -109,12 +109,12 @@
 					<b>${p }</b>
 				</c:when>
 				<c:when test="${p != paging.nowPage }">
-					<a href="#" onclick="pageChange(${p},${paging.cntPerPage });">${p }</a>
+					<a href="#" onclick="pageChange('${p}','${paging.cntPerPage }');">${p }</a>
 				</c:when>
 			</c:choose>
 		</c:forEach>
 		<c:if test="${paging.endPage != paging.lastPage}">
-			<a href="#" onclick="pageChange(${paging.endPage+1 },${paging.cntPerPage})">&gt;</a>
+			<a href="#" onclick="pageChange('${paging.endPage+1 }','${paging.cntPerPage}')">&gt;</a>
 		</c:if>
 	</div>
 </body>
